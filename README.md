@@ -70,7 +70,7 @@ python3 build_xhs.py                  # 输出 dist/xiaohongshu/brain-theater.zi
 python3 build_xhs.py --only-listed    # 有新集还在制作时，只打包已加进展厅的
 ```
 
-打包脚本会检查：兼容安卓 8.1 自带的 Chrome 61（ES2017，`tools/check_compat.js`）、总包 < 2MB、没有网络请求（站酷快乐体按用到的字裁剪后打包进去）、没有内联脚本和内联事件。
+打包时会用 terser 压缩 JS（先 `npm install`），并检查：兼容安卓 8.1 自带的 Chrome 61（ES2017，`tools/check_compat.js`）、总包 < 2MB、没有网络请求（站酷快乐体按用到的字裁剪后打包进去）、没有内联脚本和内联事件。
 
 ## 项目结构
 

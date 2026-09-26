@@ -69,6 +69,37 @@ def page_html():
     return html
 
 
+def slim_js(code):
+    """去掉 JS 里整行的注释和行首缩进，让包更小。只动整行，不碰行内内容；多行模板字符串里的行保持原样。"""
+    out, in_tpl = [], False
+    for line in code.split("\n"):
+        if not in_tpl:
+            t = line.strip()
+            if not t or t.startswith("//"):
+                pass
+            else:
+                out.append(t)
+        else:
+            out.append(line)
+        if line.count("`") % 2 == 1:
+            in_tpl = not in_tpl
+    return "\n".join(out)
+
+
+def minify_js(name, data):
+    """有 terser（npm install 装好）就用它压缩，否则退回只去注释和缩进。"""
+    import subprocess, tempfile
+    if os.path.isdir(os.path.join(ROOT, "node_modules", "terser")):
+        with tempfile.TemporaryDirectory() as d:
+            a, b = os.path.join(d, "in.js"), os.path.join(d, "out.js")
+            open(a, "wb").write(data)
+            r = subprocess.run(["node", os.path.join(ROOT, "tools", "minify.js"), a, b], cwd=ROOT)
+            if r.returncode != 0:
+                raise SystemExit(f"压缩 {name} 失败")
+            return open(b, "rb").read()
+    return slim_js(data.decode("utf-8")).encode("utf-8")
+
+
 def font_subset(text):
     chars = set(text) | set(chr(c) for c in range(0x20, 0x7F)) | set("，。、；：！？（）“”《》·…—～％")
     opts = subset.Options()
@@ -143,7 +174,10 @@ def build():
     for src in re.findall(r'<(?:script src|link rel="stylesheet" href)="([^"]+)"', html):
         if src == "shared/fonts.css":
             continue
-        files[src] = open(os.path.join(ROOT, src), "rb").read()
+        data = open(os.path.join(ROOT, src), "rb").read()
+        if src.endswith(".js"):
+            data = minify_js(src, data)
+        files[src] = data
     text = "".join(b.decode("utf-8") for b in files.values())
     license_text = read(LICENSE).replace("*/", "* /")
     files["shared/fonts.css"] = FONTS_CSS.replace("{license}", license_text).encode("utf-8")
