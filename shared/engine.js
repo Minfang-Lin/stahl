@@ -61,6 +61,7 @@
   let UI = REC ? LY.UI : 1;
 
   let W = 0, H = 0, time = 0, cur = 0;
+  let sceneT = 0; // 本幕已经演了几秒（暂停自动翻页时也照样走），截图工具靠它等到指定时刻
   const labelAlpha = {};
 
   // ---------- 小工具 ----------
@@ -958,6 +959,7 @@
   }
 
   function update(dt) {
+    sceneT += dt;
     const { CH, S } = ep;
     const tgt = CH[cur];
     const k = 1 - Math.exp(-dt * 1.4);
@@ -975,7 +977,7 @@
   function go(i) {
     if (!ep) return;
     const CH = ep.CH;
-    cur = (i + CH.length) % CH.length; ep.chT = 0;
+    cur = (i + CH.length) % CH.length; ep.chT = 0; sceneT = 0;
     const c = CH[cur];
     $("nTitle").textContent = c.title;
     $("nText").textContent = c.text;
@@ -1175,6 +1177,7 @@
     register, episodes, play, stop, portrait,
     get UI() { return UI; },
     get narrow() { return !REC && UI > 1.2; },
+    get sceneTime() { return sceneT; },
     topSafe,
   };
 })();
