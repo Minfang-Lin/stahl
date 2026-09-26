@@ -30,7 +30,7 @@ Anima.register("psychosis", {
       text: "另一边，开往前额叶的中脑皮层线却可能车太少，站台冷冷清清。前额叶是大脑的“总指挥”，多巴胺送不到，人就容易没动力、表情变淡、不想社交，这是阴性症状；注意力、记忆和做计划也跟着变差，这是认知症状。这两组症状往往更顽固，也更影响日常生活，需要长期、耐心的治疗和支持。",
       fact: "中脑皮层通路多巴胺不足，被认为和阴性症状、认知症状有关" },
     { title: "另外两条线", sym: 0, map: 1, nac: 0, pfc: 0, glu: 0,
-      pill: ["另两条线", "大致正常"], pill2: ["下一集", "药物登场"],
+      pill: ["两条线", "大致正常"], pill2: ["下集", "药物登场"],
       text: "黑质纹状体线和结节漏斗线呢？在还没用药的时候，它们大致运行正常：纹状体里的多巴胺让动作顺畅，垂体那边的多巴胺按住泌乳素，不让它分泌太多。可是抗精神病药在挡住边缘线的同时，往往也会挡到这两条线，带来动作方面的副作用和泌乳素升高。下一集，我们来看药物是怎么工作的。",
       fact: "未经治疗时黑质纹状体、结节漏斗通路大致正常，但抗精神病药会影响它们" },
     { title: "幕后推手", sym: 0, map: 0, nac: 0, pfc: 0, glu: 1,
@@ -56,6 +56,13 @@ Anima.register("psychosis", {
   const fsz = (k, min) => Math.max(min || 11, H * k) * (narrow() ? 1.08 : 1);
   const prog = (t0, d) => ease((lt - t0) / d);
   // mix() 返回 rgb(...) 字符串，不能再拿去混色；这里转回十六进制
+  // 变灰（没精神）：直接把角色的颜色往灰色混，不用 ctx.filter（手机上很慢）
+  function dull(who, k, o) {
+    const c = Object.assign({ skin: C.skin, hatColor: "#ffffff" }, Anima.CAST[who], o || {});
+    const g = "#c4c0c6";
+    return Object.assign({}, o || {}, { who, hair: mixH(c.hair, g, k), cloth: mixH(c.cloth, "#e6e4e8", k), eye: mixH(c.eye, "#8a8590", k),
+      hatColor: mixH(c.hatColor, g, k), skin: mixH(c.skin, "#f1eff1", k * 0.8), blush: k < 0.5 });
+  }
   const mixH = (a, b, t) => "#" + mix(a, b, t).match(/\d+/g).map((v) => ("0" + (+v).toString(16)).slice(-2)).join("");
 
   function hlTarget(i) {
@@ -112,10 +119,10 @@ Anima.register("psychosis", {
     pit: { u: 0.39, v: 0.86, name: "垂体", side: "L" },
   };
   const LINES = [
-    { name: "中脑边缘线", color: C.meso, from: "vta", to: "nac", c1: [0.48, 0.68], c2: [0.34, 0.62], tag: [0.47, 0.585] },
+    { name: "中脑边缘线", color: C.meso, from: "vta", to: "nac", c1: [0.48, 0.68], c2: [0.34, 0.62], tag: [0.39, 0.555] },
     { name: "中脑皮层线", color: C.cort, from: "vta", to: "pfc", c1: [0.56, 0.24], c2: [0.30, 0.04], tag: [0.33, 0.12] },
-    { name: "黑质纹状体线", color: C.nigro, from: "sn", to: "str", c1: [0.62, 0.44], c2: [0.51, 0.35], tag: [0.64, 0.40] },
-    { name: "结节漏斗线", color: C.tubero, from: "hyp", to: "pit", c1: [0.41, 0.76], c2: [0.40, 0.80], tag: [0.25, 0.80] },
+    { name: "黑质纹状体线", color: C.nigro, from: "sn", to: "str", c1: [0.62, 0.44], c2: [0.51, 0.35], tag: [0.75, 0.47] },
+    { name: "结节漏斗线", color: C.tubero, from: "hyp", to: "pit", c1: [0.41, 0.76], c2: [0.40, 0.80], tag: [0.52, 0.87] },
   ];
   function mapGeo(bx, by, bh) {
     const bw = bh * 1.3;
@@ -269,7 +276,7 @@ Anima.register("psychosis", {
     Anima.wash("#fff7f2", "#f5effd");
     Anima.bokeh(6, "#ffd1dc", 0.7, 12);
     Anima.petals(10, 0.6, 33);
-    const nw = narrow(), top = topPad() + H * 0.06, gap = W * 0.03, cw = (W - gap * 4) / 3, chh = H * (nw ? 0.54 : 0.62);
+    const nw = narrow(), top = topPad() + H * 0.06, gap = W * 0.03, cw = (W - gap * 4) / 3, chh = H * (nw ? 0.5 : 0.6);
     const cards = [
       { t: "阳性症状", sub: "多出来的体验", col: "#ffd0dc", kw: ["幻觉 · 妄想"] },
       { t: "阴性症状", sub: "少掉的东西", col: "#dcd6fb", kw: ["情感平淡、没动力", "不想社交"] },
@@ -299,7 +306,7 @@ Anima.register("psychosis", {
         }
         emote("!", cx + s * 1.1, fy - s * 3.4, s * 0.55);
       } else if (i === 1) { // 没精神、表情变淡
-        chara(cx, fy, s, { who: "neuron", eyes: "sleepy", mouth: "flat", arms: "down", gray: 0.7, bob: 0.3 });
+        chara(cx, fy, s, dull("neuron", 0.7, { eyes: "sleepy", mouth: "flat", arms: "down", bob: 0.3 }));
         emote("gloom", cx, fy - s * 3.35, s * 0.8);
         // 远处有人招手，但没有力气回应
         chara(cx + cw * 0.34, fy - s * 0.3, s * 0.45, { who: "5HT", arms: "wave", eyes: "happy", alpha: 0.7, shadow: false });
@@ -319,8 +326,20 @@ Anima.register("psychosis", {
     say("voice", cur === 0 && !nw && lt > 2 && lt < 9 && !!h0, h0 ? h0.x : 0, h0 ? h0.y : 0, h0 ? h0.x : 0, top + chh * 0.26, "好像有人在叫我？", "think");
     // 好消息：可以治疗
     const by = top + chh + (H - top - chh) / 2 + H * 0.01;
-    say("treat", cur === 0 && lt > 5, W / 2, by, W / 2, by, nw ? "大脑的疾病，可以治疗 ♡" : "这是一种大脑的疾病，可以治疗 ♡", "box");
-    if (lt > 5) sparkles(W / 2, by, W * 0.22, 5, clamp(lt - 5, 0, 1), 3);
+    const kb = prog(5, 0.8);
+    if (kb > 0) { // 横幅：这是大脑的疾病，可以治疗
+      const t = nw ? "大脑的疾病，可以治疗" : "这是一种大脑的疾病，可以治疗", bf = fsz(0.036, 13);
+      ctx.save(); ctx.globalAlpha *= kb; ctx.translate(W / 2, by); ctx.scale(0.9 + 0.1 * kb, 0.9 + 0.1 * kb);
+      ctx.font = `${bf}px ${Anima.ROUND}`;
+      const bw = ctx.measureText(t).width + bf * 3.4, bh = bf * 2;
+      ctx.save(); ctx.shadowColor = "rgba(150,100,120,0.2)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 3;
+      rrect(-bw / 2, -bh / 2, bw, bh, bh / 2); ctx.fillStyle = "#fff4f7"; ctx.fill(); ctx.restore();
+      outline(2); ctx.strokeStyle = C.rose; ctx.stroke();
+      Anima.heart(-bw / 2 + bf * 1.1, 0, bf * 0.5, C.rose); Anima.heart(bw / 2 - bf * 1.1, 0, bf * 0.5, C.rose);
+      text(t, 0, 1, bf, C.ink);
+      ctx.restore();
+      sparkles(W / 2, by, W * 0.24, 5, kb, 3);
+    }
     ctx.restore();
   }
 
@@ -362,8 +381,8 @@ Anima.register("psychosis", {
     const L2 = nw ? { x: W * 0.78, y: H * 0.3 } : g.P(1.14, 0.3), L3 = nw ? { x: W * 0.24, y: H * 0.93 } : g.P(0.08, 0.95);
     callout("l0", on2(0), m0.x, m0.y, L0.x, L0.y, nw ? "奖赏、“这很重要”" : "中脑边缘：奖赏、“这件事很重要”");
     callout("l1", on2(1), m1.x, m1.y, L1.x, L1.y, nw ? "动力和思考" : "中脑皮层：动力和思考");
-    callout("l2", on2(2) || (cur === 4 && lt > 1), m2.x, m2.y, L2.x, L2.y, nw ? "管动作" : "黑质纹状体：管动作");
-    callout("l3", on2(3) || (cur === 4 && lt > 2.5), m3.x, m3.y, L3.x, L3.y, nw ? "管泌乳素" : "结节漏斗：管泌乳素");
+    callout("l2", on2(2) || (cur === 4 && lt > 1 && (!nw || lt < 7)), m2.x, m2.y, L2.x, L2.y, nw ? "管动作" : "黑质纹状体：管动作");
+    callout("l3", on2(3) || (cur === 4 && lt > 2.5 && (!nw || lt < 7)), m3.x, m3.y, L3.x, L3.y, nw ? "管泌乳素" : "结节漏斗：管泌乳素");
     say("from", cur === 1 && lt > 11.6, dx - cs, dy - cs * 3, nw ? W * 0.72 : dx + W * 0.1, nw ? H * 0.6 : dy - H * 0.32, "三条从中脑出发，一条从下丘脑出发～", "say");
     // 第 5 幕：两条线运行正常，药物访客在远处探头
     if (cur === 4) {
@@ -381,7 +400,7 @@ Anima.register("psychosis", {
       if (k > 0) {
         const px = lerp(W + cs * 2, nw ? W * 0.76 : W * 0.87, k), py = nw ? H * 0.98 : H * 0.9;
         chara(px, py, cs * 1.05, { who: "drug", label: "药", dir: -1, arms: "wave", eyes: "happy", mouth: "cat", walk: k < 1 ? time * 9 : null });
-        say("next", lt > 7.2, px - cs, py - cs * 3.2, nw ? W * 0.66 : px - W * 0.04, nw ? H * 0.55 : py - H * 0.33, "下一集，我会路过这几条线哦～", "say");
+        say("next", lt > 7.2, px - cs, py - cs * 3.2, nw ? W * 0.62 : px - W * 0.04, nw ? H * 0.3 : py - H * 0.33, "下一集，我会路过这几条线哦～", "say");
       }
     }
     ctx.restore();
@@ -431,7 +450,7 @@ Anima.register("psychosis", {
         rrect(wx0, wy0, ww, wh, ch * 0.08); ctx.fillStyle = "rgba(255,255,255,0.9)"; ctx.fill(); outline(1.2); ctx.stroke();
         if (riders <= k * 3 + w) continue; // 窗户里坐着的多巴胺
         ctx.save(); rrect(wx0, wy0, ww, wh, ch * 0.08); ctx.clip();
-        chara(wx0 + ww / 2, wy0 + wh * 1.25, ch * 0.13, { who: "DA", eyes: gray > 0.5 ? "sleepy" : "sparkle", mouth: gray > 0.5 ? "flat" : "open", shadow: false, bob: 0, gray: gray > 0.5 ? 0.5 : false });
+        chara(wx0 + ww / 2, wy0 + wh * 1.25, ch * 0.13, dull("DA", gray > 0.5 ? 0.5 : 0, { eyes: gray > 0.5 ? "sleepy" : "sparkle", mouth: gray > 0.5 ? "flat" : "open", shadow: false, bob: 0 }));
         ctx.restore();
       }
       ctx.beginPath(); ctx.arc(cx + cw * 0.22, y + ch, ch * 0.1, 0, Math.PI * 2); ctx.arc(cx + cw * 0.78, y + ch, ch * 0.1, 0, Math.PI * 2);
@@ -550,7 +569,7 @@ Anima.register("psychosis", {
     }
     // 认知：看着计划发呆
     const r3 = { x: bx + bw + W * (nw ? 0.08 : 0.06), y: plat };
-    chara(r3.x, r3.y, s, { who: "neuron", eyes: "dizzy", mouth: "wavy", dir: -1, arms: "down", gray: 0.4 });
+    chara(r3.x, r3.y, s, dull("neuron", 0.4, { eyes: "dizzy", mouth: "wavy", dir: -1, arms: "down" }));
     emote("?", r3.x - s * 0.6, plat - s * 3.6, s * 0.6);
     // 阴性：长椅上提不起劲的居民
     const benchX = W * (nw ? 0.6 : 0.5), benchW = W * (nw ? 0.28 : 0.2);
@@ -559,13 +578,13 @@ Anima.register("psychosis", {
     rrect(benchX - benchW / 2, plat - s * 2.3, benchW, s * 0.3, 4); ctx.fillStyle = "#c9b7a6"; ctx.fill(); ctx.stroke();
     outline(2); ctx.beginPath(); ctx.moveTo(benchX - benchW * 0.4, plat - s * 1); ctx.lineTo(benchX - benchW * 0.4, plat); ctx.moveTo(benchX + benchW * 0.4, plat - s * 1); ctx.lineTo(benchX + benchW * 0.4, plat); ctx.stroke();
     const r1 = { x: benchX - benchW * 0.22, y: plat }, r2 = { x: benchX + benchW * 0.24, y: plat };
-    chara(r1.x, r1.y, s, { who: "neuron", eyes: "sleepy", mouth: "flat", gray: 0.8, bob: 0.2, hair: "#c29a7a" });
+    chara(r1.x, r1.y, s, dull("neuron", 0.75, { eyes: "sleepy", mouth: "flat", bob: 0.2, hair: "#c29a7a" }));
     emote("zzz", r1.x + s * 0.8, plat - s * 3.4, s * 0.7);
-    chara(r2.x, r2.y, s, { who: "neuron", eyes: "closed", mouth: "flat", gray: 0.8, bob: 0.2, dir: -1, hair: "#9c7b62", style: "bob" });
+    chara(r2.x, r2.y, s, dull("neuron", 0.75, { eyes: "closed", mouth: "flat", bob: 0.2, dir: -1, hair: "#9c7b62", style: "bob" }));
     emote("gloom", r2.x, plat - s * 3.4, s * 0.7);
     // 很久才来一辆小火车，只下来一位多巴胺
     const arrive = prog(1.5, 4), trainX = lerp(-W * 0.5, W * (nw ? 0.64 : 0.62), arrive);
-    const tr = bigTrain(trainX, 1, C.cort, 1, 0.7, 1);
+    const tr = bigTrain(trainX, 1, C.cort, lt > 6.3 ? 0 : 1, 0.7, 1);
     const off = prog(6, 1.5), dA = { x: lerp(trainX + tr.cw * 0.2, W * (nw ? 0.89 : 0.8), off), y: lerp(tr.y + tr.ch * 0.5, plat, Math.min(1, off * 3)) };
     if (off > 0) {
       chara(dA.x, dA.y, s, { who: "DA", eyes: "teary", mouth: "wavy", arms: "hold", item: "letter", walk: off < 1 ? time * 7 : null, alpha: Math.min(1, off * 3), dir: 1 });
@@ -628,7 +647,7 @@ Anima.register("psychosis", {
     else sfx("噗", nx, nr.site.y - rs * 0.8, fsz(0.035, 12), C.soft, -0.1, 1 - (tS - 0.8) / 0.2);
     // 2 GABA 刹车员：本来举着“停”牌按住下游，NMDA 掉线后睡着了
     const doze = prog(2.5, 1.5);
-    chara(x[1], fy, s, { who: "GABA", eyes: doze > 0.5 ? "closed" : "open", mouth: doze > 0.5 ? "flat" : "smile", arms: doze > 0.5 ? "down" : "hold", gray: doze > 0.5 ? 0.5 : false, bob: 1 - doze * 0.7 });
+    chara(x[1], fy, s, dull("GABA", doze * 0.5, { eyes: doze > 0.5 ? "closed" : "open", mouth: doze > 0.5 ? "flat" : "smile", arms: doze > 0.5 ? "down" : "hold", bob: 1 - doze * 0.7 }));
     stopSign(x[1] + s * 1.3, fy - s * 0.2, s * 0.55, doze * 1.2, 1);
     if (doze > 0.5) emote("zzz", x[1] + s * 0.4, fy - s * 3.4, s * 0.7);
     // 3 下游的谷氨酸：没人管，过度兴奋
@@ -653,11 +672,11 @@ Anima.register("psychosis", {
     if (fast > 0.5) emote("!", x[3] + s * 0.9, fy - s * 3.6, s * 0.6);
     // 下方：5-HT2A 小剧场
     const k5 = prog(8, 1);
-    const cx0 = nw ? W * 0.04 : W * 0.06, cy0 = H * (nw ? 0.73 : 0.72), cw5 = nw ? W * 0.56 : W * 0.46, ch5 = H * 0.98 - cy0;
+    const cx0 = nw ? W * 0.03 : W * 0.06, cy0 = H * (nw ? 0.73 : 0.72), cw5 = nw ? W * 0.66 : W * 0.46, ch5 = H * 0.98 - cy0;
     if (k5 > 0) {
       card(cx0, cy0, cw5, ch5, null, null, k5);
       ctx.save(); ctx.globalAlpha *= k5;
-      const my = cy0 + ch5 * 0.9, rx = cx0 + cw5 * 0.2, rs2 = Math.min(H * 0.04, ch5 * 0.2);
+      const my = cy0 + ch5 * 0.9, rx = cx0 + cw5 * 0.13, rs2 = Math.min(H * 0.04, ch5 * 0.2);
       ctx.save(); rrect(cx0, cy0, cw5, ch5, 12); ctx.clip();
       ctx.fillStyle = "#e9f7f1"; ctx.fillRect(cx0, my, cw5, ch5); ctx.restore();
       outline(1.5); ctx.beginPath(); ctx.moveTo(cx0, my); ctx.lineTo(cx0 + cw5, my); ctx.stroke();
@@ -667,15 +686,15 @@ Anima.register("psychosis", {
       const cols = ["#ffb3c7", "#b8e4ff", "#fff1a8", "#d8c9ff"];
       for (let k = 0; k < 5; k++) {
         const t = (time * 0.4 + k / 5) % 1;
-        const bx2 = rx + rs2 * 1.5 + t * cw5 * 0.35, by2 = my - rs2 * 1.2 - t * ch5 * 0.5 + Math.sin(time * 3 + k) * rs2 * 0.3;
+        const bx2 = rx + rs2 * 1.3 + t * cw5 * 0.14, by2 = my - rs2 * 1.5 - t * ch5 * 0.55 + Math.sin(time * 3 + k) * rs2 * 0.3;
         ctx.save(); ctx.globalAlpha *= Math.sin(t * Math.PI) * 0.9;
         ctx.beginPath(); ctx.arc(bx2, by2, rs2 * (0.25 + t * 0.25), 0, Math.PI * 2); ctx.fillStyle = cols[k % 4]; ctx.fill(); outline(1); ctx.stroke();
         ctx.restore();
       }
-      const ft = Math.min(fsz(0.026, 10), cw5 * 0.06);
-      text("5-HT2A 受体被过度激活", cx0 + cw5 * 0.66, cy0 + ch5 * 0.32, ft, C.ink);
-      text("→ 也可能带来幻觉", cx0 + cw5 * 0.66, cy0 + ch5 * 0.32 + ft * 1.5, ft, C.ink);
-      text("（致幻剂也作用在这里）", cx0 + cw5 * 0.66, cy0 + ch5 * 0.32 + ft * 3, ft * 0.9, C.soft);
+      const ft = Math.min(fsz(0.03, 11), cw5 * 0.07), tx0 = cx0 + cw5 * 0.64;
+      text("5-HT2A 受体过度激活", tx0, cy0 + ch5 * 0.24, ft, C.ink);
+      text("也可能带来幻觉", tx0, cy0 + ch5 * 0.24 + ft * 1.45, ft, C.ink);
+      text("（致幻剂就作用在这里）", tx0, cy0 + ch5 * 0.24 + ft * 2.9, ft * 0.85, C.soft);
       ctx.restore();
     }
     // 标注和气泡

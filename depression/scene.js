@@ -14,22 +14,22 @@ Anima.register("depression", {
   }, () => {
   const CH = [
     { title: "不只是心情不好", town: 1, brain: 0, syn: 0, tree: 0, rain: 1, sx: 0.3,
-      pill: ["持续", "至少两周"], pill2: ["它是", "可以治疗的病"],
+      pill: ["持续", "≥ 两周"], pill2: ["它是", "可治的病"],
       text: "抑郁症不只是“心情不好”。如果情绪低落，或者对以前喜欢的事提不起兴趣，持续了至少两周，还常常伴随睡不好、胃口改变、没精神、难以集中注意力、总觉得是自己的错，甚至出现轻生的念头，就要想到它。它是一种常见的、可以治疗的疾病，不是软弱，也不是“想开点”就能好。",
       fact: "核心表现：情绪低落或兴趣减退，几乎每天都这样、持续至少两周，并且影响了生活",
       labels: [] },
     { title: "单胺三兄妹", town: 0, brain: 1, syn: 0, tree: 0, rain: 1, sx: 0.3,
-      pill: ["单胺", "三位快递员"], pill2: ["老家", "脑干和中脑"],
+      pill: ["单胺", "三兄妹"], pill2: ["老家", "脑干·中脑"],
       text: "心情小镇里有三位快递员：血清素、去甲肾上腺素和多巴胺，合称单胺。它们的老家在脑干和中脑，沿着长长的通路，把信送到前额叶、海马、杏仁核等街区。Stahl 把症状和它们大致对应起来：血清素多管情绪、焦虑、睡眠和食欲；去甲肾上腺素管精力和注意力；多巴胺管兴趣、动力和快乐感。",
       fact: "这张对应表只是粗略的地图：在真实的大脑里，三位快递员常常一起合作",
       labels: [] },
     { title: "是递质不够吗？", town: 0, brain: 0, syn: 1, tree: 0, rain: 1, sx: 0.3,
-      pill: ["单胺", "几小时就升高"], pill2: ["心情", "几周才好转"],
+      pill: ["单胺升高", "几小时"], pill2: ["心情好转", "几周"],
       text: "最早的解释叫单胺假说：抑郁是因为单胺太少，信送不到，心情就下起了雨。抗抑郁药确实能让突触里的单胺变多，而且几小时内就做到了。可奇怪的是，心情往往要过几周才慢慢放晴。这个“时间差”说明，递质不够只是故事的一部分，真正的变化还在后面。",
       fact: "单胺几小时就升高，情绪却要几周才改善：这个时间差让科学家继续寻找答案",
       labels: [] },
     { title: "门开得太多了", town: 0, brain: 0, syn: 1, tree: 0, rain: 1, sx: 0.5,
-      pill: ["受体", "上调 ↑"], pill2: ["时间", "第 1 周"],
+      pill: ["受体", "上调 ↑"], pill2: ["时间", "用药前"],
       text: "受体假说换了个角度：单胺长期不够时，收信的神经元会多开几扇门等信，也就是受体数量代偿性增加，叫做“上调”。用上抗抑郁药以后，信多了，这些多出来的门会在几周里慢慢“下调”，回到平衡。受体调整需要的时间，和药物起效的时间更吻合。",
       fact: "受体数量的调整要花几周，和抗抑郁药起效的时间差不多",
       labels: [] },
@@ -39,7 +39,7 @@ Anima.register("depression", {
       fact: "一些研究发现，抑郁时海马的体积可能偏小，治疗后这种变化可能部分恢复",
       labels: [] },
     { title: "天气会转晴", town: 1, brain: 0, syn: 0, tree: 0, rain: 0, sx: 0.5,
-      pill: ["天气", "转晴中 ☀"], pill2: ["求助", "随时都可以"],
+      pill: ["天气", "转晴中"], pill2: ["求助", "随时可以"],
       text: "抑郁是可以治疗的。抗抑郁药、心理治疗、规律运动和规律作息都有帮助，很多人会慢慢好起来，只是需要一点时间和耐心。如果你正被低落困住，可以先告诉一个信任的人，再去看精神科或心理科。如果出现伤害自己的想法，请马上告诉身边的人，并联系当地心理援助热线或去医院急诊。",
       fact: "有伤害自己的想法时，请立刻求助：身边的人、当地心理援助热线、医院急诊",
       labels: [] },
@@ -193,7 +193,7 @@ Anima.register("depression", {
   function tilePos(i, n) {
     const col = i < Math.ceil(n / 2) ? 0 : 1, row = col ? i - Math.ceil(n / 2) : i;
     const rows = col ? n - Math.ceil(n / 2) : Math.ceil(n / 2);
-    const y0 = H * 0.3, y1 = H * 0.78;
+    const y0 = W / H < 1.5 ? H * 0.36 : H * 0.3, y1 = H * 0.78;
     const y = rows === 1 ? (y0 + y1) / 2 : lerp(y0, y1, row / (rows - 1));
     return { x: col ? W * 0.87 : W * 0.13, y: y };
   }
@@ -216,7 +216,7 @@ Anima.register("depression", {
 
     const sad = S.rain > 0.5;
     // 天空：第 1 幕是雨云，第 6 幕云散开、太阳出来
-    const cy = H * 0.25, cr = Math.min(H * 0.1, W * 0.08);
+    const cy = W / H < 1.5 ? H * 0.28 : H * 0.25, cr = Math.min(H * 0.1, W * 0.08);
     const part = 1 - r; // 0 下雨 → 1 晴
     if (!sad) {
       rainbow(W * 0.5, gy - H * 0.05, Math.min(W * 0.33, H * 0.6), prog(2, 3));
@@ -237,7 +237,7 @@ Anima.register("depression", {
       const K = [["sleep", "睡眠"], ["food", "食欲"], ["energy", "精力"], ["focus", "注意力"], ["guilt", "自责"]];
       const tr = Math.min(H * 0.075, W * 0.06);
       K.forEach((k, i) => { const p = tilePos(i, K.length); tile(p.x, p.y, tr, k[0], k[1], prog(1.2 + i * 0.7, 0.6), "#b8c4dc", true); });
-      say("blue", lt > 0.8 && lt < 7.5, x + s * 0.4, gy - s * 3.2, x + W * 0.17, H * 0.5, "以前喜欢的事，现在也提不起劲……", "think");
+      say("blue", lt > 0.8 && lt < 7.5, x + s * 0.4, gy - s * 3.2, W / H < 1.5 ? x : x + W * 0.17, H * 0.5, "以前喜欢的事，现在也提不起劲……", "think");
       say("treat", lt > 7.8, x, gy - s * 3.2, x, H * 0.47, "这是一种病，不是你不够坚强。它可以治疗。", "box");
     } else {
       // 三位快递员也回来了
@@ -266,7 +266,7 @@ Anima.register("depression", {
     Anima.bokeh(6, "#d9ccfa", 0.8, 21);
     Anima.petals(8, 0.5, 33);
     const narrow = W / H < 1.5;
-    const bx = narrow ? W * 0.27 : W * 0.28, by = H * 0.52, R = Math.min(W * (narrow ? 0.24 : 0.22), H * 0.3);
+    const bx = narrow ? W * 0.25 : W * 0.28, by = H * 0.55, R = Math.min(W * (narrow ? 0.2 : 0.22), H * (narrow ? 0.27 : 0.3));
     // 侧面看的大脑：前额在左
     ctx.beginPath();
     ctx.moveTo(bx - R * 1.05, by + R * 0.1);
@@ -332,14 +332,17 @@ Anima.register("depression", {
       rrect(cx0, y, cw * 0.26, ch, ch * 0.25); ctx.fillStyle = f[3]; ctx.fill(); ctx.stroke();
       chara(cx0 + cw * 0.13, y + ch * 0.9, cs, { who: f[0], eyes: k === 0 && lt > 9 ? "happy" : "open", arms: "wave", mouth: "smile" });
       const fs1 = fsz(0.04), fs2 = fsz(0.032);
-      text(f[1], cx0 + cw * 0.3, y + ch * 0.32, fs1, C.ink, "left");
-      text(f[2], cx0 + cw * 0.3, y + ch * 0.7, fs2, col[f[0]], "left");
+      text(f[1], cx0 + cw * 0.3, y + ch * 0.28, fs1, C.ink, "left");
+      ctx.font = `${fs2}px ${Anima.ROUND}`;
+      const LL = Anima.wrapText(f[2], cw * 0.66);
+      LL.forEach((l, j) => text(l, cx0 + cw * 0.3, y + ch * (LL.length > 1 ? 0.58 : 0.66) + j * fs2 * 1.25, fs2, col[f[0]], "left"));
       ctx.restore();
     });
-    callout("bs", lt > 1.5, bx + R * 0.34, by + R * 0.7, bx + R * 0.1, H * 0.94, "脑干：中缝核、蓝斑");
-    callout("vta", lt > 4.6, bx + R * 0.24, by + R * 0.38, bx - R * 0.55, H * 0.94 - fsz(0.04) * 2.1, "中脑：腹侧被盖区");
-    callout("pfcL", lt > 6, bx - R * 0.8, by - R * 0.2, bx - R * 0.75, H * 0.2, "前额叶");
-    say("team", lt > 7.5, runner.x, runner.y, bx + R * 0.45, H * 0.17, "对应只是大致的，我们常常一起干活哦～", "say");
+    const nar = narrow;
+    callout("bs", lt > 1.5 && (!nar || lt < 4.4), bx + R * 0.34, by + R * 0.7, bx + R * 0.1, H * 0.94, "脑干：中缝核、蓝斑");
+    callout("vta", lt > 4.6 && (!nar || lt < 7.4), bx + R * 0.24, by + R * 0.38, bx - R * 0.55, H * 0.94 - fsz(0.04) * 2.1, "中脑：腹侧被盖区");
+    callout("pfcL", lt > 6 && (!nar || (lt > 7.6 && lt < 10.4)), bx - R * 0.8, by - R * 0.2, bx - R * 0.75, H * 0.2, "前额叶");
+    say("team", lt > (nar ? 10.5 : 7.5), runner.x, runner.y, bx + R * 0.45, H * 0.17, "对应只是大致的，我们常常一起干活哦～", "say");
     ctx.restore();
   }
 
@@ -420,12 +423,12 @@ Anima.register("depression", {
     sun(mx, my, mr * 0.55, cleared);
     cloud(mx - cleared * mr * 1.2, my + cleared * mr * 0.3, mr * (1 - cleared * 0.5), mix("#c9cfe0", "#ffffff", cleared), cleared > 0.5 ? null : -1, 1);
     rain(mx - mr * 0.8, mx + mr * 0.7, my + mr * 0.4, H, 8, 1 - cleared, "#8fb3dc", 9);
-    text("心情", mx, my - mr * 1.25, fsz(0.03), C.soft);
+    text("心情", mx, my - mr * 1.5, fsz(0.03), C.soft);
 
     if (cur === 2) {
       chart(g);
       say("allhere", lt > 5.2 && lt < 10, g.base[1], g.siteY - cs * 3, g.cx + g.tw * 0.18, g.bot + H * 0.05, "我们都到齐啦！", "shout");
-      say("stillrain", lt > 7.5, mx, my - mr * 0.6, mx + W * 0.12, my - H * 0.02, "……可心情还是阴天", "think");
+      say("stillrain", lt > 7.5, mx, my - mr * 0.6, W / H < 1.5 ? W * 0.27 : mx + W * 0.12, my - H * 0.02, "……可心情还是阴天", "think");
     } else if (cur === 3) {
       say("waiting", lt > 2 && lt < 6.3, g.extra[3], g.post - g.rs * 2, g.extra[3] - W * 0.04, g.post - H * 0.2, "信太少了，多开几扇门等等看！", "say");
       say("late", lt > 7.5 && lt < 11.5, g.base[1], g.siteY - cs * 3, g.cx + g.tw * 0.2, g.bot + H * 0.04, "久等啦，信来了～", "say");
@@ -489,13 +492,17 @@ Anima.register("depression", {
       branch(x2, y2, len * (0.7 + rnd(seed * 3 + k) * 0.12) * shrink, ang + spread + sway + (rnd(seed + k * 7) - 0.5) * 0.3, depth - 1, seed * 3 + k + 1, life, leaves);
     }
   }
-  function can(x, y, s) { // 小喷壶
-    ctx.save(); ctx.translate(x, y); ctx.rotate(-0.35);
+  function can(x, y, s, dir) { // 小喷壶，dir = -1 时壶嘴朝左
+    const d = dir || 1, q = 0.35;
+    ctx.save(); ctx.translate(x, y); ctx.scale(d, 1); ctx.rotate(q);
     rrect(-s * 0.5, -s * 0.35, s, s * 0.7, s * 0.15); ctx.fillStyle = "#bfe3f5"; ctx.fill(); outline(1.6); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(s * 0.45, -s * 0.05); ctx.lineTo(s * 1.1, -s * 0.45); ctx.lineTo(s * 1.15, -s * 0.35); ctx.lineTo(s * 0.5, s * 0.1); ctx.closePath(); ctx.fillStyle = "#bfe3f5"; ctx.fill(); ctx.stroke();
     ctx.beginPath(); ctx.arc(-s * 0.1, -s * 0.5, s * 0.28, Math.PI, 0); ctx.stroke();
     ctx.restore();
-    return { x: x + Math.cos(-0.35) * s * 1.12 - Math.sin(-0.35) * -s * 0.4, y: y + Math.sin(-0.35) * s * 1.12 + Math.cos(-0.35) * -s * 0.4 };
+    // 壶嘴的位置（先转再镜像）
+    const lx = s * 1.12, ly = -s * 0.4;
+    const rx = lx * Math.cos(q) - ly * Math.sin(q), ry = lx * Math.sin(q) + ly * Math.cos(q);
+    return { x: x + d * rx, y: y + ry };
   }
   function drop(x, y, s, a) {
     ctx.save(); ctx.globalAlpha *= a;
@@ -549,7 +556,7 @@ Anima.register("depression", {
     const cr = Math.min(H * 0.09, W * 0.075), cx = W * 0.2, cy = H * 0.3;
     const cloudA = 1 - heal;
     cloud(cx - heal * W * 0.2, cy, cr, "#b9bdd0", -1, cloudA);
-    if (cloudA > 0.05) text("压力", cx - heal * W * 0.2, cy + cr * 0.95, fsz(0.03), "#7d819a");
+    if (cloudA > 0.05) text("压力", cx - heal * W * 0.2 - cr * 0.3, cy - cr * 0.35, fsz(0.03), "#6d7190");
     for (let k = 0; k < 6; k++) { // 皮质醇雨滴（灰紫色）
       const t = ((time * 0.6) + k / 6) % 1;
       const x = lerp(cx - cr * 0.3, tx - W * 0.08, t), y = lerp(cy + cr * 0.6, H * 0.6, t);
@@ -562,8 +569,8 @@ Anima.register("depression", {
     const s = H * 0.055, px = W * 0.72, pin = prog(5.5, 1.5);
     if (pin > 0.02) {
       const x = lerp(W * 1.05, px, pin);
-      chara(x, gy, s, { who: "neuron", arms: "hold", eyes: "happy", mouth: "grin", dir: -1, walk: pin < 1 ? time * 9 : null, alpha: clamp(pin * 3, 0, 1) });
-      const sp = can(x - s * 0.75, gy - s * 1.05, s * 1.05);
+      chara(x, gy, s, { who: "neuron", arms: "carry", eyes: "happy", mouth: "grin", dir: -1, walk: pin < 1 ? time * 9 : null, alpha: clamp(pin * 3, 0, 1) });
+      const sp = can(x - s * 0.1, gy - s * 3.45, s * 1.05, -1);
       if (pin >= 1) {
         for (let k = 0; k < 7; k++) {
           const t = ((time * 0.45) + k / 7) % 1;
@@ -583,8 +590,8 @@ Anima.register("depression", {
   function hud() {
     const c = CH[cur];
     let v1 = c.pill[1], v2 = c.pill2[1];
-    if (cur === 3) { v1 = lt < 7 ? "上调 ↑" : "慢慢下调 ↓"; v2 = lt < 6.5 ? "单胺不足时" : "用药第 " + week() + " 周"; }
-    if (cur === 4 && lt > 7) { v1 = "慢慢回落"; v2 = "慢慢回升 ↑"; }
+    if (cur === 3) { v1 = lt < 7 ? "上调 ↑" : "慢慢下调 ↓"; v2 = lt < 6.5 ? "用药前" : "第 " + week() + " 周"; }
+    if (cur === 4 && lt > 7) { v1 = "回落"; v2 = "回升 ↑"; }
     pill(14, 12, c.pill[0], v1, "#6fa3d6", false);
     pill(W - 14, 12, c.pill2[0], v2, C.rose, true);
   }

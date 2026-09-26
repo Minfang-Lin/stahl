@@ -450,6 +450,7 @@ Anima.register("anxiety", {
     const mw = W * 0.12, mx = nf.x - mw / 2, my = nf.y + nf.s * 0.75;
     rrect(mx, my, mw, H * 0.022, H * 0.011); ctx.fillStyle = "#fff"; ctx.fill(); outline(1.2); ctx.stroke();
     rrect(mx + 2, my + 2, Math.max(2, (mw - 4) * (1 - calm * 0.85)), H * 0.022 - 4, H * 0.009); ctx.fillStyle = Anima.mix(C.good, C.bad, 1 - calm); ctx.fill();
+    text("兴奋度", mx + mw + H * 0.012, my + H * 0.012, Math.max(9, H * 0.022) * Anima.UI, C.soft, "left");
 
     const D = gabaDoor(d);
     // 氯离子
