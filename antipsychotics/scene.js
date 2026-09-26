@@ -31,7 +31,7 @@ Anima.register("antipsychotics", {
       fact: "挡住 5-HT2A 能让纹状体多释放一些多巴胺，抵消一部分 D2 阻断" },
     { title: "调光开关", g0: 0, g1: 0, g2: 0, sda: 0, dim: 1, keys: 0, occ: 0.67,
       pill: ["部分激动剂", "调到中间"], pill2: ["灯光", "一半"],
-      text: "还有一类药叫 D2 部分激动剂，比如阿立哌唑、布瑞哌唑、卡利拉嗪。它们坐进 D2 的锁孔后，只把门打开一点点，像把调光开关停在中间：多巴胺太多的地方，灯被调暗一些；多巴胺太少的地方，又能补上一点亮光。所以它们能减轻症状，动作和泌乳素方面的副作用也往往更少。",
+      text: "还有一类药叫 D2 部分激动剂，比如阿立哌唑、依匹哌唑、卡利拉嗪。它们坐进 D2 的锁孔后，只把门打开一点点，像把调光开关停在中间：多巴胺太多的地方，灯被调暗一些；多巴胺太少的地方，又能补上一点亮光。所以它们能减轻症状，动作和泌乳素方面的副作用也往往更少。",
       fact: "D2 部分激动剂像调光开关：多巴胺太多时降一点，太少时补一点" },
     { title: "一串钥匙", g0: 0, g1: 0, g2: 0, sda: 0, dim: 0, keys: 1, occ: 0.67,
       pill: ["其他的锁", "H1 M1 α1"], pill2: ["记得", "遵医嘱"],
@@ -389,7 +389,7 @@ Anima.register("antipsychotics", {
     });
     const on = cur === 4;
     const nf = fsz(0.026, 10);
-    text("阿立哌唑 · 布瑞哌唑 · 卡利拉嗪", W / 2, top + ch + (H - top - ch) / 2, nf, C.soft);
+    text("阿立哌唑 · 依匹哌唑 · 卡利拉嗪", W / 2, top + ch + (H - top - ch) / 2, nf, C.soft);
     say("half", on && t > 4.5 && !!drugHead, drugHead ? drugHead.x : 0, drugHead ? drugHead.y : 0, W * (nw ? 0.3 : 0.28), top + ch * 0.2, "我只把门开一半～", "say");
     callout("dimmer", on && t > 6.5 && !!sliderPt, sliderPt ? sliderPt.x : 0, sliderPt ? sliderPt.y : 0, W * (nw ? 0.74 : 0.74), nw ? top + ch * 0.8 : top + ch * 0.12, nw ? "调光开关停在中间" : "像调光开关，停在中间");
     ctx.restore();
