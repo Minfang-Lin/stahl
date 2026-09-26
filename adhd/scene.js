@@ -257,9 +257,9 @@ Anima.register("adhd", {
       ctx.restore();
     }
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
-    callout("pfc", on("pfc") && lt > 1.2, B.px - bw * 0.05, B.py + bh * 0.12, nar ? W * 0.27 : bx - bw * 0.1, H * (nar ? 0.95 : 0.9), "前额叶：大脑的总指挥");
+    callout("pfc", on("pfc") && lt > 1.2 && !(nar && lt > 8.8), B.px - bw * 0.05, B.py + bh * 0.12, nar ? W * 0.27 : bx - bw * 0.1, H * (nar ? 0.95 : 0.9), "前额叶：大脑的总指挥");
     say("boss", lt > 1.5 && lt < 8.5, cx0, cy0 - cs * 3.2, nar ? W * 0.3 : bx + bw * 0.22, H * (nar ? 0.26 : 0.2), "订计划、专心、踩刹车，都归我管～", "say");
-    say("note", lt > 9, 0, 0, nar ? W * 0.27 : bx + bw * 0.16, H * (nar ? 0.26 : 0.2), "常从童年开始，不少人到成年仍有症状", "box");
+    say("note", lt > 9, 0, 0, nar ? W * 0.27 : bx + bw * 0.16, H * (nar ? 0.9 : 0.2), "常从童年开始，不少人到成年仍有症状", "box");
     ctx.restore();
   }
 
@@ -296,7 +296,7 @@ Anima.register("adhd", {
     chara(da, tableY, cs, { who: "DA", arms: "hold", item: "broom", eyes: lt > 11 ? "happy" : "open", mouth: "grin", walk: lt > 6.5 ? time * 9 : null, dir: -1 });
     if (lt > 8.5 && lt < 12) sfx("唰唰！", da, tableY - cs * 3.8, H * 0.038, "#ff9a52", -0.1, Math.abs(Math.sin(time * 5)));
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
-    callout("ne", on("ne") && lt > 4.5, R.k1.x, R.k1.y, W * (nar ? 0.26 : 0.2), H * 0.86, "NE → α2A 受体：调大信号");
+    callout("ne", on("ne") && lt > 4.5, R.k1.x, R.k1.y, W * (nar ? 0.26 : 0.2), H * (nar ? 0.77 : 0.86), "NE → α2A 受体：调大信号");
     callout("da", on("da") && lt > 8.8, R.k2.x, R.k2.y, W * (nar ? 0.74 : 0.8), H * 0.95, "DA → D1 受体：压低杂音");
     say("weak", lt > 0.6 && lt < 3.8, rx, ry - rw * 0.3, rx, H * 0.18, "信号好弱，杂音好大……", "think");
     say("neSay", lt > 4.2 && lt < 9, ne.x, tableY - cs * 3.2, W * (nar ? 0.2 : 0.14), H * 0.26, "信号调大一点～", "say");
@@ -362,14 +362,14 @@ Anima.register("adhd", {
     kid(pos.x, pos.y + 2, ks, { eyes, mouth, arms, walk, item: lt > 5 && lt < 8.6 ? "star" : null, dir: 1, jump: lt > 5 && lt < 8.6 ? Math.abs(Math.sin(time * 4)) * 0.25 : 0 });
     if (emo) emote(emo, pos.x + ks, pos.y - ks * 3.3, ks * 0.6);
     if (lt > 5 && lt < 8.6) sparkles(pos.x, pos.y - ks * 1.6, ks * 2.2, 5, 1, 9);
-    if (lt > 8.6 && lt < 10.6) Anima.speedLines(pos.x, pos.y - ks * 1.5, ks * 2.5, 30, 0.5);
+    if (lt > 8.6 && lt < 10.6) Anima.speedLines(pos.x, pos.y - ks * 1.5, H * 0.16, 22, 0.35 * Math.sin(prog(8.6, 2) * Math.PI));
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     const lp = P(0.16), hp = P(0.84);
     callout("low", on("low") && lt > 0.8, lp.x, lp.y - 2, lp.x + W * 0.02, H * (nar ? 0.5 : 0.5), nar ? "太少：走神" : "太少：走神、没精神");
-    callout("top", on("top") && lt > 5, pk.x, pk.y, nar ? W * 0.24 : pk.x - W * 0.22, H * (nar ? 0.32 : 0.26), nar ? "刚刚好：专注" : "刚刚好：专注、有条理");
+    callout("top", on("top") && lt > 5 && lt < 8.6, pk.x, pk.y, nar ? W * 0.24 : pk.x - W * 0.22, H * (nar ? 0.32 : 0.26), nar ? "刚刚好：专注" : "刚刚好：专注、有条理");
     callout("high", on("high") && lt > 10, hp.x, hp.y - 2, hp.x - W * 0.02, H * (nar ? 0.58 : 0.52), nar ? "太多：乱糟糟" : "太多：紧张、乱糟糟");
     say("justRight", lt > 5.4 && lt < 8.4, pos.x, pos.y - ks * 3.2, nar ? W * 0.78 : pk.x + W * 0.2, H * (nar ? 0.3 : 0.28), "刚刚好～脑子好清楚！", "say");
-    say("tooMuch", lt > 10.8, pos.x, pos.y - ks * 3.2, W * 0.5, H * 0.3, "太多也不行……晕乎乎", "think");
+    say("tooMuch", lt > 10.8, pos.x, pos.y - ks * 3.2, W * (nar ? 0.4 : 0.36), H * (nar ? 0.3 : 0.22), "太多也不行……晕乎乎", "think");
     ctx.restore();
   }
 
@@ -451,7 +451,7 @@ Anima.register("adhd", {
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     const nar = narrowNow();
     callout("pump0", lt > 0.6 && lt < 3.4, g.T1.x - g.rs * 0.7, g.T1.y, W * 0.25, H * 0.95, "递质一出来，就被回收门拉回去");
-    callout("mph", on("mph") && lt > 5.6, dX, dY - cs * 1.4, W * (nar ? 0.27 : 0.22), H * 0.95, "哌甲酯：堵住回收门");
+    callout("mph", on("mph") && lt > 5.6 && !(nar && lt > 9.4), dX, dY - cs * 1.4, W * (nar ? 0.27 : 0.22), H * 0.95, "哌甲酯：堵住回收门");
     callout("amp", on("amp") && lt > 9.6, aX, dY - cs * 1.4, W * (nar ? 0.7 : 0.76), H * (nar ? 0.88 : 0.95), "苯丙胺类：还让门反着开");
     say("mphSay", lt > 5.6 && lt < 9.4, dX, g.T1.y - g.rs, W * 0.3, H * 0.2, "回收门先歇一会儿～", "say");
     say("ampSay", lt > 9.6, aX, g.T2.y - g.rs, W * 0.7, H * 0.2, "门反过来开，往外送！", "say");
@@ -501,11 +501,11 @@ Anima.register("adhd", {
     if (R.T > 0.03 && R.T < 0.2) Anima.speedLines(R.tipX, R.tipY - cs, cs * 2.5, 24, 0.6);
     if (R.T > 0.3) emote("sweat", R.tipX + cs, R.tipY - cs * 3.2, cs * 0.6);
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
-    callout("slow", on("slow") && lt > 5, L.plat.x, L.plat.y, gap + cw * 0.5, nar ? top + ch * 0.95 : top + ch * 0.12 + H * 0.02, "平稳：主要帮专注");
-    callout("fast", on("fast") && lt > 3.5, R.peak.x, R.peak.y, gap * 2 + cw * 1.5, top + ch * 0.95, "奖赏中心猛升：易被滥用");
-    say("slowSay", lt > 7.5 && lt < 13.5, L.tipX, L.tipY - cs * 3.2, gap + cw * 0.45, top + ch * 0.62, "稳稳的，刚好能专心～", "say");
+    callout("slow", on("slow") && lt > 5 && !(nar && lt > 8.4), L.plat.x, L.plat.y, gap + cw * 0.5, nar ? top + ch * 0.95 : top + ch * 0.12 + H * 0.02, "平稳：主要帮专注");
+    callout("fast", on("fast") && lt > 3.5 && !(nar && lt > 8.4), R.peak.x, R.peak.y, gap * 2 + cw * 1.5, top + ch * 0.95, "奖赏中心猛升：易被滥用");
+    say("slowSay", lt > 7.5 && lt < (nar ? 10.6 : 13.5), L.tipX, L.tipY - cs * 3.2, nar ? W * 0.3 : gap + cw * 0.62, nar ? H * 0.9 : top + ch * 0.72, "稳稳的，刚好能专心～", "say");
     say("fastSay", lt > 2.8 && lt < 7.5, R.tipX, R.tipY - cs * 3.2, gap * 2 + cw * 1.6, top + ch * 0.42, "冲太快啦……", "think");
-    say("rule", lt > 8.5, 0, 0, W * 0.5, H * 0.92, "请按医嘱服用：别自己掰开、碾碎或改用法", "box");
+    say("rule", lt > (nar ? 10.8 : 8.5), 0, 0, W * 0.5, H * 0.92, "请按医嘱服用：别自己掰开、碾碎或改用法", "box");
     ctx.restore();
   }
 
@@ -518,7 +518,7 @@ Anima.register("adhd", {
     const top = H * 0.2, ch = H * 0.72, gap = W * 0.022, cw = (W - gap * 4) / 3;
     const X = [gap, gap * 2 + cw, gap * 3 + cw * 2];
     const cs = Math.min(H * 0.04, cw * 0.1);
-    const pin = (i) => prog(0.3 + i * 3, 0.8);
+    const pin = (i) => prog(0.3 + i * 2.3, 0.8);
     // 卡片 1：托莫西汀堵住 NET，NE 和 DA 都升高
     if (pin(0) > 0) {
       ctx.save(); ctx.globalAlpha *= pin(0);
@@ -562,7 +562,7 @@ Anima.register("adhd", {
       const items = ["行为治疗", "规律作息", "安静的学习角"];
       const fs = Math.min(UIfs(0.03), cw * 0.1);
       items.forEach((t, i) => {
-        const p = prog(7.2 + i * 0.9, 0.6), yy = top + ch * (0.16 + i * 0.12);
+        const p = prog(6 + i * 0.9, 0.6), yy = top + ch * (0.16 + i * 0.12);
         rrect(x + cw * 0.1, yy - fs * 0.6, fs * 1.2, fs * 1.2, fs * 0.25); ctx.fillStyle = "#fff"; ctx.fill(); outline(1.5); ctx.stroke();
         if (p > 0) {
           ctx.save(); ctx.globalAlpha *= p; ctx.strokeStyle = C.good; ctx.lineWidth = Math.max(2.5, fs * 0.18);

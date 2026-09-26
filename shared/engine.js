@@ -68,7 +68,11 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const ease = (t) => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
-  const rgb = (h) => { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+  // 颜色可以是 #rrggbb，也可以是 mix() 返回的 rgb(r,g,b)，这样混出来的颜色还能再混
+  const rgb = (h) => {
+    if (h.charAt(0) !== "#") { const m = h.match(/\d+(\.\d+)?/g) || [0, 0, 0]; return [+m[0], +m[1], +m[2]]; }
+    const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  };
   const mix = (h1, h2, t) => {
     const a = rgb(h1), b = rgb(h2), k = clamp(t, 0, 1);
     return `rgb(${Math.round(lerp(a[0], b[0], k))},${Math.round(lerp(a[1], b[1], k))},${Math.round(lerp(a[2], b[2], k))})`;
@@ -305,9 +309,12 @@
   function chara(x, y, s, opt) {
     const o = Object.assign({}, BASE, opt && opt.who ? CAST[opt.who] : null, opt);
     if (s < 1) return;
+    if (o.gray) { // 变灰：把每种颜色往灰色混（不用 ctx.filter，它在软件渲染和旧 WebView 上很慢或不支持）
+      const g = typeof o.gray === "number" ? o.gray : 0.75;
+      ["hair", "eye", "cloth", "skin", "hatColor", "hatColor2"].forEach((k) => { o[k] = mix(o[k], "#c4bcc0", g); });
+    }
     ctx.save();
     ctx.globalAlpha *= o.alpha;
-    if (o.gray && ctx.filter !== undefined) ctx.filter = `grayscale(${typeof o.gray === "number" ? o.gray : 0.85})`;
     const bob = o.walk != null ? Math.abs(Math.sin(o.walk)) * 0.9 : Math.sin(time * 2.4 + x * 0.013) * 0.35 * o.bob;
     // 影子
     if (o.shadow) {
@@ -460,6 +467,13 @@
       for (const dd of [-1, 1]) { ctx.beginPath(); ctx.moveTo(0, hy - 14.5); ctx.lineTo(dd * 3.4, hy - 16.2); ctx.lineTo(dd * 3.4, hy - 12.8); ctx.closePath(); ctx.fill(); ctx.stroke(); }
     }
 
+    // --- 脚下的名牌（胶囊帽上的字太小时，用它写药名）---
+    if (o.tag) {
+      ctx.font = `4.2px ${ROUND}`;
+      const tw = ctx.measureText(o.tag).width + 3.6;
+      rrect(-tw / 2, 1.2, tw, 5.6, 2.8); ctx.fillStyle = "rgba(255,255,255,0.95)"; ctx.fill(); line(0.6); ctx.stroke();
+      text(o.tag, 0, 4.1, 4.2, C.ink);
+    }
     // --- 手里的东西 ---
     if (o.item) {
       const ip = o.arms === "carry" ? [0, -35] : o.arms === "hold" || o.arms === "hug" ? [0, -8.4] : hands[1];
@@ -638,7 +652,7 @@
   // ---------- 对话气泡、标注和数值胶囊 ----------
   // 按宽度换行：中文逐字断行，英文单词和数字（如 5-HT、D2）不拆开，标点不放在行首
   function wrapText(t, maxW) {
-    const tokens = t.match(/[A-Za-z0-9.\-()/%+<>=≥≤μα]+|./gu) || [];
+    const tokens = t.match(/[A-Za-z0-9.\-()/%+<>=≥≤μα]+|\n|./gu) || [];
     const lines = []; let ln = "";
     for (const tk of tokens) {
       if (tk === "\n") { lines.push(ln); ln = ""; continue; }
@@ -649,7 +663,9 @@
     if (ln) lines.push(ln);
     return lines;
   }
-  const topSafe = () => (Math.max(12, W / 60) * UI * 1.4 + 20) * pillRows + 10;
+  // 手机网页上数值胶囊用小一点的字，两个胶囊尽量排在一行（录制视频时不变）
+  const pillUI = () => (!REC && UI > 1.2 ? 1.05 : UI);
+  const topSafe = () => (Math.max(11, W / 60) * pillUI() * 1.35 + 20) * pillRows + 10;
 
   // 漫画对话气泡：(tx, ty) 是说话的角色（气泡的尾巴朝向它），(bx, by) 是气泡中心
   //   kind: say 普通对话 | shout 喊出来（爆炸框） | think 心里想（云朵） | box 旁白方框（没有尾巴）
@@ -663,7 +679,8 @@
     const tw = Math.max.apply(null, lines.map((l) => ctx.measureText(l).width));
     const lh = fs * 1.32, pad = kind === "shout" ? fs * 1.3 : fs * 0.85;
     const w = tw + pad * 2, h = lines.length * lh + pad * (kind === "shout" ? 1.3 : 1.1);
-    const cx = clamp(bx, w / 2 + 6, W - w / 2 - 6), cy = clamp(by, topSafe() + h / 2, H - h / 2 - 6);
+    const ex = kind === "shout" ? 1.32 : 1; // 爆炸框的尖角会超出 w、h
+    const cx = clamp(bx, w * ex / 2 + 6, W - w * ex / 2 - 6), cy = clamp(by, topSafe() + h * ex / 2, H - h * ex / 2 - 6);
     const pop = 0.82 + 0.18 * ease(a);
     ctx.translate(cx, cy); ctx.scale(pop, pop);
     const dx = tx - cx, dy = ty - cy, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
@@ -671,8 +688,18 @@
     const tip = Math.min(dist / pop - 4, edge + fs * 1.6);
     const fill = color || "#ffffff";
     ctx.lineJoin = "round"; ctx.lineCap = "round";
-    const shape = () => {
+    const shape = (part) => {
       ctx.beginPath();
+      if (part === "tail") {
+        if (kind === "say" || kind === "shout") {
+          const bw = fs * 0.55, nx = -uy, ny = ux, b0 = edge * 0.6;
+          ctx.moveTo(ux * b0 + nx * bw, uy * b0 + ny * bw);
+          ctx.lineTo(ux * tip, uy * tip);
+          ctx.lineTo(ux * b0 - nx * bw, uy * b0 - ny * bw);
+          ctx.closePath();
+        }
+        return;
+      }
       if (kind === "shout") {
         const n = 18;
         for (let i = 0; i <= n * 2; i++) {
@@ -692,18 +719,15 @@
       } else {
         ctx.roundRect(-w / 2, -h / 2, w, h, Math.min(h / 2, fs * 1.1));
       }
-      if (kind === "say" || kind === "shout") { // 尾巴
-        const bw = fs * 0.55, nx = -uy, ny = ux, b0 = edge * 0.6;
-        ctx.moveTo(ux * b0 + nx * bw, uy * b0 + ny * bw);
-        ctx.lineTo(ux * tip, uy * tip);
-        ctx.lineTo(ux * b0 - nx * bw, uy * b0 - ny * bw);
-      }
     };
+    // 先画带阴影的底，再描边（线宽加倍），最后把身体和尾巴分别填白，盖住内侧的半条线
     ctx.shadowColor = "rgba(120,80,100,0.18)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 3;
-    shape(); ctx.fillStyle = fill; ctx.fill();
+    ctx.fillStyle = fill;
+    shape("body"); ctx.fill(); shape("tail"); ctx.fill();
     ctx.shadowColor = "transparent";
-    ctx.strokeStyle = C.line; ctx.lineWidth = 3.4; ctx.stroke();
-    shape(); ctx.fillStyle = fill; ctx.fill();
+    ctx.strokeStyle = C.line; ctx.lineWidth = 3.4;
+    shape("body"); ctx.stroke(); shape("tail"); ctx.stroke();
+    shape("body"); ctx.fill(); shape("tail"); ctx.fill();
     if (kind === "think") {
       for (let i = 1; i <= 2; i++) {
         const r = fs * (0.34 - i * 0.09), d = edge + fs * 0.5 * i + fs * 0.2;
@@ -747,7 +771,7 @@
   let leftPillEnd = 0;
   let pillRows = 1, pillRowsNow = 1;
   function pill(x, y, label, value, color, alignRight) {
-    const fs = Math.max(12, W / 60) * UI;
+    const fs = Math.max(11, W / 60) * pillUI();
     ctx.font = `${fs}px ${ROUND}`;
     const t1 = ctx.measureText(label).width;
     ctx.font = `${fs * 1.35}px ${ROUND}`;
@@ -1150,5 +1174,7 @@
     terminal, postMembrane, receptor, transporter, vesicle, ion, spark,
     register, episodes, play, stop, portrait,
     get UI() { return UI; },
+    get narrow() { return !REC && UI > 1.2; },
+    topSafe,
   };
 })();
