@@ -51,8 +51,8 @@ Anima.register("g-protein", {
   const T = (k) => (cur === k ? Anima.sceneTime : 99); // 淡出中的画面停在幕末
   const P = (L, t0, d) => ease((L - t0) / d);
   const fsS = () => Math.max(10, H * 0.03) * Anima.UI;
-  const csz = () => H * (N() ? 0.05 : 0.045);
-  const MT = () => H * 0.04;
+  const csz = () => H * (N() ? 0.058 : 0.062);
+  const MT = () => H * 0.045;
   const GT = {
     s: { hair: "#3fae86", cloth: "#d4f5e6", hatColor: "#7fd3b0", label: "Gs" },
     i: { hair: "#d9606f", cloth: "#ffdfe3", hatColor: "#f08a9a", label: "Gi" },
@@ -169,7 +169,7 @@ Anima.register("g-protein", {
     chara(dx, dy, s, { who: "DA", walk: bind < 1 ? time * 9 : null, eyes: act > 0.5 ? "happy" : "open", arms: act > 0.5 ? "up" : "hold", item: act > 0.5 ? null : "letter", mouth: act > 0.5 ? "grin" : "smile" });
     if (L > 2.4 && L < 3.6) sfx("咔嚓！", rx + s * 2.2, mem - s * 1.6, H * 0.045, C.warn, -0.1, Math.sin(P(L, 2.4, 1.2) * Math.PI));
     const fy = mem + mt / 2 + s * 3.25, ax0 = rx + s * 0.35, gx = lerp(ax0, ex - s * 1.8, leave);
-    bgPair(rx - s * 1.7, mem + mt / 2, s, leave > 0.3 ? 1 : 0);
+    bgPair(rx - s * 2.3, mem + mt / 2, s, leave > 0.3 ? 1 : 0);
     const gdpOut = P(L, 3.6, 1.3), gtpIn = P(L, 4.6, 1.2);
     if (gdpOut > 0 && gdpOut < 1) ball(ax0 - gdpOut * s * 2.4, fy - s * 0.86 + gdpOut * s * 2.6, s * 0.46, "GDP", 1 - gdpOut);
     if (gtpIn > 0 && gtpIn < 1) ball(lerp(ax0 + s * 3.5, ax0, gtpIn), lerp(H * 0.97, fy - s * 0.86, gtpIn), s * 0.46, "GTP");
@@ -177,10 +177,10 @@ Anima.register("g-protein", {
     galpha(gx, fy, s, "s", nuc, { walk: leave > 0 && leave < 1 ? time * 9 : null, eyes: nuc === "GTP" ? "sparkle" : nuc ? "sleepy" : "open", mouth: nuc === "GTP" ? "grin" : "smile" });
     if (gtpIn >= 1 && L < 9) sparkles(gx, fy - s * 1.6, s * 2, 4, 1, 3);
     if (acOn > 0.3) stream(ex, mem + s * 2.4, acOn * 4, H * 0.02, H * 0.3, 5);
-    callout("g0r", L > 1 && L < 4.2, rx + s * 1.1, mem - s * 0.2, rx + W * (n ? 0.26 : 0.2), mem - H * 0.16, "受体：七次穿过细胞膜");
+    callout("g0r", L > 1 && L < 4.2, rx + s * 1.1, mem - s * 0.2, rx + W * (n ? 0.4 : 0.22), mem - H * 0.12, "受体：七次穿过细胞膜");
     callout("g0t", L > 1 && L < 4.4, rx - s * 1.2, mem + mt / 2 + s * 1.4, W * 0.22, H * 0.92, "G 蛋白：α + β + γ 三人组");
-    callout("g0s", L > 4.8 && L < 11, gx + s * 0.4, fy - s * 0.9, W * (n ? 0.3 : 0.24), H * 0.92, "GDP 换成 GTP：开机！");
-    say("g0a", L > 6.2 && L < 10, gx, fy - s * 3.2, W * 0.55, mem + H * (n ? 0.09 : 0.1), "拿到 GTP，出发～！", "shout");
+    callout("g0s", L > 4.8 && L < 11, gx + s * 0.4, fy - s * 0.9, W * 0.64, mem - H * 0.12, "GDP 换成 GTP：开机！");
+    say("g0a", L > 6.2 && L < 10, gx, fy - s * 1.5, W * 0.56, H * 0.86, "拿到 GTP，出发～！", "shout");
     ctx.restore();
   }
 
@@ -194,20 +194,23 @@ Anima.register("g-protein", {
     [[-1, "s"], [1, "i"]].forEach((d) => {
       const side = d[0], ty = d[1], x = W * (0.5 + side * (n ? 0.24 : 0.22));
       const go = side < 0;
-      chip(go ? "油门 Gs" : "刹车 Gi", x, mem - H * 0.08, go ? "#d4f5e6" : "#ffdfe3");
+      chip(go ? "油门 Gs" : "刹车 Gi", x, mem - H * 0.07, go ? "#d4f5e6" : "#ffdfe3");
       const sp = go ? 0.6 + on * 4 : 0.6 - on * 0.5;
       const e = enzyme(x, mem, s, time * sp, go ? (on > 0.5 ? 1 : 0) : (on > 0.5 ? -1 : 0), go ? 0 : on * 0.4);
-      const walk = P(L, 0.5, 2.5), ax = lerp(x - side * W * 0.24, x - side * s * 1.9, walk), fy = mem + MT() / 2 + s * 3.25;
+      const rx = x + side * W * (n ? 0.19 : 0.17), ra = P(L, 0.2, 1.2);
+      const rc = gpcr(rx, mem, s, ra, go ? "#ffc0c6" : "#c9c2f5");
+      chara(rx, rc.site.y, s, { who: go ? "NE" : "GABA", eyes: "happy", arms: ra > 0.5 ? "up" : "hold" });
+      const walk = P(L, 0.8, 2.2), ax = lerp(rx, x + side * s * 1.9, walk), fy = mem + MT() / 2 + s * 3.25;
       galpha(ax, fy, s, ty, "GTP", { dir: side < 0 ? 1 : -1, walk: walk < 1 ? time * 9 : null, eyes: on > 0.5 ? (go ? "happy" : "closed") : "open", mouth: go && on > 0.5 ? "grin" : "smile" });
       if (!go && on > 0.5) emote("zzz", x + s * 1.2, mem + s * 0.4, s * 0.6, on);
       stream(x, e.out.y, go ? 2 + on * 7 : 2 - on * 1.6, H * (n ? 0.024 : 0.022), H - e.out.y - H * 0.08, go ? 11 : 23, "cAMP", null, go ? 0.25 + on * 0.25 : 0.25);
-      meter(x + side * (n ? W * 0.2 : W * 0.17), H * 0.6, H * 0.93, Math.max(12, H * 0.035), go ? 0.35 + on * 0.55 : 0.35 - on * 0.27, go ? "#7fd3b0" : "#f08a9a", "cAMP");
+      meter(x - side * (n ? W * 0.16 : W * 0.15), H * 0.6, H * 0.93, Math.max(12, H * 0.035), go ? 0.35 + on * 0.55 : 0.35 - on * 0.27, go ? "#7fd3b0" : "#f08a9a", "cAMP");
     });
     if (L > 3 && L < 4.2) sfx("咔哒", W * 0.5, mem + H * 0.12, H * 0.045, C.warn, -0.1, Math.sin(P(L, 3, 1.2) * Math.PI));
     const lx = W * (0.5 - (n ? 0.24 : 0.22));
-    callout("g1e", L > 0.5 && L < 5, lx + s * 0.9, mem + s * 0.4, W * 0.5, mem - H * 0.16, "腺苷酸环化酶：把 ATP 做成 cAMP");
-    say("g1s", L > 4.5 && L < 9.5, lx - s * 1.9, mem + s * 0.7, W * (n ? 0.2 : 0.14), H * 0.72, "油门踩到底～", "shout");
-    say("g1i", L > 6 && L < 11.5, W - lx + s * 1.9, mem + s * 0.7, W * (n ? 0.78 : 0.84), H * 0.72, "嘘，慢一点做…", "say");
+    callout("g1e", L > 0.5 && L < 4.3, lx + s * 0.9, mem + s * 0.4, W * 0.5, H * 0.16, "腺苷酸环化酶：把 ATP 做成 cAMP");
+    say("g1s", L > 4.5 && L < 8, lx - s * 1.9, mem + s * 0.7, W * 0.4, H * 0.19, "油门踩到底～", n ? "say" : "shout");
+    say("g1i", L > 8.3 && L < 12.5, W - lx + s * 1.9, mem + s * 0.7, W * 0.6, H * 0.19, "嘘，慢一点做…", "say");
     ctx.restore();
   }
 
@@ -241,8 +244,10 @@ Anima.register("g-protein", {
     // 磷脂酶 C（拿剪刀）和 Gq
     const plx = px - s * 1.5;
     chara(plx, fy, s, { who: "AChE", label: "PLC", hair: "#8fa6d6", cloth: "#e3ebff", hatColor: "#b8c8f0", item: "scissors", arms: "hold", eyes: L > 2.6 ? "happy" : "open", dir: 1 });
-    const walk = P(L, 0.3, 2.2);
-    galpha(lerp(-s, plx - s * 1.7, walk), fy, s, "q", "GTP", { walk: walk < 1 ? time * 9 : null, eyes: "happy" });
+    const walk = P(L, 0.8, 2), grx = W * 0.1, gra = P(L, 0.1, 0.8);
+    const grc = gpcr(grx, mem, s, gra, "#aee6d3");
+    chara(grx, grc.site.y, s, { who: "5HT", eyes: "happy", arms: "up" });
+    galpha(lerp(grx, plx - s * 1.7, walk), fy, s, "q", "GTP", { walk: walk < 1 ? time * 9 : null, eyes: "happy" });
     // 钙离子涌出，DAG + Ca²⁺ 叫醒蛋白激酶 C
     if (open > 0.2) for (let k = 0; k < 6; k++) {
       const t = ((L - 7.6) * 0.35 + k / 6) % 1;
@@ -282,8 +287,8 @@ Anima.register("g-protein", {
       const ea = P(L, 5.4 + i * 0.4, 0.8);
       if (ea > 0.02) { ctx.save(); ctx.globalAlpha *= ea; chip(r.eff, x, fy + fs * 1.2, r.col, fs * 1.05); ctx.restore(); }
     });
-    callout("g3a", L > 7 && L < 12.5, W * 0.245, mem + mt / 2 + fs * 3.2, W * 0.25, H * 0.93, "多巴胺：D1 油门，D2 刹车");
-    callout("g3b", L > 8 && L < 12.5, W * 0.755, mem + mt / 2 + fs * 3.2, W * 0.75, H * 0.93, "血清素：1A 刹车，2A 开钙库");
+    callout("g3a", L > 7 && L < 12.5, W * 0.245, mem + mt / 2 + fs * 4.6 + s * 3.2, W * 0.25, H * (n ? 0.76 : 0.93), "多巴胺：D1 油门，D2 刹车");
+    callout("g3b", L > 8 && L < 12.5, W * 0.755, mem + mt / 2 + fs * 4.6 + s * 3.2, W * 0.75, H * 0.93, "血清素：1A 刹车，2A 开钙库");
     say("g3s", L > 5.5 && L < 9.5, W * 0.36, mem - s * 3.4, W * 0.5, Anima.topSafe() + H * 0.07, "同一封信，结果不一样？", "think");
     ctx.restore();
   }
@@ -294,7 +299,8 @@ Anima.register("g-protein", {
     ctx.save(); ctx.globalAlpha *= a;
     const mt = bg(mem), fy = mem + mt / 2 + s * 3.25;
     const ex = W * (n ? 0.66 : 0.62), rx = W * 0.2;
-    gpcr(rx, mem, s, 0.15 + 0.1 * Math.sin(time * 2), C.rec);
+    const lv = P(L, 7, 2.5), rc = gpcr(rx, mem, s, 1 - lv, C.rec);
+    chara(lerp(rx, W * 0.02, lv), lerp(rc.site.y, Anima.topSafe() + s * 3.1, lv), s, { who: "DA", dir: lv > 0 ? -1 : 1, walk: lv > 0 && lv < 1 ? time * 9 : null, eyes: "happy", arms: lv > 0 ? "wave" : "up", alpha: 1 - P(L, 9, 1.5) });
     const hyd = P(L, 5, 0.6), off = P(L, 5.2, 1.6), back = P(L, 6.6, 3.2), join = P(L, 9.8, 0.6);
     const e = enzyme(ex, mem, s, time * (0.3 + 3.5 * (1 - off)), off > 0.5 ? 0 : 1, off * 0.5);
     stream(ex, e.out.y, 7 * (1 - off) + 0.3, H * 0.022, H - e.out.y - H * 0.06, 31);
@@ -312,7 +318,7 @@ Anima.register("g-protein", {
     if (hyd > 0 && L < 7.5) { const t = P(L, 5, 1.8); coin(gx + s * (0.6 + t * 1.6), fy - s * (0.9 + t * 1.2), s * 0.28, 1 - t, "P", "#ffe36e"); }
     if (L > 5 && L < 6.3) sfx("噗～", gx + s * 1.8, fy - s * 2.6, H * 0.045, C.warn, -0.1, Math.sin(P(L, 5, 1.3) * Math.PI));
     if (join > 0.5 && L < 12) sparkles(bx + s, mem + mt / 2 + s * 1.2, s * 2.2, 4, join, 12);
-    callout("g4t", L > 1 && L < 6.4, cx, cy, W * (n ? 0.5 : 0.44), mem - H * 0.14, "自带计时器：把 GTP 切成 GDP");
+    callout("g4t", L > 1 && L < 6.4, cx, cy, W * (n ? 0.62 : 0.5), mem - H * 0.14, "自带计时器：把 GTP 切成 GDP");
     callout("g4j", L > 10, bx + s * 0.5, mem + mt / 2 + s * 1.1, W * 0.26, H * 0.93, "回到 βγ 身边，等下一封信");
     say("g4s", L > 6.2 && L < 9.8, gx, fy - s * 3.2, W * 0.45, H * 0.88, "时间到，下班～", "think");
     ctx.restore();

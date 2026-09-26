@@ -24,7 +24,13 @@ const path = require("path");
     if (only.length && !only.includes(String(i + 1))) continue;
     await p.click("#ch" + i);
     for (const t of ts) {
-      await p.waitForFunction((t) => window.Anima.sceneTime >= t, t, { timeout: 120000, polling: 50 });
+      try {
+        await p.waitForFunction((t) => window.Anima.sceneTime >= t, t, { timeout: 30000, polling: 50 });
+      } catch (e) {
+        // 画面代码报错时动画会停住，等不到这个时刻：把报错打出来再退出
+        console.log(`第 ${i + 1} 幕等不到第 ${t} 秒，页面报错：${JSON.stringify(errs.slice(0, 5))}`);
+        await b.close(); process.exit(1);
+      }
       const file = ts.length > 1 ? `${out}-${i + 1}-${t}.png` : `${out}-${i + 1}.png`;
       await (await p.$(".stage")).screenshot({ path: file });
     }

@@ -128,7 +128,7 @@ Anima.register("amyloid-cascade", {
   // ---------- 第 1、2 幕：膜上的 APP ----------
   function appView(a) {
     const n = nar(), top = Anima.topSafe();
-    const M = H * (n ? 0.6 : 0.58), mt = H * 0.075, ax = W * 0.5, cs = H * 0.045;
+    const M = H * (n ? 0.64 : 0.58), mt = H * 0.075, ax = W * 0.5, cs = H * 0.045;
     ctx.save(); ctx.globalAlpha *= a;
     ctx.fillStyle = C.out; ctx.fillRect(0, 0, W, M);
     ctx.fillStyle = C.inn; ctx.fillRect(0, M, W, H - M);
@@ -140,19 +140,19 @@ Anima.register("amyloid-cascade", {
       ctx.beginPath(); ctx.arc(x, yy, pr, 0, Math.PI * 2); ctx.fillStyle = "#fff5ee"; ctx.fill(); outline(1); ctx.stroke();
     }
     const fs = fsz(0.03);
-    plate("细胞外", W * 0.08 + fs, top + fs * 1.2, fs, "#fff");
-    plate("细胞内（神经元里）", W * 0.13 + fs * 2, H - fs * 1.4, fs, "#fff");
+    plate("↑ 细胞外", fs * 3.2, M - mt / 2 - fs * 1.3, fs, "#fff");
+    plate("↓ 细胞内", fs * 3.2, M + mt / 2 + fs * 1.3, fs, "#fff");
     // APP 的三段：上段（细胞外）、Aβ 段、下段（细胞内）
     const yT = M - H * 0.33, yB = M - H * 0.11, yA = M - H * 0.055, yG = M + mt * 0.15, yC = M + H * 0.2;
     const seg = (y0, y1, col, dx, dy, al) => {
       if (al < 0.02) return;
       ctx.save(); ctx.globalAlpha *= al;
-      const w = H * 0.03;
+      const w = H * 0.044;
       rrect(ax - w / 2 + dx, Math.min(y0, y1) + dy, w, Math.abs(y1 - y0), w / 2); ctx.fillStyle = col; ctx.fill(); outline(1.6); ctx.stroke();
       for (let y = y0 + w * 0.6; y < y1 - w * 0.3; y += w * 0.9) { ctx.beginPath(); ctx.arc(ax + dx, y + dy, w * 0.18, 0, Math.PI * 2); ctx.fillStyle = "rgba(255,255,255,0.55)"; ctx.fill(); }
       ctx.restore();
     };
-    const headR = H * 0.06;
+    const headR = H * 0.075;
     const head = (dx, dy, al, mood) => {
       if (al < 0.02) return;
       ctx.save(); ctx.globalAlpha *= al;
@@ -164,8 +164,8 @@ Anima.register("amyloid-cascade", {
     if (s0) {
       // α：从 Aβ 中间剪
       const cut = lt > 5.2, f = prog(5.4, 4);
-      const dx = W * 0.16 * f, dy = -H * 0.1 * f, al = 1 - f * 0.35;
-      seg(yT, yB, C.app, dx, dy, al); seg(yB, yA, C.ab, dx, dy, al); head(dx, dy, al, 1);
+      const dx = W * 0.16 * f, dy = -H * (n ? 0.03 : 0.1) * f, al = 1 - f * 0.35;
+      seg(yT + headR * 0.8, yB, C.app, dx, dy, al); seg(yB, yA, C.ab, dx, dy, al); head(dx, dy, al, 1);
       seg(yA, yG, C.ab, 0, 0, 1); seg(yG, yC, C.cterm, 0, 0, 1);
       snip(ax, yA, H * 0.05, lt > 4.6 && lt < 6.5 ? 1 : 0);
       if (lt > 5 && lt < 6.2) sfx("咔嚓！", ax + H * 0.1, yA - H * 0.02, H * 0.045, C.bad, -0.1, 1);
@@ -179,7 +179,7 @@ Anima.register("amyloid-cascade", {
     } else {
       // β 先剪上面，γ 再剪膜里
       const fb = prog(3.6, 3.5), fg = prog(7, 1.6);
-      seg(yT, yB, C.app, -W * 0.18 * fb, -H * 0.12 * fb, 1 - fb * 0.6); head(-W * 0.18 * fb, -H * 0.12 * fb, 1 - fb * 0.6, 0.6);
+      seg(yT + headR * 0.8, yB, C.app, -W * 0.18 * fb, -H * 0.12 * fb, 1 - fb * 0.6); head(-W * 0.18 * fb, -H * 0.12 * fb, 1 - fb * 0.6, 0.6);
       const up = -H * 0.2 * fg, abA = 1 - prog(8.2, 0.8);
       seg(yB, yG, C.ab, 0, up, abA); seg(yG, yC, C.cterm, 0, 0, 1);
       snip(ax, yB, H * 0.05, lt > 2.8 && lt < 4.6 ? 1 : 0);
@@ -191,7 +191,7 @@ Anima.register("amyloid-cascade", {
       const gp = prog(4.2, 2.2), gx = lerp(-cs * 2, ax - cs * 1.3, gp), gy = M + H * 0.2;
       chara(gx, gy, cs, Object.assign({}, GAMMA, { arms: gp < 1 ? "down" : "wave", walk: gp < 1 && gp > 0 ? time * 9 : null }));
       // 放出来的 Aβ：长的（42）和短的（40）
-      const ab = prog(8.2, 1), abY = yB + up + H * 0.02, s2 = cs * 0.9;
+      const ab = prog(8.2, 1), abY = yB + up + H * 0.04, s2 = cs * 1.15;
       if (ab > 0.01) {
         const x42 = lerp(ax, ax + W * (n ? 0.2 : 0.16), prog(9.4, 1.4)), x40 = lerp(ax, ax + W * (n ? 0.38 : 0.3), prog(9.4, 1.4));
         ctx.save(); ctx.globalAlpha *= ab;
@@ -202,7 +202,7 @@ Anima.register("amyloid-cascade", {
         callout("sticky", lt > 10.3, x42 + s2 * 0.8, abY - s2 * 0.4, x42 + W * 0.1, abY - H * 0.16, "Aβ42 多两个氨基酸，更黏");
       }
       callout("beta", lt > 3 && lt < 6.5, ax + H * 0.02, yB, ax + W * 0.22, yB - H * 0.08, "β 分泌酶：先剪上面");
-      callout("gamma", lt > 6.3 && lt < 9.2, ax + H * 0.02, yG, ax + W * 0.22, M + H * 0.1, "γ 分泌酶：在膜里剪第二刀");
+      callout("gamma", lt > 6.3 && lt < 9.2, ax + H * 0.02, yG, ax + W * 0.2, M + H * 0.2, "γ 分泌酶：在膜里剪第二刀");
       say("bcut", lt > 1.8 && lt < 4.8, bx, by - cs * 2.4, n ? W * 0.18 : W * 0.2, M - H * 0.34, "我先剪这里～", "say");
     }
     ctx.restore();
@@ -228,15 +228,16 @@ Anima.register("amyloid-cascade", {
       face(x, hy + hr * 0.1, hr * 0.5 * hh, 1 - hurt[i] * 1.6);
       const bY = dY - H * 0.14 - hr * 2.4;
       ctx.beginPath(); ctx.arc(x, bY, hr * 1.05, 0, Math.PI * 2); ctx.fillStyle = "#ffd6c4"; ctx.fill(); outline(1.8); ctx.stroke();
-      for (let k = 0; k < 3; k++) Anima.vesicle(x - hr * 0.45 + k * hr * 0.45, bY - hr * 0.1, hr * 0.22, "#ff9a52", 2, k + i);
+      ctx.fillStyle = "#ff9a52"; for (let k = 0; k < 4; k++) { ctx.beginPath(); ctx.arc(x - hr * 0.5 + k * hr * 0.33, bY + hr * 0.45 - (k % 2) * hr * 0.25, hr * 0.13, 0, Math.PI * 2); ctx.fill(); }
       const sig = 1 - hurt[i];
       if (sig > 0.1) { glow(x, (bY + hy) / 2, hr * 1.4, C.gold, sig * (0.6 + 0.3 * Math.sin(time * 5 + i))); sparkles(x, (bY + hy) / 2, hr, 2, sig, i * 9); }
       if (hurt[i] > 0.5) emote("sweat", x + hr, hy - hr, hr * 0.8);
     });
     plaque(PX, PY, H * 0.15 * pl, 3, 1);
     // 12 个 Aβ：游荡 → 抱成 3 个小团 → 两团贴到突触上 → 都堆进斑块
-    const G = [[sx[0] - hr * 0.2, dY - H * 0.25], [sx[1] - hr * 0.2, dY - H * 0.26], [W * 0.36, H * 0.42]];
-    const Gm = [[W * 0.42, H * 0.42], [W * 0.5, H * 0.62], [W * 0.36, H * 0.42]];
+    const cY = dY - H * 0.14 - hr * 0.2;
+    const G = [[sx[0] - hr * 1.6, cY + H * 0.02], [sx[1] - hr * 1.6, cY + H * 0.02], [W * 0.34, H * 0.36]];
+    const Gm = [[W * 0.44, H * 0.46], [W * 0.5, H * 0.64], [W * 0.34, H * 0.36]];
     const s = H * 0.024;
     for (let i = 0; i < 12; i++) {
       const g = i % 3, k = Math.floor(i / 3), q = k / 4 * Math.PI * 2 + time * 0.5;
@@ -251,10 +252,11 @@ Anima.register("amyloid-cascade", {
       abMini(x, y, s, { arms: f1 > 0.8 ? "hug" : "down", eyes: f1 > 0.8 ? "happy" : "open", mouth: "cat" });
       ctx.restore();
     }
-    callout("olig", lt > 3.8 && lt < 8.2, Gm[2][0], Gm[2][1] - s * 3, n ? W * 0.3 : W * 0.28, top + H * 0.08, "寡聚体：几个抱成的小团");
-    callout("syn", lt > 6.4 && lt < 10, sx[1], dY - H * 0.1, sx[1] - W * 0.02, top + H * 0.14, "突触信号变弱，小刺缩回去");
+    callout("olig", lt > 3.8 && lt < 6.4, Gm[2][0], Gm[2][1] - s * 3, n ? W * 0.3 : W * 0.28, top + H * 0.08, "寡聚体：几个抱成的小团");
+    callout("syn", lt > 6.6 && lt < 10, sx[1], dY - H * 0.1, sx[1] - W * 0.02, top + H * 0.14, "突触信号变弱，小刺缩回去");
     callout("plq", lt > 10, PX, PY - H * 0.1, PX + W * 0.12, top + H * 0.06, "淀粉样斑块：越堆越大");
-    say("weak", lt > 7.2 && lt < 11, sx[0], dY - H * 0.14, sx[0] - W * 0.08, H * 0.42, "信号……听不清了", "think");
+    say("weak", lt > 7.2 && lt < 11, sx[0], cY, sx[0] + W * 0.06, H * 0.4, "信号……听不清了", "think");
+    callout("synA", lt < 3.6, sx[2], dY - H * 0.14 - hr * 1.2, sx[2] - W * 0.04, top + H * 0.14, "突触：两边隔着小缝传信");
     ctx.restore();
   }
 
@@ -265,7 +267,7 @@ Anima.register("amyloid-cascade", {
     Anima.wash("#fff4ec", "#fde9e4");
     const y0 = top + H * 0.16, y1 = H * 0.95, mY = H * 0.5;
     rrect(-20, y0, W + 40, y1 - y0, H * 0.08); ctx.fillStyle = C.inn; ctx.fill(); outline(2.2); ctx.stroke();
-    text("神经元的轴突里", W * 0.5, y0 + H * 0.035, fsz(0.028), C.soft);
+    text("神经元的轴突里", W * 0.97, y0 + H * 0.04, fsz(0.026), C.soft, "right");
     // Aβ 在外面放出刺激信号
     const sig = prog(1.6, 1);
     const ox = W * 0.12, oy = y0 - H * 0.05;
@@ -306,17 +308,17 @@ Anima.register("amyloid-cascade", {
     // 运货小车：沿轨道跑，轨道散了就卡住
     const cartX = lt < 7.5 ? (W * 0.1 + ((lt * 0.12) % 1) * W * 0.8) : lerp(W * 0.1 + (((7.5 * 0.12) % 1)) * W * 0.8, W * 0.44, prog(7.5, 1.5));
     const ci = clamp(Math.floor((cartX + 20) / L), 0, NS - 1), cy = (broke > 0 ? segY(ci) : mY) - H * 0.022;
-    Anima.vesicle(cartX, cy - H * 0.035, H * 0.032, "#ff9a52", 4, 3);
+    Anima.vesicle(cartX, cy - H * 0.045, H * 0.042, "#ff9a52", 6, 3);
     ctx.strokeStyle = C.line; ctx.lineWidth = 2;
     const st = lt < 7.5 ? Math.sin(time * 10) * H * 0.008 : 0;
     ctx.beginPath(); ctx.moveTo(cartX - H * 0.012, cy - H * 0.01); ctx.lineTo(cartX - H * 0.018 + st, cy); ctx.moveTo(cartX + H * 0.012, cy - H * 0.01); ctx.lineTo(cartX + H * 0.018 - st, cy); ctx.stroke();
     if (lt > 9) { emote("?", cartX + H * 0.05, cy - H * 0.09, H * 0.03); emote("sweat", cartX - H * 0.04, cy - H * 0.07, H * 0.025); }
-    callout("mt", lt < 3.2, W * 0.3, mY, W * 0.3, top + H * 0.02, "微管：运物资的轨道");
-    callout("tau", lt < 3.2, -20 + L * 2, mY + cs * 2, W * 0.3, H * 0.9, "tau：扣住轨道的扣件");
+    callout("mt", lt < 3.2, W * 0.66, mY - H * 0.02, W * 0.72, y0 + H * 0.14, "微管：运物资的轨道");
+    callout("tau", lt < 3.2, -20 + L * 2, mY + cs * 2, W * 0.42, H * 0.86, "tau：扣住轨道的扣件");
     callout("ph", lt > 4 && lt < 7.2, kx - H * 0.02, mY + cs * 2, n ? W * 0.4 : W * 0.35, H * 0.93, "磷酸基团 P：贴太多就松手");
     callout("tng", lt > 9, TX, TY - H * 0.1, TX - W * 0.12, top + H * 0.02, "神经纤维缠结");
     callout("sig", lt > 1.4 && lt < 4, ox + H * 0.06, y0, ox + W * 0.2, top + H * 0.01, "Aβ 的刺激");
-    say("stuck", lt > 9.6, cartX, cy - H * 0.07, cartX - W * 0.02, cy - H * 0.2, "轨道断了，送不过去！", "shout");
+    say("stuck", lt > 9.6, cartX, cy - H * 0.07, cartX - W * 0.14, cy + H * 0.2, "轨道断了，送不过去！", "shout");
     ctx.restore();
   }
 
@@ -352,7 +354,7 @@ Anima.register("amyloid-cascade", {
       const t = (time * 0.35 + k / 10) % 1, q = -0.9 + (k / 10) * 1.6;
       const x = gx + Math.cos(q) * t * W * 0.5, y = gy - cs * 1.5 + Math.sin(q) * t * H * 0.35;
       ctx.save(); ctx.globalAlpha *= inf * Math.sin(t * Math.PI);
-      Anima.bolt(x, y, H * 0.018, 1, k % 2 ? C.coral : C.warn);
+      Anima.bolt(x, y, H * 0.028, 1, k % 2 ? C.coral : C.warn);
       ctx.restore();
     }
     const hurt = prog(8.5, 2.5), nx = n ? [0.74, 0.9] : [0.76, 0.9];
@@ -389,10 +391,11 @@ Anima.register("amyloid-cascade", {
     chara(ax, gy, cs, Object.assign({}, ANTI, { walk: wp < 1 && wp > 0 ? time * 9 : null, arms: lt > 2.4 && lt < 5 ? "wave" : "down", eyes: "happy", mouth: "grin" }));
     for (let i = 0; i < 7; i++) {
       const t0 = 2.4 + i * 0.3, f = prog(t0, 0.9), q = -Math.PI * 0.95 + i * 0.32;
-      if (f <= 0 || prog(5.4 + i * 0.5, 0.6) >= 1) continue;
+      const gone = prog(6.5 + i * 0.45, 0.8);
+      if (f <= 0 || gone >= 1) continue;
       const ex = PX + Math.cos(q) * R * 0.95, ey = PY + Math.sin(q) * R * 0.85;
       const x = lerp(ax + cs, ex, f), y = lerp(gy - cs * 2.5, ey, f) - Math.sin(f * Math.PI) * H * 0.08;
-      ctx.save(); ctx.globalAlpha *= 1 - prog(5.4 + i * 0.5, 0.6);
+      ctx.save(); ctx.globalAlpha *= 1 - gone;
       yTag(x, y, H * 0.03, q + Math.PI / 2 + Math.PI);
       ctx.restore();
     }
@@ -401,19 +404,21 @@ Anima.register("amyloid-cascade", {
     if (lt > 4.2 && lt < 5.6) emote("!", mx, gy - cs * 3.4, cs * 0.7);
     if (eat && shrink < 0.98) for (let k = 0; k < 3; k++) {
       const t = ((lt - 5) * 0.55 + k / 3) % 1;
-      abMini(lerp(PX + R * 0.6, mx - cs * 0.3, t), lerp(PY, gy - cs * 1.2, t), H * 0.018 * (1 - t * 0.6), { alpha: 1 - t, shadow: false });
+      const ex = lerp(PX + R * 0.6, mx - cs * 0.3, t), ey = lerp(PY, gy - cs * 1.2, t);
+      abMini(ex, ey, H * 0.02 * (1 - t * 0.6), { alpha: 1 - t, shadow: false });
+      ctx.save(); ctx.globalAlpha *= 1 - t; yTag(ex + H * 0.012, ey - H * 0.03, H * 0.016, 0.4); ctx.restore();
     }
     if (shrink > 0.9) sparkles(PX, PY, R * 2, 4, 1, 3);
     // ARIA 小卡片：磁共振
     const ca = prog(9.4, 0.8);
     if (ca > 0.02) {
       ctx.save(); ctx.globalAlpha *= ca;
-      const cw = n ? W * 0.34 : W * 0.24, chh = H * 0.2, cx = n ? W * 0.03 : W * 0.04, cy = top + H * 0.04;
+      const fs = fsz(0.026); ctx.font = `${fs}px ${Anima.ROUND}`;
+      const chh = H * 0.2, cw = chh * 0.9 + ctx.measureText("水肿 / 微出血").width + fs * 1.4, cx = W * 0.03, cy = top + H * 0.04;
       rrect(cx, cy, cw, chh, 14); ctx.fillStyle = "#fffdf8"; ctx.fill(); outline(1.8); ctx.stroke();
       const rx = cx + chh * 0.45, ry = cy + chh * 0.5;
       ctx.beginPath(); ctx.arc(rx, ry, chh * 0.32, 0, Math.PI * 2); ctx.fillStyle = "#dfe6ee"; ctx.fill(); outline(1.6); ctx.stroke();
       ctx.beginPath(); ctx.arc(rx, ry, chh * 0.16, 0, Math.PI * 2); ctx.fillStyle = "#fff"; ctx.fill(); ctx.stroke();
-      const fs = fsz(0.026);
       text("ARIA", cx + chh * 0.85 + (cw - chh * 0.85) / 2, cy + chh * 0.3, fs * 1.1, C.bad);
       text("水肿 / 微出血", cx + chh * 0.85 + (cw - chh * 0.85) / 2, cy + chh * 0.55, fs, C.ink);
       text("定期磁共振", cx + chh * 0.85 + (cw - chh * 0.85) / 2, cy + chh * 0.8, fs, C.ink);
@@ -422,7 +427,7 @@ Anima.register("amyloid-cascade", {
     callout("anti", lt > 2.6 && lt < 6.5, PX - R * 0.8, PY - R * 0.5, n ? W * 0.3 : W * 0.26, top + H * 0.1, "抗体：给 Aβ 贴上标签");
     callout("clr", lt > 6.5 && lt < 10, PX + R * 0.6, PY - R * 0.3, n ? W * 0.62 : W * 0.66, top + H * 0.1, "小胶质细胞按标签清除");
     say("see", lt > 4.4 && lt < 8, mx, gy - cs * 3.2, mx - W * 0.06, H * 0.36, "有标签！交给我～", "say");
-    say("early", lt > 10.2, PX, PY - R, n ? W * 0.62 : W * 0.66, top + H * 0.1, "越早清理，意义可能越大", "box");
+    say("early", lt > 10.2, PX, PY - R, W * 0.72, H * 0.42, "越早清理，意义可能越大", "box");
     ctx.restore();
   }
 

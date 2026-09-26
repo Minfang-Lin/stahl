@@ -469,15 +469,17 @@
     }
 
     // --- 脚下的名牌（胶囊帽上的字太小时，用它写药名）---
-    if (o.tag) {
-      ctx.font = `4.2px ${ROUND}`;
-      const tw = ctx.measureText(o.tag).width + 3.6;
-      rrect(-tw / 2, 1.2, tw, 5.6, 2.8); ctx.fillStyle = "rgba(255,255,255,0.95)"; ctx.fill(); line(0.6); ctx.stroke();
-      text(o.tag, 0, 4.1, 4.2, C.ink);
+    if (o.tag) { // 字至少 10 像素（手机上的小角色也看得清）
+      const tf = Math.max(4.2, 10 * UI / k);
+      ctx.font = `${tf}px ${ROUND}`;
+      const tw = ctx.measureText(o.tag).width + tf * 0.9;
+      rrect(-tw / 2, 1.2, tw, tf * 1.35, tf * 0.67); ctx.fillStyle = "rgba(255,255,255,0.95)"; ctx.fill(); line(0.6); ctx.stroke();
+      text(o.tag, 0, 1.2 + tf * 0.7, tf, C.ink);
     }
     // --- 手里的东西 ---
     if (o.item) {
-      const ip = o.arms === "carry" ? [0, -35] : o.arms === "hold" || o.arms === "hug" ? [0, -8.4] : hands[1];
+      // 朝左指的时候举起来的是左手
+      const ip = o.arms === "carry" ? [0, -35] : o.arms === "hold" || o.arms === "hug" ? [0, -8.4] : hands[o.arms === "point" && o.dir < 0 ? 0 : 1];
       drawItem(o.item, ip[0], ip[1], o, line);
     }
     ctx.restore();
@@ -859,7 +861,7 @@
     ctx.fill(); ctx.stroke();
     if (act > 0.3) sparkles(x, y - d * s * 0.9, s * 1.3, 4, (act - 0.3) * 1.4, Math.round(x));
     if (o.label) {
-      const fs = Math.max(9, s * 0.42) * UI;
+      const fs = Math.max(10, s * 0.42) * UI;
       ctx.font = `${fs}px ${ROUND}`;
       const tw = ctx.measureText(o.label).width + fs;
       const ly = y + d * s * 0.55;

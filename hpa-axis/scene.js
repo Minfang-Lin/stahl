@@ -83,21 +83,21 @@ Anima.register("hpa-axis", {
     const n = N();
     const G = {
       amy: { x: W * 0.13, y: H * 0.93, h: H * 0.27 },
-      hip: { x: W * (n ? 0.15 : 0.14), y: H * 0.36, s: H * 0.08 },
-      hyp: { x: W * 0.36, y: H * 0.46, s: H * 0.07 },
-      pit: { x: W * 0.36, y: H * 0.66, r: H * 0.04 },
-      adr: { x: W * 0.64, y: H * 0.83, s: H * 0.065 },
-      man: { x: W * 0.87, y: H * 0.94, s: H * (n ? 0.055 : 0.05) },
+      hip: { x: W * (n ? 0.15 : 0.14), y: H * 0.38, s: H * 0.085 },
+      hyp: { x: W * 0.36, y: H * 0.44, s: H * 0.072 },
+      pit: { x: W * 0.36, y: H * 0.69, r: H * 0.042 },
+      adr: { x: W * 0.64, y: H * 0.8, s: H * 0.07 },
+      man: { x: W * 0.87, y: H * 0.94, s: H * (n ? 0.06 : 0.058) },
       top: H * (n ? 0.3 : 0.26),
     };
     G.cloud = { x: W * 0.07, y: H * 0.55 };
     G.vessel = [[G.pit.x, G.pit.y + G.pit.r], [G.pit.x, H * 0.95], [G.adr.x - G.adr.s * 1.6, H * 0.95], [G.adr.x - G.adr.s * 0.4, G.adr.y - G.adr.s * 0.2]];
     G.stalk = [[G.hyp.x, G.hyp.y + G.hyp.s * 0.1], [G.pit.x, G.pit.y - G.pit.r * 0.6]];
     G.toBody = [[G.adr.x + G.adr.s * 0.8, G.adr.y - G.adr.s * 0.4], [G.man.x - G.man.s * 1.8, G.man.y - G.man.s * 0.2]];
-    const up = [[G.adr.x + G.adr.s * 0.3, G.adr.y - G.adr.s * 1.2], [W * 0.74, G.top], [G.hyp.x + G.hyp.s * 1.6, G.top]];
+    const up = [[G.adr.x + G.adr.s * 0.9, G.adr.y - G.adr.s * 0.9], [G.adr.x + G.adr.s * 0.9, G.top], [G.hyp.x + G.hyp.s * 1.6, G.top]];
     G.fbHyp = up.concat([[G.hyp.x + G.hyp.s * 1.35, G.hyp.y - G.hyp.s * 1.05]]);
-    G.fbHip = up.concat([[G.hip.x + G.hip.s * 1.3, G.top], [G.hip.x + G.hip.s * 0.95, G.hip.y - G.hip.s * 0.55]]);
-    G.gauge = { x: W * 0.53, y: H * (n ? 0.38 : 0.35), w: W * 0.2 };
+    G.fbHip = up.concat([[G.hip.x + G.hip.s * 1.35, G.top], [G.hip.x + G.hip.s * 1.35, G.hip.y - G.hip.s * 0.1]]);
+    G.gauge = { x: W * 0.85, y: H * (n ? 0.4 : 0.36), w: W * (n ? 0.2 : 0.18) };
     return G;
   }
   function pp(pts, t) {
@@ -112,7 +112,7 @@ Anima.register("hpa-axis", {
   }
   function path(pts) { ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); }
   // 一条传话线上的传话员：从起点陆续出发，走到终点消失
-  function flow(key, pts, n, dur, who, s, tagFirst) {
+  function flow(key, pts, n, dur, who, s) {
     const f = FL[cur][key];
     if (!f) return [];
     const off = clamp((f[1] - lt) / 1.2, 0, 1), arr = [];
@@ -122,8 +122,8 @@ Anima.register("hpa-axis", {
       const t = raw % 1, q = pp(pts, t);
       const a = off * Math.min(1, t * 8, (1 - t) * 6);
       if (f[0] + (Math.floor(raw) + i / n) * dur > f[1]) continue;
-      if (a > 0.02) chara(q.x, q.y, s, Object.assign({}, who, { walk: time * 9 + i, alpha: a, shadow: false, dir: q.dx < 0 ? -1 : 1, arms: "hold", item: "letter", eyes: "open", tag: tagFirst && i === 0 && raw < 1 ? who.tag0 : "" }));
-      if (t > 0.9) arr.push(q);
+      if (a > 0.02) chara(q.x, q.y, s, Object.assign({}, who, { walk: time * 9 + i, alpha: a, shadow: false, dir: q.dx < 0 ? -1 : 1, arms: "hold", item: "letter", eyes: "open", }));
+      arr.push({ x: q.x, y: q.y - s * 1.6, t: t });
     }
     return arr;
   }
@@ -144,8 +144,8 @@ Anima.register("hpa-axis", {
     ctx.strokeStyle = C.line; ctx.lineWidth = Math.max(2, s * 0.08); ctx.stroke(); ctx.fillStyle = "#b9b4c9"; ctx.fill();
     face(x + s * 0.05, y + s * 0.02, s * 0.34, -1, false);
     Anima.bolt(x + s * 0.1 + Math.sin(time * 7) * 2, y + s * 0.85, s * 0.35, 0.6 + 0.4 * Math.sin(time * 9), C.gold);
-    text("压力", x - s * 0.45, y - s * 0.35, s * 0.3, "#fff");
     ctx.restore();
+    ctx.save(); ctx.globalAlpha *= a; nameTag("压力", x, y + s * 0.62); ctx.restore();
   }
   function tower(g, ring) {
     const { x, y, h } = g.amy, w = h * 0.5, top = y - h;
@@ -158,8 +158,8 @@ Anima.register("hpa-axis", {
     const lx = x, ly = top + h * 0.12, lr = w * 0.2;
     if (ring > 0.05) glow(lx, ly - lr * 0.5, lr * 3.5, C.bad, ring * (0.6 + 0.4 * Math.sin(time * 10)));
     ctx.beginPath(); ctx.arc(lx, ly, lr, Math.PI, 0); ctx.closePath(); ctx.fillStyle = mix("#f3e6ea", "#ff7a8a", ring); ctx.fill(); outline(1.6); ctx.stroke();
-    if (ring > 0.5) sfx("呜——", lx + lr * 1.6, ly - lr * 1.8, H * 0.034, C.bad, -0.12, 0.6 + 0.4 * Math.sin(time * 6));
-    nameTag("杏仁核", x, y - h * 0.62);
+    if (ring > 0.5) sfx("呜——", lx - lr * 0.4, ly - lr * 2.6, H * 0.032, C.bad, -0.12, 0.6 + 0.4 * Math.sin(time * 6));
+    nameTag("杏仁核", x, y - h * 0.5);
     return { lamp: { x: lx, y: ly - lr } };
   }
   function house(g, busy, calm) {
@@ -179,7 +179,7 @@ Anima.register("hpa-axis", {
     if (on > 0.05) glow(x, y, r * 2.4, C.gold, on * 0.8);
     ctx.beginPath(); ctx.ellipse(x, y, r * 1.1, r, 0, 0, Math.PI * 2); ctx.fillStyle = mix("#ffe0c4", "#ffc98a", on); ctx.fill(); outline(1.6); ctx.stroke();
     face(x, y + r * 0.05, r * 0.6, 1);
-    nameTag("垂体", x - r * 2.6, y);
+    nameTag("垂体", x + r * 2.5, y);
   }
   // GR 信箱：皮质醇的“回执”投在这里
   function box(x, y, s, lit, gone) {
@@ -213,8 +213,8 @@ Anima.register("hpa-axis", {
     if (hh < 0.5) { ctx.fillStyle = Anima.alpha("#8a7f99", 0.5); for (let k = 0; k < 3; k++) ctx.fillRect(hx - s * 0.2 + k * s * 0.2, hy - s * 0.75, 1.5, s * 0.3); }
     nameTag("海马", x, y + s * 0.95);
     // 三个 GR 信箱，受体少了就一个个变灰
-    for (let i = 0; i < 3; i++) box(x + s * (0.55 + i * 0.28) , y - s * 0.35 + i * s * 0.28, s * 0.3, lit, clamp((0.85 - hh) * 3 - i * 0.6, 0, 1) * (i < 2 ? 1 : 0));
-    return { head: { x: hx, y: hy - s * 0.4 }, box: { x: x + s * 0.83, y: y - s * 0.2 } };
+    for (let i = 0; i < 3; i++) box(x + s * (0.62 + i * 0.36), y - s * 0.45 + i * s * 0.34, s * 0.36, lit, clamp((0.85 - hh) * 3 - i * 0.6, 0, 1) * (i < 2 ? 1 : 0));
+    return { head: { x: hx, y: hy - s * 0.4 }, box: { x: x + s * 1.34, y: y + s * 0.1 } };
   }
   function adrenal(g, on) {
     const { x, y, s } = g.adr;
@@ -248,7 +248,7 @@ Anima.register("hpa-axis", {
   }
   function loopRing(g, a) {
     if (a < 0.02) return;
-    const cx = W * 0.54, cy = H * (N() ? 0.62 : 0.6), r = H * 0.12;
+    const cx = W * 0.56, cy = H * 0.58, r = H * 0.1;
     ctx.save(); ctx.globalAlpha *= a;
     ctx.strokeStyle = Anima.alpha(C.bad, 0.55); ctx.lineWidth = Math.max(3, H * 0.008);
     for (let k = 0; k < 3; k++) {
@@ -262,25 +262,27 @@ Anima.register("hpa-axis", {
   }
   function helpers(g, a) {
     if (a < 0.02) return [];
-    const s = H * (N() ? 0.042 : 0.038), y = H * 0.74, xs = [0.46, 0.56, 0.66, 0.76].map((k) => W * k), out = [];
+    const s = H * (N() ? 0.042 : 0.042), xs = [0.75, 0.81, 0.88, 0.94].map((k) => W * k), ys = [0.6, 0.87, 0.6, 0.87].map((k) => H * k), out = [];
     const list = [
-      { tag: "睡好觉", o: { hair: "#8f86e2", cloth: "#e4e0ff", eyes: "sleepy", arms: "hug", style: "long" } },
-      { tag: "多运动", o: { hair: "#ff9a52", cloth: "#ffe6c4", eyes: "happy", arms: "fist", walk: time * 12 } },
-      { tag: "有陪伴", o: { hair: "#f29cc0", cloth: "#ffe1ee", eyes: "happy", arms: "wave", style: "bun" } },
+      { tag: "睡好", o: { hair: "#8f86e2", cloth: "#e4e0ff", eyes: "sleepy", arms: "hug", style: "long" } },
+      { tag: "运动", o: { hair: "#ff9a52", cloth: "#ffe6c4", eyes: "happy", arms: "fist", walk: time * 12 } },
+      { tag: "陪伴", o: { hair: "#f29cc0", cloth: "#ffe1ee", eyes: "happy", arms: "wave", style: "bun" } },
       { tag: "治疗", o: { who: "drug", label: "药", hatColor: "#8fdcc4", hatColor2: "#fff1b8", eyes: "happy", arms: "point" } },
     ];
     list.forEach((L, i) => {
       const p = prog(1 + i * 0.7, 0.8);
       if (p <= 0) return;
-      chara(xs[i], y, s, Object.assign({ tag: L.tag, alpha: a * p, dir: -1 }, L.o));
+      const y = ys[i];
+      chara(xs[i], y, s, Object.assign({ alpha: a * p, dir: -1 }, L.o));
+      ctx.save(); ctx.globalAlpha *= a * p; nameTag(L.tag, xs[i], y + H * 0.045); ctx.restore();
       out.push({ x: xs[i], y: y - s * 3.2 });
       // 送给海马的营养（BDNF 小光点）
       const t = ((lt - 2 - i * 0.5) * 0.35) % 1;
       if (lt > 2 + i * 0.5) {
         const hx = g.hip.x + g.hip.s * 0.2, hy = g.hip.y;
         const bx = lerp(xs[i], hx, t), by = lerp(y - s * 3.4, hy, t) - Math.sin(t * Math.PI) * H * 0.12;
-        glow(bx, by, s * 0.8, "#8fe0ff", a * Math.sin(t * Math.PI));
-        Anima.sparkle(bx, by, s * 0.35, a * Math.sin(t * Math.PI));
+        glow(bx, by, s * 1.4, "#8fe0ff", a * Math.sin(t * Math.PI));
+        Anima.sparkle(bx, by, s * 0.6, a * Math.sin(t * Math.PI), "#bff0ff");
       }
     });
     return out;
@@ -294,8 +296,8 @@ Anima.register("hpa-axis", {
     // 大脑 / 身体 两块底
     rrect(W * 0.015, H * 0.2, W * 0.47, H * 0.78, H * 0.08); ctx.fillStyle = Anima.alpha(C.brain, 0.9); ctx.fill();
     ctx.save(); ctx.setLineDash([6, 7]); outline(1.4); ctx.stroke(); ctx.restore();
-    text("大脑", W * 0.46, H * 0.235, fs(0.026), C.soft, "right");
-    text("身体", W * 0.97, H * 0.62, fs(0.026), C.soft, "right");
+    text("大脑", W * 0.035, H * 0.24, fs(0.026), C.soft, "left");
+    text("身体", W * 0.975, H * 0.24, fs(0.026), C.soft, "right");
     // 血管：垂体 → 肾上腺
     for (const [w, c] of [[H * 0.03, C.line], [H * 0.022, C.blood]]) { ctx.strokeStyle = c; ctx.lineWidth = w; ctx.lineJoin = "round"; ctx.lineCap = "round"; path(g.vessel); ctx.stroke(); }
     for (let k = 0; k < 8; k++) { const q = pp(g.vessel, (time * 0.08 + k / 8) % 1); ctx.beginPath(); ctx.ellipse(q.x, q.y, H * 0.008, H * 0.006, 0, 0, Math.PI * 2); ctx.fillStyle = "#ffe3e6"; ctx.fill(); }
@@ -313,8 +315,7 @@ Anima.register("hpa-axis", {
     const nerve = [[T.lamp.x + H * 0.03, T.lamp.y + H * 0.02], [g.hyp.x - g.hyp.s * 1.6, g.hyp.y - g.hyp.s * 0.6]];
     ctx.save(); ctx.setLineDash([4, 6]); outline(1.4); path(nerve); ctx.stroke(); ctx.restore();
     if (ring > 0.5) Anima.spark(nerve, (time * 0.7) % 1, H * 0.02, C.bad);
-    cloud(g.cloud.x, g.cloud.y + Math.sin(time * 1.2) * 4, H * 0.07, lv.cloud);
-    if (cur === 4) cloud(g.cloud.x + W * 0.05, g.cloud.y - H * 0.13 + Math.sin(time) * 4, H * 0.05, prog(2, 1.5));
+    cloud(g.cloud.x, g.cloud.y + Math.sin(time * 1.2) * 4, H * (cur === 4 ? 0.07 + 0.015 * prog(1, 3) : 0.065), lv.cloud);
 
     const flowing = (k) => { const f = FL[cur][k]; return f && lt > f[0] && lt < f[1] ? 1 : 0; };
     const crhOn = flowing("crh"), acthOn = flowing("acth"), cortOn = flowing("cort");
@@ -323,18 +324,21 @@ Anima.register("hpa-axis", {
     pit(g, acthOn);
     adrenal(g, cortOn);
     const Hp = hippo(g, lv.hh, 0);
+    ctx.save(); ctx.globalAlpha *= 1 - S.heal;
     const P = person(g, cortOn ? lv.cort : Math.min(lv.cort, 0.3));
+    ctx.restore();
     gauge(g, lv.cort);
     loopRing(g, S.loop * prog(4, 1.5));
     const hs = helpers(g, S.heal);
 
     // 传话员
     const ms = H * (n ? 0.03 : 0.026);
-    flow("crh", g.stalk, cur === 4 ? 4 : 3, 2.6, Object.assign({ tag0: "CRH" }, CRH), ms * 0.85, cur === 0);
-    flow("acth", g.vessel, cur === 4 ? 5 : 4, 5, Object.assign({ tag0: "ACTH" }, ACTH), ms, cur === 1);
-    flow("cort", g.toBody, 3, 3, Object.assign({ tag0: "皮质醇" }, CORT), ms, cur === 2);
-    const a1 = flow("fb", g.fbHyp, 2, 5, Object.assign({ tag0: "皮质醇" }, CORT), ms * 0.9, cur === 3);
-    const a2 = flow("fb", g.fbHip, 2, 6.5, CORT, ms * 0.9, false);
+    const fC = flow("crh", g.stalk, cur === 4 ? 3 : 2, 2.4, CRH, ms * 0.85);
+    const fA = flow("acth", g.vessel, cur === 4 ? 5 : 4, 5, ACTH, ms);
+    const fK = flow("cort", g.toBody, 3, 3, CORT, ms);
+    const a1 = flow("fb", g.fbHyp, 2, 5, CORT, ms * 0.9).filter((q) => q.t > 0.9);
+    const a2 = flow("fb", g.fbHip, 2, 6.5, CORT, ms * 0.9).filter((q) => q.t > 0.9);
+    const pick = (arr, lo, hi) => { for (const q of arr) if (q.t > lo && q.t < hi) return q; return null; };
     const bad = cur === 4 && lv.hh < 0.6;
     const dockHyp = a1.length > 0, dockHip = a2.length > 0;
     if (dockHyp) glow(g.hyp.x + g.hyp.s * 1.35, g.hyp.y - g.hyp.s * 1.05, g.hyp.s * 0.9, bad ? C.soft : C.mintDeep, 0.8);
@@ -346,35 +350,37 @@ Anima.register("hpa-axis", {
     box(g.hyp.x + g.hyp.s * 1.35, g.hyp.y - g.hyp.s * 0.6, g.hyp.s * 0.42, dockHyp && !bad ? 1 : 0, 0);
 
     // ---------- 标注和气泡 ----------
-    const top = Anima.topSafe() + H * 0.02, c = cur;
+    const top = Anima.topSafe() + H * 0.02, c = cur, hi = top + H * 0.03;
     if (c === 0) {
-      say("h0a", win(1.6, n ? 4.5 : 6), T.lamp.x, T.lamp.y, T.lamp.x + W * 0.1, top + H * 0.06, "有压力！警报——！", "shout");
-      say("h0b", lt > (n ? 4.5 : 5.5), g.hyp.x, g.hyp.y - g.hyp.s * 2.4, g.hyp.x + W * 0.2, top + H * 0.08, "收到！CRH，快去垂体！", "say");
-      callout("h0c", lt > (n ? 8.5 : 7), g.pit.x, g.pit.y - g.pit.r * 1.6, W * 0.62, H * 0.56, "CRH：第一位传话员");
+      say("h0a", win(1.6, n ? 4.5 : 6), T.lamp.x, T.lamp.y, T.lamp.x + W * 0.12, top + H * 0.06, "有压力！警报——！", "shout");
+      say("h0b", lt > (n ? 4.5 : 5), g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * 0.62, H * 0.42, "收到！CRH，快去垂体！", "say");
+      const q = pick(fC, 0.3, 0.8);
+      callout("h0c", lt > (n ? 8.5 : 7.5) && !!q, q ? q.x : 0, q ? q.y : 0, W * 0.6, H * 0.62, "CRH：第一位传话员");
     }
     if (c === 1) {
-      callout("h1a", win(0.8, n ? 4.5 : 99), g.pit.x + g.pit.r, g.pit.y, W * 0.6, H * 0.55, "垂体：豌豆大小");
-      say("h1b", lt > (n ? 4.5 : 3), g.pit.x + g.pit.r, g.pit.y, g.pit.x + W * 0.22, H * 0.7, "ACTH，去肾上腺！", "say");
-      callout("h1c", lt > (n ? 8 : 6), g.vessel[2][0] - W * 0.08, g.vessel[2][1], g.vessel[2][0] - W * 0.12, H * 0.8, "血液：激素的高速路");
+      const q = pick(fA, 0.35, 0.75);
+      say("h1b", win(1, n ? 3.5 : 6), g.pit.x + g.pit.r, g.pit.y, W * 0.6, H * 0.5, "ACTH，去肾上腺！", "say");
+      callout("h1a", win(3.5, n ? 7.5 : 99) && !!q, q ? q.x : 0, q ? q.y : 0, W * 0.5, H * 0.76, "ACTH：第二位传话员");
+      callout("h1c", lt > (n ? 7.5 : 6.5), g.vessel[1][0], H * 0.84, W * 0.56, H * 0.48, "血液：激素的高速路");
     }
     if (c === 2) {
-      callout("h2a", win(1.5, n ? 5.5 : 99), g.adr.x - g.adr.s * 0.6, g.adr.y - g.adr.s * 0.8, g.adr.x - W * 0.05, H * 0.56, "肾上腺皮质：分泌皮质醇");
-      callout("h2b", lt > (n ? 5.5 : 5), P.sugar.x, P.sugar.y, W * 0.84, H * 0.47, "血糖升高，备好能量");
-      say("h2c", lt > (n ? 9 : 8), P.head.x, P.head.y, W * 0.8, H * 0.28, "有力气应对啦！", "say");
+      callout("h2a", win(1.5, n ? 5.5 : 99), g.adr.x - g.adr.s * 0.5, g.adr.y - g.adr.s * 0.9, W * 0.56, H * 0.5, "肾上腺皮质：分泌皮质醇");
+      callout("h2b", lt > (n ? 5.5 : 5), P.sugar.x, P.sugar.y, W * 0.84, H * 0.58, "血糖升高，备好能量");
+      say("h2c", lt > (n ? 9 : 8), P.head.x, P.head.y, W * 0.66, H * 0.24, "有力气应对啦！", "say");
     }
     if (c === 3) {
-      callout("h3a", win(2, n ? 6 : 99), Hp.box.x, Hp.box.y - g.hip.s * 0.3, g.hip.x + W * 0.1, H * 0.66, "糖皮质激素受体：信箱");
-      say("h3b", lt > (n ? 6 : 4.5), g.hyp.x, g.hyp.y - g.hyp.s * 2.4, g.hyp.x + W * 0.24, H * 0.5, "收到，可以停了～", "say");
-      callout("h3c", lt > (n ? 9.5 : 8), g.gauge.x, g.gauge.y + H * 0.035, g.gauge.x + W * 0.08, H * 0.5, "负反馈：皮质醇回落");
+      callout("h3a", win(2, n ? 6 : 99), Hp.box.x, Hp.box.y - g.hip.s * 0.3, g.hip.x + W * 0.1, hi, "糖皮质激素受体：信箱");
+      say("h3b", lt > (n ? 6 : 4.5), g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * 0.57, H * 0.45, "收到，可以停了～", "say");
+      callout("h3c", lt > (n ? 9.5 : 8), g.gauge.x, g.gauge.y + H * 0.035, g.gauge.x - W * 0.04, H * 0.52, "负反馈：皮质醇回落");
     }
     if (c === 4) {
-      callout("h4a", win(3, n ? 7 : 99), Hp.head.x, Hp.head.y + g.hip.s * 0.6, g.hip.x + W * 0.02, H * 0.62, "海马：BDNF↓ 枝叶和信箱变少");
-      say("h4b", lt > (n ? 7 : 6), Hp.box.x, Hp.box.y - g.hip.s * 0.5, g.hip.x + W * 0.23, top + H * 0.14, "信箱不够…收不到了", "think");
-      callout("h4c", lt > (n ? 10 : 9), g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 0.5, W * 0.56, H * 0.84, "刹车弱 → 继续放 CRH");
+      callout("h4a", win(3, n ? 7 : 99), Hp.head.x, Hp.head.y, g.hip.x + W * 0.12, hi, "海马：BDNF↓，枝叶和信箱变少");
+      say("h4b", n ? win(7, 10) : lt > 6, Hp.box.x, Hp.box.y, W * 0.27, H * 0.62, "收不到回执了…", "think");
+      callout("h4c", lt > (n ? 10 : 9), g.hyp.x + g.hyp.s * 1.2, g.hyp.y - g.hyp.s * 0.4, W * 0.58, H * 0.44, "刹车弱 → 继续放 CRH");
     }
     if (c === 5) {
-      callout("h5a", win(2.5, n ? 6.5 : 99) && hs.length > 2, hs.length ? hs[1].x : 0, hs.length ? hs[1].y : 0, W * 0.64, H * 0.5, "帮海马恢复的帮手们");
-      say("h5b", lt > (n ? 6.5 : 7), Hp.head.x, Hp.head.y, g.hip.x + W * 0.2, top + H * 0.1, "信箱回来了，又能收到啦！", "say");
+      callout("h5a", win(2.5, n ? 6.5 : 99) && hs.length > 2, hs[2] ? hs[2].x : 0, hs[2] ? hs[2].y : 0, W * 0.8, H * 0.47, "帮海马恢复的帮手们");
+      say("h5b", lt > (n ? 6.5 : 7), Hp.head.x, Hp.head.y, W * 0.33, H * 0.62, "信箱回来了，又能收到啦！", "say");
     }
   }
 

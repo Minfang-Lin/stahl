@@ -122,12 +122,12 @@ Anima.register("glutamate-pathways", {
   // ---------- 第 1～5 幕：两条下行通路 ----------
   function geo() {
     const nw = Anima.narrow;
-    const s = H * (nw ? 0.042 : 0.045);
+    const s = H * (nw ? 0.048 : 0.045);
     const top = H * 0.46, bot = H * 0.93;
     return {
       nw, s, top, bot,
-      G1: [W * (nw ? 0.12 : 0.12), top], P1: [W * 0.4, top], P2: [W * 0.62, top],
-      N: [W * (nw ? 0.255 : 0.245), top], // NMDA 受体（刹车员的门）
+      G1: [W * (nw ? 0.1 : 0.12), top], P1: [W * (nw ? 0.45 : 0.4), top], P2: [W * (nw ? 0.68 : 0.62), top],
+      N: [W * (nw ? 0.27 : 0.25), top], // NMDA 受体（刹车员的门）
       D1: [W * 0.36, bot], G2: [W * 0.6, bot], D2: [W * 0.84, bot],
       NAC: [W * (nw ? 0.12 : 0.1), bot - H * 0.07], PFC: [W * (nw ? 0.84 : 0.86), H * 0.28],
     };
@@ -194,7 +194,7 @@ Anima.register("glutamate-pathways", {
     station(g.PFC[0], g.PFC[1], "前额叶", C.lavDeep, 0.5 - L.g2 * 0.5, 0.3 + F.ind * 0.7);
 
     // NMDA 受体：刹车员的“门”，谷氨酸从锥体 A 那边来敲门
-    const rs = H * 0.036;
+    const rs = H * (nw ? 0.042 : 0.048);
     ctx.save(); ctx.globalAlpha *= 1;
     outline(H * 0.008); ctx.beginPath(); ctx.moveTo(g.G1[0] + s * 0.6, g.top - s * 0.2); ctx.lineTo(g.N[0] - rs * 0.6, g.top); ctx.stroke();
     const beat = 0.5 + 0.5 * Math.sin(time * 4);
@@ -212,6 +212,7 @@ Anima.register("glutamate-pathways", {
       const dx = lerp(-W * 0.05, R.site.x, L.drug), dy = L.drug < 1 ? g.top - H * 0.01 : R.site.y + s * 0.8;
       chara(dx, dy, s * 0.8, Object.assign({}, KET, { walk: L.drug < 1 ? time * 9 : null, arms: L.drug < 1 ? "wave" : "hug", eyes: "happy", mouth: "cat" }));
       plate(nw ? "氯胺酮" : "氯胺酮 / PCP", dx, dy + fz(0.026) * 0.9, "#ffe9d2", fz(0.022));
+      say("plug", lt > 1 && lt < 5.5, dx, dy - s * 2.6, W * 0.24, H * 0.72, "我来堵住 NMDA 的门～", "say");
     }
 
     // 皮层的三位：GABA 刹车员 + 两位锥体神经元
@@ -226,7 +227,6 @@ Anima.register("glutamate-pathways", {
       ctx.beginPath(); ctx.moveTo(g.G1[0] + s * 0.5, g.top - s * 3.3); ctx.quadraticCurveTo((g.G1[0] + P[0]) / 2, g.top - s * 5.2, P[0] - s * 0.4, P[1] - s * 3.3); ctx.stroke();
     }
     ctx.setLineDash([]);
-    badge(g.P1[0] - s * 0.4, g.top - s * 3.3, H * 0.018, "−", C.bad); badge(g.P2[0] - s * 0.4, g.top - s * 3.3, H * 0.018, "−", C.bad);
     ctx.restore();
     const hy = L.hy;
     [g.P1, g.P2].forEach((P, i) => {
@@ -235,6 +235,7 @@ Anima.register("glutamate-pathways", {
       if (hy > 0.3) for (let k = 0; k < 3; k++) Anima.bolt(P[0] + Math.cos(time * 3 + k * 2.1 + i) * s * 1.5, P[1] - s * 1.6 + Math.sin(time * 3 + k * 2.1) * s * 0.8, s * 0.3, hy);
       plate(i ? "锥体 B" : "锥体 A", P[0], P[1] + fz(0.026) * 0.9, "#fff6d6");
     });
+    for (const P of [g.P1, g.P2]) badge(P[0] - s * 1.2, g.top - s * 3.1, H * 0.02, "−", C.bad, 1 - dz * 0.8);
     plate(nw ? "刹车员" : "GABA 刹车员", g.G1[0], g.top + fz(0.026) * 0.9, "#ece8ff");
 
     // 中脑的三位
@@ -242,30 +243,29 @@ Anima.register("glutamate-pathways", {
     ctx.save(); ctx.globalAlpha *= 0.3 + F.dir * 0.7;
     chara(g.D1[0], g.bot, s, { who: "DA", dir: -1, eyes: lim > 0.5 ? "wide" : "happy", mouth: lim > 0.5 ? "o" : "smile", arms: lim > 0.5 ? "up" : "wave", jump: lim * Math.abs(Math.sin(time * 6)) * 0.25 });
     if (lim > 0.5) emote("sweat", g.D1[0] + s * 0.9, g.bot - s * 3, s * 0.6);
-    plate("边缘多巴胺", g.D1[0], g.bot + fz(0.026) * 0.55, "#ffe6d2");
+    plate(nw ? "边缘线" : "边缘多巴胺", g.D1[0], g.bot + fz(0.026) * 0.55, "#ffe6d2");
     ctx.restore();
     ctx.save(); ctx.globalAlpha *= 0.3 + F.ind * 0.7;
     chara(g.G2[0], g.bot, s, { who: "GABA", eyes: g2 > 0.5 ? "angry" : "open", brow: g2 > 0.5 ? "angry" : null, mouth: g2 > 0.5 ? "flat" : "smile", arms: g2 > 0.5 ? "fist" : "down" });
     if (g2 > 0.5) emote("anger", g.G2[0] + s * 0.9, g.bot - s * 3, s * 0.6);
-    plate(nw ? "GABA 中继" : "GABA 中继站", g.G2[0], g.bot + fz(0.026) * 0.55, "#ece8ff");
+    plate(nw ? "中继" : "GABA 中继站", g.G2[0], g.bot + fz(0.026) * 0.55, "#ece8ff");
     chara(g.D2[0], g.bot, s, { who: "DA", gray: g2 * 0.6, eyes: g2 > 0.5 ? "teary" : "happy", mouth: g2 > 0.5 ? "sad" : "smile", arms: "down" });
     if (g2 > 0.5) emote("gloom", g.D2[0] + s * 0.2, g.bot - s * 3.3, s * 0.7);
-    plate("皮层多巴胺", g.D2[0], g.bot + fz(0.026) * 0.55, "#ece8ff");
+    plate(nw ? "皮层线" : "皮层多巴胺", g.D2[0], g.bot + fz(0.026) * 0.55, "#ece8ff");
     ctx.restore();
 
     // 标注和对话
-    callout("nmda", cur === 0 && lt > 1, R.site.x, R.site.y, g.N[0] + W * 0.06, H * 0.2, "NMDA 受体：刹车员的“电源”");
-    callout("pyr", cur === 0 && lt > 4, g.P2[0] + s, g.top - s * 1.5, g.P2[0] + W * 0.14, H * 0.2, nw ? "锥体神经元：放谷氨酸" : "锥体神经元：放出谷氨酸的长线");
-    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, g.G1[0] + W * 0.12, H * 0.66, "有我按着，大家别太激动～", "say");
+    callout("nmda", cur === 0 && lt > 1 && (!nw || lt < 5), R.site.x, R.site.y, g.N[0] + W * 0.06, H * 0.2, "NMDA 受体：刹车员的“电源”");
+    callout("pyr", cur === 0 && lt > (nw ? 5.5 : 4), g.P2[0] + s, g.top - s * 1.5, g.P2[0] + W * 0.14, H * 0.2, nw ? "锥体神经元：放谷氨酸" : "锥体神经元：放出谷氨酸的长线");
+    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, g.G1[0] + W * 0.14, H * 0.74, "有我按着，大家别太激动～", "say");
     callout("weak", cur === 1 && lt > 1.5 && lt < 7, R.site.x, R.site.y, g.N[0] + W * 0.08, H * 0.2, "钥匙插进来，门却打不开");
     say("wild", cur === 1 && lt > 6, g.P1[0], g.top - s * 3.3, W * 0.62, H * 0.68, "没人管啦，停不下来！", "shout");
-    say("go", cur === 2 && lt > 3.5, g.D1[0], g.bot - s * 3.2, W * (nw ? 0.28 : 0.24), H * 0.66, "又要发车？！", "shout");
-    callout("pos", cur === 2 && lt > 6, g.NAC[0], g.NAC[1] - H * 0.02, W * 0.2, H * 0.52, "阳性症状：幻觉、妄想");
-    callout("relay", cur === 3 && lt > 3, g.G2[0], g.bot - s * 2.8, g.G2[0] - W * 0.1, H * 0.54, "多了一站：刹车踩得更狠");
-    say("few", cur === 3 && lt > 6, g.D2[0], g.bot - s * 3.2, W * 0.72, H * 0.66, "车开不出去……", "think");
+    say("go", cur === 2 && lt > 3.5 && (!nw || lt < 6.5), g.D1[0], g.bot - s * 3.2, W * (nw ? 0.64 : 0.56), H * 0.68, "又要发车？！", "shout");
+    callout("pos", cur === 2 && lt > 6.5, g.NAC[0], g.NAC[1] - H * 0.02, W * (nw ? 0.3 : 0.16), H * 0.72, "阳性症状：幻觉、妄想");
+    callout("relay", cur === 3 && lt > 3 && (!nw || lt < 6.5), g.G2[0], g.bot - s * 2.8, g.G2[0] - W * (nw ? 0.12 : 0.2), H * 0.7, "多了一站：刹车踩得更狠");
+    say("few", cur === 3 && lt > (nw ? 6.8 : 6), g.D2[0], g.bot - s * 3.2, W * 0.72, H * 0.66, "车开不出去……", "think");
     callout("neg", cur === 3 && lt > 8, g.PFC[0], g.PFC[1] + H * 0.02, W * 0.62, H * 0.2, "阴性、认知症状");
-    say("plug", cur === 4 && lt > 1 && lt < 5, W * 0.05, g.top - s * 2.4, W * 0.22, H * 0.66, "我来堵住 NMDA 的门～", "say");
-    callout("both", cur === 4 && lt > 8, g.G2[0] - W * 0.12, g.bot - s * 2, W * 0.5, H * 0.52, "两条线一起出问题");
+    callout("both", cur === 4 && lt > 8, g.D1[0] + s * 0.8, g.bot - s * 2.2, W * 0.48, H * 0.68, "两条线一起出问题");
     ctx.restore();
   }
 
@@ -276,7 +276,7 @@ Anima.register("glutamate-pathways", {
     Anima.wash("#f3f9ff", "#fdf0f4");
     Anima.bokeh(7, "#cfeaf7", 0.8, 44);
     Anima.petals(8, 0.4, 3);
-    const mem = H * 0.74, rx = W * 0.4, rs = H * 0.08, s = H * 0.045;
+    const mem = H * 0.74, rx = W * 0.4, rs = H * 0.095, s = H * 0.045;
     const block = prog(2.2, 2), in1 = prog(6, 2), open = prog(8.2, 0.8);
     Anima.postMembrane(mem, "#ece8ff", { face: true, faceX: W * 0.68, mood: open > 0.5 ? 1 : 0 });
     plate(nw ? "GABA 刹车员（膜）" : "GABA 刹车员的细胞膜", W * 0.68, H * 0.95, "#fff");
@@ -285,6 +285,7 @@ Anima.register("glutamate-pathways", {
     // 胶质细胞和甘氨酸回收门
     const gx0 = W * (nw ? 0.56 : 0.6), gTop = Anima.topSafe() + 4, gBot = H * 0.34;
     rrect(gx0, gTop, W - gx0 + 20, gBot - gTop, 30); ctx.fillStyle = "#e8f6ee"; ctx.fill(); outline(1.8); ctx.stroke();
+    Anima.face(W * 0.92, (gTop + gBot) / 2, H * 0.03, 1);
     text(nw ? "胶质细胞" : "旁边的胶质细胞", gx0 + W * 0.02, gTop + fz(0.024) * 1.1, fz(0.024), C.mintDeep, "left");
     const tx = W * 0.78, ty = gBot;
     Anima.transporter(tx, ty, H * 0.05, "#9fc3ea", block > 0.9 ? 0 : time * 2.5, block > 0.95);
@@ -293,7 +294,8 @@ Anima.register("glutamate-pathways", {
     chara(dx, ty + H * 0.14, s * 0.85, { who: "drug", hatColor: "#b8b0f0", hatColor2: "#fff", label: "", walk: block < 1 ? time * 9 : null, dir: -1, arms: block < 1 ? "down" : "shh", eyes: "happy" });
     if (block > 0.3) plate(nw ? "研究中的药" : "研究中的药：堵回收门", dx, ty + H * 0.14 + fz(0.022) * 0.9, "#ece8ff", fz(0.022));
     // NMDA 受体：左边方形孔给谷氨酸，右边圆形孔给甘氨酸
-    const R = Anima.receptor(rx, mem, rs, mix("#ffd27a", "#d9d3dc", 0.6 - open * 0.6), open, { shape: "square", label: "NMDA" });
+    const R = Anima.receptor(rx, mem, rs, mix("#ffd27a", "#d9d3dc", 0.6 - open * 0.6), open, { shape: "square" });
+    plate("NMDA", rx - rs * 1.9, mem - rs * 0.5, "#fff3cf");
     const gs = { x: rx + rs * 1.25, y: mem - rs * 1.05 };
     ctx.beginPath(); ctx.arc(gs.x, gs.y, rs * 0.26, 0, Math.PI * 2); ctx.fillStyle = "#e3f4fc"; ctx.fill(); outline(1.4); ctx.stroke();
     outline(1.4); ctx.beginPath(); ctx.moveTo(gs.x - rs * 0.26, gs.y + rs * 0.1); ctx.lineTo(rx + rs * 0.7, mem - rs * 0.8); ctx.stroke();
@@ -320,10 +322,10 @@ Anima.register("glutamate-pathways", {
       }
       if (lt < 9.5) sfx("咔嗒！", rx - rs * 1.6, mem - rs * 2.4, fz(0.04), "#e7a23a", -0.12, 1);
     }
-    callout("gsite", lt > 0.6 && lt < 6, gs.x, gs.y, gs.x - W * 0.02, H * 0.28, nw ? "甘氨酸位点：第二把钥匙" : "甘氨酸位点：第二把钥匙（也认 D-丝氨酸）");
-    callout("glyt", lt > 2.5 && lt < 8, tx - H * 0.05, ty, W * 0.4, H * 0.3, "甘氨酸回收门（GlyT1）");
+    callout("gsite", lt > 0.6 && lt < 3.6, gs.x, gs.y, gs.x - W * 0.02, H * 0.28, nw ? "甘氨酸位点：第二把钥匙" : "甘氨酸位点：第二把钥匙（也认 D-丝氨酸）");
+    callout("glyt", lt > 3.8 && lt < 8.5, tx - H * 0.05, ty, W * 0.4, H * 0.3, "甘氨酸回收门（GlyT1）");
     say("one", lt > 0.5 && lt < 5.5, R.site.x, R.site.y - s * 2.6, W * 0.2, H * 0.4, "一把钥匙开不了呀……", "think");
-    say("two", lt > 8.8, gs.x, gs.y - s * 2, W * 0.24, H * 0.42, "两把钥匙到齐，开门！", "shout");
+    say("two", lt > 8.8, gs.x, gs.y - s * 2, W * 0.18, H * (nw ? 0.3 : 0.4), "两把钥匙到齐，开门！", "shout");
     callout("brake", lt > 9.5, W * 0.14, mem + H * 0.08, W * 0.3, H * 0.9, "刹车重新踩住");
     ctx.restore();
   }

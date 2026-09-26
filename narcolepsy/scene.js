@@ -15,15 +15,15 @@ Anima.register("narcolepsy", {
   const CH = [
     { title: "锁扣让跷跷板稳住",
       pill: ["食欲素", "锁扣"], pill2: ["跷跷板", "稳稳的"],
-      text: "上一集说过，醒和睡像一架跷跷板，两边互相压制。食欲素神经元就像跷跷板中间的锁扣：白天它“咔嗒”一声扣住，让醒着的那头稳稳待着，不会一阵一阵往下滑；到了晚上它下班，跷跷板才干脆地翻到睡觉这边。",
+      text: "上一集说过，醒和睡像一架跷跷板，两边互相压制。食欲素神经元就像跷跷板中间的锁扣：白天它“咔嗒”一声扣住，让醒着的那头稳稳待着，不会一阵一阵往下滑；到了晚上它下班，跷跷板才干脆地翻到睡觉这边。锁扣不决定往哪边翻，只负责让跷跷板别乱晃。",
       fact: "食欲素神经元只在下丘脑，白天活跃，帮觉醒系统保持稳定" },
     { title: "锁扣不见了",
       pill: ["食欲素", "越来越少"], pill2: ["可能原因", "自身免疫"],
-      text: "在 1 型发作性睡病里，下丘脑的食欲素神经元大多已经不见了。原因还没完全弄清，一个主要的猜想是自身免疫：免疫系统可能把这群神经元误当成了敌人。神经元一旦丢失就回不来，锁扣也就没了。",
+      text: "在 1 型发作性睡病里，下丘脑的食欲素神经元大多已经不见了。原因还没完全弄清，一个主要的猜想是自身免疫：免疫系统可能把这群神经元误当成了敌人。神经元一旦丢失就回不来，锁扣也就没了。而 2 型发作性睡病里，食欲素通常还是正常的。",
       fact: "1 型发作性睡病的人，食欲素神经元大多丢失，脑脊液里的食欲素很低" },
     { title: "跷跷板乱晃",
       pill: ["白天", "突然睡着"], pill2: ["夜里", "反复醒来"],
-      text: "没有锁扣，跷跷板一碰就翻。白天它会突然滑向睡觉那头：开着会、吃着饭就睡着了，醒来精神一会儿，又撑不住；到了夜里，它又常常翻回醒着那头，一晚上醒好几次。所以发作性睡病不是睡得太多，而是睡和醒都稳不住。",
+      text: "没有锁扣，跷跷板一碰就翻。白天它会突然滑向睡觉那头：开着会、吃着饭就睡着了，醒来精神一会儿，又撑不住；到了夜里，它又常常翻回醒着那头，一晚上醒好几次。所以发作性睡病不是睡得太多，而是睡和醒都稳不住，边界变得模模糊糊。",
       fact: "白天过度嗜睡加上夜间睡眠不连贯，是发作性睡病的典型组合" },
     { title: "做梦时的身体静音开关",
       pill: ["REM 睡眠", "做梦"], pill2: ["肌肉", "暂时静音"],
@@ -35,11 +35,11 @@ Anima.register("narcolepsy", {
       fact: "猝倒是 1 型发作性睡病的标志性症状，常由大笑等积极情绪诱发" },
     { title: "白天：让叫醒员多一点",
       pill: ["白天", "促醒药"], pill2: ["思路", "叫醒员变多"],
-      text: "锁扣补不回来，就给觉醒那头多加点人。组胺神经元身上有个 H3 刹车，组胺多了就自己踩一脚；替洛利生是 H3 反向激动剂，把刹车松开，组胺放得更多。莫达非尼主要挡住多巴胺的回收门 DAT，索安非他酮同时挡住 DAT 和 NET，让叫醒信号多留一会儿。",
+      text: "锁扣补不回来，就给觉醒那头多加点人。组胺神经元身上有个 H3 刹车，组胺多了就自己踩一脚；替洛利生是 H3 反向激动剂，把刹车松开，组胺放得更多。莫达非尼主要挡住多巴胺的回收门 DAT，索利氨酯（solriamfetol）同时挡住 DAT 和 NET，让叫醒信号多留一会儿。",
       fact: "替洛利生作用在组胺的 H3 自身受体上：刹车松开，组胺释放增多" },
     { title: "夜里：把深睡压实",
       pill: ["夜里", "羟丁酸钠"], pill2: ["未来", "补上锁扣？"],
-      text: "另一种办法在夜里下手。羟丁酸钠睡前服用，和 GABA-B 受体有关，帮跷跷板稳稳压在深睡这边，让夜里不再反复醒来；睡得扎实了，白天的困倦和猝倒也常常减轻。未来的思路更直接：食欲素受体激动剂想亲自扮演锁扣，目前还在研究中。",
+      text: "另一种办法在夜里下手。羟丁酸钠在夜里服用，和 GABA-B 受体有关，帮跷跷板稳稳压在深睡这边，让夜里不再反复醒来；睡得扎实了，白天的困倦和猝倒也常常减轻。未来的思路更直接：食欲素受体激动剂想亲自扮演锁扣，目前还在研究中。",
       fact: "羟丁酸钠能巩固夜间深睡眠，也能减少猝倒；需严格按医嘱使用" },
   ];
   const DUR = 14;
@@ -153,8 +153,8 @@ Anima.register("narcolepsy", {
     const cs = H * (n ? 0.05 : 0.045);
     const r = riders(on, cs, false);
     // 食欲素走到支点旁，扣上锁扣
-    const walk = prog(0.6, 2.6), ox = lerp(W * 0.08, cx + H * 0.14, walk), off = lt > 8.6;
-    chara(ox, gy + H * 0.005, cs * 1.05, { who: "Ox", walk: walk < 1 ? time * 9 : null, dir: off ? -1 : 1, item: off ? null : "key", arms: lt > 3.2 && lt < 5 ? "up" : "hold",
+    const walk = prog(0.6, 2.6), off = lt > 8.6, ox = off ? lerp(cx - L * 0.5, W * 0.07, prog(8.6, 1.6)) : lerp(-H * 0.05, cx - L * 0.5, walk);
+    chara(ox, gy + H * 0.005, cs * 1.05, { who: "Ox", walk: walk < 1 || win(8.6, 10.2) ? time * 9 : null, dir: off ? -1 : 1, item: off ? null : "key", arms: lt > 3.2 && lt < 5 ? "up" : "hold",
       eyes: off ? "sleepy" : (lt > 3.4 ? "happy" : "open"), mouth: lt > 3.4 && !off ? "grin" : "smile" });
     if (off && lt > 10) emote("zzz", ox + cs * 0.8, gy - cs * 3.4, cs * 0.6);
     if (win(3.4, 4.6)) { sfx("咔嗒！", cx + H * 0.07, py + H * 0.02, H * 0.05, "#e7a23a", -0.12, 1 - prog(4.2, 0.4)); Anima.speedLines(cx, py + H * 0.07, H * 0.06, 10, 0.5); }
@@ -163,7 +163,7 @@ Anima.register("narcolepsy", {
     say("n0-wob", win(0.8, 3.3), r.pts[1].x, r.pts[1].y - cs * 3.2, r.pts[1].x - W * 0.08, H * 0.36, "晃来晃去，站不稳～", "say");
     callout("n0-lock", win(4, n ? 8.4 : 13), cx, py + H * 0.075, n ? W * 0.28 : W * 0.24, n ? topY : H * 0.42, "食欲素：跷跷板的锁扣");
     say("n0-day", win(4.6, 8.4), r.pts[1].x, r.pts[1].y - cs * 3.2, n ? W * 0.72 : W * 0.8, H * 0.4, "扣住啦，一整天都醒得稳稳的！", "say");
-    say("n0-off", lt > 9, ox, gy - cs * 3.2, n ? W * 0.72 : W * 0.78, H * 0.45, "到点下班，放它翻到睡觉那边～", "say");
+    say("n0-off", lt > 9, ox, gy - cs * 3.2, n ? W * 0.3 : W * 0.24, H * 0.42, "到点下班，放它翻到睡觉那边～", "say");
     ctx.restore();
   }
 
@@ -174,14 +174,14 @@ Anima.register("narcolepsy", {
     ctx.save(); ctx.globalAlpha *= a;
     const n = N();
     Anima.wash("#fff5e8", "#fbe9f0"); Anima.bokeh(7, "#ffd9b0", 0.7, 12);
-    const bx = W * (n ? 0.1 : 0.2), bw = W * (n ? 0.66 : 0.58), by = H * 0.3, bh = H * 0.62;
+    const bx = W * (n ? 0.05 : 0.2), bw = W * (n ? 0.62 : 0.58), by = H * (n ? 0.38 : 0.3), bh = H * (n ? 0.56 : 0.62);
     // 下丘脑小屋
     ctx.beginPath(); ctx.moveTo(bx - W * 0.02, by + H * 0.02); ctx.lineTo(bx + bw / 2, by - H * 0.1); ctx.lineTo(bx + bw + W * 0.02, by + H * 0.02); ctx.closePath();
     ctx.fillStyle = C.roof; ctx.fill(); outline(1.6); ctx.stroke();
     rrect(bx, by, bw, bh, H * 0.03); ctx.fillStyle = C.house; ctx.fill(); outline(1.8); ctx.stroke();
     text("下丘脑", bx + bw / 2, by - H * 0.03, fsz(1), C.ink);
     const cs = H * (n ? 0.048 : 0.045);
-    const map = (p) => ({ x: bx + (p[0] - 0.22) / 0.56 * bw, y: H * p[1] });
+    const map = (p) => ({ x: bx + (p[0] - 0.22) / 0.56 * bw, y: n ? by + (p[1] - 0.3) / 0.62 * bh : H * p[1] });
     let lastP = null;
     OX.forEach((p, i) => {
       const q = map(p), k = prog(LOSS[i], 1.4);
@@ -196,7 +196,7 @@ Anima.register("narcolepsy", {
     // 免疫细胞：可能误把食欲素神经元当成敌人（机制还没完全弄清）
     const im = [0, 1].map((i) => {
       const p = prog(1.2 + i * 0.5, 2.4);
-      return { x: lerp(W + cs * 2, bx + bw + (n ? -W * 0.06 : W * 0.06) + i * W * 0.07, p), y: H * (0.62 + i * 0.22), p };
+      return { x: lerp(W + cs * 2, bx + bw + W * (n ? 0.08 + i * 0.1 : 0.06 + i * 0.07), p), y: H * (0.62 + i * 0.22), p };
     });
     im.forEach((m, i) => {
       chara(m.x, m.y, cs * 0.95, { who: "neuron", hair: "#8cb7d9", eye: "#4d7fa6", cloth: "#e3f1fb", hat: "helmet", hatColor: "#b9d8ee", label: "免疫", dir: -1,
@@ -241,7 +241,7 @@ Anima.register("narcolepsy", {
     if (nap) sfx("咚…", r.pts[0].x, r.pts[0].y - cs * 4.5, H * 0.045, "#8f84e0", -0.1, 0.9);
     if (wk) sfx("又醒了", r.gp.x, r.gp.y - cs * 4.6, H * 0.04, "#e7a23a", -0.1, 0.9);
     const topY = Anima.topSafe() + H * 0.02;
-    callout("n2-empty", win(0.3, n ? 3.8 : 13), cx, py + H * 0.075, n ? W * 0.3 : W * 0.24, n ? topY : H * 0.4, "锁扣空了：一碰就翻");
+    callout("n2-empty", win(0.3, n ? 3.8 : 7.4), cx, py + H * 0.075, n ? W * 0.3 : W * 0.24, n ? topY : H * 0.4, "锁扣空了：一碰就翻");
     say("n2-nap", p < DAY && lt > 3.8, r.pts[1].x, r.pts[1].y - cs * 3.2, n ? W * 0.7 : W * 0.8, H * 0.36, "白天说睡就睡着了？！", "shout");
     say("n2-wake", p >= DAY + 0.04, r.gp.x, r.gp.y - cs * 3.3, n ? W * 0.28 : W * 0.2, H * 0.36, "夜里却一次次醒来…", "think");
     ctx.restore();
@@ -339,32 +339,35 @@ Anima.register("narcolepsy", {
     const n = N();
     sky(0);
     const gy = H * 0.86; ground(0, gy);
-    const pw = W * (n ? 0.4 : 0.34), px0 = W * 0.96 - pw, py0 = H * 0.26, ph = H * 0.5;
+    const pw = W * (n ? 0.4 : 0.34), px0 = W * 0.96 - pw, py0 = H * (n ? 0.43 : 0.26), ph = H * (n ? 0.41 : 0.5);
     const muteK = lt < 5 ? 0 : (lt < 8.6 ? prog(5, 0.3) : 1 - prog(8.6, 0.6));
     const P = panelBox(px0, py0, pw, ph, 0, muteK, 0);
     const cs = H * (n ? 0.055 : 0.06), mx = W * (n ? 0.34 : 0.36), fx = W * 0.12;
     chara(fx, gy, cs, { who: "neuron", hair: "#e89a6a", cloth: "#d6f0e0", style: "bob", dir: 1, arms: lt < 2.5 ? "wave" : "down", eyes: lt > 5.3 && lt < 9 ? "wide" : "happy", mouth: lt > 5.3 && lt < 9 ? "o" : "grin" });
     const laugh = win(2.4, 5.4), slump = lt < 5.2 ? 0 : (lt < 8.8 ? prog(5.2, 0.5) : 1 - prog(8.8, 1));
-    ctx.save(); ctx.translate(mx, gy); ctx.rotate(slump * 0.12); ctx.scale(1 + slump * 0.12, 1 - slump * 0.38);
+    ctx.save(); ctx.translate(mx, gy); ctx.rotate(-slump * 0.1); ctx.scale(1, 1 - slump * 0.3);
     chara(0, 0, cs, { who: "neuron", dir: -1, arms: laugh ? "up" : "down", eyes: laugh ? "happy" : (slump > 0.3 ? "wide" : "open"), mouth: laugh ? "grin" : (slump > 0.3 ? "wavy" : "smile"), gray: slump * 0.35 });
     ctx.restore();
-    const head = { x: mx, y: gy - cs * 2.6 * (1 - slump * 0.38) };
+    const head = { x: mx, y: gy - cs * 2.6 * (1 - slump * 0.3) };
     if (laugh) { sfx("哈哈哈！", head.x + cs * 1.2, head.y - cs * 1.4, H * 0.045, "#e7a23a", -0.12, 1); emote("note", head.x - cs, head.y - cs * 0.8, cs * 0.6); }
     // 情绪闪电从头跑到开关台
     if (win(4, 5.2)) Anima.spark([[head.x, head.y], [lerp(head.x, P.mute.x, 0.5), H * 0.3], [P.mute.x, P.mute.y]], (lt - 4) / 1.1, H * 0.025, C.gold);
-    if (slump > 0.3) { emote("sweat", head.x + cs, head.y - cs * 0.3, cs * 0.6); sfx("腿一软…", mx - cs * 0.3, gy - cs * 0.4, H * 0.04, "#8f84e0", 0.08, slump); muteIcon(mx + cs * 1.1, gy - cs * 0.9, cs * 0.5); }
+    if (slump > 0.3) { emote("sweat", head.x + cs, head.y - cs * 0.3, cs * 0.6); sfx("腿一软…", mx + cs * 2.6, gy - cs * 1.2, H * 0.045, "#8f84e0", 0.08, slump); muteIcon(mx - cs * 1.4, gy - cs * 1.2, cs * 0.5); }
     const topY = Anima.topSafe() + H * 0.02;
     say("n4-joke", win(0.4, 2.4), fx, gy - cs * 3.2, fx + W * 0.1, H * (n ? 0.4 : 0.44), "给你讲个超好笑的～", "say");
     callout("n4-empty", win(2.6, 5), P.guard.x, P.guard.y, P.guard.x, H * 0.93, "守门的食欲素不在了");
     callout("n4-cata", win(5.8, 9), mx, gy - cs * 1.5, n ? W * 0.3 : W * 0.3, n ? topY : H * 0.3, "猝倒：肌肉静音了，人却清醒");
-    callout("n4-par", lt > 9.4, P.mute.x, P.mute.y, n ? W * 0.5 : W * 0.4, n ? topY : H * 0.26, "静音开关醒着开 → 猝倒、睡瘫");
-    callout("n4-hal", lt > 10.6, P.dream.x, P.dream.y, n ? W * 0.5 : W * 0.4, n ? topY + fsz(1) * 2.6 : H * 0.14, "做梦开关醒着开 → 入睡幻觉");
+    const bh = Math.max(12, W / 58) * Anima.UI + 14, lx = n ? W * 0.5 : px0 - W * 0.17;
+    callout("n4-par", lt > 9.4, P.mute.x, P.mute.y, lx, n ? topY + bh * 2 + 8 : P.mute.y + bh * 0.3, "静音开关醒着开 → 猝倒、睡瘫");
+    callout("n4-hal", lt > 10.6, P.dream.x, P.dream.y, lx, n ? topY + bh : P.dream.y - bh * 0.4, "做梦开关醒着开 → 入睡幻觉");
     ctx.restore();
   }
 
   // ================= 第 6 幕：白天的促醒药 =================
-  function card(x, y, w, h, title, color) {
-    rrect(x, y, w, h, H * 0.03); ctx.fillStyle = "#fffdfb"; ctx.fill(); outline(1.8); ctx.stroke();
+  function card(x, y, w, h, title, color, only) {
+    if (!only) { rrect(x, y, w, h, H * 0.03); ctx.fillStyle = "#fffdfb"; ctx.fill(); outline(1.8); ctx.stroke(); }
+    if (!title) return;
+    if (only) { rrect(x, y, w, h, H * 0.03); outline(1.8); ctx.stroke(); }
     const fs = fsz(0.95); ctx.font = fs + "px " + Anima.ROUND;
     const tw = ctx.measureText(title).width + fs * 1.4;
     rrect(x + w / 2 - tw / 2, y - fs * 0.75, tw, fs * 1.5, fs * 0.75); ctx.fillStyle = color; ctx.fill(); outline(1.6); ctx.stroke();
@@ -382,7 +385,7 @@ Anima.register("narcolepsy", {
     for (let i = 0; i < 3; i++) Anima.vesicle(cx - tw * 0.22 + i * tw * 0.2, R.y + th * 0.62 - (i % 2) * th * 0.14, s * 0.9, col, 4, i * 5);
     const n = Math.round(2 + k * 4), out = [];
     for (let i = 0; i < n; i++) {
-      const x = R.x + R.w * (0.14 + ((i * 0.37) % 1) * 0.72), y = lerp(bot + s * 3.6, post - s * 0.4, (i % 3) / 2.4) + Math.sin(time * 2 + i) * s * 0.2;
+      const x = R.x + R.w * (0.12 + ((i * 0.37) % 1) * 0.5), y = lerp(bot + s * 3.6, post - s * 0.4, (i % 3) / 2.4) + Math.sin(time * 2 + i) * s * 0.2;
       chara(x, Math.min(y, post - 2), s, { who, eyes: "happy", arms: i % 2 ? "up" : "down", item: i % 2 ? null : "letter", seed: i });
       out.push({ x, y });
     }
@@ -410,21 +413,21 @@ Anima.register("narcolepsy", {
     Anima.wash("#fff7ea", "#f4f0ff"); Anima.petals(8, 0.5, 30);
     const top = Anima.topSafe() + H * 0.07, gap = W * 0.03, cw = (W - gap * 3) / 2, chh = H - top - H * 0.04;
     const L = { x: gap, y: top, w: cw, h: chh }, R = { x: gap * 2 + cw, y: top, w: cw, h: chh };
-    card(L.x, L.y, L.w, L.h, "组胺：松开 H3 刹车", "#f0e0fb");
-    card(R.x, R.y, R.w, R.h, "多巴胺：挡住回收门", "#ffe2c4");
     const kL = prog(2.4, 2), kR = prog(6.4, 2);
+    card(L.x, L.y, L.w, L.h, "", "#f0e0fb"); card(R.x, R.y, R.w, R.h, "", "#ffe2c4");
     const A = miniSyn(L, "His", "H3", kL), B = miniSyn(R, "DA", "DAT", kR);
-    const ds = Math.min(H * 0.04, cw * 0.075);
+    card(L.x, L.y, L.w, L.h, "组胺：松开 H3 刹车", "#f0e0fb", true); card(R.x, R.y, R.w, R.h, "多巴胺：挡住回收门", "#ffe2c4", true);
+    const ds = Math.min(H * 0.046, cw * 0.08);
     // 替洛利生坐到 H3 上
     const p1 = prog(1, 1.4), p2 = prog(5, 1.4);
     if (p1 > 0) chara(lerp(L.x + L.w * 0.9, A.site.x, p1), lerp(L.y + L.h * 0.75, A.site.y + ds * 3.2, p1), ds, { who: "drug", hatColor: "#c9a6ee", tag: "替洛利生", arms: p1 >= 1 ? "up" : "down", walk: p1 < 1 ? time * 9 : null, dir: -1, eyes: "happy" });
     if (p2 > 0) chara(lerp(R.x + R.w * 0.95, B.site.x, p2), lerp(R.y + R.h * 0.75, B.site.y + ds * 2.4, p2), ds, { who: "drug", hatColor: "#ffb347", tag: "莫达非尼", arms: p2 >= 1 ? "fist" : "down", walk: p2 < 1 ? time * 9 : null, dir: -1, eyes: "happy" });
-    if (win(2.4, 3.6)) sfx("刹车松开！", L.x + L.w * 0.3, L.y + L.h * 0.62, H * 0.04, "#8f84e0", -0.1, 1);
+    if (win(2.4, 3.6)) sfx("刹车松开！", L.x + L.w * 0.5, L.y + L.h * 0.92, H * 0.04, "#8f84e0", -0.1, 1);
     const topY = Anima.topSafe() + H * 0.01;
     callout("n5-h3", win(0.3, 2.4), A.site.x, A.site.y - ds, L.x + L.w * 0.5, L.y + L.h * 0.62, "H3：组胺自己的刹车");
     callout("n5-his", win(3.6, n ? 6.4 : 9.5), A.mid.x, A.mid.y - ds * 2, L.x + L.w * 0.5, L.y + L.h * 0.98, "反向激动 → 组胺放得更多");
-    callout("n5-da", win(n ? 7.4 : 7, 14), B.mid.x, B.mid.y - ds * 2, R.x + R.w * 0.5, R.y + R.h * 0.98, "多巴胺在间隙里多留一会儿");
-    say("n5-sol", lt > 9.6, B.site.x, B.site.y, R.x + R.w * 0.5, R.y + R.h * 0.35, "索安非他酮：DAT 和 NET 一起挡", "box");
+    callout("n5-da", win(n ? 7.4 : 7, 9.6), B.mid.x, B.mid.y - ds * 2, R.x + R.w * 0.5, R.y + R.h * 0.98, "多巴胺在间隙里多留一会儿");
+    say("n5-sol", lt > 9.8, B.site.x, B.site.y, R.x + R.w * 0.5, R.y + R.h * 0.9, "索利氨酯（solriamfetol）：DAT 和 NET 一起挡", "box");
     void topY;
     ctx.restore();
   }
@@ -449,8 +452,8 @@ Anima.register("narcolepsy", {
     }
     // 未来：食欲素受体激动剂扮演锁扣（研究中，用半透明表示）
     if (fut > 0) {
-      const x = lerp(W + cs * 2, cx + H * 0.13, fut);
-      chara(x, gy + H * 0.005, cs * 1.05, { who: "drug", hatColor: "#ffcf6e", hatColor2: "#ffe6c4", tag: "研究中", item: "key", arms: "hold", walk: fut < 1 ? time * 9 : null, dir: -1, alpha: 0.75, eyes: "sparkle" });
+      const x = lerp(-cs * 2, cx - H * 0.13, fut);
+      chara(x, gy + H * 0.005, cs * 1.05, { who: "drug", hatColor: "#ffcf6e", hatColor2: "#ffe6c4", tag: "研究中", item: "key", arms: "hold", walk: fut < 1 ? time * 9 : null, dir: 1, alpha: 0.75, eyes: "sparkle" });
     }
     const topY = Anima.topSafe() + H * 0.02;
     say("n6-deep", win(4.2, 8.6), r.gp.x, r.gp.y - cs * 3.4, n ? W * 0.3 : W * 0.24, H * 0.38, "深睡压实了，一觉到天亮～", "say");
