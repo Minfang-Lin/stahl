@@ -166,9 +166,9 @@ Anima.register("antipsychotics", {
     Anima.wash(["#fff4f6", "#f2fbf6", "#fffaf0"][kind], ["#ffe8ef", "#e4f5ec", "#fff0dc"][kind]);
     Anima.bokeh(7, ["#ffd1dc", "#cdeede", "#ffe4b8"][kind], 0.8, 30 + kind * 7);
     Anima.petals(6, 0.4, 50 + kind);
-    if (nw) lineSign(["伏隔核", "纹状体", "垂体"][kind], lineCol, W * 0.84, H * 0.9);
-    else lineSign(["伏隔核 · 中脑边缘线", "纹状体 · 黑质纹状体线", "垂体 · 结节漏斗线"][kind], lineCol);
     Anima.postMembrane(g.post, [C.postMeso, C.postNigro, C.postTubero][kind], {});
+    if (!nw) lineSign(["伏隔核 · 中脑边缘线", "纹状体 · 黑质纹状体线", "垂体 · 结节漏斗线"][kind], lineCol);
+    else if (kind < 2) lineSign(["伏隔核", "纹状体"][kind], lineCol, W * 0.84, H * 0.9); // 手机：站牌放在右下角
     // 受体和坐在锁孔上的人
     const seats = [];
     g.xs.forEach((x, i) => {
@@ -211,7 +211,7 @@ Anima.register("antipsychotics", {
       say("calm", on && t > (nw ? 9.5 : 7), rx, fy - s * 3.3, W * (nw ? 0.62 : 0.46), H * (nw ? 0.74 : 0.72), "心里的警报安静多了～", "say");
     } else if (kind === 1) {
       const eps = prog(4.2, 1);
-      const X = nw ? [0.12, 0.36, 0.6] : [0.1, 0.26, 0.42];
+      const X = nw ? [0.12, 0.34, 0.56] : [0.1, 0.26, 0.42];
       const labels = ["僵硬", "手抖", "坐立不安"];
       X.forEach((k, i) => {
         let x = W * k;
@@ -229,7 +229,7 @@ Anima.register("antipsychotics", {
       callout("red", on && t > 4.5 && (!nw || t < 7.5), g.mx - m.w * 0.5, m.yOf(0.88), W * (nw ? 0.74 : 0.84), H * 0.68, "约八成以上 → 动作副作用");
       callout("eps", on && t > (nw ? 7.5 : 5.5) && (!nw || t < 11), W * X[2], fy - H * 0.03 - s * 2.4, W * (nw ? 0.74 : 0.6), H * 0.7, "锥体外系反应");
       say("stiff", on && t > 5 && t < (nw ? 9 : 14), W * X[0], fy - H * 0.03 - s * 3.2, W * (nw ? 0.26 : 0.2), H * 0.68, "身体好僵……", "say");
-      say("td", on && t > (nw ? 11 : 9), W * 0.8, H * 0.86, W * (nw ? 0.74 : 0.84), H * (nw ? 0.72 : 0.87), nw ? "长期：留意迟发性运动障碍" : "长期用药：留意迟发性运动障碍", "box");
+      say("td", on && t > (nw ? 11 : 9), W * 0.8, H * 0.86, W * (nw ? 0.8 : 0.84), H * (nw ? 0.74 : 0.87), nw ? "长期：留意迟发性运动障碍" : "长期用药：留意迟发性运动障碍", "box");
     } else {
       // 垂体：泌乳素工厂；奶瓶计量表
       const px = W * (nw ? 0.2 : 0.2), py = H * 0.8, pr = H * (nw ? 0.12 : 0.11);

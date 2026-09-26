@@ -39,7 +39,7 @@ Anima.register("adhd", {
       fact: "药物起效越快、越猛，越容易带来快感和滥用风险；缓释剂型更平稳",
       labels: ["slow", "fast"] },
     { title: "非兴奋剂和生活里的帮手",
-      pill: ["非兴奋剂", "也有选择"], pill2: ["生活", "一起帮忙"],
+      pill: ["还有", "非兴奋剂"], pill2: ["加上", "好习惯"],
       text: "不是兴奋剂的药也有选择。托莫西汀阻断去甲肾上腺素的回收门 NET；在前额叶里，NET 顺便也负责回收多巴胺，所以两种递质都会升高。胍法辛和可乐定直接激动 α2A 受体，帮信号变清楚。再加上行为治疗、规律作息和安静的学习环境，收音机就更容易调准台。",
       fact: "前额叶里多巴胺转运体（DAT）很少，多巴胺主要靠 NET 回收",
       labels: ["net", "a2a"] },
@@ -216,7 +216,7 @@ Anima.register("adhd", {
     Anima.petals(10, 0.6, 44);
     const nar = narrowNow();
     const bw = Math.min(W * 0.46, H * 0.9), bh = bw * 0.72;
-    const bx = W * 0.27, by = H * (nar ? 0.52 : 0.55);
+    const bx = W * 0.27, by = H * (nar ? 0.6 : 0.55);
     const pin = prog(0.2, 1);
     const B = brain(bx, by, bw, bh, 0.4 + 0.6 * pin * (0.85 + 0.15 * Math.sin(time * 2.5)));
     // 总指挥：站在前额叶上
@@ -225,7 +225,7 @@ Anima.register("adhd", {
     const cj = prog(0.6, 0.8);
     chara(cx0, cy0 - Math.sin(cj * Math.PI) * H * 0.05, cs, { who: "neuron", label: "指挥", hair: "#b08968", cloth: "#fff1b8", arms: lt > 1.5 ? "point" : "wave", item: lt > 1.5 ? "star" : null, eyes: "happy", mouth: "grin", dir: 1, alpha: clamp(cj * 3, 0, 1) });
     // 右边三张小卡片：三类表现
-    const cx = W * 0.54, cw = W * 0.43, top = H * (nar ? 0.2 : 0.18), chh = H * (nar ? 0.2 : 0.2), gap = H * 0.035;
+    const cx = W * 0.54, cw = W * 0.43, top = H * (nar ? 0.2 : 0.18), chh = H * (nar ? 0.22 : 0.2), gap = H * (nar ? 0.03 : 0.035);
     const titles = ["注意力不集中", "多动", "冲动"];
     const cols = ["#bfe3f5", "#bfe8d6", "#ffd3d6"];
     const ks = H * 0.042;
@@ -257,9 +257,9 @@ Anima.register("adhd", {
       ctx.restore();
     }
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
-    callout("pfc", on("pfc") && lt > 1.2, B.px - bw * 0.05, B.py + bh * 0.12, bx - bw * 0.1, H * (nar ? 0.88 : 0.9), "前额叶：大脑的总指挥");
-    say("boss", lt > 1.5 && lt < 8.5, cx0, cy0 - cs * 3.2, bx + bw * 0.22, H * 0.2, "订计划、专心、踩刹车，都归我管～", "say");
-    say("note", lt > 9, 0, 0, bx + bw * 0.16, H * 0.2, "常从童年开始，不少人到成年仍有症状", "box");
+    callout("pfc", on("pfc") && lt > 1.2, B.px - bw * 0.05, B.py + bh * 0.12, nar ? W * 0.27 : bx - bw * 0.1, H * (nar ? 0.95 : 0.9), "前额叶：大脑的总指挥");
+    say("boss", lt > 1.5 && lt < 8.5, cx0, cy0 - cs * 3.2, nar ? W * 0.3 : bx + bw * 0.22, H * (nar ? 0.26 : 0.2), "订计划、专心、踩刹车，都归我管～", "say");
+    say("note", lt > 9, 0, 0, nar ? W * 0.27 : bx + bw * 0.16, H * (nar ? 0.26 : 0.2), "常从童年开始，不少人到成年仍有症状", "box");
     ctx.restore();
   }
 
@@ -365,10 +365,10 @@ Anima.register("adhd", {
     if (lt > 8.6 && lt < 10.6) Anima.speedLines(pos.x, pos.y - ks * 1.5, ks * 2.5, 30, 0.5);
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     const lp = P(0.16), hp = P(0.84);
-    callout("low", on("low") && lt > 0.8, lp.x, lp.y - 2, lp.x + W * 0.02, H * (nar ? 0.45 : 0.5), "太少：走神、没精神");
-    callout("top", on("top") && lt > 5, pk.x, pk.y, pk.x - W * (nar ? 0.2 : 0.22), H * (nar ? 0.3 : 0.26), "刚刚好：专注、有条理");
-    callout("high", on("high") && lt > 10, hp.x, hp.y - 2, hp.x - W * 0.02, H * (nar ? 0.55 : 0.52), "太多：紧张、乱糟糟");
-    say("justRight", lt > 5.4 && lt < 8.4, pos.x, pos.y - ks * 3.2, pk.x + W * 0.2, H * (nar ? 0.3 : 0.28), "刚刚好～脑子好清楚！", "say");
+    callout("low", on("low") && lt > 0.8, lp.x, lp.y - 2, lp.x + W * 0.02, H * (nar ? 0.5 : 0.5), nar ? "太少：走神" : "太少：走神、没精神");
+    callout("top", on("top") && lt > 5, pk.x, pk.y, nar ? W * 0.24 : pk.x - W * 0.22, H * (nar ? 0.32 : 0.26), nar ? "刚刚好：专注" : "刚刚好：专注、有条理");
+    callout("high", on("high") && lt > 10, hp.x, hp.y - 2, hp.x - W * 0.02, H * (nar ? 0.58 : 0.52), nar ? "太多：乱糟糟" : "太多：紧张、乱糟糟");
+    say("justRight", lt > 5.4 && lt < 8.4, pos.x, pos.y - ks * 3.2, nar ? W * 0.78 : pk.x + W * 0.2, H * (nar ? 0.3 : 0.28), "刚刚好～脑子好清楚！", "say");
     say("tooMuch", lt > 10.8, pos.x, pos.y - ks * 3.2, W * 0.5, H * 0.3, "太多也不行……晕乎乎", "think");
     ctx.restore();
   }
@@ -407,12 +407,12 @@ Anima.register("adhd", {
     Anima.terminal(g.cx, 0, g.tw, g.th, C.term);
     Anima.transporter(g.T1.x, g.T1.y, g.rs, C.pumpC, blocked ? 0 : time * 3, blocked);
     Anima.transporter(g.T2.x, g.T2.y, g.rs, rev ? "#ffd9a8" : C.pumpC, rev ? -time * 3 : time * 3, false);
-    const fsL = UIfs(0.026);
-    text("回收门 DAT / NET", g.T1.x, g.T1.y - g.rs * 1.35, fsL, C.ink);
-    text("回收门 DAT / NET", g.T2.x, g.T2.y - g.rs * 1.35, fsL, C.ink);
+    const fsL = UIfs(0.026), tl = narrowNow() ? "DAT / NET" : "回收门 DAT / NET";
+    text(tl, g.T1.x, g.T1.y - g.rs * 1.35, fsL, C.ink);
+    text(tl, g.T2.x, g.T2.y - g.rs * 1.35, fsL, C.ink);
     if (rev) { // 反向箭头
       ctx.save(); ctx.strokeStyle = C.warn; ctx.lineWidth = 3; ctx.lineCap = "round";
-      const ax = g.T2.x + g.rs * 1.3, ay = g.T2.y;
+      const ax = g.T2.x, ay = g.T2.y + g.rs * 1.1;
       ctx.beginPath(); ctx.moveTo(ax, ay - g.rs * 0.6); ctx.lineTo(ax, ay + g.rs * 0.9); ctx.lineTo(ax - g.rs * 0.3, ay + g.rs * 0.55); ctx.moveTo(ax, ay + g.rs * 0.9); ctx.lineTo(ax + g.rs * 0.3, ay + g.rs * 0.55); ctx.stroke();
       ctx.restore();
     }
@@ -443,10 +443,10 @@ Anima.register("adhd", {
       chara(x, y, cs, { who, eyes, mouth: "grin", arms: eyes === "open" ? "down" : "up", walk, jump, alpha: al, seed: i, dir: 1 });
     }
     // 药物访客
-    const dX = lerp(-cs * 2, g.T1.x - g.rs * 0.2, prog(3.2, 2.2));
-    const dY = g.T1.y + g.rs * 1.1 + cs * 3.2;
+    const dX = lerp(-cs * 2, g.T1.x - g.rs * 1.5, prog(3.2, 2.2));
+    const dY = g.T1.y + g.rs * 0.6 + cs * 3.2;
     chara(dX, dY, cs * 1.05, { who: "drug", label: "哌甲酯", hatColor: C.mph, arms: blocked ? "shh" : "hold", eyes: blocked ? "closed" : "open", mouth: "cat", walk: lt > 3.2 && lt < 5.4 ? time * 9 : null, dir: 1, alpha: clamp((lt - 3.2) * 3, 0, 1) });
-    const aX = lerp(W + cs * 2, g.T2.x + g.rs * 0.2, prog(7, 2.2));
+    const aX = lerp(W + cs * 2, g.T2.x + g.rs * 1.5, prog(7, 2.2));
     chara(aX, dY, cs * 1.05, { who: "drug", label: "苯丙胺类", hatColor: C.amp, arms: rev ? "point" : "hold", eyes: rev ? "happy" : "open", mouth: "grin", walk: lt > 7 && lt < 9.2 ? time * 9 : null, dir: -1, alpha: clamp((lt - 7) * 3, 0, 1) });
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     const nar = narrowNow();
@@ -501,7 +501,7 @@ Anima.register("adhd", {
     if (R.T > 0.03 && R.T < 0.2) Anima.speedLines(R.tipX, R.tipY - cs, cs * 2.5, 24, 0.6);
     if (R.T > 0.3) emote("sweat", R.tipX + cs, R.tipY - cs * 3.2, cs * 0.6);
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
-    callout("slow", on("slow") && lt > 5, L.plat.x, L.plat.y, gap + cw * 0.5, top + ch * 0.12 + H * 0.02, "平稳：主要帮专注");
+    callout("slow", on("slow") && lt > 5, L.plat.x, L.plat.y, gap + cw * 0.5, nar ? top + ch * 0.95 : top + ch * 0.12 + H * 0.02, "平稳：主要帮专注");
     callout("fast", on("fast") && lt > 3.5, R.peak.x, R.peak.y, gap * 2 + cw * 1.5, top + ch * 0.95, "奖赏中心猛升：易被滥用");
     say("slowSay", lt > 7.5 && lt < 13.5, L.tipX, L.tipY - cs * 3.2, gap + cw * 0.45, top + ch * 0.62, "稳稳的，刚好能专心～", "say");
     say("fastSay", lt > 2.8 && lt < 7.5, R.tipX, R.tipY - cs * 3.2, gap * 2 + cw * 1.6, top + ch * 0.42, "冲太快啦……", "think");
@@ -585,8 +585,8 @@ Anima.register("adhd", {
     }
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     const mx = X[0] + cw * 0.5, my = top + ch * 0.3;
-    callout("net", on("net") && lt > 2.4, mx - cw * 0.1, my + H * 0.02, X[0] + cw * 0.5, top + ch * 0.555, nar ? "NET 也回收多巴胺" : "前额叶里，NET 也回收多巴胺");
-    callout("a2a", on("a2a") && lt > 5, X[1] + cw * 0.18, top + ch * 0.46, X[1] + cw * 0.5, top + ch * 0.585, nar ? "直接激动 α2A" : "直接激动 α2A 受体");
+    callout("net", on("net") && lt > 2.4 && !(nar && lt > 5), mx - cw * 0.1, my + H * 0.02, X[0] + cw * 0.5, top + ch * 0.555, nar ? "NET 也回收多巴胺" : "前额叶里，NET 也回收多巴胺");
+    callout("a2a", on("a2a") && lt > 5.3, X[1] + cw * 0.18, top + ch * 0.46, X[1] + cw * 0.5, top + ch * 0.585, nar ? "直接激动 α2A" : "直接激动 α2A 受体");
     say("calm", lt > 9.8, X[2] + cw * 0.42, top + ch * 0.9 - cs * 3.2, X[2] + cw * 0.5, top + ch * 0.6, "一件一件来～", "say");
     ctx.restore();
   }
