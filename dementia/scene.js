@@ -229,7 +229,7 @@ Anima.register("dementia", {
       lamp(x, Y(0.19), ly + (i % 2) * H * 0.02, lr, lit, n);
     });
     // 饼图：痴呆的原因
-    const px = W * (narrow() ? 0.8 : 0.74), py = narrow() ? H * 0.8 : H * 0.68, pr = Math.min(H * (narrow() ? 0.08 : 0.1), W * 0.08);
+    const px = W * (narrow() ? 0.62 : 0.74), py = narrow() ? H * 0.84 : H * 0.68, pr = Math.min(H * (narrow() ? 0.08 : 0.1), W * 0.08);
     const sweep = prog(0.8, 1.6);
     const parts = [[0.65, "#f28ca5"], [0.35, "#e4dbf2"]];
     let q0 = -Math.PI / 2;
@@ -249,7 +249,7 @@ Anima.register("dementia", {
     if (lost) emote("?", ex + s * 1.1, fy - s * 3.4, s * 0.6);
     if (lt > 8.5) emote("heart", (ex + fx) / 2, fy - s * 3.6, s * 0.7);
     callout("d-lamp", here && lt > 3, lerp(lx0, lx1, 0.5), ly + lr * 2.8, lerp(lx0, lx1, 0.4), ly + lr * 3.6, narrow() ? "能力持续下降" : "能力持续下降，影响日常生活");
-    callout("d-pie", here && sweep > 0.9, px - pr * 0.6, py + pr * 0.3, px - W * 0.16, H * 0.93, "阿尔茨海默病：约六到七成");
+    callout("d-pie", here && sweep > 0.9, px + pr * 0.5, py + pr * 0.3, narrow() ? W * 0.75 : px - W * 0.16, H * 0.93, "阿尔茨海默病：约六到七成");
     say("d-where", here && lt > 2.4 && lt < 8, ex, fy - s * 3.2, W * 0.22, narrow() ? H * 0.45 : H * 0.36, "咦，我刚才要做什么来着？", "think");
     say("d-fam", here && lt > 8.6, fx, fy - s * 3, fx + W * 0.02, narrow() ? H * 0.45 : H * 0.3, "没关系，我们一起慢慢来～", "say");
     ctx.restore();
@@ -319,7 +319,7 @@ Anima.register("dementia", {
     callout("d-tau", here && lt > 4.5 && lt < 9, N[2][0] + r * 0.3, N[2][1] - r * 0.2, N[2][0] + W * 0.13, H * 0.26, "tau 缠结：在神经元里面打结");
     const b = paths[1].pt(0.6);
     callout("d-cut", here && lt > 8, b.x, b.y, b.x + W * 0.1, H * 0.93, "连接断了，神经元慢慢死去");
-    say("d-stuck", here && lt > 9, N[2][0], N[2][1] - r * 1.2, N[2][0] - W * 0.16, N[2][1] - r * 2.2, "信……送不过来了……", "think");
+    say("d-stuck", here && lt > 9, N[2][0], N[2][1] - r * 1.2, N[2][0] - W * 0.16, N[2][1] + (narrow() ? r * 2.8 : -r * 2.2), "信……送不过来了……", "think");
     ctx.restore();
   }
 
@@ -378,7 +378,7 @@ Anima.register("dementia", {
     const mid = R[0].pt(0.5);
     callout("d-st", here && lt < 6.5, st.x + hs * 0.2, st.y - hs * 0.5, st.x + W * 0.04, H * 0.22, "乙酰胆碱神经元：送“记忆信件”的邮差");
     callout("d-few", here && lt > 6.5, mid.x, mid.y, mid.x - W * 0.02, H * 0.22, `还在送信的邮差：${left} 位`);
-    say("d-few2", here && lt > 7.5, rx, ry - cs * 3.3, hA.x - W * 0.2, hA.y + hs * 0.25, "今天的信……怎么这么少？", "think");
+    say("d-few2", here && lt > 7.5, rx, ry - cs * 3.3, hA.x - W * (narrow() ? 0.3 : 0.2), hA.y + hs * 0.25, "今天的信……怎么这么少？", "think");
     ctx.restore();
   }
 
@@ -593,8 +593,8 @@ Anima.register("dementia", {
     const PL = [[0.24, 0.4, 3], [0.74, 0.36, 9], [0.5, 0.5, 21]];
     PL.forEach((p, k) => {
       const k0 = clamp(clean * 1.3 - k * 0.15, 0, 1);
-      plaque(L.x + L.w * p[0], L.y + L.h * p[1], Math.min(H * 0.085, cw * 0.12) * (1 - k0 * 0.65), p[2], 1 - k0 * 0.5);
-      if (k0 > 0.2) sparkles(L.x + L.w * p[0], L.y + L.h * p[1], H * 0.06, 3, k0, k * 5);
+      plaque(L.x + L.w * p[0], L.y + L.h * (p[1] + (narrow() ? 0.08 : 0)), Math.min(H * 0.085, cw * 0.12) * (1 - k0 * 0.65), p[2], 1 - k0 * 0.5);
+      if (k0 > 0.2) sparkles(L.x + L.w * p[0], L.y + L.h * (p[1] + (narrow() ? 0.08 : 0)), H * 0.06, 3, k0, k * 5);
     });
     const floor = L.y + L.h * 0.8;
     const ab = [{ x: L.x + L.w * 0.25 + Math.sin(time * 0.9) * L.w * 0.08, seed: 0 }, { x: L.x + L.w * 0.72 + Math.sin(time * 0.9 + 2) * L.w * 0.06, seed: 1 }];
@@ -620,7 +620,7 @@ Anima.register("dementia", {
       chip(t, x, y, tfs, ["#fff1b8", "#e1f5ec", "#e3f3fc", "#ffe1ee"][k], prog(1.5 + k * 1.2, 0.8) * (nw ? 1 - prog(9.3, 0.6) : 1));
     });
     const drug0 = ab[0];
-    callout("d-ab", here && lt > 1.5, drug0.x, floor - cs * 3.3, L.x + L.w * 0.5, L.y + L.h * 0.2, "仑卡奈单抗、多奈单抗");
+    callout("d-ab", here && lt > 1.5, drug0.x, floor - cs * 3.3, L.x + L.w * 0.5, L.y + L.h * (narrow() ? 0.3 : 0.2), "仑卡奈单抗、多奈单抗");
     say("d-care", here && lt > 9.8, frX, fy - cs * 3.4, R.x + R.w * 0.62, narrow() ? R.y + R.h * 0.3 : R.y + R.h * 0.5, "你也要好好照顾自己哦", "say");
     ctx.restore();
   }
