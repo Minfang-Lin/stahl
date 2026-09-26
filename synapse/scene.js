@@ -296,7 +296,7 @@ Anima.register("synapse", {
     say("go", cur === 2 && p0 && lt < 6, p0 ? p0.x : 0, p0 ? p0.y - g.cs * 3 : 0, p0 ? p0.x - W * 0.1 : 0, g.bot + H * 0.03, "多巴胺快递，出发～！", "shout");
     say("recv", cur === 3 && lt > 1 && lt < 7, W * 0.1, g.post + H * 0.14, W * 0.24, g.post + H * 0.14, "收到信啦！", "say");
     const p3 = pos[3];
-    say("lost", cur === 3 && lt > 6 && !!p3, p3 ? p3.x : 0, p3 ? p3.y - g.cs * 3 : 0, p3 ? p3.x - W * 0.06 : 0, g.bot + H * 0.02, "门都满了，我该去哪呀？", "think");
+    say("lost", cur === 3 && lt > 6 && !!p3, p3 ? p3.x : 0, p3 ? p3.y - g.cs * 3 : 0, p3 ? p3.x + W * 0.06 : 0, g.bot - H * 0.06, "门都满了，我该去哪呀？", "think");
     say("back", cur === 4 && lt > 1.2 && lt < 6, px, py - g.cs * 3.2, px + W * 0.02, py - H * 0.2, "辛苦啦，回家重新装箱～", "say");
     say("sweep", cur === 4 && lt >= 6.5, mx, my - g.cs * 3, mx - W * 0.2, my - H * 0.02, "多出来的交给我分解～", "say");
     ctx.restore();

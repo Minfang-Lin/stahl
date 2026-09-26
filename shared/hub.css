@@ -148,7 +148,6 @@
   .count { font-size: 13px; }
   .tabs button { font-size: 15px; padding: 6px 14px; box-shadow: 0 2px 0 var(--line); }
   .hint { display: none; }
-  .brain .label text { font-size: 22px; }
   #episode { grid-gap: 10px; gap: 10px; grid-template-columns: auto minmax(0, 1fr); grid-column-gap: 10px; column-gap: 10px; align-items: start; }
   #episode > * { grid-column: 1 / -1; }
   #episode > .back { grid-column: 1; align-self: start; margin-top: 2px; }
