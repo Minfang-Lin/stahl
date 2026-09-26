@@ -17,6 +17,9 @@ const path = require("path");
   await p.waitForTimeout(400);
   await p.click("#play"); // 暂停自动翻页（动画仍然在动）
   const n = await p.$$eval("#chapters button", (bs) => bs.length);
+  // 各集只在“换幕”时把本幕计时清零，先跳到最后一幕，这样截第 1 幕时也会重新开始
+  await p.click("#ch" + (n - 1));
+  await p.waitForTimeout(100);
   for (let i = 0; i < n; i++) {
     if (only.length && !only.includes(String(i + 1))) continue;
     await p.click("#ch" + i);

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>基因的开关：从信号到可塑性 · 脑内小剧场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-episode="plasticity">
+<div class="wrap">
+  <header id="epHeader"></header>
+
+  <div class="stage">
+    <canvas id="cv" aria-label="科普动画"></canvas>
+    <div class="bar"><i id="prog"></i></div>
+  </div>
+
+  <div class="below">
+    <ol class="chapters" id="chapters"></ol>
+    <section class="narr" aria-live="polite">
+      <h2 id="nTitle"></h2>
+      <p id="nText"></p>
+      <div class="fact" id="nFact"></div>
+      <div class="controls">
+        <button id="prev" type="button">上一幕</button>
+        <button id="play" type="button" class="primary">暂停</button>
+        <button id="next" type="button">下一幕</button>
+      </div>
+    </section>
+  </div>
+
+  <footer id="epFooter"></footer>
+</div>
+
+<script id="video-meta" type="application/json">
+{
+  "intro": "递质送到的一封信，怎样一路传进细胞核、打开基因，让大脑慢慢改变？一起跟着接力走一趟吧。",
+  "spoken": { "cAMP": "环磷酸腺苷", "Ca²⁺": "钙离子", "CREB": "C R E B", "BDNF": "脑源性神经营养因子", "mRNA": "信使RNA", "c-fos": "C fos", "LTP": "长时程增强", "AMPA": "A M P A", "NMDA": "N M D A", "PKA": "蛋白激酶A" },
+  "sad": []
+}
+</script>
+<script src="../shared/engine.js"></script>
+<script src="scene.js"></script>
+</body>
+</html>

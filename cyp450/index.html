@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>肝脏里的代谢工厂 · 脑内小剧场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-episode="cyp450">
+<div class="wrap">
+  <header id="epHeader"></header>
+
+  <div class="stage">
+    <canvas id="cv" aria-label="科普动画"></canvas>
+    <div class="bar"><i id="prog"></i></div>
+  </div>
+
+  <div class="below">
+    <ol class="chapters" id="chapters"></ol>
+    <section class="narr" aria-live="polite">
+      <h2 id="nTitle"></h2>
+      <p id="nText"></p>
+      <div class="fact" id="nFact"></div>
+      <div class="controls">
+        <button id="prev" type="button">上一幕</button>
+        <button id="play" type="button" class="primary">暂停</button>
+        <button id="next" type="button">下一幕</button>
+      </div>
+    </section>
+  </div>
+
+  <footer id="epFooter"></footer>
+</div>
+
+<script id="video-meta" type="application/json">
+{
+  "intro": "药吃下去以后去了哪里？跟着药物访客，一起去肝脏里的代谢工厂看看吧。",
+  "spoken": { "CYP450": "细胞色素P450", "CYP": "C Y P", "1A2": "1 A 2", "2D6": "2 D 6", "2C19": "2 C 19", "3A4": "3 A 4", "MAO": "单胺氧化酶" },
+  "sad": []
+}
+</script>
+<script src="../shared/engine.js"></script>
+<script src="scene.js"></script>
+</body>
+</html>
