@@ -73,11 +73,12 @@ Anima.register("adhd", {
   const UIfs = (k) => Math.max(11, H * k) * Anima.UI;
 
   // ---------- 共用小零件 ----------
-  function card(x, y, w, h, title, color) {
+  function card(x, y, w, h, title, color, inner) {
     ctx.save();
     ctx.shadowColor = "rgba(150,100,120,0.2)"; ctx.shadowBlur = 16; ctx.shadowOffsetY = 5;
     rrect(x, y, w, h, 18); ctx.fillStyle = "#fffdfb"; ctx.fill();
     ctx.restore();
+    if (inner) { ctx.save(); rrect(x, y, w, h, 18); ctx.clip(); inner(); ctx.restore(); }
     outline(2); rrect(x, y, w, h, 18); ctx.stroke();
     let fs = Math.max(12, Math.min(W / 40, h * 0.07)) * Anima.UI;
     ctx.font = `${fs}px ${Anima.ROUND}`;
@@ -187,8 +188,10 @@ Anima.register("adhd", {
   }
   function brain(bx, by, bw, bh, pfcA) {
     // 小脑和脑干
-    ctx.beginPath(); ctx.ellipse(bx + bw * 0.3, by + bh * 0.4, bw * 0.16, bh * 0.14, 0, 0, Math.PI * 2); ctx.fillStyle = "#f9c5d1"; ctx.fill(); outline(2); ctx.stroke();
-    rrect(bx + bw * 0.08, by + bh * 0.3, bw * 0.09, bh * 0.36, bw * 0.04); ctx.fillStyle = "#f9c5d1"; ctx.fill(); ctx.stroke();
+    rrect(bx + bw * 0.06, by + bh * 0.2, bw * 0.08, bh * 0.42, bw * 0.04); ctx.fillStyle = "#f9c5d1"; ctx.fill(); outline(2); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(bx + bw * 0.27, by + bh * 0.32, bw * 0.14, bh * 0.12, 0, 0, Math.PI * 2); ctx.fillStyle = "#f9c5d1"; ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = C.brainLine; ctx.lineWidth = 1.5;
+    for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.ellipse(bx + bw * 0.27, by + bh * 0.33, bw * (0.11 - k * 0.03), bh * (0.08 - k * 0.02), 0, 0.2, Math.PI - 0.2); ctx.stroke(); }
     brainPath(bx, by, bw, bh); outline(5); ctx.stroke();
     brainPath(bx, by, bw, bh); ctx.fillStyle = C.brain; ctx.fill();
     ctx.save(); brainPath(bx, by, bw, bh); ctx.clip();
@@ -199,9 +202,11 @@ Anima.register("adhd", {
     ctx.fillStyle = g; ctx.fillRect(bx - bw, by - bh, bw * 2, bh * 2);
     // 脑回
     ctx.strokeStyle = C.brainLine; ctx.lineWidth = Math.max(1.5, bw * 0.008); ctx.lineCap = "round";
-    const lines = [[-0.3, -0.5, -0.1, -0.2, -0.25, 0.05], [0.0, -0.55, 0.12, -0.25, 0.02, 0.0], [0.3, -0.45, 0.2, -0.15, 0.4, 0.05], [-0.55, 0.0, -0.4, 0.15, -0.5, 0.3], [0.1, 0.2, 0.3, 0.25, 0.5, 0.15], [-0.2, 0.35, 0.0, 0.45, 0.2, 0.4]];
+    const lines = [[-0.3, -0.5, -0.1, -0.2, -0.25, 0.05], [0.0, -0.55, 0.12, -0.25, 0.02, 0.0], [0.3, -0.45, 0.2, -0.15, 0.4, 0.05], [-0.55, 0.0, -0.4, 0.15, -0.5, 0.3],
+      [0.1, 0.2, 0.3, 0.25, 0.5, 0.15], [-0.35, 0.28, -0.1, 0.18, 0.15, 0.3], [-0.6, -0.35, -0.45, -0.2, -0.62, -0.05], [0.45, -0.3, 0.55, -0.1, 0.62, 0.1], [0.15, -0.1, 0.3, 0.0, 0.25, 0.12]];
     for (const l of lines) { ctx.beginPath(); ctx.moveTo(bx + l[0] * bw, by + l[1] * bh); ctx.quadraticCurveTo(bx + l[2] * bw, by + l[3] * bh, bx + l[4] * bw, by + l[5] * bh); ctx.stroke(); }
     ctx.restore();
+    face(bx + bw * 0.08, by + bh * 0.02, bw * 0.07, 1);
     return { px, py };
   }
   function view0(a) {
@@ -253,8 +258,8 @@ Anima.register("adhd", {
     }
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     callout("pfc", on("pfc") && lt > 1.2, B.px - bw * 0.05, B.py + bh * 0.12, bx - bw * 0.1, H * (nar ? 0.88 : 0.9), "前额叶：大脑的总指挥");
-    say("boss", lt > 1.5 && lt < 8.5, cx0, cy0 - cs * 3.2, bx + bw * 0.12, H * 0.22, "订计划、专心、踩刹车，都归我管～", "say");
-    say("note", lt > 9, 0, 0, bx + bw * 0.06, H * 0.22, "常从童年开始，不少人到成年仍有症状", "box");
+    say("boss", lt > 1.5 && lt < 8.5, cx0, cy0 - cs * 3.2, bx + bw * 0.22, H * 0.2, "订计划、专心、踩刹车，都归我管～", "say");
+    say("note", lt > 9, 0, 0, bx + bw * 0.16, H * 0.2, "常从童年开始，不少人到成年仍有症状", "box");
     ctx.restore();
   }
 
@@ -497,9 +502,9 @@ Anima.register("adhd", {
     if (R.T > 0.3) emote("sweat", R.tipX + cs, R.tipY - cs * 3.2, cs * 0.6);
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     callout("slow", on("slow") && lt > 5, L.plat.x, L.plat.y, gap + cw * 0.5, top + ch * 0.12 + H * 0.02, "平稳：主要帮专注");
-    callout("fast", on("fast") && lt > 3.5, R.peak.x, R.peak.y, gap * 2 + cw * 0.62, top + ch * 0.95, "奖赏中心猛升：易被滥用");
+    callout("fast", on("fast") && lt > 3.5, R.peak.x, R.peak.y, gap * 2 + cw * 1.5, top + ch * 0.95, "奖赏中心猛升：易被滥用");
     say("slowSay", lt > 7.5 && lt < 13.5, L.tipX, L.tipY - cs * 3.2, gap + cw * 0.45, top + ch * 0.62, "稳稳的，刚好能专心～", "say");
-    say("fastSay", lt > 2.8 && lt < 7.5, R.tipX, R.tipY - cs * 3.2, gap * 2 + cw * 0.62, top + ch * 0.5, "冲太快啦……", "think");
+    say("fastSay", lt > 2.8 && lt < 7.5, R.tipX, R.tipY - cs * 3.2, gap * 2 + cw * 1.6, top + ch * 0.42, "冲太快啦……", "think");
     say("rule", lt > 8.5, 0, 0, W * 0.5, H * 0.92, "请按医嘱服用：别自己掰开、碾碎或改用法", "box");
     ctx.restore();
   }
@@ -518,17 +523,17 @@ Anima.register("adhd", {
     if (pin(0) > 0) {
       ctx.save(); ctx.globalAlpha *= pin(0);
       const x = X[0];
-      card(x, top, cw, ch, "托莫西汀", "#bfe8d6");
       const my = top + ch * 0.3;
-      ctx.save(); rrect(x, top, cw, ch, 18); ctx.clip();
-      ctx.fillStyle = C.term; ctx.fillRect(x, top, cw, my - top); ctx.restore();
-      outline(1.8); ctx.beginPath(); ctx.moveTo(x, my); ctx.lineTo(x + cw, my); ctx.stroke();
+      card(x, top, cw, ch, "托莫西汀", "#bfe8d6", () => {
+        ctx.fillStyle = C.term; ctx.fillRect(x, top, cw, my - top);
+        outline(1.8); ctx.beginPath(); ctx.moveTo(x, my); ctx.lineTo(x + cw, my); ctx.stroke();
+      });
       const tx = x + cw * 0.5, ts = Math.min(H * 0.045, cw * 0.12), blk = lt > 1.8;
       Anima.transporter(tx, my, ts, C.pumpC, blk ? 0 : time * 3, blk);
       text("NET", tx, my - ts * 1.4, UIfs(0.026), C.ink);
-      chara(tx + ts * 1.9, my + ts * 1 + cs * 3.1, cs, { who: "drug", label: "托莫西汀", hatColor: C.atx, arms: "shh", eyes: "closed", mouth: "cat", dir: -1 });
+      chara(tx + ts * 1.9, top + ch * 0.5, cs, { who: "drug", label: "托莫西汀", hatColor: C.atx, arms: "shh", eyes: "closed", mouth: "cat", dir: -1 });
       const rise = prog(2.2, 1.5);
-      const by = top + ch * 0.9;
+      const by = top + ch * 0.93;
       chara(x + cw * 0.28, by - rise * ch * 0.08, cs, { who: "NE", eyes: "happy", mouth: "grin", arms: rise > 0.5 ? "up" : "down", jump: rise >= 1 ? Math.abs(Math.sin(time * 4)) * 0.3 : 0 });
       chara(x + cw * 0.72, by - rise * ch * 0.08, cs, { who: "DA", eyes: "happy", mouth: "grin", arms: rise > 0.5 ? "up" : "down", jump: rise >= 1 ? Math.abs(Math.sin(time * 4 + 1)) * 0.3 : 0 });
       if (rise > 0.3) { sfx("↑", x + cw * 0.12, by - cs * 2, H * 0.05, C.good, 0, rise); sfx("↑", x + cw * 0.9, by - cs * 2, H * 0.05, C.good, 0, rise); }
@@ -580,8 +585,8 @@ Anima.register("adhd", {
     }
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
     const mx = X[0] + cw * 0.5, my = top + ch * 0.3;
-    callout("net", on("net") && lt > 2.4 && lt < 9.5, mx - cw * 0.12, my, X[0] + cw * 0.5, top + ch * (nar ? 0.52 : 0.55), nar ? "NET 也回收多巴胺" : "前额叶里，NET 也回收多巴胺");
-    callout("a2a", on("a2a") && lt > 5, X[1] + cw * 0.5, top + ch * 0.36, X[1] + cw * 0.5, top + ch * 0.68, nar ? "直接激动 α2A" : "直接激动 α2A 受体");
+    callout("net", on("net") && lt > 2.4, mx - cw * 0.1, my + H * 0.02, X[0] + cw * 0.5, top + ch * 0.555, nar ? "NET 也回收多巴胺" : "前额叶里，NET 也回收多巴胺");
+    callout("a2a", on("a2a") && lt > 5, X[1] + cw * 0.18, top + ch * 0.46, X[1] + cw * 0.5, top + ch * 0.585, nar ? "直接激动 α2A" : "直接激动 α2A 受体");
     say("calm", lt > 9.8, X[2] + cw * 0.42, top + ch * 0.9 - cs * 3.2, X[2] + cw * 0.5, top + ch * 0.6, "一件一件来～", "say");
     ctx.restore();
   }
