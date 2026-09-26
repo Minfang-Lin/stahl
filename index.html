@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>脑内小剧场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="shared/style.css">
+<link rel="stylesheet" href="shared/hub.css">
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 展厅首页 -->
+  <section id="home" class="home">
+    <header>
+      <span class="tag">脑内小剧场 · Stahl 精神药理学图解</span>
+      <h1>大脑里在<em>上演</em>什么？</h1>
+      <p class="lede">《Stahl 精神药理学精要》是很多精神科医生的入门书，可书里的受体、通路和机制图并不好懂。这里把它们拍成一出出小剧场：神经递质是送信的快递员，受体是带锁的门，药物是来访的客人。点一点大脑的各个区域，看看每个地方在上演什么。</p>
+      <p class="count" id="count"></p>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="浏览方式">
+      <button type="button" role="tab" id="tabBrain" aria-selected="true" aria-controls="panelBrain">按脑区</button>
+      <button type="button" role="tab" id="tabBook" aria-selected="false" aria-controls="panelBook">按章节</button>
+      <button type="button" role="tab" id="tabCast" aria-selected="false" aria-controls="panelCast">角色图鉴</button>
+    </div>
+
+    <div id="panelBrain" role="tabpanel" aria-labelledby="tabBrain" class="panel">
+      <svg id="brain" class="brain" viewBox="0 0 640 440" role="group" aria-label="卡通大脑侧面图，点击脑区查看小剧场">
+        <g transform="translate(40 0)">
+          <!-- 脑干、小脑、大脑 -->
+          <path class="stem" d="M268 262 C272 305 276 350 280 408 L322 408 C318 350 316 305 320 262 Z"/>
+          <ellipse class="cbl" cx="372" cy="300" rx="60" ry="37"/>
+          <path class="cbl-line" d="M322 292 C350 284 390 284 424 294 M318 308 C350 300 392 300 428 310 M330 322 C356 316 390 316 418 324"/>
+          <path class="cerebrum" d="M100 215 C88 130 150 58 255 52 C355 46 432 100 436 180 C440 228 415 258 380 266 C355 272 330 268 310 272 L275 276 C225 294 175 290 145 276 C118 264 102 242 100 215 Z"/>
+          <path class="gyri" d="M150 105 C165 118 158 132 172 142 M205 72 C200 92 218 100 210 118 M262 62 C255 82 275 92 266 112 M318 70 C308 90 330 100 318 122 M372 98 C356 112 376 126 362 142 M408 150 C388 156 404 176 386 186 M300 150 C318 162 340 150 352 168 M118 200 C134 196 134 214 150 212"/>
+          <!-- 小脑上的小脸 -->
+          <g class="face" aria-hidden="true">
+            <ellipse cx="356" cy="298" rx="4" ry="5.5"/>
+            <ellipse cx="386" cy="298" rx="4" ry="5.5"/>
+            <circle class="shine" cx="354.8" cy="296" r="1.5"/>
+            <circle class="shine" cx="384.8" cy="296" r="1.5"/>
+            <ellipse class="blush" cx="345" cy="310" rx="7" ry="4"/>
+            <ellipse class="blush" cx="397" cy="310" rx="7" ry="4"/>
+            <path class="mouth" d="M366 309 Q371 314 376 309"/>
+          </g>
+
+          <!-- 脑区 -->
+          <g class="region" data-region="pfc"><path class="fill-pfc" d="M150 116 C176 110 198 132 196 160 C194 190 170 204 146 198 C122 192 112 168 118 146 C122 130 134 120 150 116 Z"/></g>
+          <g class="region" data-region="striatum"><path class="fill-striatum" d="M212 158 C220 138 262 134 280 150 C292 162 286 184 270 192 C256 198 246 186 256 176 C264 168 250 158 236 164 C224 170 222 186 214 184 C206 180 208 168 212 158 Z"/></g>
+          <g class="region" data-region="nac"><circle class="fill-nac" cx="205" cy="212" r="14"/></g>
+          <g class="region" data-region="amygdala"><ellipse class="fill-amygdala" cx="244" cy="244" rx="15" ry="10" transform="rotate(-18 244 244)"/></g>
+          <g class="region" data-region="hippo"><path class="fill-hippo" d="M262 236 C280 252 312 248 326 232 C332 224 322 216 314 224 C302 236 284 236 272 228 C266 224 258 230 262 236 Z"/></g>
+          <g class="region" data-region="hypo">
+            <ellipse class="fill-hypo" cx="218" cy="258" rx="13" ry="9"/>
+            <path class="fill-hypo" d="M214 266 L212 276 C204 280 204 292 212 294 C221 296 223 282 216 276 L218 266 Z"/>
+          </g>
+          <g class="region" data-region="midbrain"><ellipse class="fill-midbrain" cx="292" cy="266" rx="21" ry="13"/></g>
+          <g class="region" data-region="brainstem"><ellipse class="fill-brainstem" cx="299" cy="336" rx="15" ry="26"/></g>
+          <!-- 放大镜：突触 -->
+          <g class="region" data-region="synapse">
+            <path class="lens-handle" d="M484 104 L512 134"/>
+            <circle class="lens" cx="462" cy="80" r="32"/>
+            <path class="lens-term" d="M446 52 C446 66 440 70 440 78 C440 88 452 90 462 90 C472 90 484 88 484 78 C484 70 478 66 478 52 Z"/>
+            <path class="lens-post" d="M434 104 C446 98 478 98 490 104"/>
+            <circle class="lens-dot" cx="455" cy="96" r="2.4"/>
+            <circle class="lens-dot" cx="466" cy="94" r="2.4"/>
+          </g>
+        </g>
+        <!-- 标签由 hub.js 按目录生成 -->
+        <g id="labels"></g>
+      </svg>
+      <p class="hint">点脑区或旁边的标签都可以 · 右上角的放大镜是“突触”</p>
+    </div>
+
+    <div id="panelBook" role="tabpanel" aria-labelledby="tabBook" class="panel" hidden>
+      <div id="bookList" class="disease-list"></div>
+    </div>
+
+    <div id="panelCast" role="tabpanel" aria-labelledby="tabCast" class="panel" hidden>
+      <p class="cast-intro">像《工作细胞》一样，大脑里的每种分子都有自己的制服和工作。先认识一下常驻演员吧：</p>
+      <ul id="castList" class="cast-list"></ul>
+    </div>
+
+    <footer>科普示意动画：角色是拟人化的，机制做了简化，不能替代医生的诊断和用药建议，请勿自行用药、停药或换药。本站为学习笔记性质的原创图解，与原书作者和出版社无关。</footer>
+  </section>
+
+  <!-- 播放某一集 -->
+  <section id="episode" hidden>
+    <button type="button" id="back" class="back">← 回到展厅</button>
+    <header id="epHeader"></header>
+
+    <div class="stage">
+      <canvas id="cv" aria-label="科普动画"></canvas>
+      <div class="bar"><i id="prog"></i></div>
+    </div>
+
+    <div class="below">
+      <ol class="chapters" id="chapters"></ol>
+      <section class="narr" aria-live="polite">
+        <h2 id="nTitle"></h2>
+        <p id="nText"></p>
+        <div class="fact" id="nFact"></div>
+        <div class="controls">
+          <button id="prev" type="button">上一幕</button>
+          <button id="play" type="button" class="primary">暂停</button>
+          <button id="next" type="button">下一幕</button>
+        </div>
+      </section>
+    </div>
+
+    <footer id="epFooter"></footer>
+  </section>
+</div>
+
+<!-- 展签：点脑区后从底部弹出 -->
+<div id="sheet" class="sheet" hidden>
+  <div class="sheet-backdrop" id="sheetBackdrop"></div>
+  <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <button type="button" id="sheetClose" class="sheet-close" aria-label="关闭">×</button>
+    <h2 id="sheetTitle"></h2>
+    <p id="sheetFact" class="sheet-fact"></p>
+    <ul id="sheetList" class="ep-list"></ul>
+  </div>
+</div>
+
+<script src="shared/engine.js"></script>
+<!-- 每一集：新做好的小剧场在这里加一行 -->
+<script src="synapse/scene.js"></script>
+<script src="shared/catalog.js"></script>
+<script src="shared/hub.js"></script>
+</body>
+</html>

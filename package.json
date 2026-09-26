@@ -1,0 +1,12 @@
+{
+  "name": "brain-theater",
+  "private": true,
+  "scripts": {
+    "record": "node record.js",
+    "check": "node tools/check_compat.js shared/*.js shared/*.css */scene.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0",
+    "acorn": "^8.12.0"
+  }
+}

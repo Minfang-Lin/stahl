@@ -1,0 +1,169 @@
+/* 展厅页：大脑地图、标签页、展签、章节列表和角色图鉴 */
+.count { margin: 0; font: 15px/1.4 var(--round); color: var(--mint); }
+
+.tabs { display: flex; flex-wrap: wrap; }
+.tabs > * { margin: 0 10px 6px 0; }
+.tabs button {
+  font: 18px/1 var(--round); color: var(--ink); background: var(--paper);
+  border: 2px solid var(--line); border-radius: 999px; padding: 9px 20px; cursor: pointer;
+  box-shadow: 0 3px 0 var(--line);
+}
+.tabs button[aria-selected="true"] { background: var(--rose); color: var(--paper); }
+
+.panel { display: grid; grid-gap: 6px; gap: 6px; }
+.brain { display: block; width: 100%; max-width: 680px; height: auto; margin: 0 auto; overflow: visible; }
+.hint { margin: 0; text-align: center; color: var(--soft); font-size: 13px; }
+
+/* 大脑的线条和填充：淡彩 + 暖棕紫细线 */
+.brain .cerebrum { fill: #ffd9e2; stroke: var(--line); stroke-width: 2.5; }
+.brain .cbl { fill: #ffc9d6; stroke: var(--line); stroke-width: 2.5; }
+.brain .cbl-line { fill: none; stroke: #e7a3b5; stroke-width: 2; stroke-linecap: round; }
+.brain .stem { fill: #ffd3c4; stroke: var(--line); stroke-width: 2.5; }
+.brain .gyri { fill: none; stroke: #efb0c0; stroke-width: 2.5; stroke-linecap: round; }
+.brain .face ellipse { fill: var(--ink); }
+.brain .face .shine { fill: #fff; }
+.brain .face .blush { fill: #ff9fb3; opacity: .6; }
+.brain .face .mouth { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; }
+.brain .region { cursor: pointer; transform-box: fill-box; transform-origin: center; transition: transform .2s ease, opacity .2s ease; }
+.brain .region path, .brain .region circle, .brain .region ellipse { stroke: var(--line); stroke-width: 2; stroke-linejoin: round; }
+.brain .fill-pfc { fill: #fff1b8; }
+.brain .fill-striatum { fill: #bfe3f5; }
+.brain .fill-nac { fill: #ffb27a; }
+.brain .fill-amygdala { fill: #ff8fa6; }
+.brain .fill-hippo { fill: #a8e3c9; }
+.brain .fill-hypo { fill: #d8cffa; }
+.brain .fill-midbrain { fill: #ffc98a; }
+.brain .fill-brainstem { fill: #c9c1f5; }
+.brain .lens { fill: #eef8fc; stroke-width: 3 !important; }
+.brain .lens-handle { stroke: var(--line) !important; stroke-width: 9 !important; stroke-linecap: round; fill: none; }
+.brain .lens-term { fill: #ffd6c4; stroke-width: 1.5 !important; }
+.brain .lens-post { fill: none; stroke: #f28ca5 !important; stroke-width: 3 !important; }
+.brain .lens-dot { fill: #ff9a52; stroke: none !important; }
+
+/* 已开演的脑区轻轻发光；筹备中的变淡 */
+.brain .region.off { opacity: .45; }
+.brain .region.on { animation: glow 2.4s ease-in-out infinite; }
+@keyframes glow {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(255, 201, 77, 0)); }
+  50% { filter: drop-shadow(0 0 7px rgba(255, 190, 60, .95)); }
+}
+.brain .region, .brain .label { -webkit-tap-highlight-color: transparent; }
+.brain .region:focus, .brain .label:focus { outline: none; }
+.brain .region:hover { transform: scale(1.1); opacity: 1; }
+.brain .region:focus-visible { transform: scale(1.1); opacity: 1; }
+
+/* 标签 */
+.brain .label { cursor: pointer; }
+.brain .label rect { fill: var(--paper); stroke: var(--line); stroke-width: 1.8; }
+.brain .label text { font: 19px var(--round); fill: var(--soft); }
+.brain .label.on rect { fill: var(--rose); }
+.brain .label.on text { fill: var(--paper); }
+.brain .label.off rect { stroke-dasharray: 4 4; }
+.brain .label .leader { fill: none; stroke: var(--line); stroke-width: 1.4; stroke-dasharray: 3 4; }
+.brain .label .pin { fill: var(--paper); stroke: var(--line); stroke-width: 1.5; }
+.brain .label:hover rect { stroke-width: 3; }
+.brain .label:focus-visible rect { stroke-width: 3; }
+
+/* 小剧场卡片列表 */
+.ep-list { list-style: none; margin: 0; padding: 0; display: grid; grid-gap: 10px; gap: 10px; }
+.ep-card {
+  width: 100%; text-align: left; display: flex; align-items: center; cursor: pointer;
+  background: var(--paper); color: var(--ink); border: 2px solid var(--line); border-radius: 18px;
+  padding: 12px 14px; box-shadow: 0 6px 16px rgba(150, 100, 120, .14); font: inherit;
+}
+.ep-card:hover { box-shadow: 0 8px 22px rgba(150, 100, 120, .22); }
+.ep-card:active { transform: translateY(2px); }
+.ep-dot { flex: none; width: 16px; height: 16px; border-radius: 50%; background: var(--ep, var(--rose)); border: 2px solid var(--line); }
+.ep-card > * + * { margin-left: 12px; }
+.ep-body { display: grid; grid-gap: 2px; gap: 2px; min-width: 0; flex: 1 1 0%; }
+.ep-body b { font: 400 20px/1.3 var(--round); }
+.ep-body .ep-n { display: inline-block; vertical-align: 2px; margin-left: 8px; font: 12px/1.6 var(--round); color: var(--ep, var(--rose)); border: 1.5px solid var(--ep, var(--rose)); border-radius: 999px; padding: 0 7px; white-space: nowrap; }
+.ep-body span { color: var(--soft); font-size: 13px; line-height: 1.5; }
+.ep-go { flex: none; margin-left: 12px; font: 15px var(--round); color: var(--paper); background: var(--ep, var(--rose)); border: 2px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+.ep-planned {
+  display: flex; align-items: center; justify-content: space-between;
+  border: 2px dashed #e3c2cc; border-radius: 16px; padding: 10px 14px; color: var(--soft); background: rgba(255, 255, 255, .5);
+}
+.ep-planned > * + * { margin-left: 10px; }
+.ep-planned b { font: 400 17px var(--round); }
+.ep-planned span { font-size: 12px; background: #fbe9ee; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+
+/* 按章节 */
+.disease-list { display: grid; grid-gap: 22px; gap: 22px; }
+.disease { display: grid; grid-gap: 8px; gap: 8px; }
+.disease h2 { margin: 0; font: 400 24px/1.3 var(--round); }
+.disease h2 .book-ch { margin-left: 10px; font: 14px var(--round); color: #8f84e0; background: #efeafe; border-radius: 999px; padding: 2px 10px; vertical-align: 3px; }
+.disease > p { margin: 0; color: var(--soft); font-size: 14px; }
+
+/* 角色图鉴 */
+.cast-intro { margin: 0 0 6px; color: var(--soft); }
+.cast-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); grid-gap: 14px; gap: 14px; }
+.cast-card {
+  display: flex; align-items: stretch; background: var(--paper); border: 2px solid var(--line); border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(150, 100, 120, .12); overflow: hidden;
+  background: linear-gradient(90deg, var(--c, #fff4f7) 116px, var(--paper) 116px);
+}
+.cast-pic { flex: none; display: block; width: 116px; height: 150px; border-right: 2px dashed rgba(109, 87, 96, .3); }
+.cast-body { padding: 10px 14px 12px; min-width: 0; }
+.cast-body h3 { margin: 0 0 4px; font: 400 20px/1.3 var(--round); }
+.cast-role { margin-left: 8px; font: 13px var(--round); color: var(--paper); background: var(--rose); border-radius: 999px; padding: 2px 9px; vertical-align: 2px; }
+.cast-body p { margin: 0; font-size: 13px; line-height: 1.6; }
+.cast-home { color: var(--soft); margin-top: 4px !important; }
+.cast-appear a { color: #d9607f; }
+
+/* 展签：从底部弹出 */
+.sheet { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 10; display: flex; align-items: flex-end; justify-content: center; }
+.sheet-backdrop { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(90, 70, 80, .3); }
+.sheet-card {
+  position: relative; width: 100%; max-width: 560px; max-height: 80vh; overflow-y: auto;
+  background: var(--ground); border: 2px solid var(--line); border-bottom: 0; border-radius: 26px 26px 0 0;
+  padding: 20px 18px 22px;
+  padding: 20px 18px calc(22px + env(safe-area-inset-bottom, 0px)); display: grid; grid-gap: 12px; gap: 12px;
+  animation: rise .25s ease-out;
+}
+@keyframes rise { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet-card h2 { margin: 0; font: 400 28px/1.2 var(--round); padding-right: 40px; }
+.sheet-fact { margin: 0; background: #fff4f7; border: 2px dashed var(--rose); border-radius: 14px; padding: 8px 12px; font-size: 14px; }
+.sheet-close {
+  position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid var(--line); background: var(--paper); color: var(--ink); font: 22px/1 var(--round); cursor: pointer;
+}
+
+/* 小剧场页的返回按钮 */
+.back {
+  justify-self: start; font: 17px var(--round); color: var(--ink); background: var(--paper);
+  border: 2px solid var(--line); border-radius: 999px; padding: 6px 16px; cursor: pointer; box-shadow: 0 3px 0 var(--line);
+}
+#episode { display: grid; grid-gap: 22px; gap: 22px; }
+.home { display: grid; grid-gap: 18px; gap: 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .brain .region.on { animation: none; filter: drop-shadow(0 0 5px rgba(255, 190, 60, .9)); }
+  .sheet-card { animation: none; }
+}
+
+/* 手机：展厅首页尽量一屏装下 */
+@media (max-width: 640px) {
+  .home { grid-gap: 10px; gap: 10px; }
+  .count { font-size: 13px; }
+  .tabs button { font-size: 15px; padding: 6px 14px; box-shadow: 0 2px 0 var(--line); }
+  .hint { display: none; }
+  .brain .label text { font-size: 22px; }
+  #episode { grid-gap: 10px; gap: 10px; grid-template-columns: auto minmax(0, 1fr); grid-column-gap: 10px; column-gap: 10px; align-items: start; }
+  #episode > * { grid-column: 1 / -1; }
+  #episode > .back { grid-column: 1; align-self: start; margin-top: 2px; }
+  #episode > #epHeader { grid-column: 2; }
+  .back { font-size: 14px; padding: 3px 12px; box-shadow: 0 2px 0 var(--line); }
+  .ep-card { padding: 10px 12px; }
+  .ep-body b { font-size: 18px; }
+  .cast-list { grid-template-columns: 1fr; }
+  .cast-card { background: linear-gradient(90deg, var(--c, #fff4f7) 96px, var(--paper) 96px); }
+  .cast-pic { width: 96px; height: 132px; }
+}
+
+@media (max-width: 640px) and (max-height: 760px) {
+  #epHeader h1 { font-size: 19px; }
+  .narr p { font-size: 13.5px; line-height: 1.6; }
+  .narr h2 { font-size: 18px; }
+  #episode footer { font-size: 10.5px; }
+}
