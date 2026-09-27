@@ -44,7 +44,7 @@
       group.setAttribute("aria-label", `${region.name}：${on ? `已开演 ${live.length} 集` : "筹备中"}`);
 
       const g = el("g", { class: `label ${on ? "on" : "off"}`, "data-region": L.region, role: "button", tabindex: "0", "aria-label": region.name }, labels);
-      const txt = region.name + (on ? ` ${live.length}` : "");
+      const txt = region.name;
       const w = Array.from(txt).reduce((a, ch) => a + (ch.charCodeAt(0) > 255 ? 19 : 10), 0) + 22, h = 32;
       const x = L.side === "left" ? L.lx : L.lx - w;
       const edgeX = L.side === "left" ? x + w : x;
