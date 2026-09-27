@@ -231,7 +231,7 @@ Anima.register("worry-loop", {
     const ne = prog(3.4, 1.2), ga = prog(6.4, 1.2), sh = prog(9, 1.2);
     const cs = s * 0.9;
     if (ne > 0) {
-      const x = lerp(W * 1.02, P[1][0] + W * 0.02, ne), y = P[1][1] + H * 0.2;
+      const x = lerp(W * 0.96, P[1][0] + W * 0.02, ne), y = P[1][1] + H * 0.2;
       chara(x, y, cs, { who: "NE", walk: ne < 1 ? time * 9 : null, arms: ne >= 1 ? "up" : "down", eyes: "sparkle", dir: -1, shadow: false, tag: "NE" });
     }
     if (ga > 0) {
@@ -251,7 +251,7 @@ Anima.register("worry-loop", {
       ctx.restore();
     });
     callout("w2-g", lt > 0.6 && lt < 3.2, T.x, T.y - s * 1.5, nw ? W * 0.4 : W * 0.5, H * 0.26, nw ? "谷氨酸在跑" : "谷氨酸：轨道上的信使");
-    say("w2-ne", lt > 4.4 && lt < 6.8, P[1][0] + W * 0.02, P[1][1] + H * 0.2 - cs * 3.1, nw ? W * 0.5 : W * 0.6, H * 0.3, "打起精神，快跑！", "shout");
+    say("w2-ne", lt > 4.4 && lt < 6.8, P[1][0] + W * 0.02, P[1][1] + H * 0.2 - cs * 3.1, nw ? W * 0.34 : W * 0.6, nw ? H * 0.6 : H * 0.3, nw ? "快跑！" : "打起精神，快跑！", "shout");
     say("w2-5", lt > 10, cx - rx * 0.3, P[0][1] + H * 0.17 - cs * 3.1, nw ? W * 0.14 : cx - W * 0.22, H * 0.27, nw ? "慢一点～" : "慢一点，没事的～", "say");
     ctx.restore();
   }

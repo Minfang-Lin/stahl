@@ -269,7 +269,7 @@ Anima.register("antipsychotic-metabolic", {
     const hx = W * (n ? 0.8 : 0.8), hy = H * 0.84, hs = H * 0.06, hp = prog(10, 0.6);
     if (hp > 0) { ctx.save(); ctx.globalAlpha *= hp; rrect(hx - hs, hy - hs, hs * 2, hs * 2, hs * 0.3); ctx.fillStyle = "#fff"; ctx.fill(); outline(1.6); ctx.stroke(); ctx.fillStyle = C.bad; ctx.fillRect(hx - hs * 0.18, hy - hs * 0.65, hs * 0.36, hs * 1.3); ctx.fillRect(hx - hs * 0.65, hy - hs * 0.18, hs * 1.3, hs * 0.36); ctx.restore(); }
     callout("k0", win(1, 4.5), x0 + (x1 - x0) * 0.5, top + H * 0.2, n ? W * 0.3 : W * 0.32, H * 0.52, "葡萄糖用不上，堆在血里");
-    callout("k1", win(5, 9.8), fx, top + H * 0.2, n ? W * 0.3 : W * 0.34, H * 0.52, "酮体：让血液变酸");
+    callout("k1", win(5, 9.8), fx + W * 0.08, top + H * 0.22, n ? W * 0.45 : W * 0.34, H * (n ? 0.62 : 0.52), "酮体：让血液变酸");
     say("k2", lt > 10.3, hx - hs, hy - hs * 0.4, n ? W * 0.5 : W * 0.6, H * (n ? 0.55 : 0.6), "马上去医院！", "shout");
     ctx.restore();
   }

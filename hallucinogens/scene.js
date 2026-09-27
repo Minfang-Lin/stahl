@@ -369,7 +369,7 @@ Anima.register("hallucinogens", {
       chara(p.x + p.w * 0.3, p.y + p.h * 0.88, s, { who: "5HT", eyes: low > 0.5 ? "teary" : "open", mouth: low > 0.5 ? "sad" : "smile", arms: "down", gray: low * 0.5 });
       if (low > 0.5) emote("gloom", p.x + p.w * 0.3, p.y + p.h * 0.88 - s * 3.3, s * 0.7);
       // 5-HT 神经末梢的小树枝
-      const tx = p.x + p.w * 0.72, ty = p.y + p.h * 0.75;
+      const tx = p.x + p.w * (n ? 0.68 : 0.72), ty = p.y + p.h * 0.75;
       ctx.lineCap = "round";
       for (let k = 0; k < 4; k++) {
         const q = -Math.PI / 2 + (k - 1.5) * 0.45, L = p.h * 0.28 * (1 - dmg * (k % 2 ? 0.55 : 0.2));
@@ -377,7 +377,7 @@ Anima.register("hallucinogens", {
         ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx + Math.cos(q) * L, ty + Math.sin(q) * L); ctx.stroke();
         ctx.beginPath(); ctx.arc(tx + Math.cos(q) * L, ty + Math.sin(q) * L, H * 0.01, 0, Math.PI * 2); ctx.fillStyle = mix("#62c9ab", "#c4bcc0", dmg); ctx.fill();
       }
-      text("5-HT 末梢", tx, ty + fs * 1.3, fs, C.ink);
+      text(n ? "末梢" : "5-HT 末梢", tx, ty + fs * 1.3, fs, C.ink);
       ctx.restore();
       callout("heat", lt > 2 && lt < 5, P[0].x + P[0].w * 0.8, P[0].y + P[0].h * 0.4, P[0].x + P[0].w * 0.5, P[0].y + P[0].h * 0.12, "体温过高、脱水");
       callout("low", lt > 7.5 && lt < 10, vx, vy, P[2].x + P[2].w * 0.5, P[2].y + P[2].h * 0.5, "5-HT 库存见底");

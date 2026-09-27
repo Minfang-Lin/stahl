@@ -293,7 +293,7 @@ Anima.register("norepinephrine-system", {
       callout("s2", lt > 9.5, g.comt.x - cs * 0.3, n ? g.comt.y + H * 0.02 : g.comt.y - cs * 2.6, n ? W * 0.62 : g.comt.x - W * 0.06, H * (n ? 0.92 : 0.56), "COMT：外面的分解");
     }
     if (c === 3) {
-      callout("s3", win(1.8, 5.2), g.a1x - rs * 0.6, g.mem - rs * 0.8, n ? W * 0.3 : W * 0.12, H * (n ? 0.93 : 0.62), "α1：Gq，让人警觉");
+      callout("s3", win(1.8, 5.2), g.a1x - rs * 0.6, g.mem - rs * 0.8, n ? W * 0.5 : W * 0.12, H * (n ? 0.93 : 0.62), "α1：Gq，让人警觉");
       callout("s4", win(5.2, 9), g.a2ax + rs * 0.5, g.mem - rs * 0.8, n ? W * 0.62 : g.a2ax + W * 0.16, H * (n ? 0.93 : 0.62), "α2A：稳住前额叶信号");
       callout("s5", lt > 9.3, g.a2x - rs * 0.6, g.a2y + rs, n ? W * 0.62 : W * 0.1, H * (n ? 0.93 : 0.62), "α2 自身受体：踩刹车");
       if (k2) say("s6", lt > 10.6, k2.x, k2.y - cs2 * 3.2, n ? W * 0.62 : g.cx + g.tw * 0.25, H * (n ? 0.3 : 0.66), "NE 够多了，少放点！", "say");

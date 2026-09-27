@@ -143,7 +143,7 @@ Anima.register("gaba-system", {
     let vg = null, tg = null, gtGray = 0;
     if (c === 1) {
       // 维加巴特林：从上面进来抱住 GABA-T
-      const vp = walkPos({ x: g.cx, y: H * 0.12 }, { x: g.gt.x - cs * (n ? 4 : 2.9), y: g.gt.y }, 4.5, 2);
+      const vp = walkPos({ x: g.cx, y: H * 0.12 }, { x: g.gt.x - cs * (n ? 4.8 : 2.9), y: g.gt.y }, 4.5, 2);
       if (vp.p > 0) { vg = vp; chara(vp.x, vp.y, cs, Object.assign({}, VGB, { walk: vp.moving ? time * 9 : null, arms: vp.p >= 1 ? "hug" : "wave", eyes: "happy", dir: 1 })); }
       gtGray = prog(6.3, 0.8) * 0.6;
       chara(g.gt.x, g.gt.y, cs, Object.assign({}, GABAT, { gray: gtGray, eyes: gtGray > 0.3 ? "sleepy" : "open", arms: "hold", dir: -1 }));
@@ -182,7 +182,7 @@ Anima.register("gaba-system", {
       callout("b2", win(7.2, 10), g.ves.x - g.ves.r, g.ves.y, n ? W * 0.3 : W * 0.14, n ? H * 0.62 : H * 0.34, "GABA 攒得更多");
       callout("b3", lt > 11.8, g.recX[1], g.mem - rs * 1.2, n ? W * 0.4 : g.recX[1] - W * 0.05, below, "GABA 停留得更久");
       if (vg) say("b4", win(6.6, 9.5), vg.x, vg.y - cs * 3.2, n ? W * 0.3 : g.cx - g.tw * 0.62, n ? H * 0.55 : H * 0.5, "清扫员先歇一歇～", "say");
-      if (tg) say("b5", lt > 10.6, tg.x - cs * 0.5, tg.y - cs * 2, n ? W * 0.3 : W * 0.86, n ? H * 0.34 : H * 0.66, "回收门，暂停！", "shout");
+      if (tg) say("b5", lt > 10.6, tg.x - cs * 0.5, tg.y - cs * 2, n ? W * 0.24 : W * 0.86, n ? H * 0.3 : H * 0.66, "回收门，暂停！", n ? "say" : "shout");
     }
     ctx.restore();
   }
@@ -246,7 +246,7 @@ Anima.register("gaba-system", {
     callout("r0", win(0.6, 4), P(0, D).x, P(0, D).y - sr, cx + R * (n ? 0.4 : 1.2), cy - R * 1.55, "五个亚基围成一圈");
     callout("r1", win(4.3, 8.4) && gab.length > 0, site(1, D).x, site(1, D).y, n ? W * 0.5 : cx + R * 1.6, cy + R * 1.35, "GABA 坐在 β 和 α 之间");
     callout("r2", lt > 8.6, bzs.x, bzs.y, n ? W * 0.3 : cx - R * 1.3, cy - R * 1.5, "苯二氮䓬座位：α 和 γ 之间");
-    say("r3", lt > 7, mx, H * 0.95 - ns * 3.2, n ? W * 0.6 : mx - W * 0.14, H * (n ? 0.96 : 0.82), n ? "安静啦～" : "Cl⁻ 进来，安静啦～", "say");
+    say("r3", lt > 7 && !n, mx, H * 0.95 - ns * 3.2, n ? W * 0.6 : mx - W * 0.14, H * (n ? 0.96 : 0.82), n ? "安静啦～" : "Cl⁻ 进来，安静啦～", "say");
     ctx.restore();
   }
 
@@ -261,7 +261,7 @@ Anima.register("gaba-system", {
     else {
       rrect(x - s, y - s * 0.7, s * 2, s * 1.4, s * 0.15); ctx.fillStyle = "#dfefff"; ctx.fill(); outline(1.5); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(x, y - s * 0.7); ctx.lineTo(x, y + s * 0.7); ctx.stroke();
-      if (on > 0.5) emote("?", x + s * 1.2, y - s * 0.9, s * 0.7);
+      if (on > 0.5) emote("?", x + s * 1.35, y + s * 0.1, s * 0.6);
     }
     ctx.restore();
   }
@@ -350,7 +350,7 @@ Anima.register("gaba-system", {
     ctx.save(); ctx.setLineDash([4, 6]); outline(1.3); ctx.beginPath(); ctx.moveTo(gbx + rs * 0.8, gy); ctx.lineTo(kx - rs * 1.1, gy); ctx.stroke(); ctx.restore();
     ctx.beginPath(); ctx.ellipse(gx, gy, H * 0.05, H * 0.04, 0, 0, Math.PI * 2); ctx.fillStyle = "#ffe7a3"; ctx.fill(); outline(1.8); ctx.stroke();
     face(gx, gy + H * 0.004, H * 0.024, 1);
-    text("G 蛋白", gx, gy + H * 0.068, fs(0.026), C.ink);
+    text("G 蛋白", gx - H * 0.1, gy, fs(0.026), C.ink, "right");
     if (gp > 0 && gp < 1) sfx("慢慢来…", gx + H * 0.14, gy + H * 0.02, H * 0.03, "#c88600", -0.06, 1);
     if (kOpen > 0.3) for (let k = 0; k < 4; k++) {
       const t = (time * 0.5 + k / 4) % 1;
