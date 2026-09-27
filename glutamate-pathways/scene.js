@@ -213,7 +213,7 @@ Anima.register("glutamate-pathways", {
       chara(dx, dy, s * 0.8, Object.assign({}, KET, { walk: L.drug < 1 ? time * 9 : null, arms: L.drug < 1 ? "wave" : "hug", eyes: "happy", mouth: "cat" }));
       // 名牌挂在头顶，别压住下面的 NMDA 标签和刹车员的名牌
       plate(nw ? "氯胺酮" : "氯胺酮 / PCP", dx, dy - s * 0.8 * 3.4 - fz(0.022) * 0.6, "#ffe9d2", fz(0.022));
-      say("plug", lt > 1 && lt < 5.5, dx, dy - s * 2.6, W * (Anima.narrow ? 0.3 : 0.24), H * (Anima.narrow ? 0.69 : 0.72), Anima.narrow ? "我来堵住门～" : "我来堵住 NMDA 的门～", "say"); // 手机：一行，不压住下面的站牌和小人
+      say("plug", lt > 1 && lt < 5.5, dx, dy - s * 2.6, W * (Anima.narrow ? 0.52 : 0.24), H * (Anima.narrow ? 0.69 : 0.72), Anima.narrow ? "我来堵住门～" : "我来堵住 NMDA 的门～", "say"); // 手机：一行，不压住下面的站牌和小人
     }
 
     // 皮层的三位：GABA 刹车员 + 两位锥体神经元
@@ -258,7 +258,7 @@ Anima.register("glutamate-pathways", {
     // 标注和对话
     callout("nmda", cur === 0 && lt > 1 && (!nw || lt < 5), R.site.x, R.site.y, nw ? W * 0.52 : g.N[0] + W * 0.06, H * (nw ? 0.68 : 0.2), "NMDA 受体：刹车员的“电源”");
     callout("pyr", cur === 0 && lt > (nw ? 5.5 : 4), g.P2[0] + s, g.top - s * 1.5, nw ? W * 0.5 : g.P2[0] + W * 0.14, H * 0.2, nw ? "锥体神经元：放谷氨酸" : "锥体神经元：放出谷氨酸的长线");
-    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, nw ? W * 0.42 : g.G1[0] + W * 0.14, H * (nw ? 0.68 : 0.74), nw ? "有我按着呢～" : "有我按着，大家别太激动～", "say");
+    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, nw ? W * 0.52 : g.G1[0] + W * 0.14, H * (nw ? 0.68 : 0.74), nw ? "有我按着呢～" : "有我按着，大家别太激动～", "say");
     callout("weak", cur === 1 && lt > 1.5 && lt < (nw ? 5.2 : 7), R.site.x, R.site.y, nw ? W * 0.52 : g.N[0] + W * 0.08, H * (nw ? 0.68 : 0.2), "钥匙插进来，门却打不开");
     say("wild", cur === 1 && lt > (nw ? 7 : 6), g.P1[0], g.top - s * 3.3, W * (nw ? 0.55 : 0.62), H * (nw ? 0.64 : 0.68), nw ? "停不下来！" : "没人管啦，停不下来！", nw ? "say" : "shout"); // 手机：小气泡，不盖住下面小人的脸
     say("go", cur === 2 && lt > 3.5 && (!nw || lt < 5.5), g.D1[0], g.bot - s * 3.2, W * (nw ? 0.64 : 0.56), H * 0.68, "又要发车？！", "shout");

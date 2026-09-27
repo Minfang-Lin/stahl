@@ -171,7 +171,8 @@ Anima.register("ketamine", {
       carPos = car(cx, y2 + H * 0.045, s, KET, cp < 1);
       if (cp >= 1) sparkles(gx - W * 0.1, y2 - H * 0.1, s * 3, 5, 1, 4);
       if (lt > 1.8 && lt < 3.2) sfx("咻——！", W * 0.5, y2 - H * 0.12, fsz(0.05), "#e07a2a", -0.1, 1);
-      say("slow", lt > 0.5 && lt < (nar ? 6.3 : 7), sx, y1 - s * 2.9, nar ? W * 0.3 : W * 0.3, H * 0.27, "我走慢车道，要几周哦～", "say");
+      // 手机上气泡放到传统药右上方，不压住它的头
+      say("slow", lt > 0.5 && lt < (nar ? 6.3 : 7), sx, y1 - s * 2.9, nar ? W * 0.55 : W * 0.3, H * 0.27, "我走慢车道，要几周哦～", "say");
       // 手机上爆炸框太大会盖住慢车道，改成普通气泡，放在两条路中间
       say("fast", lt > 4, carPos.head.x, carPos.head.y, nar ? W * 0.5 : W * 0.5, H * (nar ? 0.665 : 0.64), "我走快车道：几小时到一天！", nar ? "say" : "shout");
       callout("anes", lt > 7.5, cx, y2 - H * 0.02, nar ? W * 0.56 : W * 0.36, H * 0.3, "氯胺酮：原本是一种麻醉药");
@@ -204,8 +205,9 @@ Anima.register("ketamine", {
       const dr = Math.min(H * 0.04, W * 0.032), ddx = nar ? W * 0.12 : W * 0.1, ddy = H * 0.63;
       discoNo(ddx, ddy, dr);
       text("不是派对药", ddx + dr * 1.6, ddy, fs, C.bad, "left");
-      say("escort", lt > 1 && lt < (nar ? 6.2 : 7), dx, by - s * 3.2, nar ? W * 0.44 : W * 0.44, H * 0.28, "快车道也要有医生护航～", "say");
-      callout("course", lt > (nar ? 7.4 : 7) && lt < (nar ? 9.3 : 10.5), lerp(bx + W * 0.12, x1 - W * 0.04, 0.66), y2 - H * 0.075, nar ? W * 0.62 : W * 0.66, H * 0.3, "效果可能不持久：要规范疗程");
+      // 手机上气泡和标注放到左上，不压住慢车道上传统药的头
+      say("escort", lt > 1 && lt < (nar ? 6.2 : 7), dx, by - s * 3.2, nar ? W * 0.25 : W * 0.44, H * 0.28, "快车道也要有医生护航～", "say");
+      callout("course", lt > (nar ? 7.4 : 7) && lt < (nar ? 9.3 : 10.5), lerp(bx + W * 0.12, x1 - W * 0.04, 0.66), y2 - H * 0.075, nar ? W * 0.3 : W * 0.66, H * 0.3, "效果可能不持久：要规范疗程");
       say("help", lt > 10.5, W * 0.5, H * 0.5, nar ? W * 0.3 : W * 0.55, H * 0.2, "有伤害自己的想法时，请马上告诉身边的人，尽快去医院急诊。", "box");
     }
     ctx.restore();
@@ -298,9 +300,11 @@ Anima.register("ketamine", {
       callout("nmda", lt > 0.8 && lt < 4, gx + rs * 0.6, ry - rs, W * 0.3, H * 0.2 + Anima.topSafe() * 0.3, "NMDA 受体：让 GABA 保持工作");
       callout("ket", lt > 4.6 && lt < 9, gx - rs * 0.2, ry - rs * 0.8, W * 0.3, H * 0.2 + Anima.topSafe() * 0.3, "氯胺酮：堵住 NMDA 通道");
     }
-    callout("dis", lt > 9, pdx + H * 0.03, pdy, nar ? W * 0.45 : W * 0.46, H * 0.95, "刹车松开 = 去抑制");
-    say("brake", lt > 0.8 && lt < 4.5, qx, gy - cs * 3.4, nar ? W * 0.74 : W * 0.8, H * (nar ? 0.52 : 0.28), "被刹车管着，好困……", "think");
-    say("free", lt > 9, qx, gy - cs * 3.4, nar ? W * 0.74 : W * 0.8, H * (nar ? 0.5 : 0.28), "刹车松开啦！", "shout");
+    // 手机上中间放不下：气泡都放到右上角（谷氨酸神经元的头顶上方），“去抑制”标注用左上角的位置，
+    // 不压住谷氨酸神经元的脸和右下角的谷氨酸快递员
+    callout("dis", lt > 9, pdx + H * 0.03, pdy, nar ? W * 0.28 : W * 0.46, nar ? H * 0.2 + Anima.topSafe() * 0.3 : H * 0.95, "刹车松开 = 去抑制");
+    say("brake", lt > 0.8 && lt < 4.5, qx, gy - cs * 3.4, nar ? W * 0.84 : W * 0.8, H * (nar ? 0.3 : 0.28), nar ? "被刹车管着…" : "被刹车管着，好困……", "think");
+    say("free", lt > 9, qx, gy - cs * 3.4, nar ? W * 0.78 : W * 0.8, H * (nar ? 0.3 : 0.28), "刹车松开啦！", nar ? "say" : "shout");
     ctx.restore();
   }
 

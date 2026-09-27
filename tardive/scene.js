@@ -192,8 +192,8 @@ Anima.register("tardive", {
     Anima.receptor(rx, fy - s * 3.3, s * 0.5, C.d2, 0.1, { dir: -1 });
     const on = cur === 0;
     callout("blocked", on && t > 0.8 && t < 3.8 && !!firstOld, firstOld ? firstOld.x : 0, firstOld ? firstOld.y - cs * 1.5 : 0, W * (n ? 0.4 : 0.34), H * (n ? 0.32 : 0.3), n ? "D2 长期被挡" : "D2 长期被药物挡住");
-    say("more", on && t > 2.5 && t < 8, rx, fy - s * 3.9, W * (n ? 0.3 : 0.6), H * (n ? 0.78 : 0.8), "门铃不响？再多装几个！", "say");
-    callout("grow", on && t > 6 && !!firstNew, firstNew ? firstNew.x : 0, firstNew ? firstNew.y : 0, W * (n ? 0.5 : 0.62), H * (n ? 0.82 : 0.84), n ? "D2 变多、变灵" : "代偿：D2 变多、变敏感");
+    say("more", on && t > 2.5 && t < 8, rx, fy - s * 3.9, W * (n ? 0.22 : 0.6), H * (n ? 0.78 : 0.8), n ? "再多装几个！" : "门铃不响？再多装几个！", "say"); // 手机：一行，不挡右下角小人的脸
+    callout("grow", on && t > 6 && !!firstNew, firstNew ? firstNew.x : 0, firstNew ? firstNew.y : 0, W * (n ? 0.25 : 0.62), H * (n ? 0.92 : 0.84), n ? "D2 变多、变灵" : "代偿：D2 变多、变敏感");
     ctx.restore();
   }
 
@@ -319,7 +319,7 @@ Anima.register("tardive", {
       }
       const ft = Math.min(fsz(0.03, 11), lw * 0.62 / f.t.length);
       text(f.t, lx + lw * 0.6, iy, ft, C.ink);
-      text("↑ 风险", lx + lw * 0.6, iy + ft * 1.3, ft * 0.8, C.bad);
+      text("↑ 风险", lx + lw * 0.6, iy + ft * 1.3, Anima.narrow ? Math.max(10.5, ft * 0.8) : ft * 0.8, C.bad); // 手机：小字别太小
       ctx.restore();
       if (i === 0) fac0 = { x: lx + lw, y: iy };
     });
@@ -383,7 +383,7 @@ Anima.register("tardive", {
     });
     const on = cur === 4;
     say("tongue", on && t > 1 && t < 6.5, dx, floor - s * 3.2, W * (n ? 0.22 : 0.2), H * (n ? 0.5 : 0.5), "张开嘴，伸伸舌头～", "say");
-    callout("aims", on && t > (n ? 6.5 : 3) && (!n || t < 9), bx + bw * 0.5, by, W * (n ? 0.3 : 0.3), H * (n ? 0.3 : 0.26), n ? "AIMS：异常不自主运动量表" : "AIMS：异常不自主运动量表");
+    callout("aims", on && t > (n ? 6.5 : 3) && (!n || t < 9), bx + bw * 0.5, by, W * (n ? 0.25 : 0.3), H * (n ? 0.45 : 0.26), n ? "AIMS：不自主运动量表" : "AIMS：异常不自主运动量表"); // 手机：写短一点，放在清单左边，不压住清单
     say("easy", on && t > 9, rx, floor - s * 3.4, W * (n ? 0.26 : 0.28), H * (n ? 0.5 : 0.5), "不疼，一会儿就好啦", "say");
     ctx.restore();
   }
@@ -419,7 +419,8 @@ Anima.register("tardive", {
     // 抑制剂访客
     if (inh > 0.02) {
       const ix = lerp(-cs * 3, vmx - cs * 2.7, inh);
-      chara(n ? vmx - cs * 2.7 : ix, vmy, cs * 1.1, O(VMI, { eyes: "happy", mouth: "cat", arms: "shh", dir: 1, alpha: inh, tag: "抑制剂" }));
+      chara(n ? vmx - cs * 3.3 : ix, vmy, // 手机：再往左一点，名牌不和“VMAT2”叠在一起
+       cs * 1.1, O(VMI, { eyes: "happy", mouth: "cat", arms: "shh", dir: 1, alpha: inh, tag: "抑制剂" }));
       if (lt > 4.5 || cur !== 5) inhPt = { x: n ? vmx - cs * 2.7 : ix, y: vmy - cs * 1.5 };
     }
     // 靠在膜边的囊泡，放出多巴胺

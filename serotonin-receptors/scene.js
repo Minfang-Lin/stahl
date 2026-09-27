@@ -193,7 +193,7 @@ Anima.register("serotonin-receptors", {
       say("hi", lt > 0.5 && lt < 5, W * 0.5, T.bot, W * (nw ? 0.8 : 0.2), H * 0.2, "同一封信，送去不同的门～", "say");
     } else {
       callout("c7", lt < 3.6, X[5], mem - rs * 1.8, X[5] - W * 0.08, H * 0.2, nw ? "5-HT7：节律、睡眠" : "5-HT7：生物钟、睡眠和情绪");
-      say("pick", lt > 9.5, W * 0.5, T.bot, W * (nw ? 0.6 : 0.22), H * 0.2, nw ? "挑对门，效果就对！" : "门挑对了，效果就挑对了！", "shout");
+      say("pick", lt > 9.5, W * 0.5, T.bot, W * (nw ? 0.6 : 0.22), H * 0.2, nw ? "挑对门就对！" : "门挑对了，效果就挑对了！", nw ? "say" : "shout"); // 手机：小气泡，不压住下面的名牌
     }
     ctx.restore();
   }
@@ -266,7 +266,8 @@ Anima.register("serotonin-receptors", {
     if (!sc3) {
       callout("c1a", lt > 4, r1x, R1.site.y, W * 0.24, H * 0.24, nw ? "5-HT1A：胞体刹车" : "5-HT1A 自身受体：胞体上的刹车");
       say("slow", lt > 5 && lt < 9.5, sx, sy - r, W * 0.3, H * 0.44, "信号……慢一点发～", "think");
-      callout("half", lt > 9.2, Rb.site.x, Rb.site.y, W * 0.64, H * 0.56, nw ? "部分激动剂：推开一半" : "部分激动剂：只把门推开一半");
+      callout("half", lt > (nw ? 9.8 : 9.2), Rb.site.x, Rb.site.y, W * (nw ? 0.28 : 0.64), H * (nw ? 0.87 : 0.56), // 手机：放到左下空处，不盖住右下角小人的脸
+        nw ? "部分激动剂：半开" : "部分激动剂：只把门推开一半");
     } else {
       callout("c1b", lt > 4.5, rbx, rby, W * 0.28, H * 0.22, nw ? "5-HT1B/D：末梢刹车" : "5-HT1B/D 自身受体：末梢上的刹车");
       say("enough", lt > 7, cxT + tw * 0.2, y0 + th * 0.5, W * 0.88, H * 0.52, nw ? "少放点～" : "外面够多啦，少放点～", "say");
@@ -322,7 +323,7 @@ Anima.register("serotonin-receptors", {
       if (blk > 0.3) plate(nw ? "抗精神病药" : drugName, R.site.x, R.site.y - s * 3.3, "#ffe9d2", fz(0.022));
       callout("btn", lt > 1 && lt < 5.5, R.site.x, R.site.y, W * (nw ? 0.5 : 0.3), H * 0.2, "5-HT2A：兴奋按钮");
       say("brake", lt > 3 && lt < 6.5, G[0], bot - s * 3.2, W * (nw ? 0.18 : 0.22), H * (nw ? 0.75 : 0.7), nw ? "去刹车！" : "锥体叫我去刹车！", "shout");
-      callout("more", lt > 9, ST[0], ST[1] + H * 0.03, W * 0.6, H * 0.2, "刹车松开：纹状体多巴胺↑");
+      callout("more", lt > 9, ST[0], ST[1] + H * 0.03, W * (nw ? 0.55 : 0.6), H * (nw ? 0.53 : 0.2), "刹车松开：纹状体多巴胺↑");
       say("free", lt > 9.5, D[0], bot - s * 3.2, W * (nw ? 0.5 : 0.56), H * 0.72, "可以多发车啦～", "say");
     } else {
       text(nw ? "前额叶" : "前额叶皮层", W * 0.03, bandTop + fsB * 1.1, fsB, C.mintDeep, "left");

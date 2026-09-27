@@ -248,16 +248,16 @@ Anima.register("basal-ganglia-loops", {
     const gm = aG.pt(0.5);
     callout("l-tonic", q(1, 1, 13), gm.x, gm.y, n ? W * 0.72 : gm.x, H * (n ? 0.71 : 0.72), n ? "一直抑制丘脑" : "一直放电：持续抑制");
     say("s-hold", q(1, 2.5, n ? 7 : 13.5), P.gpi.x + s * 0.5, P.gpi.y - s * 3, L.TR.x, L.TR.y, "先别动，等命令～", "say");
-    say("s-th", q(1, n ? 9 : 8, 13.5), P.thal.x, P.thal.y - s * 3, L.BR.x, L.BR.y, "被按住了……", "think");
+    say("s-th", q(1, n ? 9 : 8, 13.5), P.thal.x, P.thal.y - s * 3, n ? W * 0.74 : L.BR.x, L.BR.y, "被按住了……", "think"); // 手机：往左一点，云朵不出右边界
     // 第 3 幕
     callout("l-d1", q(2, 2.5, n ? 6.3 : 7), P.d1.x + s * 0.8, P.d1.y - s * 2, L.ML.x, L.ML.y, "D1 神经元被叫醒");
     callout("l-dis", q(2, n ? 8 : 7.5, 13), P.gpi.x, P.gpi.y - s * 1.5, L.ML.x, L.ML.y, n ? "去抑制" : "按手的人被按住 → 去抑制");
-    say("s-go", q(2, 7.5, 13.5), P.thal.x, P.thal.y - s * 3.4, L.BR.x, L.BR.y, "松开啦，开始动！", "shout");
+    say("s-go", q(2, 7.5, 13.5), P.thal.x, P.thal.y - s * 3.4, n ? W * 0.78 : L.BR.x, n ? Anima.topSafe() + H * 0.06 : L.BR.y, "松开啦，开始动！", n ? "say" : "shout"); // 手机：小气泡放到右上角，不盖住“动作”小人
     // 第 4 幕
     callout("l-d2", q(3, 2.5, n ? 7 : 7.5), P.d2.x + s * (n ? 0.6 : 1), P.d2.y - s * (n ? 3.6 : 2.2), n ? W * 0.52 : L.ML.x, n ? H * 0.7 : L.ML.y, n ? "D2 神经元" : "D2 神经元：多绕一圈");
     // 手机：丘脑底核的标注和丘脑的心声先后用右上角的空地
     callout("l-stn", n ? q(3, 6.8, 9.8) : q(3, 7.5, 13), P.stn.x, P.stn.y - s * 3, n ? W * 0.8 : P.stn.x + W * 0.12, H * (n ? 0.3 : 0.7), n ? "丘脑底核兴奋" : "丘脑底核兴奋，催苍白球");
-    say("s-stop", q(3, n ? 11.3 : 8, 13.8), P.thal.x, P.thal.y - s * 3, L.TR.x, L.TR.y, "又被按紧了，停下～", "think");
+    say("s-stop", q(3, n ? 11.3 : 8, 13.8), P.thal.x, P.thal.y - s * 3, n ? W * 0.76 : L.TR.x, n ? Anima.topSafe() + H * 0.07 : L.TR.y, n ? "又被按紧了～" : "又被按紧了，停下～", "think"); // 手机：一行，放到右上角，不盖住“动作”小人
     // 第 5 幕
     const dm = aDA ? aDA.pt(0.45) : { x: 0, y: 0 };
     callout("l-nigro", q(4, 1.5, 8) && !n, dm.x, dm.y, L.ML.x, L.ML.y + H * 0.04, "黑质纹状体通路");

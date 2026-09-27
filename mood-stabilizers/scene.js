@@ -41,7 +41,12 @@ Anima.register("mood-stabilizers", {
   const DUR = 14;
 
   const C = Object.assign({}, Anima.C, { term: "#ffe0cf", post: "#e3f3ee", rainC: "#8fb3dc" });
-  const { rnd, clamp, lerp, ease, mix, alpha, outline, rrect, text, face, chara, say, callout, pill, glow, sparkle, sparkles, sfx, emote } = Anima;
+  const { rnd, clamp, lerp, ease, mix, alpha, outline, rrect, text, face, chara, pill, glow, sparkle, sparkles, sfx, emote } = Anima;
+  // 换幕时上一幕的画面还在淡出，它的气泡和标注只在“本幕就是这个画面”时出现，
+  // 否则旧气泡会借新一幕的计时冒出来，把新一幕的气泡挤到角色脸上
+  let live = true;
+  const say = (key, on, ...r) => Anima.say(key, on && live, ...r);
+  const callout = (key, on, ...r) => Anima.callout(key, on && live, ...r);
   const ctx = Anima.ctx;
   let W = 0, H = 0, time = 0, cur = 0;
   let lastCur = -1, lt = 0;
@@ -406,7 +411,9 @@ Anima.register("mood-stabilizers", {
       say("why", lt > 4.5 && (lt < 9.5 || lt > 10), lx, ly - ls * 3.2, W * 0.5, H * 0.9, lt < 9.75 ? "我的安全区很窄，要常常量一量～" : "检查是让我安全工作的保障！", "say");
     } else {
       const K = [["sweat", "出汗脱水"], ["tummy", "腹泻呕吐"], ["pill", "止痛药"], ["drop", "利尿剂"]];
-      const P = [[col0, H * 0.34], [col1, H * 0.34], [col0, H * 0.62], [col1, H * 0.62]];
+      // 手机上下面一排往右挪一点，“止痛药”圆牌不压住锂盐访客的脸
+      const b0 = nar ? W * 0.73 : col0, b1 = nar ? W * 0.9 : col1;
+      const P = [[col0, H * 0.34], [col1, H * 0.34], [b0, H * 0.62], [b1, H * 0.62]];
       K.forEach((k, i) => tile(P[i][0], P[i][1], tr, k[0], k[1], prog(1 + i * 1.5, 0.6), "#f2a0a8", 0));
       if (lt > 1 && lt < 7.5) { // 升高的箭头
         const k = Math.floor((lt - 1) / 1.5) % 4;
@@ -434,10 +441,11 @@ Anima.register("mood-stabilizers", {
       const cool = prog(2, 3);
       sun(x + w * 0.68, y + h * 0.22, Math.min(w * 0.08, H * 0.05), 1, 1 - cool);
       chara(x + w * 0.35, floor, cs, drug(VPA, { arms: cool < 1 ? "fist" : "wave", eyes: "happy", mouth: "grin", tag: "" }));
-      if (cool > 0.1 && cool < 0.95) sfx("嘿！", x + w * 0.5, y + h * 0.22, fsz(0.04), "#e07a2a", -0.1, 1);
+      // 手机上这里放“躁狂交给我！”气泡，拟声字就不画了，免得把气泡挤到角色脸上
+      if (!nar && cool > 0.1 && cool < 0.95) sfx("嘿！", x + w * 0.5, y + h * 0.22, fsz(0.04), "#e07a2a", -0.1, 1);
     } else {
-      // 一级一级的台阶：慢慢加量
-      const n = 5, sw = w * 0.1, sh = h * 0.06, sx = x + w * 0.18, sy = floor;
+      // 一级一级的台阶：慢慢加量（手机上台阶矮一点，爬到顶也不踩到卡片名牌）
+      const n = 5, sw = w * 0.1, sh = h * (nar ? 0.042 : 0.06), sx = x + w * 0.18, sy = floor;
       for (let i = 0; i < n; i++) { rrect(sx + i * sw, sy - (i + 1) * sh, sw * (n - i), sh, 3); ctx.fillStyle = mix("#e3f3cf", "#bfe39a", i / n); ctx.fill(); outline(1.4); ctx.stroke(); }
       const step = Math.min(n - 1, Math.floor(clamp((lt - 1) / 2, 0, n - 1)));
       const sub = clamp(((lt - 1) / 2) - step, 0, 1);
@@ -477,8 +485,9 @@ Anima.register("mood-stabilizers", {
     const gap = W * 0.03, top = H * (nar ? 0.26 : 0.24), ch = H * (nar ? 0.7 : 0.71), cw = (W - gap * 3) / 2;
     const A = drugCard(gap, top, cw, ch, "V");
     const B = drugCard(gap * 2 + cw, top, cw, ch, "L");
-    say("vpa", lt > 1 && lt < 6, A.head.x, A.head.y, gap + cw * 0.6, top + ch * 0.2, "躁狂交给我！", "shout");
-    say("ltg", lt > 6.5, B.head.x, B.head.y, nar ? gap + cw * 0.6 : gap * 2 + cw * 1.35, top + ch * (nar ? 0.16 : 0.12), "一步一步慢慢来～", "say");
+    // 手机上卡片窄：两个气泡都缩小、各留在自己的卡片里（爆炸框改普通气泡，放在名牌和太阳之间；拉莫三嗪的话变短，放在台阶左上）
+    say("vpa", lt > 1 && lt < 6, A.head.x, A.head.y, gap + cw * (nar ? 0.5 : 0.6), top + ch * (nar ? 0.105 : 0.2), "躁狂交给我！", nar ? "say" : "shout");
+    say("ltg", lt > 6.5, B.head.x, B.head.y, nar ? gap * 2 + cw * 1.22 : gap * 2 + cw * 1.35, top + ch * (nar ? 0.23 : 0.12), nar ? "慢慢来～" : "一步一步慢慢来～", "say");
     ctx.restore();
   }
 
@@ -553,7 +562,8 @@ Anima.register("mood-stabilizers", {
     if (lIn > 0) chara(lx, iy + gr * 1.2, cs, drug(LI, { walk: lIn < 1 ? time * 9 : null, dir: -1, arms: lIn >= 1 ? "point" : "down", eyes: "happy", mouth: "grin" }));
     callout("chan", lt > 2 && lt < 9, chX, chY, nar ? W * 0.18 : W * 0.16, H * 0.18 + Anima.topSafe() * 0.5, "离子通道：放电别太“冲”");
     callout("sig", lt > 8, ix - gr * 1.3, iy, nar ? W * 0.3 : W * 0.36, H * 0.9, "细胞内信号：锂盐在里面调节");
-    say("slow", lt > 4.5 && lt < 8.5, RX[1], post - rs * 3, cx + tw * 0.15, (th + post) / 2, "不用那么急啦～", "say");
+    // 手机上放到右边空处，不压住“拉莫三嗪”名牌
+    say("slow", lt > 4.5 && lt < 8.5, RX[1], post - rs * 3, nar ? W * 0.72 : cx + tw * 0.15, nar ? H * 0.42 : (th + post) / 2, "不用那么急啦～", "say");
     say("doc", lt > 10, W * 0.8, H * 0.3, nar ? W * 0.78 : W * 0.83, H * 0.26, "机制还在研究中：请遵医嘱长期用药，别自己停药。", "box");
     ctx.restore();
   }
@@ -569,11 +579,13 @@ Anima.register("mood-stabilizers", {
 
   function draw() {
     ctx.fillStyle = "#fff6f2"; ctx.fillRect(0, 0, W, H);
-    if (S.v0 > 0.02) shockView(S.v0);
-    if (S.v1 > 0.02) lithiumView(S.v1);
-    if (S.v2 > 0.02) levelView(S.v2);
-    if (S.v3 > 0.02) pairView(S.v3);
-    if (S.v4 > 0.02) synView(S.v4);
+    const c = CH[cur];
+    if (S.v0 > 0.02) { live = c.v0 === 1; shockView(S.v0); }
+    if (S.v1 > 0.02) { live = c.v1 === 1; lithiumView(S.v1); }
+    if (S.v2 > 0.02) { live = c.v2 === 1; levelView(S.v2); }
+    if (S.v3 > 0.02) { live = c.v3 === 1; pairView(S.v3); }
+    if (S.v4 > 0.02) { live = c.v4 === 1; synView(S.v4); }
+    live = true;
     hud();
   }
 

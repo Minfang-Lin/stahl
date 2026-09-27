@@ -217,7 +217,8 @@ Anima.register("neurosteroids", {
     // ---------- 标注和气泡 ----------
     const c = cur, top = Anima.topSafe() + H * 0.02, midY = g.th + H * 0.03;
     if (c === 0) {
-      callout("n0a", win(1.5, n ? 5 : 99), g.rec[1].x, g.mem - g.rs * 0.8, g.cx - g.tw * 0.05, H * 0.44, "突触里的 GABA-A（含 γ）");
+      callout("n0a", win(1.5, n ? 5 : 99), g.rec[1].x, g.mem - g.rs * 0.8, g.cx - g.tw * 0.05, H * (n ? 0.33 : 0.44), // 手机上抬高，不压住突触里 GABA 们的脸
+         "突触里的 GABA-A（含 γ）");
       callout("n0b", lt > (n ? 5 : 4.5), g.rec[0].x, g.mem - g.rs * 1.2, W * 0.2, midY - H * 0.06, "突触外的 GABA-A（含 δ）");
       say("n0c", lt > (n ? 9 : 8), extra[1].x, extra[1].y - cs * 2, W * 0.8, midY + H * 0.04, "这里 GABA 只有零星几个～", "say");
     }
@@ -265,12 +266,13 @@ Anima.register("neurosteroids", {
     Anima.wash("#fff6f9", "#f6f1ff");
     Anima.bokeh(6, "#f7d3e4", 0.7, 44);
     const n = N(), gx0 = W * 0.08, gx1 = W * 0.92, gy0 = Anima.topSafe() + H * 0.1, gy1 = H * (n ? 0.5 : 0.52), birth = 0.55;
-    rrect(gx0 - W * 0.02, gy0 - H * 0.05, gx1 - gx0 + W * 0.04, gy1 - gy0 + H * 0.1, H * 0.03); ctx.fillStyle = "rgba(255,255,255,0.85)"; ctx.fill(); outline(1.4); ctx.stroke();
+    // 手机上字相对大：图框往下多留一点，“孕期/分娩/产后”不压在框线上
+    rrect(gx0 - W * 0.02, gy0 - H * 0.05, gx1 - gx0 + W * 0.04, gy1 - gy0 + H * (n ? 0.14 : 0.1), H * 0.03); ctx.fillStyle = "rgba(255,255,255,0.85)"; ctx.fill(); outline(1.4); ctx.stroke();
     const allo = (x) => x < birth ? lerp(0.15, 0.95, Math.pow(x / birth, 1.6)) : lerp(0.95, 0.12, ease((x - birth) / 0.07));
     const doors = (x) => x < birth ? lerp(1, 0.55, x / birth) : lerp(0.55, 1, ease((x - birth - 0.08) / 0.34));
     const X = (x) => lerp(gx0, gx1, x), Y = (v) => lerp(gy1, gy0 + H * 0.02, v);
     // 分娩线
-    ctx.save(); ctx.setLineDash([5, 6]); outline(1.4); ctx.beginPath(); ctx.moveTo(X(birth), gy0 - H * 0.02); ctx.lineTo(X(birth), gy1); ctx.stroke(); ctx.restore();
+    ctx.save(); ctx.setLineDash([5, 6]); outline(1.4); ctx.beginPath(); ctx.moveTo(X(birth), gy0 - H * (n ? -0.01 : 0.02)); ctx.lineTo(X(birth), gy1); ctx.stroke(); ctx.restore(); // 手机上图例更宽，分娩线从图例下面开始
     text("孕期", X(birth / 2), gy1 + fs(0.024), fs(0.024), C.soft);
     text("分娩", X(birth), gy1 + fs(0.024), fs(0.024), C.ink);
     text("产后", X((1 + birth) / 2), gy1 + fs(0.024), fs(0.024), C.soft);

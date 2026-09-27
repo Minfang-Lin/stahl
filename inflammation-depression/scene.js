@@ -159,7 +159,8 @@ Anima.register("inflammation-depression", {
     text("血液里的细胞因子", mx - fz(0.024) * 0.5, my, fz(0.024), C.ink, "right");
     rrect(mx, my - mh / 2, mw, mh, mh / 2); ctx.fillStyle = "#fff"; ctx.fill(); outline(1.3); ctx.stroke();
     rrect(mx, my - mh / 2, mw * lvl, mh, mh / 2); ctx.fillStyle = C.fire; ctx.fill(); outline(1.3); ctx.stroke();
-    callout("ck", lt > 4, W * 0.5, ry0 + (ry1 - ry0) * 0.5, nw ? W * 0.62 : W * 0.72, H * 0.5, "细胞因子：IL-6、TNF-α 等");
+    // 手机上放到血管下面，不盖住免疫细胞的脸
+    callout("ck", lt > 4, W * 0.5, ry0 + (ry1 - ry0) * 0.5, nw ? W * 0.55 : W * 0.72, H * (nw ? 0.81 : 0.5), "细胞因子：IL-6、TNF-α 等");
     say("alarm", win(2.5, 7), X[0] + H * 0.06, ry0 - s * 3.2, nw ? W * 0.32 : W * 0.26, H * 0.18, "着火啦！发警报信！", "shout");
     ctx.restore();
   }
@@ -344,8 +345,9 @@ Anima.register("inflammation-depression", {
         L.forEach((l, k) => { const p = prog(2 + k * 1.3, 0.6); if (p > 0) { ctx.save(); ctx.globalAlpha *= p; plate(l, x + cw * (0.2 + k * 0.3), top + chh * 0.55 - (k % 2) * H * 0.04, "#fff", fz(0.026)); ctx.restore(); } });
       }
     });
-    say("rest", win(1, 6), gap + cw / 2 - cw * 0.15, top + chh * 0.6, gap + cw * 0.3, top + chh * 0.48, "多休息，力气留给免疫系统", "say");
-    say("stuck", lt > 8, gap * 2 + cw * 1.5, top + chh * 0.6, gap * 2 + cw * 1.5, top + chh * 0.3, "省电模式关不掉……", "think");
+    // 手机上卡片窄：两个气泡都放在各自卡片上半（云和雨那里），不盖住床上的人、也不跑出卡片
+    say("rest", win(1, 6), gap + cw / 2 - cw * 0.15, top + chh * 0.6, gap + cw * (nw ? 0.5 : 0.3), top + chh * (nw ? 0.3 : 0.48), "多休息，力气留给免疫系统", "say");
+    say("stuck", lt > 8, gap * 2 + cw * 1.5, top + chh * 0.6, gap * 2 + cw * 1.5, top + chh * 0.3, nw ? "省电模式\n关不掉……" : "省电模式关不掉……", "think");
     ctx.restore();
   }
 
@@ -356,7 +358,7 @@ Anima.register("inflammation-depression", {
     bg("#f7f5fb", "#fdf0ee", 53);
     const n = 8, cols = nw ? 4 : 8, rows = nw ? 2 : 1, top = Anima.topSafe() + H * 0.05;
     const cw = W / (cols + 0.4), s = Math.min(H * 0.075, cw * 0.3), hot = [1, 4, 6];
-    const rowY = (r) => nw ? top + H * (0.32 + r * 0.36) : H * 0.72;
+    const rowY = (r) => nw ? top + H * (0.32 + r * 0.4) : H * 0.72;
     const vi = (lt - 4) / 0.75, pos = (i) => [cw * (0.7 + i % cols), rowY(Math.floor(i / cols))];
     for (let i = 0; i < n; i++) {
       const [x, y] = pos(i), isHot = hot.indexOf(i) >= 0, seen = vi > i + 0.5, helped = isHot && seen ? 1 : 0;
@@ -374,7 +376,8 @@ Anima.register("inflammation-depression", {
       chara(px - s * 1.1, p0[1] + s * 0.5, s * 0.8, { who: "drug", hatColor: "#ffb36b", tag: "抗炎（研究中）", walk: time * 9, eyes: "happy", dir: 1 });
     }
     callout("crp", win(1.5, 4.5), cw * 1.7 + s * 1.1, rowY(0) - s * 0.6, nw ? W * 0.5 : W * 0.4, top + H * 0.04, "炎症指标偏高（如 CRP、IL-6）");
-    say("dont", lt > 10, W * 0.5, H * 0.5, W * 0.5, nw ? H * 0.94 : H * 0.88, "还在研究中：请不要自己吃抗炎药治抑郁", "box");
+    // 手机上方框放在两排中间（第一排的腿和第二排的云那里），字短一点排成两行，不盖住任何人的脸
+    say("dont", lt > 10, W * 0.5, H * 0.5, W * 0.5, nw ? H * 0.565 : H * 0.88, nw ? "还在研究中：别自己吃抗炎药治抑郁" : "还在研究中：请不要自己吃抗炎药治抑郁", "box");
     ctx.restore();
   }
 

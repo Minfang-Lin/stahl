@@ -207,8 +207,8 @@ Anima.register("antipsychotics", {
       emote(relief > 0.5 ? "note" : "!", rx + s * 1, fy - s * 3.4, s * 0.6);
       callout("d2", on && t > 0.5 && t < 5.5, g.xs[1] + g.rs * 0.5, g.post + g.rs * 0.55, W * (nw ? 0.6 : 0.5), H * (nw ? 0.8 : 0.8), nw ? "D2 受体：多巴胺的门" : "D2 受体：多巴胺的门");
       callout("win", on && t > 6 && (!nw || t < 9.5), g.mx - m.w * 0.5, m.yOf(0.7), W * (nw ? 0.62 : 0.78), H * (nw ? 0.7 : 0.76), nw ? "有效窗口：六到八成" : "有效窗口：约占住六到八成");
-      say("sit", on && (nw ? t > 5.4 && t < 8.8 : t > 2 && t < 6.5), g.xs[0], seats[0].y - g.cs * 3.2, W * (nw ? 0.3 : 0.24), H * (nw ? 0.28 : 0.26), "这个位子我先坐着～", "say");
-      say("calm", on && t > (nw ? 9.5 : 7), rx, fy - s * 3.3, W * (nw ? 0.62 : 0.46), H * (nw ? 0.74 : 0.72), "心里的警报安静多了～", "say");
+      say("sit", on && (nw ? t > 5.4 && t < 8.8 : t > 2 && t < 6.5), g.xs[0], seats[0].y - g.cs * 3.2, W * (nw ? 0.5 : 0.24), H * (nw ? 0.92 : 0.26), nw ? "我先坐着～" : "这个位子我先坐着～", "say"); // 手机：放到膜下空处，不挡座位上的小人
+      say("calm", on && t > (nw ? 10 : 7), rx, fy - s * 3.3, W * (nw ? 0.62 : 0.46), H * (nw ? 0.74 : 0.72), "心里的警报安静多了～", "say");
     } else if (kind === 1) {
       const eps = prog(4.2, 1);
       const X = nw ? [0.12, 0.34, 0.56] : [0.1, 0.26, 0.42];
@@ -260,9 +260,9 @@ Anima.register("antipsychotics", {
       }
       if (prl > 0.6) sfx("↑", bx + bw * 0.9, btop + (bbot - btop) * 0.3, fsz(0.05, 16), C.warn, 0, 1);
       callout("shh", on && t > 0.5 && t < 3.5, g.xs[2], seats[2].y - g.cs * 1.5, W * (nw ? 0.3 : 0.36), H * (nw ? 0.22 : 0.26), nw ? "多巴胺“按住”泌乳素" : "多巴胺平时“按住”泌乳素");
-      say("shhh", on && t < 3.5, g.xs[4], seats[4].y - g.cs * 3.2, W * (nw ? 0.55 : 0.6), H * (nw ? 0.4 : 0.3), "嘘——少分泌一点～", "say");
+      say("shhh", on && t > (nw ? 0.6 : -1) && t < 3.5, g.xs[4], seats[4].y - g.cs * 3.2, W * (nw ? 0.72 : 0.6), H * (nw ? 0.78 : 0.3), nw ? "嘘——少分泌点～" : "嘘——少分泌一点～", "say"); // 手机：放到膜下右边，不挡一排小人的脸
       callout("up", on && t > 6 && (!nw || t < 9), bx + bw * 0.5, btop + (bbot - btop) * 0.3, W * (nw ? 0.78 : 0.66), H * 0.7, nw ? "泌乳素升高" : "D2 被挡 → 泌乳素升高");
-      say("prl", on && t > (nw ? 9 : 8), bx, btop, W * (nw ? 0.76 : 0.8), H * (nw ? 0.7 : 0.86), "可能：溢乳、月经紊乱、性功能问题", "box");
+      say("prl", on && t > (nw ? 9.5 : 8), bx, btop, W * (nw ? 0.76 : 0.8), H * (nw ? 0.7 : 0.86), "可能：溢乳、月经紊乱、性功能问题", "box");
     }
     ctx.restore();
   }
@@ -319,10 +319,10 @@ Anima.register("antipsychotics", {
     }
     lineSign(nw ? "纹状体" : "纹状体 · 黑质纹状体线", C.nigro, W * 0.8, H * 0.85);
     meter(g.mx, H * (nw ? 0.46 : 0.4), post - H * 0.05, occV, false);
-    const on = cur === 3, LX = W * (nw ? 0.7 : 0.72), LY = H * (nw ? 0.26 : 0.2);
-    callout("brake", on && t > 0.8 && t < 4.5, rX + rs * 0.6, rY + rs * 0.8, LX, LY, nw ? "5-HT2A：放多巴胺的刹车" : "5-HT2A：多巴胺释放的“刹车”");
-    say("huh", on && t > 4.5 && t < 8.5, sx, sy - cs * 3.3, LX, LY, "咦，刹车被挡住了？", "think");
-    say("more", on && t > 5 && t < 9.5, tcx - tw * 0.25, T.bot + cs * 2, W * (nw ? 0.16 : 0.1), H * (nw ? 0.36 : 0.36), "我们多来几位！", "shout");
+    const on = cur === 3, LX = W * (nw ? 0.5 : 0.72), LY = H * (nw ? 0.97 : 0.2); // 手机：标注放到最下面（只压住行人的脚），气泡放到末梢旁边的上方空处
+    callout("brake", on && t > 0.8 && t < (nw ? 4.1 : 4.5), rX + rs * 0.6, rY + rs * 0.8, LX, LY, nw ? "5-HT2A：放多巴胺的刹车" : "5-HT2A：多巴胺释放的“刹车”");
+    say("huh", on && t > 4.5 && t < 8.5, sx, sy - cs * 3.3, nw ? W * 0.78 : LX, nw ? Anima.topSafe() + H * 0.09 : LY, "咦，刹车被挡住了？", "think");
+    say("more", on && t > 5 && t < 9.5, tcx - tw * 0.25, T.bot + cs * 2, W * (nw ? 0.2 : 0.1), nw ? Anima.topSafe() + H * 0.06 : H * 0.36, "我们多来几位！", nw ? "say" : "shout");
     callout("back", on && t > 9, g.xs[RI], seatY[RI] - cs * 1.5, LX, LY, nw ? "多巴胺抢回一些 D2" : "多出来的多巴胺抢回一些 D2");
     ctx.restore();
   }

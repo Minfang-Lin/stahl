@@ -523,7 +523,8 @@ Anima.register("serotonin-psychosis", {
     const on = cur === 4;
     callout("inv", on && lt > 3.5 && lt < 8.5 && !!barPt, barPt ? barPt.x : 0, barPt ? barPt.y : 0, W * (n ? 0.28 : 0.26), top + ch + H * (n ? 0.04 : 0.05), n ? "反向激动：调得更暗" : "反向激动：连按钮自己的光也调暗");
     callout("nod2", on && lt > 5.5 && lt < 8.5 && !!dRec, dRec ? dRec.x : 0, dRec ? dRec.y + rs * 0.3 : 0, W * (n ? 0.74 : 0.74), top + ch + H * (n ? 0.04 : 0.05), n ? "不挡 D2" : "不挡 D2 → 动作不变差");
-    say("notin", on && lt > 8.5 && !!rightHead, rightHead ? rightHead.x : 0, rightHead ? rightHead.y : 0, W * (n ? 0.62 : 0.66), H * 0.92, "D2 这边，我不进去～", "say");
+    say("notin", on && lt > (n ? 9 : 8.5) && !!rightHead, // 手机：等上面两个标注淡出再出现，免得被挤到 D2 小人脸上
+      rightHead ? rightHead.x : 0, rightHead ? rightHead.y : 0, W * (n ? 0.62 : 0.66), H * 0.92, "D2 这边，我不进去～", "say");
     ctx.restore();
   }
 
@@ -575,7 +576,7 @@ Anima.register("serotonin-psychosis", {
         ctx.save(); rrect(lx - cr * 1.5, cy - cr * 0.75, cr * 3, cr * 1.5, cr * 0.75); ctx.clip(); ctx.fillStyle = "#8fcbe8"; ctx.fillRect(lx - cr * 1.5, cy - cr, cr * 1.5, cr * 2); ctx.restore();
       });
       ctx.restore();
-      say("prev", cur === 5 && lt > 5 && (!n || lt < 8.5), dx + s * 0.4, dy - s * 3.2, W * (n ? 0.66 : 0.42), n ? by - H * 0.02 : H * 0.68, n ? "D2 和 5-HT2A 我都挡（见上一集）" : "我挡 D2，也挡 5-HT2A～（见上一集）", "say");
+      say("prev", cur === 5 && lt > 5 && (!n || lt < 8.5), dx + s * 0.4, dy - s * 3.2, W * (n ? 0.72 : 0.42), n ? by - H * 0.02 : H * 0.68, n ? "D2 和 5-HT2A 我都挡（见上一集）" : "我挡 D2，也挡 5-HT2A～（见上一集）", "say");
     }
     const kb = prog(8.5, 0.8);
     if (!n) banner(["看到别人看不到的东西？", "别害怕，告诉医生就好"], H * 0.86, kb, W * 0.72);

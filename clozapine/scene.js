@@ -232,7 +232,7 @@ Anima.register("clozapine", {
       { lab: "M1", who: "ACh", col: C.m1, sh: "tri", fx: ["便秘", "口干等"], emo: "sweat" },
       { lab: "α1", who: "NE", col: C.a1, sh: "square", fx: ["头晕", "起身血压低"], emo: "?" },
     ];
-    const x0 = W * (n ? 0.3 : 0.28), x1 = W * (n ? 0.9 : 0.86);
+    const x0 = W * (n ? 0.28 : 0.28), x1 = W * (n ? 0.86 : 0.86); // 手机：最右边的 α1 主人别被舞台边切掉
     const sp = (x1 - x0) / 4, rs = Math.min(H * 0.05, sp * 0.26), cs = Math.min(H * 0.04, sp * 0.22);
     const dx = W * (n ? 0.1 : 0.1), dS = H * (n ? 0.055 : 0.065), dy = post - H * 0.01;
     chara(dx, dy, dS, O(CLZ, { eyes: "happy", mouth: "cat", arms: "point", item: "key", tag: "氯氮平" }));
@@ -450,7 +450,8 @@ Anima.register("clozapine", {
     rrect(bw0, beltY, bw1 - bw0, H * 0.04, H * 0.02); ctx.fillStyle = "#d9c8bd"; ctx.fill(); outline(1.8); ctx.stroke();
     for (let x = bw0 + H * 0.02; x < bw1; x += H * 0.05) { ctx.beginPath(); ctx.arc(x + ((time * H * 0.05) % (H * 0.05)), beltY + H * 0.02, H * 0.008, 0, Math.PI * 2); ctx.fillStyle = "#a8948a"; ctx.fill(); }
     outline(1.6); ctx.beginPath(); ctx.moveTo(bw0 + W * 0.02, beltY + H * 0.04); ctx.lineTo(bw0 + W * 0.02, floor); ctx.moveTo(bw1 - W * 0.02, beltY + H * 0.04); ctx.lineTo(bw1 - W * 0.02, floor); ctx.stroke();
-    tagBox("肝脏 · 分解工坊", (bw0 + bw1) / 2, floor + H * 0.07, fsz(0.026, 10), "#fff", C.ink, 1.2);
+    tagBox("肝脏 · 分解工坊", (bw0 + bw1) / 2, floor + H * (n ? 0.115 : 0.07), // 手机：往下挪，不和工人的名牌挤在一起
+       fsz(0.026, 10), "#fff", C.ink, 1.2);
     // 传送带上的氯氮平小胶囊
     for (let k = 0; k < 5; k++) {
       const q = (time * 0.08 + k / 5) % 1, x = lerp(bw0, bw1, q), y = beltY - H * 0.02, cr = H * 0.016;

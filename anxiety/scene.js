@@ -364,10 +364,12 @@ Anima.register("anxiety", {
     say("a-false", cur === 1 && win(0.8, n ? 3.8 : 6.5), G.x, G.y - G.s * 3.2, g.tx + W * 0.1, H * 0.17, "又有情况！警报——！", "shout");
     if (hq) {
       say("a-cmd", cur === 1 && lt > (n ? 10.6 : 6.8), hq.head.x, hq.head.y, n ? W * 0.72 : hq.head.x + W * 0.17, n ? H * 0.26 : H * 0.18, "只是蝴蝶啦…怎么关不掉！", "say");
-      callout("a-pfc", cur === 1 && (n ? win(3.8, 7) : lt > 2.5), hq.feet.x, hq.feet.y + H * 0.01, n ? W * 0.55 : hq.feet.x + W * 0.02, n ? topY : H * 0.58, "前额叶：负责解除警报");
-      callout("a-weak", cur === 1 && (n ? win(7, 10.3) : lt > 6.5) && !!mid, mid ? mid[0] : 0, mid ? mid[1] : 0, n ? W * 0.45 : mid ? mid[0] - W * 0.02 : 0, n ? topY : H * 0.2, "刹车信号太弱");
+      callout("a-pfc", cur === 1 && (n ? win(3.8, 6.6) : lt > 2.5), hq.feet.x, hq.feet.y + H * 0.01, n ? W * 0.55 : hq.feet.x + W * 0.02, n ? topY : H * 0.58, "前额叶：负责解除警报");
+      // 手机上等“前额叶”标注淡出再出现，否则会被它挤到下面、压住警报员的脸
+      callout("a-weak", cur === 1 && (n ? win(7.2, 10.3) : lt > 6.5) && !!mid, mid ? mid[0] : 0, mid ? mid[1] : 0, n ? W * 0.45 : mid ? mid[0] - W * 0.02 : 0, n ? topY : H * 0.2, "刹车信号太弱");
       callout("a-cbt", cur === 5 && (n ? win(5.5, 9) : win(5, 8.6)), hq.feet.x, hq.feet.y + H * 0.01, n ? W * 0.55 : hq.feet.x + W * 0.02, n ? topY : H * 0.58, "心理治疗：练习“其实没事”");
-      say("a-safe", cur === 5 && lt > (n ? 9 : 8.5), P.head.x, P.head.y, P.head.x - W * 0.14, P.head.y - H * 0.1, "原来它不可怕呀～", "say");
+      // 手机上放到上方一排（这时标注都已淡出），不盖住“第几周”的日历
+      say("a-safe", cur === 5 && lt > (n ? 9.3 : 8.5), P.head.x, P.head.y, n ? W * 0.62 : P.head.x - W * 0.14, n ? topY : P.head.y - H * 0.1, "原来它不可怕呀～", "say");
     }
     callout("a-ssri", cur === 5 && win(1.5, n ? 5.5 : 8.5) && !!turner, turner ? turner.x : 0, turner ? turner.y : 0, n ? W * 0.45 : turner ? turner.x - W * 0.05 : 0, n ? topY : H * 0.26, "SSRI：慢慢调低灵敏度");
     ctx.restore();
@@ -550,20 +552,23 @@ Anima.register("anxiety", {
     const s = Math.min(H * 0.04, cw * 0.07);
     const fsm = Math.max(11, Math.min(H * 0.032, cw * 0.06)) * Anima.UI;
     // 左：楼梯一步一步往下走
-    const n = 5, x0 = L.x + L.w * 0.3, y0 = L.y + L.h * 0.3, sw = L.w * 0.12, sh = L.h * 0.075;
+    // 手机上卡片窄：楼梯往右挪，“突然停”靠左排，下楼梯的访客不压住这几个字
+    const nw = narrow();
+    const n = 5, x0 = L.x + L.w * (nw ? 0.42 : 0.3), y0 = L.y + L.h * 0.3, sw = L.w * (nw ? 0.105 : 0.12), sh = L.h * 0.075;
     for (let i = 0; i < n; i++) {
       rrect(x0 + i * sw, y0 + i * sh, sw * 1.02, sh * 0.45, sh * 0.14); ctx.fillStyle = "#cfeedd"; ctx.fill(); outline(1.4); ctx.stroke();
     }
     const cyc = (lt * 0.55) % n, step = Math.floor(cyc), hop = ease((cyc - step - 0.6) / 0.4);
     const sx = x0 + (step + 0.5 + hop) * sw, sy = y0 + (step + hop) * sh - Math.sin(hop * Math.PI) * sh * 0.5;
     chara(sx, sy, s, { who: "drug", label: "苯二氮䓬", hatColor: "#9ad8b0", hatColor2: "#fff1b8", arms: "wave", eyes: "happy", dir: 1 });
-    text("✓ 慢慢减量", x0 + sw * 3.2, y0 + n * sh + fsm * 0.8, fsm, C.mintDeep);
+    text("✓ 慢慢减量", x0 + sw * (nw ? 2.8 : 3.2), y0 + n * sh + fsm * 0.8, fsm, C.mintDeep);
     // 左：突然停——直接跳下去
     const ax = L.x + L.w * 0.14, ay0 = y0 - sh * 0.2, ay1 = L.y + L.h * 0.62;
     ctx.save(); ctx.setLineDash([5, 6]); ctx.strokeStyle = C.bad; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(ax, ay0); ctx.lineTo(ax, ay1 - s * 1.2); ctx.stroke(); ctx.restore();
     ctx.fillStyle = C.bad; ctx.beginPath(); ctx.moveTo(ax - s * 0.3, ay1 - s * 1.3); ctx.lineTo(ax + s * 0.3, ay1 - s * 1.3); ctx.lineTo(ax, ay1 - s * 0.8); ctx.closePath(); ctx.fill();
-    text("✗ 突然停", ax + fsm * 1.2, ay0 - fsm * 0.9, fsm, C.bad);
+    if (nw) text("✗ 突然停", L.x + L.w * 0.05, ay0 - fsm * 0.9, fsm, C.bad, "left");
+    else text("✗ 突然停", ax + fsm * 1.2, ay0 - fsm * 0.9, fsm, C.bad);
     // 反跳：小警报灯又响了
     const blink = 0.5 + 0.5 * Math.sin(time * 9);
     glow(ax, ay1, s * 2.2, C.bad, blink);
