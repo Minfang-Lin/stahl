@@ -222,23 +222,24 @@ Anima.register("neurosteroids", {
       say("n0c", lt > (n ? 9 : 8), extra[1].x, extra[1].y - cs * 2, W * 0.8, midY + H * 0.04, "这里 GABA 只有零星几个～", "say");
     }
     if (c === 1 && tr) {
-      callout("n1a", win(1, n ? 4 : 5.5) && !!tr.peak, tr.peak ? tr.peak.x : 0, tr.peak ? tr.peak.y : 0, W * 0.6, H * 0.62, "相位性：一阵一阵");
-      callout("n1b", win(n ? 4 : 1.8, n ? 6 : 5.5), tr.tonic.x, tr.tonic.y, W * 0.32, H * 0.64, "紧张性：一直都在");
+      callout("n1a", win(1, n ? 3.7 : 5.5) && !!tr.peak, tr.peak ? tr.peak.x : 0, tr.peak ? tr.peak.y : 0, W * 0.6, H * (n ? 0.71 : 0.62), "相位性：一阵一阵");
+      callout("n1b", win(n ? 4.4 : 1.8, n ? 6.2 : 5.5), tr.tonic.x, tr.tonic.y, W * 0.32, H * (n ? 0.71 : 0.64), "紧张性：一直都在");
       if (bz) say("n1c", win(6.5, n ? 8.5 : 9), bz.x, bz.y - cs * 3.1, bz.x + W * 0.02, midY, "坐在 γ 旁边，帮忙～", "say");
-      if (bz2) say("n1d", lt > (n ? 9 : 10), bz2.x, bz2.y - cs * 3.1, W * 0.72, midY + H * 0.02, "δ 门没有我的座位？", "think");
+      if (bz2) say("n1d", lt > (n ? 9 : 10), bz2.x, bz2.y - cs * 3.1, W * (n ? 0.65 : 0.72), midY + H * (n ? -0.1 : 0.02), "δ 门没有我的座位？", "think");
     }
     if (c === 2) {
       if (p4) callout("n2a", win(0.8, 3.5), p4.x, p4.y - cs * 2, W * 0.3, midY + H * 0.03, "孕酮 → 别孕烯醇酮");
       const a0 = al[0];
-      callout("n2b", win(4, n ? 7.5 : 8.5) && !!a0, a0 ? a0.x : 0, a0 ? a0.y - cs * 1.5 : 0, W * 0.3, midY + H * 0.03, "别孕烯醇酮：坐进膜里的座位");
-      callout("n2c", lt > (n ? 7.5 : 7) && !!tr, tr ? tr.tonic.x : 0, tr ? tr.tonic.y : 0, W * 0.62, midY + H * 0.1, "突触外的背景安静调大了");
+      callout("n2b", win(4, n ? 7 : 8.5) && !!a0, a0 ? a0.x : 0, a0 ? a0.y - cs * 1.5 : 0, W * 0.3, midY + H * 0.03, "别孕烯醇酮：坐进膜里的座位");
+      // 手机上突触间隙里有“啪！”和 γ/δ 小牌，标注放到膜和曲线卡片之间
+      callout("n2c", lt > (n ? 7.8 : 7) && !!tr, tr ? tr.tonic.x : 0, tr ? tr.tonic.y : 0, W * 0.62, n ? H * 0.71 : midY + H * 0.1, "突触外的背景安静调大了");
       const a1 = al[2];
       if (a1) say("n2d", lt > (n ? 11 : 9.5), a1.x, a1.y - cs * 3.1, W * 0.8, midY - H * 0.02, "我两种门都能帮！", "say");
     }
     if (c === 4) {
       callout("n4a", win(2.5, n ? 6 : 99), W * 0.06, g.mem - H * 0.02, W * 0.2, midY - H * 0.04, "布瑞诺龙：静脉输注");
       callout("n4b", lt > (n ? 6 : 4.5), W * 0.94, g.mem - H * 0.02, W * 0.78, midY - H * 0.04, "祖拉诺龙：口服");
-      say("n4c", lt > (n ? 9.5 : 8), g.cx, g.mem - g.rs * 2, g.cx, midY + H * 0.06, "里外两种门，一起调大～", "say");
+      say("n4c", lt > (n ? 9.5 : 8), g.cx, g.mem - g.rs * 2, n ? W * 0.36 : g.cx, midY + H * (n ? -0.08 : 0.06), "里外两种门，一起调大～", "say");
     }
     if (c === 5) {
       callout("n5a", win(4.5, n ? 8.5 : 99), g.cx - g.tw * 0.62, g.mem - H * 0.12, W * 0.26, midY + H * 0.02, "酒、苯二氮䓬：抑制会叠加");

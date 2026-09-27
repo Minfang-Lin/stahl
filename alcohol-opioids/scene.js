@@ -256,12 +256,12 @@ Anima.register("alcohol-opioids", {
       { who: "GABA", dx: -1.1, arms: "down", eyes: wild ? "teary" : "sleepy", mouth: "wavy", gray: 0.5 },
       { who: "GABA", dx: 1.1, arms: "down", eyes: wild ? "teary" : "sleepy", mouth: "wavy", gray: 0.5, dir: -1 },
     ];
-    if (benzo > 0) gl.push({ who: "drug", label: "", tag: "苯二氮䓬类", hatColor: "#b8b0f0", hatColor2: "#ffffff", dx: 0, lift: lerp(3.5, 1.1, benzo), arms: "up", eyes: "happy", mouth: "grin", alpha: benzo });
+    if (benzo > 0) gl.push({ who: "drug", label: "", /* 名字由标注 c-bz 说明，脚下名牌会压在 GABA 身上 */ hatColor: "#b8b0f0", hatColor2: "#ffffff", dx: 0, lift: lerp(3.5, 1.1, benzo), arms: "up", eyes: "happy", mouth: "grin", alpha: benzo });
     const gr = [-2.1, -1.1, 0, 1.1, 2.1].map((dx, k) => ({ who: "Glu", dx, lift: k === 2 ? 0.4 : 0, s: k === 2 ? s * 0.9 : s, eyes: wild ? "angry" : "open", mouth: wild ? "grin" : "flat", arms: wild ? (k % 2 ? "fist" : "up") : "down", jump: wild ? Math.abs(Math.sin(time * 9 + k)) * 0.3 : 0, dir: k > 2 ? -1 : 1 }));
     const P = balance(g.cx, g.py, g.L, tilt, gl, gr, s);
     // 酒精访客走掉
     if (leave < 1) chara(lerp(P.L.x, -s * 3, leave), P.L.y - s * 0.3 + leave * s * 2, s, Object.assign({}, ALC, { walk: leave > 0 ? time * 9 : null, arms: "wave", eyes: "happy", mouth: "smile", dir: -1, alpha: 1 - leave * 0.6 }));
-    if (lt > 2.3 && lt < 3.2) { sfx("哐！", P.R.x, P.R.y + s * 2, s * 1.4, C.bad, -0.15, 1); Anima.speedLines(P.R.x, P.R.y, g.L * 0.8, 20, 0.35); }
+    if (lt > 2.3 && lt < 3.2) { sfx("哐！", P.R.x, P.R.y + s * 3.6, s * 1.4, C.bad, -0.15, 1); Anima.speedLines(P.R.x, P.R.y, g.L * 0.8, 20, 0.35); }
     // 居民：手抖、出汗
     const rx = W * (nw ? 0.86 : 0.84), ry = Y(0.95), rs = s * 1.1;
     resident(rx, ry, rs, benzo > 0.8 ? "okay" : (lt > 6 ? "bad" : (slam > 0.5 ? "shaky" : "okay")), wild ? 1 : 0);

@@ -521,9 +521,9 @@ Anima.register("ocd-impulsivity", {
     ];
     const nfs = Math.min(fs, R.w / 16);
     notes.forEach((n, k) => plate(n.t, R.x + R.w / 2, R.y + R.h * (0.6 + k * 0.12), nfs, n.c, prog(n.at, 0.6)));
-    callout("t-erp", here && lt > 6 && lt < 9.3, P(0.6, 0.2)[0], P(0.6, 0.2)[1], L.x + L.w * 0.5, L.y + L.h * 0.68, "面对它，但不做仪式");
-    say("t-with", here && lt > 9.5, tx, fy - cs * 3.2, L.x + L.w * (nw ? 0.5 : 0.72), L.y + L.h * (nw ? 0.64 : 0.68), "我陪着你，焦虑会自己落下来", "say");
-    say("t-doc", here && lt > 10.6, R.x + R.w * 0.5, R.y + R.h * 0.9, R.x + R.w * 0.5, nw ? R.y + R.h * 0.25 : R.y + R.h * 0.94, "剂量和疗程都听医生的", "box");
+    callout("t-erp", here && lt > 6 && lt < 8.8, P(0.6, 0.2)[0], P(0.6, 0.2)[1], L.x + L.w * 0.5, L.y + L.h * 0.68, "面对它，但不做仪式");
+    say("t-with", here && lt > 9.5, tx, fy - cs * 3.2, L.x + L.w * (nw ? 0.5 : 0.72), L.y + L.h * (nw ? 0.72 : 0.68), nw ? "焦虑会自己落下来" : "我陪着你，焦虑会自己落下来", "say");
+    say("t-doc", here && lt > 10.6, R.x + R.w * 0.5, R.y + R.h * 0.9, R.x + R.w * 0.5, nw ? R.y + R.h * 0.25 : R.y + R.h * 0.94, nw ? "剂量疗程听医生的" : "剂量和疗程都听医生的", "box");
     ctx.restore();
   }
 

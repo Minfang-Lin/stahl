@@ -107,7 +107,7 @@ Anima.register("opioid-receptors", {
       chara(lerp(fx0, r.site.x, p), lerp(th + cs * 3.2, r.site.y + cs * 0.25, p) - Math.sin(p * Math.PI) * H * 0.04, cs, P(d[3], { walk: p < 1 ? time * 9 : null, eyes: p >= 1 ? "happy" : "open", arms: p >= 1 ? "up" : "down", mouth: p >= 1 ? "grin" : "smile", dir: i === 2 ? -1 : 1, alpha: clamp(p * 4, 0, 1) }));
       // Gi/o：门开以后，下面的神经元安静下来
       if (p >= 1) {
-        const gy = post + (H - post) * 0.3;
+        const gy = nw ? H * 0.905 : post + (H - post) * 0.3; // 手机上受体名牌的字大，挪到更下面
         ctx.save(); ctx.globalAlpha *= calm;
         text("安静 ↓", X[i], gy + H * 0.02, fz(0.028), "#8f84e0");
         ctx.restore();
@@ -117,8 +117,8 @@ Anima.register("opioid-receptors", {
     face(fx, fy, H * 0.06, calm > 0.5 ? 1 : 0.3);
     if (calm > 0.5) emote("note", fx + H * 0.05, fy - H * 0.05, H * 0.03);
     else { ctx.save(); ctx.globalAlpha *= 1 - calm; Anima.bolt(fx + H * 0.06, fy - H * 0.04, H * 0.02, 1); ctx.restore(); }
-    callout("gio", lt > 6.3, X[1] + W * 0.05, post + H * 0.14, nw ? W * 0.64 : W * 0.66, H, "Gi/o：神经元安静、少放递质");
-    say("pair", win(4.5, 9.5), X[0] + cs, post - rs * 1.62 - cs * 3, nw ? W * 0.34 : W * 0.34, H * 0.42, "我们都是身体自己做的阿片～", "say");
+    callout("gio", lt > (nw ? 8.3 : 6.3), X[1] + W * 0.05, post + H * 0.14, nw ? W * 0.5 : W * 0.66, nw ? H * 0.42 : H, "Gi/o：神经元安静、少放递质");
+    say("pair", win(4.5, nw ? 8 : 9.5), X[0] + cs, post - rs * 1.62 - cs * 3, nw ? W * 0.34 : W * 0.34, H * 0.42, "我们都是身体自己做的阿片～", "say");
     ctx.restore();
   }
 
@@ -205,9 +205,9 @@ Anima.register("opioid-receptors", {
     callout("mu1", cur === 1 && win(3.5, 8), site[0], site[1], nw ? W * 0.25 : W * 0.16, post - H * (nw ? 0.08 : 0.16), nw ? "μ 门：内啡肽插进来" : "μ 门：内啡肽、吗啡插进来");
     callout("ca1", cur === 1 && lt > 5.5, chX2, chY + H * 0.06, nw ? W * 0.8 : W * 0.84, post - H * (nw ? 0.25 : 0.15), nw ? "钙通道关小" : "钙通道关小，谷氨酸少放");
     say("less1", cur === 1 && lt > 8.5, W * 0.14, sy - H * 0.04, nw ? W * 0.5 : W * 0.34, sy, "痛好像没那么厉害了～", "say");
-    callout("ka1", cur === 3 && win(4.5, 9), site[0], site[1], nw ? W * 0.22 : W * 0.16, post - H * 0.16, "κ 门：强啡肽按下");
+    callout("ka1", cur === 3 && win(4.5, nw ? 8.4 : 9), site[0], site[1], nw ? W * 0.22 : W * 0.16, post - H * 0.16, "κ 门：强啡肽按下");
     callout("da1", cur === 3 && lt > 7, cx + tw * 0.2, th + H * 0.12, nw ? W * 0.78 : W * 0.8, post - H * 0.16, "多巴胺放得少了");
-    say("bad1", cur === 3 && lt > 8.5, W * 0.1, sy - H * 0.05, nw ? W * 0.32 : W * 0.26, sy, "心里好烦，提不起劲……", "think");
+    say("bad1", cur === 3 && lt > (nw ? 9.2 : 8.5), W * 0.1, sy - H * 0.05, nw ? W * 0.46 : W * 0.26, sy, "心里好烦，提不起劲……", "think");
     ctx.restore();
   }
 

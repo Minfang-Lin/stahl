@@ -181,7 +181,7 @@ Anima.register("endocannabinoid", {
     if (cur === 2 || cur === 3) {
       const cutM = cur === 3 ? prog(2.6, 0.8) : 0, drift = cur === 3 ? prog(3.4, 2) : 0, cutF = cur === 3 ? prog(5.8, 0.8) : 0;
       if (cutM < 1) chara(cbSite.x, cbSite.y, cs, Object.assign(ECB("2-AG"), { alpha: 1 - cutM, arms: "up", eyes: cutM > 0 ? "dizzy" : "happy" }));
-      const fx = W * (n ? 0.66 : 0.64), fy = post + H * (n ? 0.13 : 0.2), fgap = cs * (n ? 4.6 : 2.2); // 手机上字相对大，两人的名牌要分开
+      const fx = W * (n ? 0.66 : 0.64), fy = post + H * (n ? 0.13 : 0.2), fgap = cs * (n ? 5.6 : 2.2); // 手机上字相对大，两人的名牌要分开
       if (cutF < 1) chara(lerp(gbSite.x, fx - fgap, drift), lerp(gbSite.y, fy, drift), cs, Object.assign(ECB("AEA"), { alpha: 1 - cutF, arms: drift > 0 ? "down" : "up", eyes: cutF > 0 ? "dizzy" : "happy", walk: drift > 0 && drift < 1 ? time * 8 : null }));
       if (cur === 2) {
         if (lt > 1.5) emote("zzz", caX + H * 0.03, caY - H * 0.06, H * 0.03);
@@ -283,8 +283,8 @@ Anima.register("endocannabinoid", {
     const tx = lerp(W + cs * 3, gr.site.x, prog(1.6, 2)), ty = gr.site.y + cs * 3.25;
     if (lt > 1.6) chara(tx, ty, cs, Object.assign({}, THC, { arms: thc > 0.9 ? "up" : "wave", walk: thc < 1 ? time * 9 : null, eyes: "happy", mouth: "grin" }));
     callout("brake", lt > 0.6 && lt < 4, Gt.cx - Gt.w * 0.2, termY(Gt.cx - Gt.w * 0.2, Gt), n ? W * 0.5 : W * 0.5, H * 0.26, "GABA：踩着多巴胺神经元的刹车");
-    callout("thc", lt > 4 && lt < 7.8, gX + rs * 0.5, gY + rs, n ? W * 0.7 : W * 0.54, n ? H * 0.9 : H * 0.26, "THC 结合 CB1 → GABA 少放");
-    callout("dis", lt > 7.8 && lt < 10.6, D.x + r * 0.7, D.y - r * 0.7, n ? W * 0.56 : W * 0.54, H * 0.3, "刹车松开 = 去抑制");
+    callout("thc", lt > 4 && lt < 7.8, gX + rs * 0.5, gY + rs, n ? W * 0.72 : W * 0.54, n ? H * 0.9 : H * 0.26, "THC 结合 CB1 → GABA 少放");
+    callout("dis", lt > 7.8 && lt < 10, D.x + r * 0.7, D.y - r * 0.7, n ? W * 0.56 : W * 0.54, H * 0.3, "刹车松开 = 去抑制");
     say("teen", lt > 10.6, N.x, N.y - R, n ? W * 0.64 : W * 0.62, H * 0.24, "青少年：长期大量使用，与精神病风险增加有关", "box");
     ctx.restore();
   }

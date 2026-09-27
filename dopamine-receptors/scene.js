@@ -280,7 +280,7 @@ Anima.register("dopamine-receptors", {
     const q = (c, a0, b0) => cur === c && t > a0 && t < b0;
     callout("a-t", q(2, 3.5, 7), aT, tb + rsA * 0.8, n ? W * 0.4 : W * 0.36, H * 0.66, n ? "末梢：少放一点" : "末梢上的 D2：少合成、少释放");
     callout("a-s", q(2, 7.3, 13), rS.site.x, rS.site.y - cs, n ? W * 0.3 : W * 0.3, T + H * 0.1, n ? "胞体：放电变慢" : "胞体上的 D2：放电变慢");
-    say("a-say", q(2, 4, 12.5), rT.site.x, rT.site.y + cs, n ? W * 0.45 : W * 0.44, H * (n ? 0.74 : 0.74), "外面够多啦，少放一点～", "say");
+    say("a-say", q(2, 4, 12.5), rT.site.x, rT.site.y + cs, n ? W * 0.66 : W * 0.44, H * (n ? 0.53 : 0.74), n ? "少放一点～" : "外面够多啦，少放一点～", "say");
     callout("a-low", q(3, 2.5, 8), rT.site.x, rT.site.y + cs * 2, n ? W * 0.4 : W * 0.36, H * 0.66, n ? "小剂量：先占刹车" : "小剂量：先占住自身受体");
     say("a-more", q(3, 4, 8.3), tx + tw * 0.3, tb, n ? W * 0.3 : W * 0.3, T + H * 0.12, "刹车松了，多巴胺更多！", "shout");
     say("a-hi", q(3, 9, 13.5), pX[1], post - rs * 3, n ? W * 0.4 : W * 0.4, H * (n ? 0.7 : 0.7), "剂量加大：突触后的 D2 也被挡住", "box");
@@ -354,7 +354,7 @@ Anima.register("dopamine-receptors", {
     const noise = 1 - net * 0.8;
     for (let k = 0; k < 7; k++) {
       const tt = (time * 0.18 + rnd(k)) % 1, p = P[k % 3];
-      const x = p.x + (rnd(k * 5) - 0.5) * s * 6 * (1 - tt * noise), y = p.y - s * 1.5 + (rnd(k * 7) - 0.5) * s * 4 + tt * s * 3 * net;
+      const x = p.x + (rnd(k * 5) - 0.5) * s * 6 * (1 - tt * noise), y = Math.min(p.y - s * 0.4 - H * 0.022, p.y - s * 1.5 + (rnd(k * 7) - 0.5) * s * 4 + tt * s * 3 * net); // 别掉到脚下的名牌上
       ctx.save(); ctx.globalAlpha *= Math.sin(tt * Math.PI) * (0.15 + 0.85 * noise);
       ctx.beginPath(); ctx.arc(x, y, H * 0.022, 0, Math.PI * 2); ctx.fillStyle = "#ece6ea"; ctx.fill(); outline(1); ctx.stroke();
       text("?", x, y + 1, H * 0.03, "#8a7f86");

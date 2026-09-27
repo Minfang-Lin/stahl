@@ -150,7 +150,7 @@ Anima.register("muscarinic-antipsychotic", {
         text("⏳ 慢一些", x + cw * 0.5, top + ch - H * 0.05, fsz(0.03, 12), "#6b61c9");
       }
     });
-    say("n-say", lt > 2 && lt < 7.5, gap + cw * (n ? 0.62 : 0.38), n ? top + ch * 0.5 : top + ch * 0.5 - s * 5.5, gap + cw * (n ? 0.5 : 0.72), top + ch * (n ? 0.64 : 0.18), n ? "门开就冲！" : "门一开，离子就冲！", "say");
+    say("n-say", lt > 2 && lt < 7.5, gap + cw * (n ? 0.62 : 0.38), n ? top + ch * 0.5 : top + ch * 0.5 - s * 5.5, gap + cw * (n ? 0.5 : 0.72), top + ch * (n ? 0.74 : 0.18), n ? "门开就冲！" : "门一开，离子就冲！", "say");
     say("m-say", lt > 5.5, gap * 2 + cw * 1.5, top + ch * 0.5 - s * (n ? 0 : 3.5), gap * 2 + cw * 1.5, top + ch * (n ? 0.62 : 0.18), n ? "慢慢接力" : "五扇 M 门，各在各的地方", "say");
     ctx.restore();
   }
@@ -264,8 +264,8 @@ Anima.register("muscarinic-antipsychotic", {
     say("b-old", q(1, 3.5, 12.5), S0[4].x, S0[4].y - H * 0.06, n ? W * 0.5 : cx, n ? H * 0.9 : H * 0.12 + T, "老药顺手把 M 门都挡住了", "box");
     callout("b-all", q(1, 0.5, 3.4), S0[0].x, S0[0].y, n ? W * 0.5 : cx, n ? H * 0.86 : T + H * 0.04, "乙酰胆碱在各处开 M 门");
     say("x-body", q(5, 5, 12.5), S0[4].x, S0[4].y - H * 0.06, n ? W * 0.5 : cx, n ? H * 0.9 : T + H * 0.1, "身体里的 M 门也被打开了……", "think");
-    callout("t-bbb", q(6, 1, 7), B[0] + B[2] * 0.5, B[1] + B[3] + 5, n ? W * 0.5 : cx, n ? H * 0.86 : T + H * 0.04, "血脑屏障：曲司氯铵进不去");
-    say("t-ok", q(6, 7.5, 13), S0[0].x, S0[0].y - H * 0.03, n ? W * 0.5 : cx, n ? H * 0.9 : T + H * 0.1, n ? "脑内占诺美林，脑外曲司氯铵" : "大脑里交给占诺美林，外面交给曲司氯铵", "box");
+    callout("t-bbb", q(6, 1, n ? 6 : 7), B[0] + B[2] * 0.5, B[1] + B[3] + 5, n ? W * 0.5 : cx, n ? H * 0.86 : T + H * 0.04, "血脑屏障：曲司氯铵进不去");
+    say("t-ok", q(6, n ? 7.8 : 7.5, 13), S0[0].x, S0[0].y - H * 0.03, n ? W * 0.5 : cx, n ? H * 0.9 : T + H * 0.1, n ? "脑内占诺美林，脑外曲司氯铵" : "大脑里交给占诺美林，外面交给曲司氯铵", "box");
     // 图例：谁是谁（桌面）
     if (!n) {
       const lf = fsz(0.021, 10), names = k === 1 ? [["老药（挡 M）", "#c9b8e8"]] : k === 5 ? [["占诺美林（开 M）", "#8fdcc4"]] : [["占诺美林（开 M）", "#8fdcc4"], ["曲司氯铵（挡 M）", "#ffb38a"]];
@@ -346,7 +346,7 @@ Anima.register("muscarinic-antipsychotic", {
           chara(rx, lerp(top + ch * 0.2, r.site.y, p), cs, O(D2B, { eyes: "happy", arms: "hug", mouth: "cat", alpha: p, shadow: false }));
           // 很多多巴胺被挡在外面
           for (let k = 0; k < 2; k++) chara(rx + (k ? 1 : -1) * cs * 1.3, r.site.y - cs * 3.2 - k * cs * 0.6, cs * 0.75, { who: "DA", eyes: p > 0.5 ? "open" : "happy", mouth: p > 0.5 ? "wavy" : "smile", shadow: false, seed: i * 2 + k });
-          if (p > 0.5 && i === 1) emote("?", rx + cs * 1.9, r.site.y - cs * 6, cs * 0.6);
+          if (p > 0.5 && i === 1 && !n) emote("?", rx + cs * 1.9, r.site.y - cs * 6, cs * 0.6); // 手机上气泡已经说了，省掉问号
         } else if (i === 1) chara(rx, r.site.y, cs, { who: "DA", eyes: "happy", arms: "up" });
         else if (i === 2) chara(rx + cs * 0.3, r.site.y - cs * 3.2, cs * 0.75, { who: "DA", eyes: "happy", shadow: false });
       });
@@ -359,7 +359,7 @@ Anima.register("muscarinic-antipsychotic", {
         text(n ? "照常收信" : "照常收信：这两类副作用少见", x + cw / 2, ty + fs * 1.6, fs * 0.95, C.good);
       }
     });
-    say("c-l", lt > 3 && lt < 8, gap + cw * 0.5, top + ch * 0.3, gap + cw * 0.5, top + ch * 0.14, "让一让，我们进不去！", "say");
+    say("c-l", lt > 3 && lt < 8, gap + cw * 0.5, top + ch * 0.3, gap + cw * 0.5, top + ch * 0.14, n ? "我们进不去！" : "让一让，我们进不去！", "say");
     say("c-r", lt > 7.5, gap * 2 + cw * 1.5, top + ch * 0.5, gap * 2 + cw * 1.5, top + ch * 0.14, "人少，门也照常开～", "say");
     ctx.restore();
   }

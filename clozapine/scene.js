@@ -205,9 +205,9 @@ Anima.register("clozapine", {
       chara(cx, ground, s * 1.05, O(CLZ, { eyes: "happy", mouth: "cat", arms: lt > 7 && cur === 1 ? "hold" : "wave", item: lt > 7 && cur === 1 ? "shield" : null, dir: -1, walk: k < 1 ? time * 9 : null, tag: "氯氮平", alpha: ace }));
       if (k >= 1) sparkles(cx, ground - s * 1.8, s * 2, 5, ace, 9);
       const on1 = cur === 1;
-      callout("better", on1 && lt > 4 && lt < 8, rx, ground - s * 1.8, W * (n ? 0.4 : 0.44), H * (n ? 0.4 : 0.36), "对难治者往往更有效");
-      callout("suicide", on1 && lt > (n ? 8.8 : 8), cx, ground - s * 1.4, W * (n ? 0.45 : 0.52), H * (n ? 0.32 : 0.36), "还能降低自杀风险");
-      say("lighter", on1 && lt > 6 && lt < (n ? 8.6 : 11.5), rx, ground - s * 3.2, W * (n ? 0.3 : 0.3), H * (n ? 0.5 : 0.5), "好像……轻松一些了", "say");
+      callout("better", on1 && lt > 4 && lt < 8, rx, ground - s * 1.8, W * (n ? 0.25 : 0.44), H * (n ? 0.28 : 0.36), "对难治者往往更有效");
+      callout("suicide", on1 && lt > 8, cx, ground - s * 1.4, W * (n ? 0.72 : 0.52), H * (n ? 0.28 : 0.36), "还能降低自杀风险"); // 手机：和上一条并排放在顶上
+      say("lighter", on1 && lt > 6 && lt < 11.5, rx, ground - s * 3.2, W * (n ? 0.3 : 0.3), H * (n ? 0.68 : 0.5), "好像……轻松一些了", "say");
       banner(["有轻生的念头？请马上告诉家人和医生"], H * 0.94, on1 ? prog(10.5, 0.8) : 0);
     }
     const on0 = cur === 0;
@@ -279,7 +279,7 @@ Anima.register("clozapine", {
     const on = cur === 2;
     say("ring", on && t > 0.5 && t < (n ? 3 : 5.5), dx, dy - dS * 3.2, W * (n ? 0.3 : 0.24), H * (n ? 0.28 : 0.27), "我的钥匙串，可长啦～", "say");
     callout("lowd2", on && t > (n ? 3 : 2) && t < (n ? 5.4 : 8.5) && !!d2Site, d2Site ? d2Site.x : 0, d2Site ? d2Site.y : 0, W * (n ? 0.55 : 0.5), H * (n ? 0.3 : 0.28), n ? "D2：只轻轻占一下" : "D2：只轻轻占一下，占据率低");
-    callout("many", on && t > 6.5, x0 + sp * 3, post - rs * 1.7, W * (n ? 0.5 : 0.7), H * (n ? 0.3 : 0.28), n ? "钥匙多，副作用也多" : "钥匙多，副作用也跟着多");
+    callout("many", on && t > (n ? 7.2 : 6.5), x0 + sp * 3, post - rs * 1.7, W * (n ? 0.5 : 0.7), H * (n ? 0.3 : 0.28), n ? "钥匙多，副作用也多" : "钥匙多，副作用也跟着多");
     ctx.restore();
   }
 

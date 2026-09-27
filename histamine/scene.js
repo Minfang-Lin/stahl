@@ -348,7 +348,7 @@ Anima.register("histamine", {
     chara(pumpX, wb + cs * 3.3, cs * 0.95, { who: "pump", label: "门卫", arms: t2 > 0.8 && t2 < 2.6 ? "carry" : "down", eyes: t2 > 0.8 && t2 < 2.6 ? "angry" : "happy", mouth: t2 > 0.8 && t2 < 2.6 ? "open" : "smile" });
     if (t2 > 1 && t2 < 2.4) sfx("请回～", pumpX + W * 0.08, wb + cs * 1.4, H * 0.04, C.skyDeep, 0.1, 1);
     // 手机上放到血管上沿，别挡住钻进来的“老一代”
-    callout("bbb", cur === 3 && win(0.8, 5.5), W * 0.18, (wt + wb) / 2, nw ? W * 0.55 : W * 0.2, nw ? Anima.topSafe() : H * 0.6, "血脑屏障：砌得很密的城墙");
+    callout("bbb", cur === 3 && win(0.8, 5.5), W * 0.18, (wt + wb) / 2, nw ? W * 0.33 : W * 0.2, nw ? Anima.topSafe() : H * 0.6, "血脑屏障：砌得很密的城墙");
     callout("pgp", cur === 3 && win(6.8, 10), pumpX - cs, wb + cs * 1.5, nw ? W * 0.5 : W * 0.5, H * 0.66, "“门卫”把它送回血里");
     say("old", cur === 3 && win(3.5, 6.5), gapX, post - H * 0.14, nw ? W * 0.22 : W * 0.2, H * 0.62, "我溜进来啦～", "say");
     say("new", cur === 3 && lt > 9.5, W * 0.9, vt + H * 0.05, nw ? W * 0.4 : W * 0.72, vt + H * 0.08, "我去鼻子和皮肤那儿干活～", "say");

@@ -366,13 +366,18 @@ Anima.register("hpa-axis", {
     }
     if (c === 1) {
       const q = pick(fA, 0.35, 0.75);
-      say("h1b", win(1, n ? 3.5 : 6), g.pit.x + g.pit.r, g.pit.y, W * 0.6, H * 0.5, "ACTH，去肾上腺！", "say");
-      callout("h1a", win(n ? 4.2 : 3.5, n ? 7.5 : 99) && !!q, q ? q.x : 0, q ? q.y : 0, n ? W * 0.62 : W * 0.5, n ? H * 0.56 : H * 0.76, "ACTH：第二位传话员");
+      say("h1b", win(1, n ? 3.2 : 6), g.pit.x + g.pit.r, g.pit.y, W * 0.6, H * 0.5, "ACTH，去肾上腺！", "say");
+      callout("h1a", win(n ? 4.4 : 3.5, n ? 7.5 : 99) && !!q, q ? q.x : 0, q ? q.y : 0, n ? W * 0.62 : W * 0.5, n ? H * 0.56 : H * 0.76, "ACTH：第二位传话员");
       callout("h1c", lt > (n ? 7.5 : 6.5), g.vessel[1][0], H * 0.84, W * 0.56, H * 0.48, "血液：激素的高速路");
     }
     if (c === 2) {
-      callout("h2a", win(1.5, n ? 5.5 : 99), g.adr.x - g.adr.s * 0.5, g.adr.y - g.adr.s * 0.9, W * 0.56, H * 0.5, "肾上腺皮质：分泌皮质醇");
-      callout("h2b", lt > (n ? 6.2 : 5), P.sugar.x, P.sugar.y, W * (n ? 0.7 : 0.84), H * (n ? 0.56 : 0.58), "血糖升高，备好能量");
+      if (n) { // 手机上两条标注先后用同一个位置（同一个 key），后一条不会被前一条挤到“咚咚”上
+        const second = lt > 5.85;
+        callout("h2a", win(1.5, 5.5) || lt > 6.2, second ? P.sugar.x : g.adr.x - g.adr.s * 0.5, second ? P.sugar.y : g.adr.y - g.adr.s * 0.9, W * 0.62, H * 0.5, second ? "血糖升高，备好能量" : "肾上腺皮质：分泌皮质醇");
+      } else {
+        callout("h2a", lt > 1.5, g.adr.x - g.adr.s * 0.5, g.adr.y - g.adr.s * 0.9, W * 0.56, H * 0.5, "肾上腺皮质：分泌皮质醇");
+        callout("h2b", lt > 5, P.sugar.x, P.sugar.y, W * 0.84, H * 0.58, "血糖升高，备好能量");
+      }
       say("h2c", lt > (n ? 9 : 8), P.head.x, P.head.y, W * 0.66, H * 0.24, "有力气应对啦！", "say");
     }
     if (c === 3) {

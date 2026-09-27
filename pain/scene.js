@@ -538,7 +538,7 @@ Anima.register("pain", {
     const sy2 = stripY();
     if (dPos) callout("d-snri", n ? win(2.4, 6.2) : lt > 2.6, tx, tyy + ts * 0.8, n ? W * 0.3 : L.x + L.w * 0.5, sy2, n ? "挡住回收门" : "SNRI、部分三环类：挡住回收门");
     callout("d-a2d", n ? win(6.2, 10) : lt > 4.2, ax, ay + crs * 0.4, n ? W * 0.62 : R.x + R.w * 0.5, sy2, n ? "α2δ：钙通道的小零件" : "α2δ：钙通道上的小零件");
-    if (gPos) say("d-glu", lt > (n ? 10 : 7), recX[1], post - crs * 3.2, R.x + R.w * (n ? 0.55 : 0.62), R.y + R.h * (n ? 0.3 : 0.55), "今天少出门几个～", "say"); // 手机上放到末梢那块空处，别压住 α2δ 小零件
+    if (gPos) say("d-glu", lt > (n ? 10 : 7), recX[1], post - crs * 3.2, R.x + R.w * (n ? 0.55 : 0.62), R.y + R.h * (n ? 0.26 : 0.55), "今天少出门几个～", "say"); // 手机上放到末梢那块空处，别压住 α2δ 小零件
     ctx.restore();
   }
 

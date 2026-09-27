@@ -220,7 +220,7 @@ Anima.register("basal-ganglia-loops", {
         const bf = fsz(0.022, 10);
         const tx = (P.d1.x + g.str.x + g.str.w) / 2 + s * 0.6;
         tagBox(n ? "油门 +" : "DA → 油门 +", tx, P.d1.y - s * 0.7, bf, "#e9f8f0", C.good);
-        tagBox(A.blk > 0.5 ? (n ? "被挡住" : "D2 被挡：松不开") : (n ? "松刹车" : "DA → 松刹车"), tx, P.d2.y - s * 0.7, bf, A.blk > 0.5 ? "#ffe6ea" : "#f1eeff", A.blk > 0.5 ? C.bad : C.lavDeep);
+        tagBox(A.blk > 0.5 ? (n ? "被挡住" : "D2 被挡：松不开") : (n ? "松刹车" : "DA → 松刹车"), tx, P.d2.y - s * (n ? 2 : 0.7), bf, A.blk > 0.5 ? "#ffe6ea" : "#f1eeff", A.blk > 0.5 ? C.bad : C.lavDeep); // 手机：让开下面的 − 号
       }
       ctx.restore();
     }
@@ -240,31 +240,33 @@ Anima.register("basal-ganglia-loops", {
     const q = (c, a, b) => cur === c && lt > a && lt < b, L = g.slot;
     const strR = { x: g.str.x + g.str.w, y: g.str.y + g.str.h * 0.45 };
     // 第 1 幕
-    callout("l-str", q(0, 1.5, 13), strR.x, strR.y, L.ML.x, L.ML.y, "纹状体：调度站");
-    callout("l-thal", q(0, 4.5, n ? 6.3 : 13), P.thal.x, n ? P.thal.y - s * 3.2 : P.thal.y + s * 0.2, n ? W * 0.8 : L.BR.x, n ? H * 0.45 : H * 0.7, n ? "丘脑：中转站" : "丘脑：回皮层的中转站");
-    say("s-loop", q(0, 6.5, 13.5), L.TR.x, L.TR.y, L.TR.x, L.TR.y, "想做的动作，先绕一圈再放行", "box");
+    // 手机：等上一幕的多巴胺标签淡出再出现
+    callout("l-str", q(0, n ? 2.5 : 1.5, 13), strR.x, strR.y, L.ML.x, L.ML.y, "纹状体：调度站");
+    callout("l-thal", q(0, 4.5, n ? 6.3 : 13), P.thal.x, n ? P.thal.y - s * 3.2 : P.thal.y + s * 0.2, n ? W * 0.8 : L.BR.x, n ? H * 0.3 : H * 0.7, n ? "丘脑：中转站" : "丘脑：回皮层的中转站");
+    say("s-loop", q(0, n ? 8.3 : 6.5, 13.5), L.TR.x, L.TR.y, L.TR.x, L.TR.y, "想做的动作，先绕一圈再放行", "box");
     // 第 2 幕
     const gm = aG.pt(0.5);
     callout("l-tonic", q(1, 1, 13), gm.x, gm.y, n ? W * 0.72 : gm.x, H * (n ? 0.71 : 0.72), n ? "一直抑制丘脑" : "一直放电：持续抑制");
-    say("s-hold", q(1, 2.5, n ? 7.5 : 13.5), P.gpi.x + s * 0.5, P.gpi.y - s * 3, L.TR.x, L.TR.y, "先别动，等命令～", "say");
-    say("s-th", q(1, 8, 13.5), P.thal.x, P.thal.y - s * 3, L.BR.x, L.BR.y, "被按住了……", "think");
+    say("s-hold", q(1, 2.5, n ? 7 : 13.5), P.gpi.x + s * 0.5, P.gpi.y - s * 3, L.TR.x, L.TR.y, "先别动，等命令～", "say");
+    say("s-th", q(1, n ? 9 : 8, 13.5), P.thal.x, P.thal.y - s * 3, L.BR.x, L.BR.y, "被按住了……", "think");
     // 第 3 幕
-    callout("l-d1", q(2, 2.5, 7), P.d1.x + s * 0.8, P.d1.y - s * 2, L.ML.x, L.ML.y, "D1 神经元被叫醒");
-    callout("l-dis", q(2, 7.5, 13), P.gpi.x, P.gpi.y - s * 1.5, L.ML.x, L.ML.y, n ? "去抑制" : "按手的人被按住 → 去抑制");
+    callout("l-d1", q(2, 2.5, n ? 6.3 : 7), P.d1.x + s * 0.8, P.d1.y - s * 2, L.ML.x, L.ML.y, "D1 神经元被叫醒");
+    callout("l-dis", q(2, n ? 8 : 7.5, 13), P.gpi.x, P.gpi.y - s * 1.5, L.ML.x, L.ML.y, n ? "去抑制" : "按手的人被按住 → 去抑制");
     say("s-go", q(2, 7.5, 13.5), P.thal.x, P.thal.y - s * 3.4, L.BR.x, L.BR.y, "松开啦，开始动！", "shout");
     // 第 4 幕
-    callout("l-d2", q(3, 2.5, 7.5), P.d2.x + s, P.d2.y - s * 2.2, L.ML.x, L.ML.y, n ? "D2 神经元" : "D2 神经元：多绕一圈");
-    callout("l-stn", q(3, 7.5, 13), P.stn.x, P.stn.y - s * 3, n ? W * 0.76 : P.stn.x + W * 0.12, H * (n ? 0.76 : 0.7), n ? "丘脑底核兴奋" : "丘脑底核兴奋，催苍白球");
-    say("s-stop", q(3, 8, 13.5), P.thal.x, P.thal.y - s * 3, L.TR.x, L.TR.y, "又被按紧了，停下～", "think");
+    callout("l-d2", q(3, 2.5, n ? 7 : 7.5), P.d2.x + s * (n ? 0.6 : 1), P.d2.y - s * (n ? 3.6 : 2.2), n ? W * 0.52 : L.ML.x, n ? H * 0.7 : L.ML.y, n ? "D2 神经元" : "D2 神经元：多绕一圈");
+    // 手机：丘脑底核的标注和丘脑的心声先后用右上角的空地
+    callout("l-stn", n ? q(3, 6.8, 9.8) : q(3, 7.5, 13), P.stn.x, P.stn.y - s * 3, n ? W * 0.8 : P.stn.x + W * 0.12, H * (n ? 0.3 : 0.7), n ? "丘脑底核兴奋" : "丘脑底核兴奋，催苍白球");
+    say("s-stop", q(3, n ? 11.3 : 8, 13.8), P.thal.x, P.thal.y - s * 3, L.TR.x, L.TR.y, "又被按紧了，停下～", "think");
     // 第 5 幕
     const dm = aDA ? aDA.pt(0.45) : { x: 0, y: 0 };
     callout("l-nigro", q(4, 1.5, 8) && !n, dm.x, dm.y, L.ML.x, L.ML.y + H * 0.04, "黑质纹状体通路");
-    say("s-da", q(4, 2, 8), L.TR.x, L.TR.y, L.TR.x, L.TR.y, "多巴胺：一边踩油门，一边松刹车", "box");
-    say("s-smooth", q(4, 8.5, 14), mvx + s * 0.6, cy0 - s * 2.8, L.TR.x, L.TR.y, "走得好顺～", "say");
+    say("s-da", q(4, 2, n ? 7.6 : 8), L.TR.x, L.TR.y, L.TR.x, L.TR.y, "多巴胺：一边踩油门，一边松刹车", "box");
+    say("s-smooth", q(4, n ? 9.5 : 8.5, 14), mvx + s * 0.6, cy0 - s * 2.8, L.TR.x, L.TR.y, "走得好顺～", "say");
     // 第 6 幕
-    say("s-pd", q(5, 1.5, n ? 4.5 : 7), L.BR.x, L.BR.y, L.BR.x, L.BR.y, "帕金森病：多巴胺越来越少", "box");
-    say("s-drug", q(5, 8.5, 14), L.BR.x, L.BR.y, L.BR.x, L.BR.y, "抗精神病药挡住 D2：刹车松不开", "box");
-    callout("l-eps", n ? q(5, 5, 8.3) : q(5, 4, 14), mvx + s * 0.7, cy0 - s * 1.6, n ? W * 0.8 : W * 0.9, n ? H * 0.34 : H * 0.2, "动作变慢、变僵");
+    say("s-pd", q(5, n ? 2.2 : 1.5, n ? 4.8 : 7), L.BR.x, L.BR.y, L.BR.x, L.BR.y, "帕金森病：多巴胺越来越少", "box");
+    say("s-drug", q(5, n ? 11 : 8.5, 14), L.BR.x, L.BR.y, L.BR.x, L.BR.y, "抗精神病药挡住 D2：刹车松不开", "box");
+    callout("l-eps", n ? q(5, 6.3, 9.3) : q(5, 4, 14), mvx + s * 0.7, cy0 - s * 1.6, n ? W * 0.8 : W * 0.9, n ? H * 0.27 : H * 0.2, "动作变慢、变僵");
     Anima.pill(14, 12, CH[cur].pill[0], CH[cur].pill[1], "#4fb893", false);
     Anima.pill(W - 14, 12, CH[cur].pill2[0], CH[cur].pill2[1], "#8f84e0", true);
   }

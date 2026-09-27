@@ -168,8 +168,11 @@ Anima.register("ptsd", {
     if (o.note) { // 贴上去的便签
       ctx.save(); ctx.globalAlpha *= o.note; ctx.rotate(0.08);
       rrect(-s * 0.2, s * 0.1, s * 1.35, s * 0.9, s * 0.06); ctx.fillStyle = "#fff4a8"; ctx.fill(); outline(1.2); ctx.stroke();
-      text("已经过去了", s * 0.47, s * 0.38, Math.max(7, s * 0.2), C.ink);
-      text("我现在安全", s * 0.47, s * 0.72, Math.max(7, s * 0.2), C.mintDeep);
+      // 卡片缩小飞回抽屉时，便签上的字太小会挤在一起，只留便签
+      if (s > H * 0.07) {
+        text("已经过去了", s * 0.47, s * 0.38, Math.max(7, s * 0.2), C.ink);
+        text("我现在安全", s * 0.47, s * 0.72, Math.max(7, s * 0.2), C.mintDeep);
+      }
       ctx.restore();
     }
     ctx.restore();

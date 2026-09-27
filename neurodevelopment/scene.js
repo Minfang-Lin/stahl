@@ -321,7 +321,7 @@ Anima.register("neurodevelopment", {
         }
       }
       ctx.restore();
-      if (cut > 0 && cut < 1) sfx("咔嚓", x + H * 0.04, by - H * 0.03, H * 0.045, C.mintDeep, -0.15, Math.sin(cut * Math.PI));
+      if (cut > 0 && cut < 1) sfx("咔嚓", x + H * 0.02, by - H * 0.085, H * 0.045, C.mintDeep, -0.15, Math.sin(cut * Math.PI));
     });
     // 园丁
     let gx = -W * 0.08;
@@ -496,7 +496,10 @@ Anima.register("neurodevelopment", {
     if (lt > 4.5 && lt < 12) {
       const lx = lerp(W * 1.05, g.x + th * 0.62, cp) + bounce * W * 0.3, ly = gy - th * 0.62 - Math.sin(bounce * Math.PI) * H * 0.1;
       leafShape(lx, ly, H * 0.1, 1 - bounce * 0.7);
-      if (bounce > 0.05) { text("✕", lx, ly - H * 0.02, fsz(1.8), C.bad); }
+      if (bounce > 0.05) { // 叉号跟着叶子弹走，但别跑出画面
+        const xf = fsz(1.8);
+        ctx.save(); ctx.globalAlpha *= 1 - bounce * 0.5; text("✕", Math.min(lx, W - xf * 0.8), ly - H * 0.02, xf, C.bad); ctx.restore();
+      }
       chara(g.x + th * 0.52, gy, H * 0.036, { who: "neuron", item: "shield", arms: "hold", eyes: bounce > 0 ? "happy" : "angry", mouth: bounce > 0 ? "grin" : "flat", dir: 1, tag: "青少年" });
       if (bounce > 0 && bounce < 1) sfx("挡！", lx - H * 0.05, ly - H * 0.08, H * 0.05, C.mintDeep, -0.1, Math.sin(bounce * Math.PI));
     }

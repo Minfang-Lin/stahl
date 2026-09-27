@@ -205,8 +205,8 @@ Anima.register("ketamine", {
       discoNo(ddx, ddy, dr);
       text("不是派对药", ddx + dr * 1.6, ddy, fs, C.bad, "left");
       say("escort", lt > 1 && lt < 7, dx, by - s * 3.2, nar ? W * 0.44 : W * 0.44, H * 0.28, "快车道也要有医生护航～", "say");
-      callout("course", lt > 7 && lt < 10.5, lerp(bx + W * 0.12, x1 - W * 0.04, 0.66), y2 - H * 0.075, nar ? W * 0.62 : W * 0.66, H * 0.3, "效果可能不持久：要规范疗程");
-      say("help", lt > 10.5, W * 0.5, H * 0.5, W * 0.55, H * 0.2, "有伤害自己的想法时，请马上告诉身边的人，尽快去医院急诊。", "box");
+      callout("course", lt > 7 && lt < (nar ? 9.8 : 10.5), lerp(bx + W * 0.12, x1 - W * 0.04, 0.66), y2 - H * 0.075, nar ? W * 0.62 : W * 0.66, H * 0.3, "效果可能不持久：要规范疗程");
+      say("help", lt > 10.5, W * 0.5, H * 0.5, nar ? W * 0.3 : W * 0.55, H * 0.2, "有伤害自己的想法时，请马上告诉身边的人，尽快去医院急诊。", "box");
     }
     ctx.restore();
   }

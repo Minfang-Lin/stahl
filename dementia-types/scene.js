@@ -466,7 +466,7 @@ Anima.register("dementia-types", {
     const kicked = prog(5.6, 1);
     const dax = lerp(site.x, R.x + R.w * 0.88, kicked), day = lerp(site.y, my - H * 0.005, kicked);
     chara(dax, day, cs, { who: "DA", eyes: kicked > 0.5 ? "teary" : "happy", mouth: kicked > 0.5 ? "sad" : "grin", arms: kicked > 0.5 ? "down" : "up", item: null });
-    text("多巴胺本来就不多", R.x + R.w * 0.5, R.y + R.h * 0.14, fs, alpha(C.soft, 1 - prog(8.8, 0.6)));
+    if (lt < 9.4) text("多巴胺本来就不多", R.x + R.w * 0.5, R.y + R.h * 0.14, fs, alpha(C.soft, 1 - prog(8.8, 0.6))); // 淡出后不画，免得气泡把它当成障碍
     // 抗精神病药访客
     if (dIn > 0) {
       const dx = lerp(R.x - cs * 2, site.x, dIn), dy = lerp(my - H * 0.02, site.y, dIn);
@@ -490,7 +490,7 @@ Anima.register("dementia-types", {
     }
     callout("f-lewy", here && lt > 1 && lt < 8.6, nx + nr * 0.4, ny + nr * 0.3, nw ? nx + L.w * 0.18 : nx + L.w * 0.18, nw ? ny + nr * 1.5 : ny - nr * 0.2, "路易体");
     callout("f-drug", here && lt > 5 && lt < 8.8, site.x - cs * 0.6, site.y - cs * 1.6, R.x + R.w * 0.3, R.y + R.h * 0.24, "多巴胺受体被挡住");
-    say("f-careful", here && lt > 9.6, px, py - cs * 3.1, R.x + R.w * 0.5, R.y + R.h * (nw ? 0.25 : 0.17), "可能出现严重反应，用药必须非常谨慎", "box");
+    say("f-careful", here && lt > 9.6, px, py - cs * 3.1, R.x + R.w * 0.5, R.y + R.h * (nw ? 0.19 : 0.13), "可能出现严重反应，用药必须非常谨慎", "box");
     ctx.restore();
   }
 
