@@ -138,6 +138,7 @@ python3 build_xhs.py --only-listed    # 有新集还在制作时，只打包已�
 - `index.html`：展厅（大脑地图 + 按章节 + 角色图鉴 + 即将开播 + 播放器）。
 - `shared/engine.js`：共用引擎。日系漫画风画笔（Q 版拟人角色 `chara()`、对话气泡 `say()`、拟声词、闪光、樱花瓣、集中线、网点）、突触零件（末梢、受体、转运体、囊泡、离子、电信号）、小剧场登记与切换、网页播放和逐帧录制。
 - `shared/catalog.js`：展厅目录。脑区的名字和一句小知识、原书章节分组、角色图鉴的介绍，以及“即将开播”的新栏目预告（`upcoming`）。
+- `assets/icon/`：图标。改 `icon.html` 里的 SVG，再运行 `node tools/icon.js` 导出 1024 / 512 / 192 三种尺寸的 PNG。
 - `shared/hub.js`、`shared/hub.css`、`shared/style.css`：展厅交互和页面样式。
 - `<主题>/scene.js`：每一集的动画，用 `Anima.register(id, meta, factory)` 登记。`meta` 里有标题、对应章节（`chapter`）、所属脑区（`regions`）、章节分组（`parts`）和出场角色（`cast`）。
 - `<主题>/index.html`：单独播放这一集的页面，以及 `video-meta`（配音的片头引子、读法替换）。

@@ -171,14 +171,17 @@ def build():
     elif missing:
         raise SystemExit("这些小剧场还没加进展厅，请在根目录 index.html 里加上 <script src=\"<主题>/scene.js\">：" + "、".join(missing))
     files = {"index.html": html.encode("utf-8")}
-    for src in re.findall(r'<(?:script src|link rel="stylesheet" href)="([^"]+)"', html):
+    for src in re.findall(r'<(?:script src|link rel="(?:stylesheet|icon|apple-touch-icon)" href)="([^"]+)"', html):
         if src == "shared/fonts.css":
             continue
         data = open(os.path.join(ROOT, src), "rb").read()
         if src.endswith(".js"):
             data = minify_js(src, data)
+        elif src.endswith(".png"):  # 图标原样放进包里
+            files[src] = data
+            continue
         files[src] = data
-    text = "".join(b.decode("utf-8") for b in files.values())
+    text = "".join(b.decode("utf-8") for n, b in files.items() if not n.endswith(".png"))
     license_text = read(LICENSE).replace("*/", "* /")
     files["shared/fonts.css"] = FONTS_CSS.replace("{license}", license_text).encode("utf-8")
     files["shared/fonts/zcool-kuaile.woff2"] = font_subset(text)
