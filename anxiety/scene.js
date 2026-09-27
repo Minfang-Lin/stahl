@@ -357,8 +357,8 @@ Anima.register("anxiety", {
 
     // 标注和气泡（手机上一个接一个出现，都放在上方一排）
     const n = narrow(), topY = H * 0.27;
-    callout("a-amy", cur === 0 && (n ? win(4.8, 7.6) : lt > 3), g.tx - g.tw * 0.3, g.base - g.th * 0.25, n ? W * 0.3 : W * 0.12, n ? topY : H * 0.42, "杏仁核：警报器");
-    callout("a-body", cur === 0 && (n ? win(7.6, 10.3) : lt > 4.5), P.heart.x, P.heart.y, n ? W * 0.55 : P.heart.x - W * 0.08, n ? topY : H * 0.48, "心跳加快、呼吸变急");
+    callout("a-amy", cur === 0 && (n ? win(4.8, 7.6) : lt > 3), g.tx - g.tw * 0.3, g.base - g.th * 0.25, n ? W * 0.76 : W * 0.12, n ? H * 0.4 : H * 0.42, "杏仁核：警报器");
+    callout("a-body", cur === 0 && (n ? win(7.6, 10.3) : lt > 4.5), P.heart.x, P.heart.y, n ? W * 0.8 : P.heart.x - W * 0.08, n ? topY : H * 0.48, "心跳加快、呼吸变急");
     callout("a-horm", cur === 0 && (n ? lt > 10.3 : lt > 6.5), P.horm.x, P.horm.y, n ? W * 0.6 : P.horm.x, n ? topY : H * 0.2, "应激激素出动");
     say("a-danger", cur === 0 && win(1.8, n ? 4.8 : 7), G.x, G.y - G.s * 3.2, g.tx + W * 0.12, H * 0.18, "有危险！快准备逃！", "shout");
     say("a-false", cur === 1 && win(0.8, n ? 3.8 : 6.5), G.x, G.y - G.s * 3.2, g.tx + W * 0.1, H * 0.17, "又有情况！警报——！", "shout");

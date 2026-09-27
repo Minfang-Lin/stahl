@@ -370,7 +370,7 @@ Anima.register("cyp450", {
     if (cur === 3 && R[0] && R[1]) {
       callout("c3-ind", lt > 2 && lt < 5.5, R[0].xs + cs * 2, R[0].by - cs * 1.5, n ? W * 0.62 : R[0].xs + W * 0.16, R[0].by + H * 0.05, "诱导剂：给 3A4 加派工人");
       callout("c3-smoke", lt > 5.5 && lt < 8.5, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y + cs * 1.5 : 0, n ? W * 0.62 : R[1].xs + W * 0.16, R[1].by - H * 0.26, "吸烟：诱导 1A2，工人变多");
-      callout("c3-quit", lt > (n ? 10.9 : 9), R[1].gauge.x - W * 0.01, R[1].gauge.y, n ? W * 0.6 : W * 0.68, R[1].by - H * 0.26, "戒烟后：氯氮平浓度回升");
+      callout("c3-quit", lt > (n ? 10.9 : 9), R[1].gauge.x - W * 0.01, R[1].gauge.y, n ? W * 0.55 : W * 0.68, n ? R[1].by + H * 0.1 : R[1].by - H * 0.26, "戒烟后：氯氮平浓度回升");
       say("c3-cbz", win(1.6, 5), heads[0] ? heads[0].x : 0, heads[0] ? heads[0].y : 0, n ? W * 0.5 : R[0].x0 + W * 0.02, n ? R[0].by - H * 0.3 : R[0].by - H * 0.22, n ? "加油！快一点！" : "大家加油，加工快一点！", "shout");
       say("c3-w", n ? win(8.8, 10.8) : lt > 9.5, R[1].ws[0].x, R[1].ws[0].y - cs * 3.1, n ? W * 0.32 : R[1].xs - W * 0.2, R[1].by - H * 0.22, "多出来的同事下班啦～", "say");
     }

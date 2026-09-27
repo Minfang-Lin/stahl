@@ -98,7 +98,8 @@
   let UI = REC ? LY.UI : 1;
 
   let W = 0, H = 0, time = 0, cur = 0;
-  let sceneT = 0; // 本幕已经演了几秒（暂停自动翻页时也照样走），截图工具靠它等到指定时刻
+  let sceneT = 0;
+  let frameDt = 1 / 60; // 这一帧的秒数：标注、气泡的淡入淡出按时间算，不受帧率影响 // 本幕已经演了几秒（暂停自动翻页时也照样走），截图工具靠它等到指定时刻
   const labelAlpha = {};
 
   // ---------- 小工具 ----------
@@ -749,8 +750,8 @@
   // 漫画对话气泡：(tx, ty) 是说话的角色（气泡的尾巴朝向它），(bx, by) 是气泡中心
   //   kind: say 普通对话 | shout 喊出来（爆炸框） | think 心里想（云朵） | box 旁白方框（没有尾巴）
   function say(key, on, tx, ty, bx, by, t, kind = "say", color) {
-    const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 0.1);
-    if (a < 0.02) return;
+    const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 6.3));
+    if (a < 0.02) { delete placeMemo["say:" + key]; return; }
     ctx.save(); ctx.globalAlpha *= clamp(a * 1.4, 0, 1);
     const fs = Math.max(12, W / 58) * UI;
     ctx.font = `${fs}px ${ROUND}`;
@@ -829,8 +830,8 @@
 
   // 名词标注：(tx, ty) 指向的点，(lx, ly) 标签位置
   function callout(key, on, tx, ty, lx, ly, t) {
-    const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 0.08);
-    if (a < 0.02) return;
+    const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 5));
+    if (a < 0.02) { delete placeMemo["callout:" + key]; return; }
     ctx.save();
     ctx.globalAlpha *= a;
     const fs = Math.max(12, W / 58) * UI;
@@ -1050,7 +1051,7 @@
   }
 
   function update(dt) {
-    sceneT += dt;
+    sceneT += dt; frameDt = dt;
     const { CH, S } = ep;
     const tgt = CH[cur];
     const k = 1 - Math.exp(-dt * 1.4);
