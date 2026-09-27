@@ -26,6 +26,7 @@
       <button type="button" role="tab" id="tabBrain" aria-selected="true" aria-controls="panelBrain">按脑区</button>
       <button type="button" role="tab" id="tabBook" aria-selected="false" aria-controls="panelBook">按章节</button>
       <button type="button" role="tab" id="tabCast" aria-selected="false" aria-controls="panelCast">角色图鉴</button>
+      <button type="button" role="tab" id="tabSoon" aria-selected="false" aria-controls="panelSoon">即将开播</button>
     </div>
 
     <div id="panelBrain" role="tabpanel" aria-labelledby="tabBrain" class="panel">
@@ -83,6 +84,11 @@
     <div id="panelCast" role="tabpanel" aria-labelledby="tabCast" class="panel" hidden>
       <p class="cast-intro">像《工作细胞》一样，大脑里的每种分子都有自己的制服和工作。先认识一下常驻演员吧：</p>
       <ul id="castList" class="cast-list"></ul>
+    </div>
+
+    <div id="panelSoon" role="tabpanel" aria-labelledby="tabSoon" class="panel" hidden>
+      <p class="cast-intro">正片之外，这些新栏目正在筹备中。先看看预告，猜猜哪个会最先开播？</p>
+      <ul id="soonList" class="cast-list soon-list"></ul>
     </div>
 
     <footer>科普示意动画：角色是拟人化的，机制做了简化，不能替代医生的诊断和用药建议，请勿自行用药、停药或换药。本站为学习笔记性质的原创图解，与原书作者和出版社无关。</footer>

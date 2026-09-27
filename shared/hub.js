@@ -175,14 +175,40 @@
       portraits.push({ cv, key: c.key, i: portraits.length });
     }
   }
+  // ---------- 即将开播 ----------
+  const teasers = [];
+  function setupSoon() {
+    const box = $("soonList");
+    for (const c of catalog.upcoming || []) {
+      const info = Anima.CAST[c.key];
+      const li = document.createElement("li"); li.className = "cast-card soon-card";
+      li.style.setProperty("--c", info.cloth);
+      const cv = document.createElement("canvas"); cv.className = "cast-pic"; cv.setAttribute("aria-hidden", "true");
+      const body = document.createElement("div"); body.className = "cast-body";
+      const name = document.createElement("h3"); name.textContent = c.name;
+      const tag = document.createElement("span"); tag.className = "cast-role"; tag.textContent = c.tag;
+      name.appendChild(tag);
+      const hook = document.createElement("p"); hook.className = "soon-hook"; hook.textContent = c.hook;
+      const d = document.createElement("p"); d.textContent = c.desc;
+      const host = document.createElement("p"); host.className = "cast-home"; host.textContent = "主持：" + info.name.replace(/（.*）/, "");
+      const ul = document.createElement("ul"); ul.className = "soon-eps";
+      for (const t of c.eps) { const e = document.createElement("li"); e.textContent = t; ul.appendChild(e); }
+      const stamp = document.createElement("span"); stamp.className = "soon-stamp"; stamp.textContent = "筹备中";
+      body.appendChild(name); body.appendChild(hook); body.appendChild(d); body.appendChild(ul); body.appendChild(host);
+      li.appendChild(cv); li.appendChild(body); li.appendChild(stamp);
+      box.appendChild(li);
+      teasers.push({ cv, key: c.key, i: teasers.length + 3 });
+    }
+  }
   const POSES = [["wave", "sparkle", "grin"], ["hold", "happy", "smile"], ["point", "open", "open"], ["shh", "closed", "o"], ["fist", "open", "grin"],
     ["hold", "open", "smile"], ["wave", "happy", "smile"], ["hold", "open", "smile"], ["hold", "open", "cat"], ["wave", "sparkle", "smile"]];
   const ITEMS = { DA: "letter", "5HT": "letter", ACh: "book", pump: "net", MAO: "broom", AChE: "scissors" };
   let castRaf = 0, castT = 0, castLast = 0;
   function drawCast(now) {
-    if ($("panelCast").hidden || !$("episode").hidden) { castRaf = 0; return; }
+    const list = !$("episode").hidden ? null : !$("panelCast").hidden ? portraits : !$("panelSoon").hidden ? teasers : null;
+    if (!list) { castRaf = 0; return; }
     castT += Math.min(0.05, (now - castLast) / 1000 || 0); castLast = now;
-    for (const p of portraits) {
+    for (const p of list) {
       const pose = POSES[p.i % POSES.length];
       Anima.portrait(p.cv, (w, h) => {
         Anima.glow(w / 2, h * 0.55, w * 0.5, "#ffffff", 0.9);
@@ -194,13 +220,13 @@
   function startCast() { if (!castRaf) { castLast = performance.now(); castRaf = requestAnimationFrame(drawCast); } }
 
   // ---------- 标签页 ----------
-  const TABS = { brain: ["tabBrain", "panelBrain"], book: ["tabBook", "panelBook"], cast: ["tabCast", "panelCast"] };
+  const TABS = { brain: ["tabBrain", "panelBrain"], book: ["tabBook", "panelBook"], cast: ["tabCast", "panelCast"], soon: ["tabSoon", "panelSoon"] };
   function selectTab(which) {
     Object.keys(TABS).forEach((k) => {
       $(TABS[k][0]).setAttribute("aria-selected", k === which);
       $(TABS[k][1]).hidden = k !== which;
     });
-    if (which === "cast") startCast();
+    if (which === "cast" || which === "soon") startCast();
   }
   Object.keys(TABS).forEach((k) => $(TABS[k][0]).addEventListener("click", () => selectTab(k)));
 
@@ -220,7 +246,7 @@
       $("episode").hidden = true;
       $("home").hidden = false;
       document.title = "脑内小剧场";
-      if (!$("panelCast").hidden) startCast();
+      if (!$("panelCast").hidden || !$("panelSoon").hidden) startCast();
     }
   }
   $("back").addEventListener("click", () => { if (fromHome) history.back(); else location.hash = ""; });
@@ -231,6 +257,7 @@
   const nsec = catalog.chapters.reduce((a, c) => a + c.sections.length, 0);
   $("count").textContent = `已开演 ${eps.length} 集 · 原书 ${nsec} 个小节已讲到 ${nsec - plannedSections.length} 个 · 持续更新`;
   setupCast();
+  setupSoon();
   fromHome = null;
   route();
   fromHome = false;

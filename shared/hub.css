@@ -116,6 +116,18 @@
 .cast-home { color: var(--soft); margin-top: 4px !important; }
 .cast-appear a { color: #d9607f; }
 
+/* 即将开播 */
+.soon-card { position: relative; }
+.soon-hook { font: 15px/1.5 var(--round) !important; color: var(--ink); margin-bottom: 4px !important; }
+.soon-eps { list-style: none; margin: 6px 0 2px; padding: 0; font-size: 13px; line-height: 1.7; color: var(--soft); }
+.soon-eps li::before { content: "🎬 "; }
+.soon-stamp {
+  position: absolute; top: 12px; left: 12px; padding: 1px 8px; border: 2px solid #e58aa2; border-radius: 8px;
+  color: #d9607f; font: 13px var(--round); transform: rotate(-8deg); background: rgba(255, 255, 255, .8);
+}
+.soon-card .cast-role { white-space: nowrap; display: inline-block; }
+.soon-card .cast-pic { align-self: center; border-right: 0; }
+
 /* 展签：从底部弹出 */
 .sheet { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 10; display: flex; align-items: flex-end; justify-content: center; }
 .sheet-backdrop { position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: rgba(90, 70, 80, .3); }
