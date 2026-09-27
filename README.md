@@ -123,6 +123,16 @@ python3 make_audio.py synapse          # 先生成配音和背景音乐（离线
 node record.js synapse --audio         # 带配音
 ```
 
+## 宣传片（3:4 竖版）
+
+`promo/` 是一支约 44 秒的宣传片（1080×1440）：片头提问 → 角色登场 → 六个机制片段（直接播放真实的小剧场画面）→ 上线内容 → 结尾。
+
+- 预览：用浏览器打开 `promo/index.html`（循环播放）。
+- 导出：`node tools/promo.js`，得到 `promo.mp4`，带代码合成的八音盒背景音乐（`tools/promo_music.py`，需要 numpy、soundfile 和 ffmpeg）。
+- 只截几帧看看：`node tools/promo.js --frames 3,12,40`，图片在 `build/promo-frames/`。
+- 换片段或文案：改 `promo/promo.js` 里的 `CLIPS`（哪一集、第几幕、从第几秒开始、上面的提问）。
+- 展厅截图过期了：`node tools/promo_shots.js` 重新截。
+
 ## 发布到小红书「小工具」
 
 ```bash

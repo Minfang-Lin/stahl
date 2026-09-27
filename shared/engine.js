@@ -1196,6 +1196,12 @@
   function renderVideo() {
     const { CH, cfg, accent } = ep;
     const SW = LY.SW, SH = LY.SH, portraitMode = VH > VW, c = CH[cur];
+    // 宣传片（promo/）：只画舞台本身，片头、字幕卡都由宣传片自己排
+    if (window.__PROMO) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, VW, VH);
+      ctx.save(); ctx.translate(SX, SY); ctx.scale(LY.K, LY.K); draw(); ctx.restore();
+      return;
+    }
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     const bg = ctx.createLinearGradient(0, 0, 0, VH);
     bg.addColorStop(0, "#fff7f1"); bg.addColorStop(1, "#fbeaf1");

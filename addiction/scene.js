@@ -193,7 +193,15 @@ Anima.register("addiction", {
     const nic = drug ? prog(0.6, 1.2) : 0;
     neuronShape(g.V.x, g.V.y, r, 3, nic > 0.5 ? 1 : 0.6);
     if (nic > 0.8) { emote("!", g.V.x + r * 0.2, g.V.y - r * 1.5, r * 0.6); glow(g.V.x, g.V.y, r * 2, C.gold, 0.6 + 0.3 * Math.sin(time * 8)); }
-    plate("腹侧被盖区", g.V.x + r * 0.3, g.V.y + r * 2.5, fsSmall(), "#fff1b8");
+    // 第 2 幕阿片类访客站在右边，画面偏高（比如竖版视频）时两块名牌会挨上：把这块往左让一让
+    let vx = g.V.x + r * 0.3;
+    if (drug) {
+      ctx.font = `${fsSmall()}px ${Anima.ROUND}`;
+      const pw = (t) => ctx.measureText(t).width + fsSmall() * 1.1;
+      const ox = g.V.x + r * 3.8 - H * 0.038 * 1.6;
+      vx = Math.max(pw("腹侧被盖区") / 2 + 6, Math.min(vx, ox - pw("阿片类") / 2 - pw("腹侧被盖区") / 2 - 8));
+    }
+    plate("腹侧被盖区", vx, g.V.y + r * 2.5, fsSmall(), "#fff1b8");
     // 末梢和回收门
     ctx.beginPath(); ctx.arc(g.T.x, g.T.y, r * 0.75, 0, Math.PI * 2); ctx.fillStyle = C.term; ctx.fill(); outline(2); ctx.stroke();
     const coke = drug && lt > 4.2 && lt < 7.2, amph = drug && lt >= 7.2;
