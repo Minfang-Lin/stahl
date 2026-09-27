@@ -1,12 +1,12 @@
 Anima.register("serotonin-receptors", {
-    "title": "血清素的受体大家庭",
+    "title": "5-HT 的受体大家庭",
     "tag": "精神病",
-    "headline": "同一位血清素，推开【不同的门】",
-    "lede": "血清素能开的门有十几种：有的是自己的刹车，有的是皮层的兴奋按钮，有的按住多巴胺，还有一扇直通的离子通道会带来恶心。门不同，效果就不同，药物正是靠“挑门”来挑效果。",
+    "headline": "同一位 5-HT，推开【不同的门】",
+    "lede": "5-HT 能开的门有十几种：有的是自己的刹车，有的是皮层的兴奋按钮，有的按住多巴胺，还有一扇直通的离子通道会带来恶心。门不同，效果就不同，药物正是靠“挑门”来挑效果。",
     "summary": "5-HT1A、1B/D 两道自身刹车，5-HT2A 兴奋按钮与纹状体多巴胺，5-HT2C 按住多巴胺和去甲肾上腺素，5-HT3 与恶心，5-HT7 与节律。",
-    "chapter": "对应 Stahl《精神药理学精要》第 4～5 章 · 血清素受体",
+    "chapter": "对应 Stahl《精神药理学精要》第 4～5 章 · 5-HT 受体",
     "footer": "",
-    "canvasLabel": "拟人化的血清素快递员推开不同受体之门、引起不同效果的动画",
+    "canvasLabel": "拟人化的 5-HT 快递员推开不同受体之门、引起不同效果的动画",
     "regions": ["brainstem", "pfc"],
     "parts": ["psychosis"],
     "cast": ["5HT", "Glu", "GABA", "DA", "NE", "drug"],
@@ -15,31 +15,31 @@ Anima.register("serotonin-receptors", {
   const CH = [
     { title: "一位快递员，许多扇门", v0: 1, v1: 0, v2: 0, v4: 0, v3: 0,
       pill: ["受体", "十几种"], pill2: ["快递员", "只有一位"],
-      text: "血清素从脑干的中缝核出发，把信送到大脑的各个角落。可它能开的门不止一种：科学家已经找到十几种血清素受体，从 5-HT1 排到 5-HT7，下面还分 A、B、C 等亚型。同一位快递员推开不同的门，结果完全不同：有的门是刹车，有的门是油门，还有一扇是直通的离子通道。这一集，我们一扇一扇去敲门。",
-      fact: "血清素受体有十几种；除了 5-HT3 是离子通道，其余都是 G 蛋白偶联受体" },
+      text: "5-HT 从脑干的中缝核出发，把信送到大脑的各个角落。可它能开的门不止一种：科学家已经找到十几种 5-HT 受体，从 5-HT1 排到 5-HT7，下面还分 A、B、C 等亚型。同一位快递员推开不同的门，结果完全不同：有的门是刹车，有的门是油门，还有一扇是直通的离子通道。这一集，我们一扇一扇去敲门。",
+      fact: "5-HT 受体有十几种；除了 5-HT3 是离子通道，其余都是 G 蛋白偶联受体" },
     { title: "5-HT1A：胞体上的刹车", v0: 0, v1: 1, v2: 0, v4: 0, v3: 0,
       pill: ["5-HT1A", "刹车"], pill2: ["放电", "变慢"],
-      text: "血清素神经元的胞体上装着 5-HT1A 受体，这是它自己的“自身受体”。胞体附近的血清素一多，就按下这扇门，神经元放电变慢，送出去的血清素也少一些，像给自己踩刹车。下游神经元上也有 5-HT1A，开门后让那个神经元安静下来。抗焦虑药丁螺环酮是 5-HT1A 的部分激动剂：它坐上门，只把门推开一半。",
+      text: "5-HT 神经元的胞体上装着 5-HT1A 受体，这是它自己的“自身受体”。胞体附近的 5-HT 一多，就按下这扇门，神经元放电变慢，送出去的 5-HT 也少一些，像给自己踩刹车。下游神经元上也有 5-HT1A，开门后让那个神经元安静下来。抗焦虑药丁螺环酮是 5-HT1A 的部分激动剂：它坐上门，只把门推开一半。",
       fact: "5-HT1A 既是胞体上的自身刹车，也在下游神经元上起抑制作用" },
     { title: "5-HT1B/D：末梢上的刹车", v0: 0, v1: 1, v2: 0, v4: 0, v3: 0,
       pill: ["5-HT1B/D", "刹车"], pill2: ["释放", "变少"],
-      text: "轴突末梢也有自己的刹车：5-HT1B/D 自身受体。末梢放出血清素后，一部分快递员回头按下末梢上的这扇门，末梢就知道“外面已经够多了”，下一次少放一些。胞体上的 5-HT1A 管“多久发一次信号”，末梢上的 5-HT1B/D 管“每次放多少”。两道刹车一前一后，血清素就不会越放越多。",
-      fact: "末梢上的 5-HT1B/D 自身受体负反馈，减少血清素的释放" },
+      text: "轴突末梢也有自己的刹车：5-HT1B/D 自身受体。末梢放出 5-HT 后，一部分快递员回头按下末梢上的这扇门，末梢就知道“外面已经够多了”，下一次少放一些。胞体上的 5-HT1A 管“多久发一次信号”，末梢上的 5-HT1B/D 管“每次放多少”。两道刹车一前一后，5-HT 就不会越放越多。",
+      fact: "末梢上的 5-HT1B/D 自身受体负反馈，减少 5-HT 的释放" },
     { title: "5-HT2A：兴奋按钮", v0: 0, v1: 0, v2: 1, v4: 0, v3: 0,
       pill: ["5-HT2A", "兴奋按钮"], pill2: ["挡住后", "纹状体 DA↑"],
-      text: "5-HT2A 是皮层锥体神经元上的兴奋按钮。血清素一按，锥体神经元更兴奋，沿长线把谷氨酸送到脑干，叫醒那里的 GABA 刹车员，刹车员再按住开往纹状体的多巴胺神经元。血清素绕了一圈，结果是少放多巴胺。第二代抗精神病药挡住 5-HT2A，这串刹车跟着松开，纹状体里的多巴胺多放一些，动作方面的副作用就少一点。",
+      text: "5-HT2A 是皮层锥体神经元上的兴奋按钮。5-HT 一按，锥体神经元更兴奋，沿长线把谷氨酸送到脑干，叫醒那里的 GABA 刹车员，刹车员再按住开往纹状体的多巴胺神经元。5-HT 绕了一圈，结果是少放多巴胺。第二代抗精神病药挡住 5-HT2A，这串刹车跟着松开，纹状体里的多巴胺多放一些，动作方面的副作用就少一点。",
       fact: "挡住 5-HT2A → 多巴胺的刹车松开 → 纹状体里多巴胺释放增加" },
     { title: "5-HT2C：按住 DA 和 NE", v0: 0, v1: 0, v2: 0, v4: 1, v3: 0,
       pill: ["5-HT2C", "刹车"], pill2: ["挡住后", "DA NE↑"],
-      text: "5-HT2C 装在脑干的 GABA 刹车员身上。血清素一按，刹车员就去按住多巴胺和去甲肾上腺素神经元，送到前额叶的这两种递质都变少。反过来，挡住 5-HT2C，刹车松开，前额叶的多巴胺和去甲肾上腺素就多起来，一些抗抑郁药用的正是这一招。下丘脑里的 5-HT2C 还和饱腹感有关，挡住它，胃口可能变大、体重增加。",
+      text: "5-HT2C 装在脑干的 GABA 刹车员身上。5-HT 一按，刹车员就去按住多巴胺和去甲肾上腺素神经元，送到前额叶的这两种递质都变少。反过来，挡住 5-HT2C，刹车松开，前额叶的多巴胺和去甲肾上腺素就多起来，一些抗抑郁药用的正是这一招。下丘脑里的 5-HT2C 还和饱腹感有关，挡住它，胃口可能变大、体重增加。",
       fact: "挡住 5-HT2C → 前额叶多巴胺、去甲肾上腺素增加；也可能让胃口变大" },
     { title: "5-HT3：一开就通的门", v0: 0, v1: 0, v2: 0, v4: 0, v3: 1,
       pill: ["5-HT3", "离子通道"], pill2: ["信号", "恶心"],
-      text: "5-HT3 是血清素受体里唯一的离子通道，钥匙一插，门立刻打开，离子冲进去，信号一下就传出去。它守在肠道的迷走神经末梢，也在脑干的呕吐中枢附近。刚开始吃 SSRI 时，血清素一下子变多，猛敲 5-HT3，人就可能觉得恶心，常常几天到几周后慢慢减轻。止吐药昂丹司琼挡住这扇门，恶心的信号就传不上去了。",
+      text: "5-HT3 是 5-HT 受体里唯一的离子通道，钥匙一插，门立刻打开，离子冲进去，信号一下就传出去。它守在肠道的迷走神经末梢，也在脑干的呕吐中枢附近。刚开始吃 SSRI 时，5-HT 一下子变多，猛敲 5-HT3，人就可能觉得恶心，常常几天到几周后慢慢减轻。止吐药昂丹司琼挡住这扇门，恶心的信号就传不上去了。",
       fact: "SSRI 早期的恶心和 5-HT3 被激活有关；昂丹司琼是 5-HT3 拮抗剂" },
     { title: "挑门，就能挑效果", v0: 1, v1: 0, v2: 0, v4: 0, v3: 0,
       pill: ["5-HT7", "节律"], pill2: ["药物", "挑门"],
-      text: "最后一扇门 5-HT7，在下丘脑的生物钟、丘脑和皮层里都有，和昼夜节律、睡眠、情绪有关，有些药物也会挡住它。回头看：同一位血清素，开 1A 是刹车，开 2A 是兴奋，开 3 是恶心信号。药物不用改变血清素本身，只要挑门：半按 1A 帮着抗焦虑，挡住 2A 让纹状体多点多巴胺，挡住 3 就能止吐。",
+      text: "最后一扇门 5-HT7，在下丘脑的生物钟、丘脑和皮层里都有，和昼夜节律、睡眠、情绪有关，有些药物也会挡住它。回头看：同一位 5-HT，开 1A 是刹车，开 2A 是兴奋，开 3 是恶心信号。药物不用改变 5-HT 本身，只要挑门：半按 1A 帮着抗焦虑，挡住 2A 让纹状体多点多巴胺，挡住 3 就能止吐。",
       fact: "同一个递质，门不同，效果不同；药物靠“挑门”来挑效果" },
   ];
 
@@ -149,7 +149,7 @@ Anima.register("serotonin-receptors", {
     Anima.petals(8, 0.4, 41);
     const mem = H * 0.72, rs = Math.min(H * 0.055, W * 0.038), s = rs * 0.72;
     Anima.postMembrane(mem, C.post, {});
-    // 上方的血清素末梢
+    // 上方的 5-HT 末梢
     const T = Anima.terminal(W * 0.5, Anima.topSafe() - H * 0.02, Math.min(W * 0.3, H * 0.5), H * 0.2, C.term, { face: true });
     const X = DOORS.map((d, i) => W * (0.1 + i * 0.16));
     DOORS.forEach((d, i) => {
@@ -162,7 +162,7 @@ Anima.register("serotonin-receptors", {
       if (hl) glow(X[i], mem - rs, rs * 3, C.gold, 0.6 + 0.4 * Math.sin(time * 5));
       plate(nw ? d.k : "5-HT" + d.k, X[i], mem + H * 0.07, mix(d.color, "#ffffff", 0.5), fz(0.024));
       if (!nw || d.k === "3") text(d.k === "3" ? "离子通道" : "G 蛋白", X[i], mem + H * 0.13, fz(0.02), C.soft);
-      // 血清素快递员：从末梢出发，走到自己的门上
+      // 5-HT 快递员：从末梢出发，走到自己的门上
       const p = arrive;
       if (p > 0) {
         let x = lerp(W * 0.5, R.site.x, p), y = lerp(T.bot + H * 0.12, R.site.y + s * 0.2, p) - Math.sin(p * Math.PI) * H * 0.05;
@@ -216,7 +216,7 @@ Anima.register("serotonin-receptors", {
     const brake1 = sc3 ? 0.35 : prog(3.5, 2); // 5-HT1A 被按下的程度
     const brake2 = sc3 ? prog(3.8, 2) : 0;
     face(sx, sy + r * 0.25, r * 0.4, brake1 > 0.5 && !sc3 ? 0 : 1);
-    plate(nw ? "中缝核神经元" : "中缝核的血清素神经元", sx, sy + r + H * 0.05, "#fff");
+    plate(nw ? "中缝核神经元" : "中缝核的 5-HT 神经元", sx, sy + r + H * 0.05, "#fff");
     // 胞体上的 5-HT1A
     const r1x = sx + r * 0.2, r1y = sy - r * 0.96;
     const R1 = Anima.receptor(r1x, r1y, rs, DOORS[0].color, brake1, { shape: "round" });
@@ -307,7 +307,7 @@ Anima.register("serotonin-receptors", {
       const s5 = blk > 0 ? lerp(R.site.x, R.site.x - W * 0.09, blk) : R.site.x;
       chara(s5, blk > 0 ? top : R.site.y + s * 0.2, s * 0.85, { who: "5HT", arms: press > 0.5 ? "up" : "down", eyes: press > 0.5 ? "happy" : "open", shadow: false });
       if (blk > 0.6) emote("?", s5 + s, top - s * 3, s * 0.6);
-      plate(nw ? "血清素" : "血清素（来自中缝核）", W * (nw ? 0.08 : 0.08), top + fz(0.026) * 0.9, "#e6f7ef");
+      plate(nw ? "5-HT" : "5-HT（来自中缝核）", W * (nw ? 0.08 : 0.08), top + fz(0.026) * 0.9, "#e6f7ef");
       if (blk > 0) {
         chara(lerp(-W * 0.05, R.site.x, blk), blk < 1 ? top - H * 0.01 : R.site.y + s * 0.2, s * 0.85, drugO("#ffb36b", { walk: blk < 1 ? time * 9 : null, arms: "shh", eyes: "happy", shadow: false }));
       }
@@ -352,7 +352,7 @@ Anima.register("serotonin-receptors", {
       const f5 = lerp(R.site.x, W * 0.08, blk);
       chara(f5, blk > 0 ? lerp(R.site.y + s * 0.2, bot, blk) : R.site.y + s * 0.2, s * 0.85, { who: "5HT", arms: press > 0.5 ? "up" : "down", eyes: press > 0.5 ? "happy" : "open", shadow: false });
       if (blk > 0.6) emote("?", f5 + s, bot - s * 3, s * 0.6);
-      plate("血清素", blk > 0.5 ? f5 : W * 0.08, bot + fz(0.026) * 0.55, "#e6f7ef");
+      plate("5-HT", blk > 0.5 ? f5 : W * 0.08, bot + fz(0.026) * 0.55, "#e6f7ef");
       if (blk > 0) {
         chara(lerp(-W * 0.05, R.site.x, blk), blk < 1 ? bot : R.site.y + s * 0.2, s * 0.8, drugO("#f7b8d2", { walk: blk < 1 ? time * 9 : null, arms: "shh", eyes: "happy", shadow: false }));
         if (blk > 0.3) plate(nw ? "2C 拮抗剂" : drugName, R.site.x, H * 0.66, "#ffe9f0", fz(0.022));
@@ -405,7 +405,7 @@ Anima.register("serotonin-receptors", {
     if (sick > 0.5) { face(cx, cy + H * 0.015, H * 0.05, 0); emote("sweat", cx + H * 0.08, cy - H * 0.08, H * 0.035); Anima.sweat(cx - H * 0.07, cy - H * 0.03, H * 0.02); }
     else face(cx, cy + H * 0.015, H * 0.05, 1);
     plate(nw ? "呕吐中枢" : "脑干的呕吐中枢", cx, cy + H * 0.14, "#fff");
-    // SSRI 访客：血清素一下变多
+    // SSRI 访客：5-HT 一下变多
     chara(W * 0.12, gy, s, drugO("#8fdcc4", { arms: "wave", eyes: "happy", mouth: "smile" }));
     plate(nw ? "SSRI 刚开始" : "刚开始吃 SSRI", W * 0.12, gy - s * 3.9, "#e6f7ef", fz(0.022));
     const go = prog(0.5, 1.2);
@@ -443,7 +443,7 @@ Anima.register("serotonin-receptors", {
   }
   return {
     chapters: CH, state: S, dur: 14, accent: "#4fb893",
-    titleCard: { lines: ["血清素的", "受体大家庭"] },
+    titleCard: { lines: ["5-HT 的", "受体大家庭"] },
     sync(e) { W = e.W; H = e.H; time = e.time; cur = e.cur; },
     update, draw,
   };

@@ -27,7 +27,7 @@ Anima.register("antipsychotics", {
       fact: "多巴胺抑制泌乳素分泌；垂体的 D2 受体被挡住，泌乳素就会升高" },
     { title: "第二代：多挡一把锁", g0: 0, g1: 0, g2: 0, sda: 1, dim: 0, keys: 0, occ: 0.67,
       pill: ["第二代", "也挡 5-HT2A"], pill2: ["副作用", "更少"],
-      text: "第二代抗精神病药，也叫非典型抗精神病药，除了挡 D2，还挡住血清素的 5-HT2A 受体。在纹状体里，5-HT2A 像多巴胺释放的“刹车”；刹车被挡住，多巴胺就多放出来一些，从药物手里抢回一部分 D2 受体。所以，这类药带来的动作副作用通常更少。",
+      text: "第二代抗精神病药，也叫非典型抗精神病药，除了挡 D2，还挡住 5-HT 的 5-HT2A 受体。在纹状体里，5-HT2A 像多巴胺释放的“刹车”；刹车被挡住，多巴胺就多放出来一些，从药物手里抢回一部分 D2 受体。所以，这类药带来的动作副作用通常更少。",
       fact: "挡住 5-HT2A 能让纹状体多释放一些多巴胺，抵消一部分 D2 阻断" },
     { title: "调光开关", g0: 0, g1: 0, g2: 0, sda: 0, dim: 1, keys: 0, occ: 0.67,
       pill: ["部分激动剂", "调到中间"], pill2: ["灯光", "一半"],
@@ -278,7 +278,7 @@ Anima.register("antipsychotics", {
     Anima.postMembrane(post, C.postNigro, {});
     const T = Anima.terminal(tcx, 0, tw, th, "#ffd6c4");
     text("多巴胺神经末梢", tcx, T.bot - th * 0.3, fsz(0.024, 10), C.soft);
-    // 5-HT2A 受体：长在末梢右下方，门朝下；血清素在下面“按刹车”
+    // 5-HT2A 受体：长在末梢右下方，门朝下；5-HT 在下面“按刹车”
     const rX = tcx + tw * 0.3, rY = T.bot - th * 0.06, rs = g.rs * 0.9;
     const block = prog(3.5, 1.2);
     const r5 = Anima.receptor(rX, rY, rs, "#8fdcc4", (1 - block) * 0.8, { shape: "tri", dir: -1 });

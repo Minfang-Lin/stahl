@@ -745,7 +745,7 @@ Anima.register("ptsd", {
     ctx.restore();
     card(R.x, R.y, R.w, R.h, "夜里：噩梦很多时", "#e4e0ff", false);
     const s = Math.min(H * (n ? 0.056 : 0.055), cw * 0.09);
-    // ---- 左：SSRI 访客 + 血清素拧低灵敏度 ----
+    // ---- 左：SSRI 访客 + 5-HT 拧低灵敏度 ----
     const gL = L.y + L.h * 0.86;
     const dx = L.x + L.w * 0.3, dy = L.y + L.h * 0.52, dr = Math.min(L.w * 0.16, L.h * 0.2);
     // 小警报塔

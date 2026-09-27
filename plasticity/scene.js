@@ -6,7 +6,7 @@ Anima.register("plasticity", {
     "summary": "第一信使、第二信使、蛋白激酶和转录因子 CREB，早期基因和晚期基因，表观遗传的“书签和封条”，以及长时程增强和突触可塑性。",
     "chapter": "对应 Stahl《精神药理学精要》第 1 章 · 信号转导与基因表达",
     "footer": "",
-    "canvasLabel": "拟人化的血清素、谷氨酸、蛋白激酶和转录因子接力把信号传进细胞核、打开基因的动画",
+    "canvasLabel": "拟人化的 5-HT、谷氨酸、蛋白激酶和转录因子接力把信号传进细胞核、打开基因的动画",
     "regions": ["synapse", "hippo"],
     "parts": ["basics"],
     "cast": ["5HT", "Glu", "neuron"],

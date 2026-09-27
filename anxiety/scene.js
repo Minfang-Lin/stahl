@@ -334,7 +334,7 @@ Anima.register("anxiety", {
     const hq = hqDraw(g, S.hq, strong);
     const mid = cable(g, hq, strong, S.hq);
 
-    // 第 6 幕：血清素和药物访客慢慢拧低灵敏度
+    // 第 6 幕：5-HT 和药物访客慢慢拧低灵敏度
     let turner = null;
     if (cur === 5) {
       const cs = H * (narrow() ? 0.05 : 0.042), tA = prog(0.2, 1);

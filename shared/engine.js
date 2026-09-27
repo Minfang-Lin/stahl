@@ -26,7 +26,7 @@
   // 角色图鉴：每种神经递质、蛋白质都有自己的发色、制服和帽子上的名牌（像《工作细胞》里的制服编号）
   const CAST = {
     DA: { name: "多巴胺", label: "DA", hair: "#ff9a52", eye: "#e0662a", cloth: "#ffd27a", hat: "cap", hatColor: "#ff9a52", style: "twin", acc: "star" },
-    "5HT": { name: "血清素", label: "5-HT", hair: "#62c9ab", eye: "#2f9f86", cloth: "#cdf1e4", hat: "beret", hatColor: "#8fdcc4", style: "bob", acc: "leaf" },
+    "5HT": { name: "5-HT", label: "5-HT", hair: "#62c9ab", eye: "#2f9f86", cloth: "#cdf1e4", hat: "beret", hatColor: "#8fdcc4", style: "bob", acc: "leaf" },
     NE: { name: "去甲肾上腺素", label: "NE", hair: "#ec6470", eye: "#c23a4a", cloth: "#ffd3d6", hat: "cap", hatColor: "#ec6470", style: "pony", acc: "whistle" },
     GABA: { name: "GABA", label: "GABA", hair: "#8f86e2", eye: "#5c52c4", cloth: "#e4e0ff", hat: "none", style: "long", glasses: true },
     Glu: { name: "谷氨酸", label: "Glu", hair: "#f6c02e", eye: "#c88600", cloth: "#fff0b3", hat: "band", hatColor: "#ff8a5c", style: "spiky" },

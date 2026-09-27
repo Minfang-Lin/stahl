@@ -1,12 +1,12 @@
 Anima.register("serotonin-psychosis", {
-    "title": "血清素与幻觉",
+    "title": "5-HT 与幻觉",
     "tag": "精神病",
-    "headline": "皮层里的【兴奋按钮】：血清素与幻觉",
-    "lede": "皮层锥体神经元身上有一个血清素的“兴奋按钮”：5-HT2A 受体。致幻剂把它按得太猛，帕金森病和痴呆可能让它失衡，都会让人看到并不存在的东西。怎样只按住这个按钮、又不碰多巴胺的 D2 门？",
+    "headline": "皮层里的【兴奋按钮】：5-HT 与幻觉",
+    "lede": "皮层锥体神经元身上有一个 5-HT 的“兴奋按钮”：5-HT2A 受体。致幻剂把它按得太猛，帕金森病和痴呆可能让它失衡，都会让人看到并不存在的东西。怎样只按住这个按钮、又不碰多巴胺的 D2 门？",
     "summary": "5-HT2A 受体是皮层的兴奋按钮：致幻剂、帕金森病精神病和痴呆相关精神病的视幻觉，为什么这类患者要慎用强 D2 阻断，以及匹莫范色林。",
-    "chapter": "对应 Stahl《精神药理学精要》第 4 章 · 血清素与精神病",
+    "chapter": "对应 Stahl《精神药理学精要》第 4 章 · 5-HT 与精神病",
     "footer": "如果家里的老人开始看到并不存在的人或动物，不要争辩或责备，温和陪伴，尽早带去看医生；用药请遵医嘱。",
-    "canvasLabel": "血清素快递员按下皮层锥体神经元上 5-HT2A 兴奋按钮的动画，致幻剂按得太猛带来视幻觉",
+    "canvasLabel": "5-HT 快递员按下皮层锥体神经元上 5-HT2A 兴奋按钮的动画，致幻剂按得太猛带来视幻觉",
     "regions": ["pfc", "brainstem"],
     "parts": ["psychosis"],
     "cast": ["5HT", "Glu", "DA", "drug"],
@@ -15,11 +15,11 @@ Anima.register("serotonin-psychosis", {
   const CH = [
     { title: "皮层的兴奋按钮", v0: 1, hyp: 0, v1: 0, v2: 0, v3: 0, v4: 0,
       pill: ["受体", "5-HT2A"], pill2: ["位置", "皮层"],
-      text: "大脑皮层里住着许多锥体神经元，它们是皮层的“主力员工”，身上装着一种特别的门：血清素的 5-HT2A 受体。它像一个“兴奋按钮”：血清素快递员轻轻一按，锥体神经元就更兴奋一些，顺着自己的线路放出谷氨酸，把消息传给下游。按得有轻有重、恰到好处，我们看到的世界就清清楚楚。",
+      text: "大脑皮层里住着许多锥体神经元，它们是皮层的“主力员工”，身上装着一种特别的门：5-HT 的 5-HT2A 受体。它像一个“兴奋按钮”：5-HT 快递员轻轻一按，锥体神经元就更兴奋一些，顺着自己的线路放出谷氨酸，把消息传给下游。按得有轻有重、恰到好处，我们看到的世界就清清楚楚。",
       fact: "5-HT2A 受体在皮层锥体神经元上很多，被激活时让神经元更兴奋、放出更多谷氨酸" },
     { title: "按得太猛：致幻剂", v0: 1, hyp: 1, v1: 0, v2: 0, v3: 0, v4: 0,
       pill: ["致幻剂", "猛按按钮"], pill2: ["带来", "视幻觉"],
-      text: "致幻剂，比如 LSD 和迷幻蘑菇里的裸盖菇素，会冒充血清素，把 5-HT2A 按钮按得又猛又久。皮层过度兴奋，视觉信号被扭曲：颜色变得刺眼，墙上的花纹好像在流动，甚至看到并不存在的图案。这类幻觉以“看到的”为主。致幻剂还可能带来惊恐和危险的举动，风险难以预料。",
+      text: "致幻剂，比如 LSD 和迷幻蘑菇里的裸盖菇素，会冒充 5-HT，把 5-HT2A 按钮按得又猛又久。皮层过度兴奋，视觉信号被扭曲：颜色变得刺眼，墙上的花纹好像在流动，甚至看到并不存在的图案。这类幻觉以“看到的”为主。致幻剂还可能带来惊恐和危险的举动，风险难以预料。",
       fact: "LSD、裸盖菇素等致幻剂主要通过激动 5-HT2A 受体引起视幻觉" },
     { title: "老人眼前的“小猫”", v0: 0, hyp: 0, v1: 1, v2: 0, v3: 0, v4: 0,
       pill: ["常见于", "帕金森·痴呆"], pill2: ["幻觉", "多是看到的"],
@@ -63,7 +63,7 @@ Anima.register("serotonin-psychosis", {
   const SGA = { who: "drug", label: "", hatColor: "#8fcbe8", hatColor2: "#ffffff" };
   const O = (base, o) => Object.assign({}, base, o || {});
 
-  // 5-HT2A 按钮一次按下的节奏（第 1 幕）：三位血清素轮流下来按
+  // 5-HT2A 按钮一次按下的节奏（第 1 幕）：三位 5-HT 轮流下来按
   function press5HT(k) {
     const p = ((lt + 6 - k * 2) % 6) / 6; // 0～1 的循环
     return p;
@@ -253,9 +253,9 @@ Anima.register("serotonin-psychosis", {
     }
     tagBox(n ? "谷氨酸 → 下游" : "谷氨酸线 → 下游", W * (n ? 0.8 : 0.86), ry + H * 0.065, fsz(0.024, 10), "#fff4c4", C.ink, 1.1);
     pyramid(px, pBase, pH, e, g.post + H * 0.01);
-    // 血清素末梢（从脑干中缝核伸过来）
+    // 5-HT 末梢（从脑干中缝核伸过来）
     const T = Anima.terminal(g.tcx, 0, g.tw, g.th, C.term);
-    text(n ? "血清素末梢" : "血清素末梢（来自脑干中缝核）", g.tcx, T.bot - g.th * 0.28, fsz(0.024, 10), C.soft);
+    text(n ? "5-HT 末梢" : "5-HT 末梢（来自脑干中缝核）", g.tcx, T.bot - g.th * 0.28, fsz(0.024, 10), C.soft);
     // 三个 5-HT2A 按钮
     const drugIn = [0, 1, 2].map((i) => (cur === 1 ? prog(1.2 + i * 0.5, 0.9) : hy > 0.5 ? 1 : 0));
     const R = g.rx.map((x, i) => {
@@ -264,7 +264,7 @@ Anima.register("serotonin-psychosis", {
       else act = drugIn[i] > 0.9 ? 0.75 + 0.25 * Math.abs(Math.sin(time * 7 + i)) : 0.05;
       return Anima.receptor(x, g.post, g.rs, C.ht2a, act, { shape: "tri", label: i === 1 ? "5-HT2A" : null });
     });
-    // 第 1 幕：血清素轮流下来，轻轻按一下
+    // 第 1 幕：5-HT 轮流下来，轻轻按一下
     let pressHead = null;
     if (cur === 0 || hy < 0.5) {
       for (let k = 0; k < 3; k++) {
@@ -279,7 +279,7 @@ Anima.register("serotonin-psychosis", {
         if (p > 0.22 && p < 0.3) sfx("嘀", st.x + g.rs * 1.3, st.y - g.rs * 0.6, fsz(0.03, 11), C.mintDeep, -0.1, 1 - hy);
       }
     }
-    // 第 2 幕：致幻剂冒充血清素，跳上按钮猛按
+    // 第 2 幕：致幻剂冒充 5-HT，跳上按钮猛按
     let dHead = null;
     if (hy > 0.02) {
       R.forEach((r, i) => {
@@ -293,7 +293,7 @@ Anima.register("serotonin-psychosis", {
       });
       speedLines(W * 0.3, g.post, H * 0.5, 28, (hy - 0.5) * 0.5 * (cur === 1 ? prog(3, 1) : 1));
     }
-    // 被挤开的血清素，站在旁边
+    // 被挤开的 5-HT，站在旁边
     const sx = g.rx[2] + g.rs * (n ? 2.4 : 3.2), sy = g.post - H * 0.005;
     if (hy > 0.02) {
       chara(sx, sy, g.cs * 0.9, { who: "5HT", eyes: "wide", mouth: "wavy", arms: "down", dir: -1, alpha: hy, shadow: false });
@@ -600,7 +600,7 @@ Anima.register("serotonin-psychosis", {
 
   return {
     chapters: CH, state: S, dur: DUR, accent: "#4fb893",
-    titleCard: { lines: ["血清素的", "兴奋按钮"] },
+    titleCard: { lines: ["5-HT 的", "兴奋按钮"] },
     sync(e) { W = e.W; H = e.H; time = e.time; cur = e.cur; },
     update, draw,
   };

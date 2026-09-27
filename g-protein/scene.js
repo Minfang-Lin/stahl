@@ -27,7 +27,7 @@ Anima.register("g-protein", {
       fact: "Gq → 磷脂酶 C → IP3（放出内质网的 Ca²⁺）+ DAG（激活蛋白激酶 C）" },
     { title: "同一把钥匙，不同的门", v0: 0, v1: 0, v2: 0, v3: 1, v4: 0, v5: 0,
       pill: ["递质", "同一种"], pill2: ["G 蛋白", "不一样"],
-      text: "同一种递质可以有好几种受体，它们连着不同的 G 蛋白。多巴胺的 D1 受体偏向 Gs，让 cAMP 变多；D2 受体偏向 Gi，让 cAMP 变少。血清素也一样：5-HT1A 偏向 Gi，踩刹车；5-HT2A 偏向 Gq，放出钙离子。同一位快递员送到不同的门，细胞里的结果可能正好相反，所以药物作用在哪种受体上格外重要。",
+      text: "同一种递质可以有好几种受体，它们连着不同的 G 蛋白。多巴胺的 D1 受体偏向 Gs，让 cAMP 变多；D2 受体偏向 Gi，让 cAMP 变少。5-HT 也一样：5-HT1A 偏向 Gi，踩刹车；5-HT2A 偏向 Gq，放出钙离子。同一位快递员送到不同的门，细胞里的结果可能正好相反，所以药物作用在哪种受体上格外重要。",
       fact: "D1 → Gs、D2 → Gi；5-HT1A → Gi、5-HT2A → Gq（指主要的偶联方式）" },
     { title: "自带的计时器", v0: 0, v1: 0, v2: 0, v3: 0, v4: 1, v5: 0,
       pill: ["GTP", "→ GDP"], pill2: ["接力", "自动停"],
@@ -288,7 +288,7 @@ Anima.register("g-protein", {
       if (ea > 0.02) { ctx.save(); ctx.globalAlpha *= ea; chip(r.eff, x, fy + fs * 1.2, r.col, fs * 1.05); ctx.restore(); }
     });
     callout("g3a", L > 7 && L < 12.5, W * 0.245, mem + mt / 2 + fs * 4.6 + s * 3.2, W * 0.25, H * (n ? 0.76 : 0.93), "多巴胺：D1 油门，D2 刹车");
-    callout("g3b", L > 8 && L < 12.5, W * 0.755, mem + mt / 2 + fs * 4.6 + s * 3.2, W * 0.75, H * 0.93, "血清素：1A 刹车，2A 开钙库");
+    callout("g3b", L > 8 && L < 12.5, W * 0.755, mem + mt / 2 + fs * 4.6 + s * 3.2, W * 0.75, H * 0.93, "5-HT：1A 刹车，2A 开钙库");
     say("g3s", L > 5.5 && L < 9.5, W * 0.36, mem - s * 3.4, W * 0.5, Anima.topSafe() + H * 0.07, "同一封信，结果不一样？", "think");
     ctx.restore();
   }

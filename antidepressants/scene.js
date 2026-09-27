@@ -6,7 +6,7 @@ Anima.register("antidepressants", {
     "summary": "SSRI、SNRI、安非他酮和 MAOI 怎样起作用，为什么要等几周，以及副作用、忌口和停药的注意事项。",
     "chapter": "对应 Stahl《精神药理学精要》第 7 章 · 心境障碍的治疗",
     "footer": "用药期间如果出现情绪明显变差或伤害自己的想法，请立刻告诉家人和医生，也可以联系当地心理援助热线或前往医院急诊。",
-    "canvasLabel": "拟人化的药物访客堵住血清素回收门、5-HT1A 自身受体刹车慢慢松开的动画",
+    "canvasLabel": "拟人化的药物访客堵住 5-HT 回收门、5-HT1A 自身受体刹车慢慢松开的动画",
     "regions": ["synapse", "brainstem"],
     "parts": ["mood"],
     "cast": ["5HT", "pump", "drug", "NE", "MAO"],
@@ -14,12 +14,12 @@ Anima.register("antidepressants", {
   }, () => {
   const CH = [
     { title: "先堵住回收门", syn: 1, auto: 0, line: 0, doors: 0, mao: 0, note: 0,
-      pill: ["血清素", "正常"], pill2: ["回收门", "营业中"],
-      text: "最常用的一类抗抑郁药叫 SSRI，也就是选择性血清素再摄取抑制剂。平时，血清素送完信，会从回收门（血清素转运体）回到末梢。SSRI 就像一位访客，把这扇回收门先堵上，挂上“暂停回收”的牌子。于是，血清素在突触里多留一会儿，有更多机会把信送到受体。",
-      fact: "“再摄取”就是回收：SSRI 堵住的是血清素的回收门（血清素转运体，SERT）" },
+      pill: ["5-HT", "正常"], pill2: ["回收门", "营业中"],
+      text: "最常用的一类抗抑郁药叫 SSRI，也就是选择性 5-HT 再摄取抑制剂。平时，5-HT 送完信，会从回收门（5-HT 转运体）回到末梢。SSRI 就像一位访客，把这扇回收门先堵上，挂上“暂停回收”的牌子。于是，5-HT 在突触里多留一会儿，有更多机会把信送到受体。",
+      fact: "“再摄取”就是回收：SSRI 堵住的是 5-HT 的回收门（5-HT 转运体，SERT）" },
     { title: "为什么要等几周", syn: 0, auto: 1, line: 0, doors: 0, mao: 0, note: 0,
       pill: ["刹车", "踩住"], pill2: ["用药", "第 1 周"],
-      text: "奇怪的是，回收门当天就堵上了，心情却要等几周。Stahl 的经典解释是：一开始，多出来的血清素先跑到神经元自己的胞体上，按下 5-HT1A 自身受体，这是一个刹车，神经元反而少放电。几周后，这些自身受体慢慢“脱敏”、变少，刹车松开，末梢释放的血清素才真正多起来。",
+      text: "奇怪的是，回收门当天就堵上了，心情却要等几周。Stahl 的经典解释是：一开始，多出来的 5-HT 先跑到神经元自己的胞体上，按下 5-HT1A 自身受体，这是一个刹车，神经元反而少放电。几周后，这些自身受体慢慢“脱敏”、变少，刹车松开，末梢释放的 5-HT 才真正多起来。",
       fact: "一般用药 2～4 周开始见效，完全起效可能还要更久，需要一点耐心" },
     { title: "副作用常常先到", syn: 0, auto: 0, line: 1, doors: 0, mao: 0, note: 0,
       pill: ["先到", "副作用"], pill2: ["后到", "疗效"],
@@ -27,11 +27,11 @@ Anima.register("antidepressants", {
       fact: "副作用常常先来、疗效后到；出现轻生念头时，请立刻告诉家人和医生" },
     { title: "更多的回收门", syn: 0, auto: 0, line: 0, doors: 1, mao: 0, note: 0,
       pill: ["回收门", "三扇"], pill2: ["选药", "因人而异"],
-      text: "除了 SSRI，还有别的“堵门”方式。SNRI（血清素和去甲肾上腺素再摄取抑制剂）同时堵住血清素和去甲肾上腺素两扇回收门。安非他酮则主要作用于去甲肾上腺素和多巴胺的回收门，几乎不碰血清素。堵的门不同，适合的人和副作用也不一样，所以医生会根据每个人的情况来选。",
-      fact: "SSRI 管血清素；SNRI 管血清素 + 去甲肾上腺素；安非他酮管去甲肾上腺素 + 多巴胺" },
+      text: "除了 SSRI，还有别的“堵门”方式。SNRI（5-HT 和去甲肾上腺素再摄取抑制剂）同时堵住 5-HT 和去甲肾上腺素两扇回收门。安非他酮则主要作用于去甲肾上腺素和多巴胺的回收门，几乎不碰 5-HT。堵的门不同，适合的人和副作用也不一样，所以医生会根据每个人的情况来选。",
+      fact: "SSRI 管 5-HT；SNRI 管 5-HT + 去甲肾上腺素；安非他酮管去甲肾上腺素 + 多巴胺" },
     { title: "清扫员停工", syn: 0, auto: 0, line: 0, doors: 0, mao: 1, note: 0,
       pill: ["清扫员", "上班中"], pill2: ["现在", "较少首选"],
-      text: "老牌选手 MAOI（单胺氧化酶抑制剂）走的是另一条路：让清扫员单胺氧化酶停工，血清素、去甲肾上腺素和多巴胺就不容易被分解，数量变多。它的效果可以很强，但要严格忌口，比如陈年奶酪等富含酪胺的食物，否则血压可能突然升得很高；还要特别当心和其他药物的相互作用。所以现在它很少作为首选。",
+      text: "老牌选手 MAOI（单胺氧化酶抑制剂）走的是另一条路：让清扫员单胺氧化酶停工，5-HT、去甲肾上腺素和多巴胺就不容易被分解，数量变多。它的效果可以很强，但要严格忌口，比如陈年奶酪等富含酪胺的食物，否则血压可能突然升得很高；还要特别当心和其他药物的相互作用。所以现在它很少作为首选。",
       fact: "用 MAOI 时要严格忌口含酪胺的食物，并避免危险的药物相互作用" },
     { title: "用药小约定", syn: 0, auto: 0, line: 0, doors: 0, mao: 0, note: 1,
       pill: ["约定", "4 条"], pill2: ["一起", "慢慢来"],
@@ -146,7 +146,7 @@ Anima.register("antidepressants", {
     if (block > 0 && block < 1) sfx("啪！", g.T.x + g.rs * 1.4, g.T.y - g.rs * 0.2, H * 0.05, "#e7a23a", -0.15, 1);
     if (lt > 4.2 && lt < 5.2) sfx("啪！", g.T.x + g.rs * 1.4, g.T.y - g.rs * 0.2, H * 0.05, "#e7a23a", -0.15, 1 - (lt - 4.2));
 
-    callout("sert", lt > 0.6 && lt < 4.2, g.T.x - g.rs * 0.7, g.T.y, g.T.x - W * 0.08, g.bot + H * 0.14, "血清素转运体：回收门");
+    callout("sert", lt > 0.6 && lt < 4.2, g.T.x - g.rs * 0.7, g.T.y, g.T.x - W * 0.08, g.bot + H * 0.14, "5-HT 转运体：回收门");
     callout("ssri", lt > 5.2, dx - g.cs * 0.8, dy - g.cs * 1.5, g.T.x - W * 0.14, g.post + H * 0.1, "SSRI：把回收门先堵上");
     say("closed", lt > 4.6 && lt < 9, dx + g.cs * 0.5, dy - g.cs * 3.2, W * 0.86, g.bot * 0.45, "回收门暂停营业～", "say");
     const p1 = pos[3];
@@ -214,7 +214,7 @@ Anima.register("antidepressants", {
     const pdx = sx - sr * 1.25, pdy = sy - sr * 0.55;
     pedal(pdx, pdy, Math.min(H * 0.05, L.w * 0.08), brake);
     ctx.save(); ctx.setLineDash([4, 5]); outline(1.4); ctx.beginPath(); ctx.moveTo(rx - rs * 0.8, ry - rs * 0.6); ctx.lineTo(pdx + rs * 0.3, pdy - rs * 0.9); ctx.stroke(); ctx.restore();
-    // 站在自身受体上的血清素（刹车踩住时），脱敏后离开
+    // 站在自身受体上的 5-HT（刹车踩住时），脱敏后离开
     const cs = Math.min(H * 0.036, L.w * 0.06);
     const siteY = ry - rs * 1.62 * (0.55 + recA * 0.45);
     ctx.save(); ctx.globalAlpha *= clamp(1 - (d - 0.45) * 3, 0, 1);
@@ -224,7 +224,7 @@ Anima.register("antidepressants", {
       const p = clamp((d - 0.5) * 2.5, 0, 1);
       chara(rx + L.w * 0.22 * p, sy + sr * 1.1, cs, { who: "5HT", arms: "wave", eyes: "happy", walk: p < 1 ? time * 9 : null, alpha: clamp(p * 3, 0, 1) });
     }
-    // 右：末梢和释放的血清素
+    // 右：末梢和释放的 5-HT
     const T = Anima.terminal(tcx, ty0, ttw, tth, C.term);
     const my = R.y + R.h * 0.8;
     ctx.save(); rrect(R.x, R.y, R.w, R.h, 20); ctx.clip();
@@ -247,7 +247,7 @@ Anima.register("antidepressants", {
     const nar = narrow();
     callout("auto", lt > 1 && lt < (nar ? 4.4 : 8.5), rx + rs * 0.7, ry - rs * 0.9, L.x + L.w * 0.62, L.y + L.h * (nar ? 0.2 : 0.16), "5-HT1A 自身受体 = 刹车");
     callout("desens", lt > 9, rx + rs * 0.5, ry - rs * 0.4, L.x + L.w * 0.55, L.y + L.h * (nar ? 0.2 : 0.16), "几周后：自身受体脱敏、变少");
-    say("brake", lt > (nar ? 4.6 : 1.2) && lt < (nar ? 8.8 : 6.8), sx - sr * 0.5, sy - sr * 0.3, L.x + L.w * 0.3, L.y + L.h * 0.3, "血清素一多，我先踩一脚刹车……", "think");
+    say("brake", lt > (nar ? 4.6 : 1.2) && lt < (nar ? 8.8 : 6.8), sx - sr * 0.5, sy - sr * 0.3, L.x + L.w * 0.3, L.y + L.h * 0.3, "5-HT 一多，我先踩一脚刹车……", "think");
     say("go", lt > 9.5, tcx, T.bot, tcx, ty0 + tth * 0.45, "刹车松开，信终于多起来啦！", "shout");
     ctx.restore();
   }

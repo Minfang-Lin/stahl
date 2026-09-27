@@ -496,7 +496,7 @@ Anima.register("ocd-impulsivity", {
     chara(px, fy, cs, { who: "5HT", hair: "#7a9ad8", cloth: "#e3f3fc", hat: "none", label: "", acc: null, arms: "hug", eyes: calm > 0.5 ? "happy" : "open", mouth: calm > 0.5 ? "smile" : "wavy", brow: calm > 0.5 ? null : "worry", dir: 1 });
     chara(tx, fy, cs, { who: "neuron", hair: "#a8765a", cloth: "#fff1b8", item: "book", arms: "hold", eyes: "happy", mouth: "smile", dir: -1 });
     if (calm > 0.6) emote("sparkle", px + cs, fy - cs * 3.3, cs * 0.5);
-    // 右：SSRI 把回收门挡住，血清素多留一会儿
+    // 右：SSRI 把回收门挡住，5-HT 多留一会儿
     const my = R.y + R.h * 0.44, rs = Math.min(R.h * 0.06, R.w * 0.07);
     ctx.save(); rrect(R.x, R.y, R.w, R.h, 20); ctx.clip();
     const band = R.y + fs * 1.3;

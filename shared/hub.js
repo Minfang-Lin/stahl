@@ -148,12 +148,14 @@
       body.appendChild(name); body.appendChild(d); body.appendChild(home);
       if (appear.length) {
         const a = document.createElement("p"); a.className = "cast-appear";
-        a.appendChild(document.createTextNode("出演："));
-        appear.forEach((e, i) => {
+        // 出演的集太多时只列前 3 集，其余用“等 N 集”带过，卡片不会被撑得很长
+        a.appendChild(document.createTextNode(`出演 ${appear.length} 集：`));
+        appear.slice(0, 3).forEach((e, i) => {
           const link = document.createElement("a"); link.href = "#" + e.id; link.textContent = e.title;
           if (i) a.appendChild(document.createTextNode("、"));
           a.appendChild(link);
         });
+        if (appear.length > 3) a.appendChild(document.createTextNode(" 等"));
         body.appendChild(a);
       }
       li.appendChild(cv); li.appendChild(body);
