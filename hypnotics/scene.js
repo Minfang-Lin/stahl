@@ -105,6 +105,9 @@ Anima.register("hypnotics", {
     chara(rx + H * 0.1, my - H * 0.01, s, { who: "drug", hatColor: "#b8b0f0", arms: "hug", eyes: "closed", mouth: "cat", dir: -1, tag: "Z 药" });
     for (let k = 0; k < 4; k++) { const t = (time * 0.8 + k / 4) % 1; ctx.save(); ctx.globalAlpha *= Math.sin(t * Math.PI); Anima.ion(rx + (k - 1.5) * H * 0.012, my - H * 0.04 + t * H * 0.16, H * 0.014, "Cl", "#d7f0c8"); ctx.restore(); }
     emote("zzz", L.x + L.w * 0.8, L.y + L.h * 0.2, H * 0.04);
+    const cf = fsS() * (n ? 0.74 : 0.82);
+    text("苯二氮䓬类、Z 药", L.x + L.w / 2, L.y + L.h * 0.8, cf, C.ink);
+    text("让 GABA 更有力", L.x + L.w / 2, L.y + L.h * 0.8 + cf * 1.5, cf, C.soft);
     ctx.restore();
     // 右：三扇叫醒之门被挡住
     const rs = [];
@@ -123,6 +126,9 @@ Anima.register("hypnotics", {
         chara(x + (n ? H * 0.06 : H * 0.075), ry - H * 0.12 - (n ? H * 0.03 : 0), s * 0.8, { who: d.w, eyes: p > 0.9 ? "sleepy" : "open", mouth: "o", arms: "down", dir: -1, gray: p * 0.5 });
         rs.push({ x, y: site });
       });
+      const cf = fsS() * (n ? 0.74 : 0.82);
+      text("挡住食欲素、组胺、5-HT", R.x + R.w / 2, R.y + R.h * 0.8, cf, C.ink);
+      text("叫醒的信号就小声了", R.x + R.w / 2, R.y + R.h * 0.8 + cf * 1.5, cf, C.soft);
       ctx.restore();
     }
     const ty = Anima.topSafe() + H * 0.01;
@@ -134,12 +140,12 @@ Anima.register("hypnotics", {
   // ================= 第 2～6 幕：一晚的浓度曲线 =================
   const TH = 0.45, H0 = 22, H1 = 34; // 入睡门槛（相对浓度）；横轴 22:00 → 次日 10:00
   const RAW = {
-    ideal: { ka: 3, ke: 0.1 }, fast: { ka: 4, ke: 0.1 }, slow: { ka: 0.55, ke: 0.1 },
+    ideal: { ka: 3, ke: 0.1 }, fast: { ka: 4, ke: 0.1 }, slow: { ka: 0.6, ke: 0.1, lag: 1.5 },
     short: { ka: 3.5, ke: 0.46 }, long: { ka: 3, ke: 0.035 },
   };
   const PEAK = {};
   Object.keys(RAW).forEach((k) => { let m = 0; for (let t = 0; t < 12; t += 0.02) m = Math.max(m, Math.exp(-RAW[k].ke * t) - Math.exp(-RAW[k].ka * t)); PEAK[k] = m; });
-  function conc(k, h) { const t = h - 23; if (t <= 0) return 0; const r = RAW[k]; return (Math.exp(-r.ke * t) - Math.exp(-r.ka * t)) / PEAK[k] * (k === "slow" ? 0.95 : 1); }
+  function conc(k, h) { const r = RAW[k], t = h - 23 - (r.lag || 0); if (t <= 0) return 0; return (Math.exp(-r.ke * t) - Math.exp(-r.ka * t)) / PEAK[k] * (k === "slow" ? 0.95 : 1); }
   let lastKind = "ideal";
   const kindNow = () => { if (CH[cur].kind) lastKind = CH[cur].kind; return lastKind; };
   function curves() {
@@ -167,12 +173,20 @@ Anima.register("hypnotics", {
       if (state === "groggy") { emote("sweat", x + w * 0.1 + s * 1.1, y - hgt - s * 3.2, s * 0.8); sfx("晕乎乎…", x + w * 0.38, y - hgt - s * 4.2, H * 0.036, C.slow, -0.1, 1); }
       else sparkles(x + w * 0.1, y - hgt - s * 2, s * 2.2, 4, 1, 3);
     } else {
-      ctx.save(); ctx.translate(x - w / 2 + w * 0.17 + s * 3.1, y - hgt * 1.25); ctx.rotate(-Math.PI / 2);
-      chara(0, 0, s, Object.assign({}, PERSON, state === "sleep" ? { eyes: "closed", mouth: "cat" } : { eyes: "wide", mouth: "o", brow: "worry" }, { shadow: false, bob: 0 }));
-      ctx.restore();
-      rrect(x - w / 2 + w * 0.26, y - hgt * 1.7, w * 0.7, hgt * 0.95, hgt * 0.4); ctx.fillStyle = C.blanket; ctx.fill(); outline(1.4); ctx.stroke();
-      if (state === "sleep") emote("zzz", x - w * 0.18, y - hgt * 3.4, s * 0.9);
-      else emote("?", x - w * 0.22, y - hgt * 3.3, s * 0.9);
+      // 躺着：枕头上的脑袋 + 被子
+      const hx = x - w / 2 + w * 0.16, hy = y - hgt * 1.45, r = hgt * 0.62;
+      rrect(x - w / 2 + w * 0.24, y - hgt * 1.85, w * 0.72, hgt * 1.05, hgt * 0.45); ctx.fillStyle = C.blanket; ctx.fill(); outline(1.4); ctx.stroke();
+      ctx.beginPath(); ctx.arc(hx, hy, r, 0, Math.PI * 2); ctx.fillStyle = "#fff1e8"; ctx.fill(); outline(1.5); ctx.stroke();
+      ctx.beginPath(); ctx.arc(hx, hy - r * 0.1, r * 1.02, Math.PI * 0.95, Math.PI * 2.05); ctx.fillStyle = PERSON.hair; ctx.fill(); outline(1.4); ctx.stroke();
+      if (state === "sleep") {
+        outline(Math.max(1.2, r * 0.09));
+        for (const d of [-1, 1]) { ctx.beginPath(); ctx.arc(hx + d * r * 0.35, hy + r * 0.2, r * 0.16, 0.15 * Math.PI, 0.85 * Math.PI); ctx.stroke(); }
+        Anima.blushAt(hx, hy + r * 0.45, r * 0.6, r * 0.14);
+        emote("zzz", x + w * 0.56, y - hgt * 1.6, s * 0.9);
+      } else {
+        face(hx, hy + r * 0.3, r * 0.75, -0.6);
+        emote("?", x + w * 0.56, y - hgt * 1.6, s * 0.9);
+      }
     }
     if (label) chip(label, x + w * 0.22, y + hgt * 0.02 + fsS() * 0.2, labCol || "#fff", fsS() * 0.75);
   }

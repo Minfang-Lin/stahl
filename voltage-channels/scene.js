@@ -331,7 +331,7 @@ Anima.register("voltage-channels", {
       text(titles[side], cx, top + 1, fs, C.ink);
     }
     const rx = gap * 2 + cw * 1.5;
-    say("busy", lt > 1 && lt < 3.2, rx, top + ch * 0.4, rx - cw * 0.05, top + ch * 0.2, "门开得好勤！", "shout");
+    say("busy", lt > 1 && lt < 3.2, rx, top + ch * 0.5, rx, top + ch * 0.64, "门开得好勤！", "shout");
     say("in", lt > 6.5, rx, top + ch * 0.4, rx + cw * 0.2, top + ch * 0.2, "趁门开着，钻进去！", "say");
     say("wait", lt > 3.8 && lt < 9, gap + cw * 0.8, top + ch * 0.35, gap + cw * 0.45, top + ch * 0.16, "门很少开，我等等～", "think");
     ctx.restore();
@@ -378,7 +378,7 @@ Anima.register("voltage-channels", {
     // α2δ 配体：从间隙里走过来抱住 α2δ
     const ds = H * 0.04, walk = prog(6.5, 1.8);
     const px = lerp(W * 0.4, a2.x + s * 0.8, walk), py = lerp(H * 0.95, a2.y + H * 0.13, walk);
-    chara(px, py, ds, { who: "drug", label: "α2δ", hatColor: "#f5b3d6", arms: walk >= 1 ? "hug" : "down", dir: -1, walk: walk > 0 && walk < 1 ? time * 9 : null, eyes: walk >= 1 ? "happy" : "open", tag: "普瑞巴林" });
+    chara(px, py, ds, { who: "drug", label: "α2δ", hatColor: "#f5b3d6", arms: walk >= 1 ? "hug" : "down", dir: -1, walk: walk > 0 && walk < 1 ? time * 9 : null, eyes: walk >= 1 ? "happy" : "open", tag: "普瑞巴林", alpha: walk > 0 ? 1 : 0 });
     const qx = lerp(W * 0.5, a2.x - s * 0.8, walk);
     chara(qx, py, ds, { who: "drug", label: "α2δ", hatColor: "#ffc9a8", arms: walk >= 1 ? "hug" : "down", walk: walk > 0 && walk < 1 ? time * 9 : null, dir: walk < 1 ? -1 : 1, eyes: walk >= 1 ? "happy" : "open", tag: "加巴喷丁", alpha: walk > 0 ? 1 : 0 });
     callout("a1", lt > 0.8 && lt < 4.6, cx, R.outY, n ? cx + W * 0.05 : cx + W * 0.1, n ? H * 0.72 : H * 0.66, n ? "α1：钙离子的孔" : "α1：钙离子的孔（没有塞子）");
@@ -409,7 +409,7 @@ Anima.register("voltage-channels", {
     if (st >= 2) ionsThrough(nx, my + H * 0.14, my - H * 0.14, 4, "Na", C.na, st <= 4 ? 1 : 0.4, H * 0.05, 1.2);
     if (st === 3) { // 正电荷往钙门那边扩散
       const p = clamp((lt - 5.1) / 1.4, 0, 1);
-      for (let k = 0; k < 4; k++) { const x = lerp(nx + s * 0.6, cx - s * 0.6, clamp(p * 1.2 - k * 0.12, 0, 1)); text("+", x, my - s * 0.9 - k % 2 * s * 0.25, fsz(0.04), "#e7a23a"); }
+      for (let k = 0; k < 4; k++) { const x = lerp(nx + s * 0.6, cx - s * 0.6, clamp(p * 1.2 - k * 0.12, 0, 1)); Anima.ion(x, my - s * 0.9 - k % 2 * s * 0.25, H * 0.016, "+", "#ffe3a8"); }
     }
     if (st >= 4) ionsThrough(cx, my + H * 0.14, my - H * 0.14, 5, "Ca", C.ca, 1, H * 0.05, 1);
     // 囊泡：被拴着，第 7 步贴膜融合

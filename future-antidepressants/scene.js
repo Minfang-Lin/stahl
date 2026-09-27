@@ -197,7 +197,7 @@ Anima.register("future-antidepressants", {
       gauge(b.x + b.w * 0.25, b.y + b.h * 0.2, b.w * 0.5, H * 0.035, gv, nw ? "血中浓度" : "血液里的右美沙芬");
       if (gv > 0.7) sparkles(b.x + b.w * 0.25 + b.w * 0.5 * gv, b.y + b.h * 0.2, H * 0.04, 3, 1, 3);
       fade(prog(8.5, 1), () => plate(nw ? "留得更久" : "右美沙芬留得更久、浓度更稳", b.x + b.w / 2, b.y + b.h * 0.9, "#dff5ec", fz(0.028), b.x, b.x + b.w));
-      callout("f2-bup", lt > 3.4 && lt < 8, c.wx - c.s * 2.3, c.by - c.s * 3.2, c.wx - b.w * 0.25, b.y + b.h * 0.38, nw ? "抑制 CYP2D6" : "安非他酮：抑制 CYP2D6");
+      callout("f2-bup", lt > 3.4 && lt < 8, c.wx - c.s * 2.3, c.by - c.s * 3.2, c.wx - b.w * 0.25, b.y + b.h * (nw ? 0.93 : 0.38), nw ? "抑制 CYP2D6" : "安非他酮：抑制 CYP2D6");
       say("f2-cyp", lt > 5 && lt < 9, c.wx, c.by - c.s * 4.2, c.wx + b.w * 0.22, b.y + b.h * 0.4, nw ? "好困……" : "好困，慢一点……", "think");
     });
   }

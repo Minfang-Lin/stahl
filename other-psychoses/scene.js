@@ -74,7 +74,7 @@ Anima.register("other-psychoses", {
   function umbrellaView(a) {
     ctx.save(); ctx.globalAlpha *= a;
     bgSoft("#f7f2ff", "#fff1f5", 12);
-    const n = nar(), cx = W / 2, uy = Anima.topSafe() + H * 0.2, ur = W * (n ? 0.4 : 0.3);
+    const n = nar(), cx = W / 2, uy = Anima.topSafe() + H * (n ? 0.17 : 0.2), ur = W * (n ? 0.4 : 0.3);
     // 伞面
     ctx.beginPath(); ctx.moveTo(cx - ur, uy);
     for (let k = 0; k < 6; k++) { const x0 = cx - ur + k * ur / 3; ctx.quadraticCurveTo(x0 + ur / 6, uy - H * 0.035, x0 + ur / 3, uy); }
@@ -84,8 +84,8 @@ Anima.register("other-psychoses", {
     outline(3); ctx.beginPath(); ctx.moveTo(cx, uy); ctx.lineTo(cx, uy + H * 0.08); ctx.arc(cx - H * 0.02, uy + H * 0.08, H * 0.02, 0, Math.PI); ctx.stroke();
     text("精神病性症状：幻觉 · 妄想 · 紊乱", cx, uy - H * 0.07, fsz(n ? 0.03 : 0.034), C.ink);
     const rows = [
-      { t: "以它为核心", items: ["精神分裂症", "物质/药物所致", "分裂情感性障碍", "妄想障碍", "短暂精神病性障碍"], col: "#ffe0ea", y: n ? 0.47 : 0.48 },
-      { t: "可能伴有它", items: ["躁狂", "抑郁", "痴呆", "帕金森病"], col: "#e2f1ff", y: n ? 0.71 : 0.72 },
+      { t: "以它为核心", items: ["精神分裂症", "物质/药物所致", "分裂情感性障碍", "妄想障碍", "短暂精神病性障碍"], col: "#ffe0ea", y: n ? 0.49 : 0.48 },
+      { t: "可能伴有它", items: ["躁狂", "抑郁", "痴呆", "帕金森病"], col: "#e2f1ff", y: n ? 0.73 : 0.72 },
     ];
     const fs = fsz(n ? 0.025 : 0.028);
     rows.forEach((r, ri) => {
@@ -96,7 +96,7 @@ Anima.register("other-psychoses", {
       text(r.t, W * 0.04, y - H * 0.075, fsz(0.028), ri ? "#3f93c9" : "#c0668a", "left");
       ctx.font = `${fs}px ${Anima.ROUND}`;
       const ws = r.items.map((t) => ctx.measureText(t).width + fs * 1.1);
-      const perRow = n && r.items.length > 3 ? 3 : r.items.length;
+      const perRow = n && r.items.length > 4 ? 3 : r.items.length;
       for (let line = 0; line * perRow < r.items.length; line++) {
         const sl = r.items.slice(line * perRow, (line + 1) * perRow), sw = ws.slice(line * perRow, (line + 1) * perRow);
         const tot = sw.reduce((q, w) => q + w, 0) + fs * (sl.length - 1);
@@ -297,7 +297,7 @@ Anima.register("other-psychoses", {
     const nDA = 1 + Math.round(3 * over);
     for (let k = 0; k < nDA; k++) chara(dx + (k - 1) * s * 1.6, dy, s * 0.8, { who: "DA", eyes: over > 0.5 ? "wide" : "open", arms: over > 0.5 ? "up" : "down", jump: over > 0.5 ? Math.abs(Math.sin(time * 6 + k)) * 0.3 : 0, seed: k, shadow: false });
     callout("where", lt > 9, bx, by - s * 1.5, W * (n ? 0.26 : 0.26), H * 0.94, "关键：坏的是哪条线路");
-    say("halluc", over > 0.8 && lt > 8, dx, dy - s * 2.6, W * (n ? 0.8 : 0.86), H * (n ? 0.68 : 0.72), "多巴胺太多 → 幻觉、妄想", "box");
+    say("halluc", over > 0.8 && lt > 8, dx, dy - s * 2.6, W * (n ? 0.8 : 0.86), H * (n ? 0.65 : 0.72), "多巴胺太多 → 幻觉、妄想", "box");
     ctx.restore();
   }
 

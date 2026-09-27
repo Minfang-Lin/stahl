@@ -237,7 +237,7 @@ Anima.register("rna-splicing", {
     });
     const s = cs();
     chara(W / 2, H * 0.88, s, Object.assign({}, editor, { item: "scissors", arms: lt > 6 ? "wave" : "hold", eyes: lt > 6 ? "happy" : "open", tag: "剪接工" }));
-    say("alt", lt > 3 && lt < 8.5, W / 2, H * 0.88 - s * 3.1, W / 2, H * 0.6, "跳过 3 号～", "think");
+    say("skip", lt > 3 && lt < 8.5, W / 2, H * 0.88 - s * 3.1, W / 2, H * 0.6, "跳过 3 号～", "think");
     say("trailer", lt > 9 && !n, W / 2, H * 0.88 - s * 3.1, W / 2, H * 0.57, nar() ? "都来自同一卷！" : "正片和预告片，都来自同一卷！", "say");
     callout("alt", lt > 6.5, W / 2 + pw / 2, top, W * (n ? 0.86 : 0.84), top + H * 0.02, "可变剪接");
     ctx.restore();
