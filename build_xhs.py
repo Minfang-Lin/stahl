@@ -2,7 +2,7 @@
 小红书 Builder Hub「小工具」可以直接上传的一个 zip。
 
 小工具的限制（见小红书《小工具容器能力清单》）：纯 HTML/CSS/JS、index.html 在 zip 根目录、
-总包 < 2MB、不能有任何网络请求（字体也要打包进去）、不能有内联 <script> 和 onclick= 这类内联事件，
+总包 < 10MB、不能有任何网络请求（字体也要打包进去）、不能有内联 <script> 和 onclick= 这类内联事件，
 代码要兼容安卓 8.1 自带的 Chrome 61（JS 限 ES2017）。
 
 打包内容：
@@ -31,7 +31,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "dist", "xiaohongshu")
 FONT = os.path.join(ROOT, "assets", "fonts", "ZCOOLKuaiLe-Regular.ttf")
 LICENSE = os.path.join(ROOT, "assets", "fonts", "OFL.txt")
-LIMIT = 2 * 1024 * 1024
+LIMIT = 10 * 1024 * 1024  # 小红书小工具上限 10MB（按解压后所有文件的总大小算，偏保守）
 # 小工具只接受这些文件类型
 ALLOWED = (".html", ".css", ".js", ".json", ".jpg", ".jpeg", ".png", ".gif", ".svg", ".webp", ".woff", ".woff2")
 
@@ -124,7 +124,7 @@ def check(files):
         problems.append("zip 根目录没有 index.html")
     total = sum(len(b) for b in files.values())
     if total >= LIMIT:
-        problems.append(f"总包 {total / 1024:.0f}KB，超过 2MB")
+        problems.append(f"总包 {total / 1024:.0f}KB，超过 10MB")
     for name, data in files.items():
         if not name.endswith((".html", ".js", ".css")):
             continue
