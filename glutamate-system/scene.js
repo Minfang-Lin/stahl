@@ -200,8 +200,8 @@ Anima.register("glutamate-system", {
     callout("dser", cur === 5 && win(1.8, 7), ax - ar * 1.3, ay + ar * 0.9, ax - W * 0.1, H * (nw ? 0.2 : 0.18), "胶质细胞送来 D-丝氨酸");
     callout("glyt", cur === 5 && lt > 7.5, ax - ar * 0.55, ay + ar * 1.35, ax - W * 0.1, H * (nw ? 0.2 : 0.18), "GlyT1：甘氨酸回收门");
     say("two", cur === 5 && lt > 5.5, RX[0] - rs * 0.5, post - rs * 1.7 - s * 3.2, cx - W * (nw ? 0.16 : 0.2), H * (nw ? 0.5 : 0.52), nw ? "钥匙到齐，开门！" : "两把钥匙都到齐，开门！", nw ? "say" : "shout");
-    callout("mg", cur === 6 && lt > 2.5, mg.x, mg.y, nw ? W * 0.8 : mg.x + W * 0.1, H * (nw ? 0.36 : 0.5), "突触前的 mGluR2/3");
-    say("brk", cur === 6 && lt > 6.5, mg.x - tw * 0.12, mg.y - th * 0.3, nw ? W * 0.78 : cx - tw * 0.1, nw ? H * 0.62 : th * 0.3, "外面够多啦，少放点～", "say");
+    callout("mg", cur === 6 && lt > 2.5, mg.x, mg.y, nw ? W * 0.7 : mg.x + W * 0.1, H * (nw ? 0.56 : 0.5), "突触前的 mGluR2/3");
+    say("brk", cur === 6 && lt > 6.5, mg.x - tw * 0.12, mg.y - th * 0.3, nw ? W * 0.8 : cx - tw * 0.1, nw ? H * 0.3 : th * 0.3, nw ? "少放点～" : "外面够多啦，少放点～", "say");
     ctx.restore();
   }
 
@@ -223,8 +223,8 @@ Anima.register("glutamate-system", {
     // 站点
     const P = {
       rel: [L.x + L.w * 0.8, bot + H * 0.02], cleft: [W * 0.5, bot + H * 0.12], eaat: [R.x + R.w * 0.2, bot],
-      gs: [R.x + R.w * 0.55, top + L.h * 0.62], out: [R.x, top + L.h * 0.3], mid: [W * 0.5, top + L.h * 0.3],
-      inn: [L.x + L.w, top + L.h * 0.3], ga: [L.x + L.w * 0.45, top + L.h * 0.55], ves: [L.x + L.w * 0.72, top + L.h * 0.78],
+      gs: [R.x + R.w * 0.55, top + L.h * 0.62], out: [R.x, top + L.h * (nw ? 0.42 : 0.3)], mid: [W * 0.5, top + L.h * (nw ? 0.42 : 0.3)],
+      inn: [L.x + L.w, top + L.h * (nw ? 0.42 : 0.3)], ga: [L.x + L.w * 0.45, top + L.h * 0.55], ves: [L.x + L.w * 0.72, top + L.h * 0.78],
     };
     // 转运体和囊泡
     Anima.transporter(P.eaat[0], P.eaat[1], H * 0.036, "#9fe0c4", time * 3, false);
@@ -262,10 +262,10 @@ Anima.register("glutamate-system", {
     const cy2 = nw ? H * 0.9 : H * 0.52;
     callout("eaat2", cur === 2 && win(1, 5), P.eaat[0], P.eaat[1], P.eaat[0] + W * 0.02, cy2, "EAAT：吸进胶质细胞");
     callout("gs", cur === 2 && (nw ? win(5, 8.5) : lt > 5), P.gs[0], P.gs[1] - s * 2, nw ? W * 0.5 : P.gs[0] - W * 0.02, nw ? cy2 : top + H * 0.08, "接上氨基，变成谷氨酰胺");
-    say("pj", cur === 2 && lt > 8.5, P.gs[0], P.gs[1] - s * 1.8, nw ? W * 0.5 : W * 0.5, nw ? H * 0.9 : top + (bot - top) * 0.62, "换上便服，就不会乱开门～", "say");
+    say("pj", cur === 2 && lt > 8.5, P.gs[0], P.gs[1] - s * 1.8, W * 0.5, nw ? top + H * 0.1 : top + (bot - top) * 0.62, nw ? "换上便服～" : "换上便服，就不会乱开门～", "say");
     callout("ga", cur === 3 && win(1, 5), P.ga[0], P.ga[1] - s * 2, nw ? W * 0.5 : P.ga[0] + W * 0.04, nw ? cy2 : top + H * 0.08, "谷氨酰胺酶：变回谷氨酸");
     callout("vglut", cur === 3 && (nw ? win(5, 8.5) : lt > 5), P.ves[0] - vr, P.ves[1], P.ves[0] - W * 0.02, cy2, "VGluT：装进囊泡");
-    say("loop", cur === 3 && lt > 8.5, P.ga[0], P.ga[1] - s * 1.8, W * 0.5, nw ? H * 0.9 : top + (bot - top) * 0.62, "转一圈，又回到囊泡里啦！", "say");
+    say("loop", cur === 3 && lt > 8.5, P.ga[0], P.ga[1] - s * 1.8, W * 0.5, nw ? top + H * 0.1 : top + (bot - top) * 0.62, nw ? "又回囊泡啦！" : "转一圈，又回到囊泡里啦！", "say");
     ctx.restore();
   }
 

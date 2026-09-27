@@ -123,7 +123,7 @@ Anima.register("antipsychotic-metabolic", {
     const drugs = [];
     for (let i = 0; i < 2; i++) {
       const p = walkPos({ x: x1 * 0.5, y: H * 0.15 }, site(i), 6.6 + i * 0.3, 1.4);
-      if (p.p > 0) { chara(p.x, p.y, cs, Object.assign({}, AP, { walk: p.moving ? time * 9 : null, arms: p.p >= 1 ? "hug" : "wave", eyes: "happy", tag: i === 1 ? "抗精神病药" : null })); drugs.push(p); }
+      if (p.p > 0) { chara(p.x, p.y, cs, Object.assign({}, AP, { walk: p.moving ? time * 9 : null, arms: p.p >= 1 ? "hug" : "wave", eyes: "happy", tag: null })); drugs.push(p); }
     }
     // 右边：吃饭的人
     const px = W * (n ? 0.8 : 0.8), py = H * 0.8, ps = H * (n ? 0.06 : 0.07), full = lit > 0.5;
@@ -134,7 +134,7 @@ Anima.register("antipsychotic-metabolic", {
     if (lt > 9 && Math.sin(time * 3) > 0.3) sfx("咕噜", px - ps * 1.6, py - ps * 1.2, H * 0.03, C.warn, -0.1, 1);
     const top = Anima.topSafe() + H * 0.04;
     callout("h0", win(2, 6.5), lx, ly - lr, n ? W * 0.3 : lx, n ? top + H * 0.12 : H * 0.36, "饱腹信号亮了");
-    callout("h1", lt > 8.8 && drugs.length > 1, dx[1] + rs * 0.6, mem - rs * 0.9, n ? W * 0.32 : x1 * 0.5, n ? top + H * 0.12 : H * 0.32, "两扇门都被挡住");
+    callout("h1", lt > 8.8 && drugs.length > 1, dx[1] + rs * 0.6, mem - rs * 0.9, n ? W * 0.32 : x1 * 0.5, n ? top + H * 0.12 : H * 0.32, "抗精神病药挡住两扇门");
     say("h2", win(3.2, 7), px, py - ps * 3.2, n ? W * 0.78 : px, n ? H * 0.45 : H * 0.42, "吃饱啦～", "say");
     say("h3", lt > 10, px, py - ps * 3.2, n ? W * 0.78 : px, n ? H * 0.45 : H * 0.42, "怎么还是饿…", "think");
     ctx.restore();
@@ -182,9 +182,9 @@ Anima.register("antipsychotic-metabolic", {
     for (let k = 0; k < pile; k++) sugar(x0 + (x1 - x0) * (0.1 + rnd(k * 3) * 0.8), top + H * 0.07 + rnd(k * 5 + 1) * (mem - top - H * 0.14), ss, 1);
     for (let k = 0; k < Math.floor(res * 5); k++) { ctx.beginPath(); ctx.arc(x0 + (x1 - x0) * (0.15 + rnd(k * 7 + 2) * 0.7), top + H * 0.06 + rnd(k * 9) * (mem - top - H * 0.12), H * 0.016, 0, Math.PI * 2); ctx.fillStyle = "#ffe07a"; ctx.fill(); outline(1); ctx.stroke(); }
     callout("i0", win(1.5, 5.2), px + ps * 0.6, py - ps * 0.9, n ? W * 0.2 : W * 0.2, H * (n ? 0.4 : 0.4), "腹部脂肪变多");
-    callout("i1", lt > 6.5, rx - rs * 0.6, mem - rs * 0.8, n ? W * 0.66 : x0 + W * 0.02, H * (n ? 0.74 : 0.64), "胰岛素抵抗：门开不利索");
+    callout("i1", n ? win(6.5, 9.2) : lt > 6.5, rx - rs * 0.6, mem - rs * 0.8, n ? W * 0.66 : x0 + W * 0.02, H * (n ? 0.74 : 0.64), "胰岛素抵抗：门开不利索");
     callout("i2", lt > 9, x0 + (x1 - x0) * 0.8, top + H * 0.15, n ? W * 0.7 : x1 - W * 0.12, H * (n ? 0.86 : 0.76), "血糖、血脂升高");
-    if (ip.p > 0) say("i3", lt > 10.5, rx + cs * 0.5, mem - rs * 1.62 - cs * 2.8, n ? W * 0.72 : rx + W * 0.26, top + H * (n ? 0.1 : 0.12), n ? "门怎么不开…" : "钥匙插了，门怎么不开…", "think");
+    if (ip.p > 0) say("i3", lt > 10.5, rx + cs * 0.5, mem - rs * 1.62 - cs * 2.8, n ? W * 0.84 : rx + W * 0.26, top + H * (n ? 0.2 : 0.12), n ? "门怎么不开…" : "钥匙插了，门怎么不开…", "think");
     ctx.restore();
   }
 
@@ -296,7 +296,7 @@ Anima.register("antipsychotic-metabolic", {
     text("代谢风险", W * 0.08, Anima.topSafe() + H * 0.04, fs(0.028), C.soft, "left");
     callout("r0", win(3.5, 8), tops[0].x + tops[0].cs, tops[0].y - tops[0].cs * 2, n ? W * 0.5 : W * 0.38, H * 0.3, "H1、5-HT2C 挡得多");
     callout("r1", lt > 8.5, tops[2].x + bw * 0.3, tops[2].y, W * 0.72, Anima.topSafe() + H * 0.08, "个体差异很大");
-    say("r2", lt > 10, tops[2].x, tops[2].y - tops[2].cs * 3.1, W * 0.74, H * 0.44, "风险低≠没风险～", "say");
+    say("r2", lt > 10 && !n, tops[2].x, tops[2].y - tops[2].cs * 3.1, W * 0.74, H * 0.44, "风险低≠没风险～", "say");
     ctx.restore();
   }
 

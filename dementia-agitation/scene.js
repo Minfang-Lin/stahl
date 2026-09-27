@@ -159,8 +159,8 @@ Anima.register("dementia-agitation", {
     // 标注和对话
     if (cur === 0) {
       callout("brake", lt > 1 && lt < 6.5, A.x, (P.y + A.y) / 2, n ? W * 0.12 : W * 0.1, (P.y + A.y) / 2 + H * 0.02, "往下踩刹车");
-      callout("imp", lt > 3 && lt < 9, qp(0.6).x, qp(0.6).y, n ? W * 0.62 : W * 0.55, n ? H * 0.52 : H * 0.42, "冲动：着急、害怕、生气");
-      say("hold", lt > 7, hx, hy - hs * 3.2, n ? W * 0.6 : W * 0.56, top + H * 0.2, "冲动来了，先等一等～", "say");
+      callout("imp", lt > 3 && lt < 6.8, qp(0.6).x, qp(0.6).y, n ? W * 0.62 : W * 0.55, n ? H * 0.52 : H * 0.42, "冲动：着急、害怕、生气");
+      say("hold", lt > 7, hx, hy - hs * 3.2, n ? W * 0.66 : W * 0.56, n ? H * 0.5 : top + H * 0.2, "冲动来了，先等一等～", "say");
     } else {
       callout("plaque", lt > 2 && lt < 7, P.x + pr * 0.6, P.y + pr * 0.5, n ? W * 0.6 : W * 0.56, top + H * 0.2, "病变损伤前额叶神经元");
       callout("agit", lt > 6.5, ex, E.y - H * 0.21, n ? W * 0.6 : W * 0.56, n ? top + H * 0.2 : H * 0.45, "激越：坐立不安、喊叫、推人");
@@ -176,7 +176,7 @@ Anima.register("dementia-agitation", {
     Anima.wash("#fff7f2", "#f3effd");
     Anima.petals(6, 0.4, 33);
     // 调音台
-    const mx = W * 0.04, mw = W * (n ? 0.5 : 0.44), my = top + H * 0.1, mh = H * 0.7;
+    const mx = W * 0.04, mw = W * (n ? 0.5 : 0.44), my = top + H * 0.1, mh = H * (n ? 0.64 : 0.7);
     rrect(mx, my, mw, mh, 18); ctx.fillStyle = "#fffdfb"; ctx.fill(); outline(2); ctx.stroke();
     plate("剩下的线路", mx + mw / 2, my, fsz(0.028), "#fff1b8");
     const who = ["5HT", "NE", "DA"], names = ["5-HT", "NE", "DA"];
@@ -218,7 +218,7 @@ Anima.register("dementia-agitation", {
       ctx.restore();
     }
     ctx.save(); ctx.setLineDash([4, 5]); outline(1.2); ctx.beginPath(); ctx.moveTo(bx, by + H * 0.04); ctx.lineTo(ex, ey - s * 3.6); ctx.stroke(); ctx.restore();
-    callout("mix", lt > 1.5 && lt < 6.5, mx + mw * 0.5, my + mh * 0.3, n ? W * 0.3 : W * 0.28, H * 0.95, "5-HT、NE、DA 有多有少");
+    callout("mix", lt > 1.5 && lt < 6.5, mx + mw * 0.5, my + mh, n ? W * 0.3 : W * 0.28, H * 0.95, "5-HT、NE、DA 有多有少");
     callout("2a", lt > 4, bx, by - H * 0.035, n ? W * 0.7 : W * 0.72, top + H * 0.06, "5-HT2A 信号过强");
     say("cat", lt > 7, ex, ey - s * 3.6, n ? W * 0.62 : W * 0.66, H * 0.56, "那里有只小猫！", "say");
     ctx.restore();
@@ -260,8 +260,8 @@ Anima.register("dementia-agitation", {
     const t = ((lt - 1.4) % 1.6) / 1.6;
     const from = f > 0 ? pos[k] : { x: cx - W * 0.1, y: cy + H * 0.1 };
     const gx = f >= 6 ? pos[5].x : lerp(from.x, tgt.x, ease(t * 1.5)), gy = f >= 6 ? pos[5].y : lerp(from.y, tgt.y, ease(t * 1.5));
-    chara(gx + H * 0.05, gy + H * 0.08, H * 0.038, { who: "neuron", hair: "#7a8ba6", cloth: "#dff0e4", item: "lamp", arms: "hold", eyes: "open", mouth: "smile", walk: f < 6 && t < 0.66 ? time * 9 : null, tag: n ? null : "照护者", shadow: false });
-    meter(W * (n ? 0.14 : 0.1), top + H * 0.03, W * (n ? 0.26 : 0.18), agit);
+    chara(gx + H * 0.12, gy + H * 0.05, H * 0.038, { who: "neuron", hair: "#7a8ba6", cloth: "#dff0e4", item: "lamp", arms: "hold", eyes: "open", mouth: "smile", walk: f < 6 && t < 0.66 ? time * 9 : null, tag: n ? null : "照护者", shadow: false });
+    if (!n) meter(W * 0.1, top + H * 0.03, W * 0.18, agit);
     say("why", lt > 0.5 && lt < 5, ex, cy + H * 0.1 - H * 0.16, W * 0.5, H * 0.93, "说不出哪里不舒服……", "think");
     callout("cause", lt > 10.8, cx, cy - H * 0.02, W * 0.5, H * 0.93, "找到原因，激越常会平息");
     ctx.restore();
@@ -302,7 +302,7 @@ Anima.register("dementia-agitation", {
     chara(cgx, floor, H * 0.05, { who: "neuron", hair: "#7a8ba6", cloth: "#dff0e4", dir: -1, arms: lt < 4 && lt > 2 ? "point" : holding ? "hug" : "down", eyes: "happy", mouth: "smile", walk: lt > 4 && lt < 5.5 ? time * 9 : null, tag: "照护者" });
     if (holding) { Anima.heart(ex + H * 0.06, floor - H * 0.2 - Math.abs(Math.sin(time * 2)) * H * 0.02, H * 0.02, C.rose); }
     // 右下角：杏仁核冒冲动的小窗
-    const ax = W * (n ? 0.84 : 0.86), ay = H * 0.58, ar = H * 0.075;
+    const ax = W * (n ? 0.84 : 0.86), ay = H * (n ? 0.64 : 0.58), ar = H * 0.075;
     ctx.beginPath(); ctx.arc(ax, ay, ar * 1.5, 0, Math.PI * 2); ctx.fillStyle = "rgba(255,255,255,0.85)"; ctx.fill(); outline(1.8); ctx.stroke();
     ctx.beginPath(); ctx.ellipse(ax, ay + ar * 0.2, ar * 0.7, ar * 0.5, 0.4, 0, Math.PI * 2); ctx.fillStyle = C.amy; ctx.fill(); outline(1.6); ctx.stroke();
     face(ax, ay + ar * 0.2, ar * 0.3, agit > 0.5 ? -1 : 1);
@@ -312,7 +312,7 @@ Anima.register("dementia-agitation", {
     meter(W * (n ? 0.2 : 0.14), top + H * 0.04, W * (n ? 0.3 : 0.22), agit);
     callout("quiet", lt > 2.6 && lt < 5.5, tx, ty - H * 0.07, n ? W * 0.3 : W * 0.26, top + H * 0.2, "减少刺激");
     callout("soothe", lt > 5.8 && lt < 8.8, ex + H * 0.06, floor - H * 0.2, n ? W * 0.55 : W * 0.5, top + H * 0.2, "温和安抚：慢慢说，不争对错");
-    callout("routine", lt > 8.8, W * (n ? 0.84 : 0.86), top + H * 0.2, n ? W * 0.62 : W * 0.66, top + H * 0.32, "规律作息，白天晒太阳");
+    callout("routine", lt > 8.8, W * (n ? 0.84 : 0.86), top + H * 0.2, n ? W * 0.5 : W * 0.66, top + H * (n ? 0.26 : 0.32), "规律作息，白天晒太阳");
     say("sit", lt > 6 && lt < 10, cgx, floor - H * 0.17, n ? W * 0.3 : W * 0.3, H * 0.48, "我陪着你，我们慢慢来～", "say");
     ctx.restore();
   }
@@ -360,7 +360,7 @@ Anima.register("dementia-agitation", {
     if (lt > 8) emote("bulb", dx + H * 0.05, dy - H * 0.17, H * 0.03);
     callout("help", lt > 2 && lt < 7, pl.x, pl.y - H * 0.05, n ? W * 0.22 : W * 0.2, H * 0.72, "严重时：短期减轻激越");
     callout("warn", lt > 6, pr.x, pr.y, n ? W * 0.72 : W * 0.8, n ? H * 0.66 : H * 0.72, "警告：卒中、死亡风险增加");
-    say("brex", lt > 1.8 && lt < (n ? 5.2 : 7.5), pl.x, top + H * 0.02, n ? W * 0.62 : W * 0.28, top + H * (n ? 0.1 : 0.08), "依匹哌唑：美国已获批用于阿尔茨海默病激越", "box");
+    say("brex", lt > 1.8 && lt < (n ? 4.3 : 7.5), pl.x, top + H * 0.02, n ? W * 0.62 : W * 0.28, top + H * (n ? 0.1 : 0.08), "依匹哌唑：美国已获批用于阿尔茨海默病激越", "box");
     say("doc", lt > 8.5, dx, dy - H * 0.16, n ? W * 0.3 : W * 0.66, n ? H * 0.72 : H * 0.62, "由医生权衡：短期用、定期复查", "say");
     ctx.restore();
   }

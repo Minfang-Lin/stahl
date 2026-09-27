@@ -451,14 +451,14 @@ Anima.register("daytime-sleepiness", {
     chara(rx - hisOut * R.w * 0.28, rec.site.y + hisOut * H * 0.02, cs2, { who: "His", eyes: blocked ? "teary" : "happy", arms: blocked ? "down" : "up", mouth: blocked ? "sad" : "grin", tag: blocked || n ? null : "组胺", alpha: 1 - hisOut * 0.3, shadow: false });
     if (lt > 2.4) {
       const q = prog(2.4, 1.6);
-      chara(lerp(R.x + R.w * 1.05, rx, q), rec.site.y, cs2, { who: "drug", tag: "抗组胺药", hatColor: "#b98ad8", walk: q < 1 ? time * 9 : null, eyes: "open", arms: "down", shadow: false });
+      chara(lerp(R.x + R.w * 0.9, rx, q), rec.site.y, cs2, { who: "drug", tag: "抗组胺药", hatColor: "#b98ad8", walk: q < 1 ? time * 9 : null, eyes: "open", arms: "down", shadow: false });
     }
     const ppx = R.x + R.w * 0.75, ppy = R.y + R.h * 0.95;
     const dz = prog(5, 2);
     chara(ppx, ppy, cs2, { who: "neuron", eyes: dz > 0.5 ? "sleepy" : "open", mouth: dz > 0.5 ? "o" : "smile", gray: dz * 0.4, arms: "down" });
     if (dz > 0.5) emote("zzz", ppx + cs2, ppy - cs2 * 3.3, cs2 * 0.6);
     callout("h1", lt > 5.5 && lt < 9.5, rx + rs * 0.5, my - rs * 1.2, R.x + R.w * 0.6, R.y + R.h * 0.2, "H1 被占：组胺叫不醒人");
-    say("his", lt > 0.6 && lt < 3.6, rx, rec.site.y - cs2 * 1.5, R.x + R.w * 0.45, my + H * 0.1, "起床啦～！", "say");
+    say("his", lt > 0.6 && lt < 3.6, rx, rec.site.y - cs2 * 1.5, R.x + R.w * (n ? 0.33 : 0.45), my + H * 0.1, "起床啦～！", "say");
     say("find", lt > 9.6, W / 2, H * 0.9, W / 2, H * 0.84, "先找原因：光靠多喝咖啡解决不了", "box");
     ctx.restore();
   }

@@ -178,9 +178,9 @@ Anima.register("acetylcholine-system", {
           chara(lerp(g.chat.x + H * 0.03, vx, m), lerp(g.chat.y - H * 0.02, vy + H * 0.04, m), H * 0.032, { who: "ACh", walk: time * 9, eyes: "sparkle", arms: "up", alpha: m < 0.85 ? 1 : (1 - m) / 0.15, shadow: false });
         }
       }
-      callout("cho", lt > 0.8 && lt < 4.6, g.cht.x - H * 0.06, g.cht.y + H * 0.06, n ? W * 0.35 : W * 0.14, n ? g.post + H * 0.07 : g.post - H * 0.14, "胆碱：来自食物，被末梢收进来");
+      callout("cho", lt > 0.8 && lt < 4.6, g.cht.x - H * 0.06, g.cht.y + H * 0.06, n ? W * 0.35 : W * 0.2, g.post + H * 0.07, "胆碱：来自食物，被末梢收进来");
       callout("ac", lt > 4.2 && lt < 8.6, g.mito.x, g.mito.y - H * 0.03, n ? W * 0.3 : W * 0.12, top + H * (n ? 0.01 : 0.08), "乙酰辅酶 A：线粒体做的");
-      callout("vacht", lt > 8.8, vx, vy, n ? W * 0.7 : W * 0.84, top + H * (n ? 0.01 : 0.1), "VAChT：把 ACh 装进囊泡");
+      callout("vacht", lt > 8.8, vx, vy, n ? W * 0.6 : W * 0.84, n ? g.post + H * 0.07 : top + H * 0.1, "VAChT：把 ACh 装进囊泡");
       say("born", lt > 3.3 && lt < 7.8, g.chat.x, g.chat.y - H * 0.12, n ? W * 0.62 : W * 0.68, g.th + H * 0.12, "接好啦，一位乙酰胆碱！", "say");
     }
     if (cur === 1) {
@@ -220,7 +220,7 @@ Anima.register("acetylcholine-system", {
       callout("cht", lt > 1 && lt < 6, g.cht.x, g.cht.y, n ? W * 0.3 : W * 0.24, top + H * 0.1, n ? "只回收胆碱" : "胆碱转运体：只接回胆碱");
       const ax1 = g.ache[1] - H * 0.07 + H * 0.02 + H * 0.03 + lt * H * 0.015, ay1 = g.post - H * 0.03 - H * 0.04 - lt * H * 0.02;
       callout("acg", lt > 3 && lt < 9, ax1, ay1, n ? W * 0.7 : W * 0.8, g.th * 0.5, "乙酸漂走了");
-      say("recyc", lt > 6.2, g.chat.x, g.chat.y - H * 0.12, W * (n ? 0.5 : 0.6), n ? g.post - H * 0.2 : g.th + H * 0.13, "回收原料，再做一位新的！", "say");
+      say("recyc", lt > 6.2, g.chat.x, g.chat.y - H * 0.12, W * (n ? 0.5 : 0.6), n ? g.post - H * 0.13 : g.th + H * 0.13, "回收原料，再做一位新的！", "say");
     }
     if (cur === 5) {
       // 前半段：抑制剂按住剪刀手，ACh 在门上多待一会儿；后半段：抗胆碱药占住 M1 门
@@ -234,8 +234,8 @@ Anima.register("acetylcholine-system", {
           if (lt > 8) { chara(bx, by, cs, { who: "ACh", eyes: "teary", mouth: "wavy", arms: "down", item: "letter", shadow: false }); emote("?", bx + cs, by - cs * 3.2, cs * 0.6); }
         }
       });
-      callout("chei", lt > 1.5 && lt < 6.5, g.ache[0] + H * 0.05, g.post - H * 0.08, n ? W * 0.28 : W * 0.22, g.th + H * 0.1, "按住剪刀：ACh 多留一会儿");
-      say("confuse", lt > 8.8, n ? W * 0.9 : W * 0.88, g.post + H * 0.05, n ? W * 0.6 : W * 0.76, n ? g.post + H * 0.1 : g.th + H * 0.12, "信收不到……我有点糊涂了", "think");
+      callout("chei", lt > 1.5 && lt < 6.5, g.ache[0] + H * 0.05, g.post - H * 0.08, n ? W * 0.42 : W * 0.22, n ? g.post + H * 0.07 : g.th + H * 0.1, "按住剪刀：ACh 多留一会儿");
+      say("confuse", lt > 8.8, n ? W * 0.9 : W * 0.88, g.post + H * 0.05, n ? W * 0.5 : W * 0.62, n ? H * 0.99 : H * 0.91, "信收不到，好糊涂……", "think");
     }
     ctx.restore();
   }

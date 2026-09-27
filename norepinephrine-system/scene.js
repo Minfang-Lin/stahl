@@ -123,7 +123,7 @@ Anima.register("norepinephrine-system", {
     else { x = inV.x; y = inV.y; sc = 0.82; stage = 2; mor = seg(8.8, 9.6); }
     const looks = [TYR, LD, { who: "DA" }, { who: "NE" }], names = ["酪氨酸", "左旋多巴", "多巴胺", "NE"];
     const done = lt > 9.6;
-    const o = (k, al) => Object.assign({}, looks[k], { alpha: al, walk, tag: names[k], eyes: done ? "sparkle" : "happy", arms: done ? "up" : "down", jump: done ? Math.abs(Math.sin(time * 4)) * 0.25 : 0 });
+    const o = (k, al) => Object.assign({}, looks[k], { alpha: al, walk, tag: al >= 0.5 ? names[k] : null, eyes: done ? "sparkle" : "happy", arms: done ? "up" : "down", jump: done ? Math.abs(Math.sin(time * 4)) * 0.25 : 0 });
     if (mor < 1) chara(x, y, cs * sc, o(stage, 1 - mor));
     if (mor > 0) chara(x, y, cs * sc, o(stage + 1, mor));
     if (mor > 0 && mor < 1) { sparkles(x, y - cs * 1.5, cs * 2, 5, 1, 7); sfx(stage === 1 ? "−CO₂" : "+OH", x + cs * 1.4, y - cs * 3.4, H * 0.032, "#e0662a", -0.1, Math.sin(mor * Math.PI)); }
@@ -142,7 +142,7 @@ Anima.register("norepinephrine-system", {
     });
     callout("f0", win(2.2, 5.2), st1, eY - ecs * 2.4, n ? W * 0.3 : st1 + W * 0.02, gy + H * 0.1, "最慢、最关键的一步");
     callout("f1", lt > 8.8, dbh.x, dbh.y - cs * 2, n ? W * 0.66 : ves.x - W * 0.04, gy + H * 0.12, "DBH 住在囊泡里");
-    if (done) say("f2", lt > 10.2, x, y - cs * 2.8, n ? W * 0.4 : W * 0.5, H * (n ? 0.66 : 0.5), "变身完成，我是 NE！", "say");
+    if (done) say("f2", lt > 10.2, x, y - cs * 2.8, n ? W * 0.3 : W * 0.5, H * (n ? 0.4 : 0.5), n ? "我是 NE 啦！" : "变身完成，我是 NE！", "say");
     ctx.restore();
   }
 
@@ -290,7 +290,7 @@ Anima.register("norepinephrine-system", {
     if (c === 2) {
       callout("s0", win(1, 5), g.net.x + rs * 0.6, g.net.y, n ? W * 0.72 : g.net.x + W * 0.08, n ? top + H * 0.1 : H * 0.28, "NET：把 NE 拉回来");
       callout("s1", win(5.2, 9.5), g.mao.x, g.mao.y - cs * 2.4, n ? W * 0.3 : W * 0.12, n ? top + H * 0.1 : H * 0.3, "MAO：末梢里分解");
-      callout("s2", lt > 9.5, g.comt.x - cs * 0.3, n ? g.comt.y + H * 0.02 : g.comt.y - cs * 2.6, n ? W * 0.62 : g.comt.x - W * 0.06, H * (n ? 0.92 : 0.56), "COMT：外面的分解");
+      callout("s2", lt > 9.5, g.comt.x - cs * 0.3, g.comt.y - cs * 2.6, n ? W * 0.32 : g.comt.x - W * 0.06, H * (n ? 0.3 : 0.56), "COMT：外面的分解");
     }
     if (c === 3) {
       callout("s3", win(1.8, 5.2), g.a1x - rs * 0.6, g.mem - rs * 0.8, n ? W * 0.5 : W * 0.12, H * (n ? 0.93 : 0.62), "α1：Gq，让人警觉");
@@ -389,7 +389,7 @@ Anima.register("norepinephrine-system", {
     const cy2 = (pos[0].dm + top + ch) / 2;
     callout("d0", win(2.8, 6), pos[0].cx, pos[0].dm, pos[0].cx + (n ? W * 0.06 : 0), cy2, "按下刹车");
     callout("d1", win(6.2, 9.6), pos[1].cx, pos[1].dm, pos[1].cx, cy2, "占住锁孔");
-    if (pos[2].p.p >= 1) say("d2", lt > 10.6, pos[2].p.x, pos[2].p.y - pos[2].cs * 3.1, n ? W * 0.6 : pos[2].cx - cw * 0.2, top + ch * (n ? 0.3 : 0.28), "心跳慢一点～", "say");
+    if (pos[2].p.p >= 1) say("d2", lt > 10.6 && !n, pos[2].p.x, pos[2].p.y - pos[2].cs * 3.1, pos[2].cx + cw * 0.2, top + ch * 0.5, n ? "慢一点～" : "心跳慢一点～", "say");
     ctx.restore();
   }
 

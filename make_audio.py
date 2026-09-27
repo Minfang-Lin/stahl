@@ -41,8 +41,9 @@ def read_topic(topic):
 
 
 def spoken(text, table):
-    for k, v in table.items():
-        text = text.replace(k, v)
+    # 长的词先换：不然 "NE" 会先把 "NET" 换成 "去甲肾上腺素T"
+    for k in sorted(table, key=len, reverse=True):
+        text = text.replace(k, table[k])
     return text
 
 

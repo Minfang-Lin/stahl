@@ -110,6 +110,7 @@
   // 颜色可以是 #rrggbb，也可以是 mix() 返回的 rgb(r,g,b)，这样混出来的颜色还能再混
   const rgb = (h) => {
     if (h.charAt(0) !== "#") { const m = h.match(/\d+(\.\d+)?/g) || [0, 0, 0]; return [+m[0], +m[1], +m[2]]; }
+    if (h.length === 4) h = "#" + h[1] + h[1] + h[2] + h[2] + h[3] + h[3]; // #fff 这种三位写法
     const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
   };
   const mix = (h1, h2, t) => {

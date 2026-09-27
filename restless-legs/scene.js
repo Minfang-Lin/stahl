@@ -206,7 +206,6 @@ Anima.register("restless-legs", {
     // 血管
     const vy = top + H * 0.05, vh = H * 0.13;
     rrect(-10, vy, W + 20, vh, vh / 2); ctx.fillStyle = "#ffd3d6"; ctx.fill(); outline(2); ctx.stroke();
-    text("血液", W * 0.06, vy + vh / 2, fsz(0.026), C.ink, "left");
     // 屏障：一道带门的墙
     const wy = vy + vh + H * 0.05, gateX = W * 0.5;
     ctx.fillStyle = "#e9dccf"; ctx.fillRect(0, wy, W, H * 0.04); outline(1.6); ctx.strokeRect(-2, wy, W + 4, H * 0.04);
@@ -216,6 +215,7 @@ Anima.register("restless-legs", {
       const p = (time * 0.08 + k / 10) % 1, x = p * (W + 40) - 20;
       iron(x, vy + vh * (0.35 + 0.3 * rnd(k)), H * 0.017, k % 2 === 0 || low < 0.5 ? 1 : 0.25);
     }
+    plate("血液", W * 0.08, vy + vh / 2, fsz(0.026), "#fff0f0");
     const every = low > 0.5 ? 2.6 : 0.9;
     for (let k = 0; k < 3; k++) {
       const t = ((time + k * every / 3) % every) / every;
@@ -251,8 +251,8 @@ Anima.register("restless-legs", {
     if (low > 0.5) limbZoom(mx, H * 0.83, H * 0.08, 5, 0, null, 11);
     callout("bbb", lt > 1 && lt < 5.5, gateX + H * 0.05, wy + H * 0.02, n ? W * 0.72 : W * 0.7, wy + H * 0.1, "血脑屏障：铁进脑的门");
     callout("th", lt > 3 && lt < 6.5, fx - W * (n ? 0.14 : 0.1) + s * 1.2, fy - H * 0.02 - s * 1.2, n ? W * 0.62 : W * 0.3, n ? H * 0.9 : H * 0.44, "铁：造多巴胺的帮手");
-    callout("mess", lt > 8, mx, my - H * 0.06, n ? W * 0.62 : W * 0.72, n ? H * 0.47 : H * 0.38, "铁不够 → 多巴胺系统失调");
-    say("lack", lt > 7, fx - W * (n ? 0.14 : 0.1), fy - H * 0.02 - s * 3.3, n ? W * 0.4 : W * 0.3, n ? H * 0.66 : H * 0.44, "工具不够用了……", "think");
+    callout("mess", lt > 8, mx, my - H * 0.06, n ? W * 0.72 : W * 0.72, n ? H * 0.44 : H * 0.38, n ? "铁不够 → 失调" : "铁不够 → 多巴胺系统失调");
+    say("lack", lt > 7, fx - W * (n ? 0.14 : 0.1), fy - H * 0.02 - s * 3.3, n ? W * 0.27 : W * 0.3, n ? H * 0.42 : H * 0.44, "工具不够用了……", "think");
     ctx.restore();
   }
 
@@ -304,7 +304,7 @@ Anima.register("restless-legs", {
       chara(x, lerp(y + H * 0.1, y, p), H * 0.04, { who: "drug", tag: tags[k], hatColor: cols[k], alpha: p, eyes: "open", arms: "point", dir: k < 1 ? 1 : -1, shadow: false });
     }
     callout("ferritin", lt > 1 && lt < 6, jx + jw * 0.5, jt + (jb - jt) * 0.8, L.x + L.w * 0.62, L.y + L.h * 0.84, "铁蛋白：看铁储备");
-    callout("worse", lt > 6.5 && lt < 9.6, zx + zr * 0.6, zy + zr * 0.5, R.x + R.w * 0.55, R.y + R.h * 0.6, "有些药会让小虫变多");
+    callout("worse", lt > 6.5 && lt < 9.6, zx + zr * 0.6, zy + (n ? -zr * 0.5 : zr * 0.5), R.x + R.w * 0.55, R.y + R.h * (n ? 0.08 : 0.6), "有些药会让小虫变多");
     say("tell", lt > 9.8, R.x + R.w * 0.5, R.y + R.h * 0.7, R.x + R.w * 0.5, zy, "把正在吃的药都告诉医生", "box");
     ctx.restore();
   }
@@ -346,7 +346,7 @@ Anima.register("restless-legs", {
     }
     // 下游的感觉神经：信号强度（火花多少）
     const spk = drug > 0.5 ? 0.25 : 1;
-    for (let k = 0; k < 3; k++) if (k < 3 * spk + 0.5) Anima.spark([[W * 0.1, post + H * 0.08], [W * 0.6, post + H * 0.1], [W + 20, post + H * 0.12]], (time * 0.7 + k / 3) % 1, H * 0.02, C.gold);
+    for (let k = 0; k < 3; k++) if (k < 3 * spk + 0.5) Anima.spark([[W * 0.24, post + H * 0.08], [W * 0.6, post + H * 0.1], [W + 20, post + H * 0.12]], (time * 0.7 + k / 3) % 1, H * 0.02, C.gold);
     face(W * 0.86, post + H * 0.1, H * 0.05, drug > 0.5 ? 1 : -1);
     // 药物访客走过来抓住 α2δ
     if (lt > 3.2) {
@@ -356,8 +356,8 @@ Anima.register("restless-legs", {
     }
     callout("a2d", lt > 0.8 && lt < 5, ax, ay, n ? W * 0.28 : W * 0.2, th + H * 0.22, "α2δ：钙通道上的小零件");
     callout("less", lt > 7.5, chX + H * 0.04, chY - H * 0.05, n ? W * 0.72 : W * 0.8, th * 0.35, "钙进得少，兴奋信号变少");
-    say("loud", lt > 1 && lt < 5, W * 0.86, post + H * 0.06, n ? W * 0.72 : W * 0.82, post - H * 0.12, "信号好吵！", "shout");
-    say("calm", lt > 8.5, W * 0.86, post + H * 0.06, n ? W * 0.72 : W * 0.82, post - H * 0.12, "安静多了～", "say");
+    say("loud", lt > 1 && lt < 5, W * 0.86, post + H * 0.06, n ? W * 0.58 : W * 0.82, post - H * 0.12, "信号好吵！", "shout");
+    say("calm", lt > 8.5, W * 0.86, post + H * 0.06, n ? W * 0.6 : W * 0.82, post - H * 0.12, "安静多了～", "say");
     ctx.restore();
   }
 
@@ -401,7 +401,7 @@ Anima.register("restless-legs", {
     if (armA > 0) { ctx.save(); ctx.globalAlpha *= armA; limbZoom(rx0 + rw * 0.72, zy, zr, 6, 0, "手臂", 51); ctx.restore(); }
     callout("start", lt > 5.5 && lt < 9.8, cx + Math.cos(ang(sh)) * cr * 0.8, cy + Math.sin(ang(sh)) * cr * 0.8, n ? W * 0.25 : W * 0.3, top + H * (n ? 0.1 : 0.2), "越来越早：夜里 → 下午");
     callout("spread", lt > 9.3, rx0 + rw * 0.72 - zr * 0.7, zy, W * 0.24, H * 0.82, "变重，还蔓延到手臂");
-    say("good", lt > 1.8 && lt < 5, xs[0], my - rs * 3.4, n ? W * 0.25 : W * 0.23, top + H * 0.22, "腿安静了～", "say");
+    say("good", lt > 1.8 && lt < 5, xs[0], my - rs * 3.4, n ? W * 0.25 : W * 0.23, top + H * (n ? 0.06 : 0.22), "腿安静了～", "say");
     say("doc", lt > 10.8, W / 2, H * 0.9, W * 0.25, top + H * 0.08, "别自己加量，找医生调整", "box");
     ctx.restore();
   }

@@ -111,7 +111,7 @@ Anima.register("long-acting-injectables", {
       if (c === 0) {
         callout("g0", lt > 3.4, pk.x, pk.y, n ? W * 0.3 : pk.x - W * 0.04, y0 + H * 0.02, "高峰");
         callout("g1", lt > 4.2, tr.x, tr.y, n ? W * 0.45 : tr.x + W * 0.06, y1 - H * 0.08, "低谷");
-        say("g2", lt > 8, x1 - W * 0.08, y0, n ? W * 0.62 : W * 0.66, y0 + H * 0.02, n ? "按时吃就稳在区间里" : "按时吃，就稳在区间里～", "box");
+        say("g2", lt > 8, x1 - W * 0.08, y0, n ? W * 0.62 : W * 0.66, y0 + H * 0.02, n ? "按时吃就很稳～" : "按时吃，就稳在区间里～", "box");
       } else {
         const low = { x: lerp(x0, x1, 7.95 / span), y: Y(scaleO(oral(7.95, true))) };
         const drop = upto > 7;
@@ -134,7 +134,7 @@ Anima.register("long-acting-injectables", {
       const t4 = 4;
       callout("g6", lt > 2.5, lerp(x0, x1, t4 / span), Y(slow(t4)), n ? W * 0.62 : lerp(x0, x1, 0.5), y1 - H * 0.05, "只打维持针：爬坡很慢");
       callout("g7", lt > 7.5 && !!e2, lerp(x0, x1, 1.5 / span), Y(fast(1.5)), n ? W * 0.4 : lerp(x0, x1, 0.3), y0 + H * 0.0, "加起始负荷或口服重叠");
-      say("g8", lt > 10.5, lerp(x0, x1, 0.7), Y(0.64), n ? W * 0.7 : W * 0.78, Y(0.2), "⚠ 怎么起步因药而异", "box");
+      say("g8", lt > 10.5, lerp(x0, x1, 0.7), Y(0.64), n ? W * 0.7 : W * 0.78, Y(0.2), n ? "⚠ 起步因药而异" : "⚠ 怎么起步因药而异", "box");
     }
     if (c === 5) {
       const span = 12, upto = clamp((lt - 0.5) / 6, 0, 1) * span;
@@ -212,7 +212,7 @@ Anima.register("long-acting-injectables", {
     [[L, "酯化前体（油剂）"], [R, "微晶 / 纳米晶体"]].forEach((q) => { rrect(q[0], top, cw, ch, 16); ctx.fillStyle = "#fffdfb"; ctx.fill(); outline(1.6); ctx.stroke(); text(q[1], q[0] + cw / 2, top + fs(0.03) * 1.1, fs(0.03), C.ink); });
     const cs = H * (n ? 0.04 : 0.042);
     // 左：油滴里的前体药 → 出油滴 → 酯酶剪尾巴
-    const ox = L + cw * 0.3, oy = top + ch * 0.45, orr = Math.min(cw * 0.2, H * 0.13);
+    const ox = L + cw * 0.3, oy = top + ch * (n ? 0.56 : 0.45), orr = Math.min(cw * 0.2, H * 0.13);
     ctx.beginPath(); ctx.arc(ox, oy, orr, 0, Math.PI * 2); ctx.fillStyle = "rgba(255,225,130,0.55)"; ctx.fill(); outline(1.6); ctx.stroke();
     text("油滴", ox, oy - orr - H * 0.025, fs(0.024), C.soft);
     const tail = (x, y, s, a2) => { ctx.save(); ctx.globalAlpha *= a2; ctx.strokeStyle = "#e7a23a"; ctx.lineWidth = Math.max(2, s * 0.18); ctx.beginPath(); ctx.moveTo(x - s * 0.5, y - s * 1.2); for (let k = 1; k <= 6; k++) ctx.lineTo(x - s * 0.5 - k * s * 0.3, y - s * 1.2 + (k % 2 ? -1 : 1) * s * 0.25); ctx.stroke(); ctx.restore(); };
@@ -247,9 +247,9 @@ Anima.register("long-acting-injectables", {
       ctx.restore();
     }
     for (let k = 0; k < 4; k++) { const t = (time * 0.18 + k / 4) % 1, q = k * 1.7 + 0.6; const x = kx + Math.cos(q) * (bs * 3 + t * cw * 0.35), y = ky + Math.sin(q) * (bs * 3 + t * ch * 0.25); ctx.save(); ctx.globalAlpha *= Math.sin(t * Math.PI); chara(x, y + cs * 1.2, cs * 0.6, Object.assign({}, LAI, { shadow: false, eyes: "happy" })); ctx.restore(); }
-    callout("f0", win(1, 5.5), ox - orr * 0.4, oy + orr * 0.1, n ? L + cw * 0.5 : L + cw * 0.3, top + ch * (n ? 0.14 : 0.2), "长长的脂肪酸尾巴");
+    callout("f0", win(1, 5.5), ox - orr * 0.4, oy + orr * 0.1, n ? L + cw * 0.5 : L + cw * 0.3, top + ch * (n ? 0.3 : 0.2), "长长的脂肪酸尾巴");
     callout("f1", lt > 6, kx + bs * 2.5, ky - bs * 1.5, n ? R + cw * 0.5 : R + cw * 0.55, top + ch * 0.9, "只能从表面慢慢溶");
-    say("f2", lt > 9, ex, ey - cs * 3.2, n ? L + cw * 0.5 : L + cw * 0.5, top + ch * (n ? 0.14 : 0.28), n ? "剪掉尾巴～" : "剪掉尾巴，才有活性～", "say");
+    say("f2", lt > 9 && !n, ex, ey - cs * 3.2, n ? L + cw * 0.5 : L + cw * 0.5, top + ch * (n ? 0.14 : 0.28), n ? "剪掉尾巴～" : "剪掉尾巴，才有活性～", "say");
     ctx.restore();
   }
 

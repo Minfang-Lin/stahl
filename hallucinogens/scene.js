@@ -122,7 +122,7 @@ Anima.register("hallucinogens", {
     const nG = drug > 0.5 ? 6 : 2;
     for (let k = 0; k < nG; k++) {
       const t = (time * 0.3 + k / nG) % 1;
-      chara(X + W * 0.3 + t * W * 0.2, H * 0.9 - H * 0.02, H * 0.028, { who: "Glu", walk: time * 9 + k, alpha: Math.sin(t * Math.PI), eyes: drug > 0.5 ? "wide" : "happy", arms: drug > 0.5 ? "up" : "down", shadow: false });
+      chara(X + W * (n ? 0.2 : 0.3) + t * W * (n ? 0.16 : 0.2), H * 0.9 - H * 0.02, H * 0.028, { who: "Glu", walk: time * 9 + k, alpha: Math.sin(t * Math.PI), eyes: drug > 0.5 ? "wide" : "happy", arms: drug > 0.5 ? "up" : "down", shadow: false });
     }
     plate(n ? "锥体神经元" : "皮层锥体神经元", X + sr * 1.9, SY + sr * 0.5, fsz(0.026), "#fff1e4");
     callout("btn", lt > 0.8 && lt < 5, bx - br, by - br, n ? W * 0.28 : W * 0.3, top + H * 0.06, "5-HT2A：兴奋按钮");
@@ -159,7 +159,7 @@ Anima.register("hallucinogens", {
     const sx = W * 0.07, ys = [gc - H * 0.22, gc, gc + H * 0.22];
     ys.forEach((y, k) => senseIcon(k, sx, y, H * 0.045));
     // 屏幕（皮层看到的世界）
-    const scx = W * (n ? 0.5 : 0.52), scw = W * (n ? 0.46 : 0.44), scy = top + H * 0.1, sch = H * 0.62;
+    const scx = W * (n ? 0.5 : 0.52), scw = W * (n ? 0.46 : 0.44), scy = top + H * 0.1, sch = H * (n ? 0.54 : 0.62);
     rrect(scx, scy, scw, sch, 16); ctx.fillStyle = C.screen; ctx.fill(); outline(2); ctx.stroke();
     ctx.save(); rrect(scx, scy, scw, sch, 16); ctx.clip();
     const mx = scx + scw / 2, my = scy + sch / 2;
@@ -213,8 +213,8 @@ Anima.register("hallucinogens", {
       ctx.save(); ctx.globalAlpha *= open; ctx.setLineDash([6, 6]); ctx.strokeStyle = C.bad; ctx.lineWidth = 2.4;
       ctx.beginPath(); ctx.moveTo(scx + scw * 0.3, scy + sch); ctx.quadraticCurveTo(scx, H * 0.95, gx + H * 0.03, gc + gap / 2 + H * 0.04); ctx.stroke(); ctx.restore();
     }
-    callout("gate", lt > 0.8 && lt < 4.5, gx + H * 0.025, gy0 + H * 0.1, n ? W * 0.3 : W * 0.3, top + H * 0.02, "丘脑：只放重要的进去");
-    callout("loop", lt > 5.5 && lt < 10, scx + scw * 0.1, H * 0.9, n ? W * 0.7 : W * 0.74, H * 0.87, "皮层→纹状体→丘脑：撑松过滤器");
+    callout("gate", lt > 0.8 && lt < 4.5, gx + H * 0.025, gy0 + H * 0.1, n ? W * 0.6 : W * 0.3, n ? H * 0.9 : top + H * 0.02, "丘脑：只放重要的进去");
+    callout("loop", lt > 5.5 && lt < 10, scx + scw * 0.1, H * 0.9, n ? W * 0.62 : W * 0.74, n ? H * 0.9 : H * 0.87, "皮层→纹状体→丘脑：撑松过滤器");
     say("wow", lt > 9, mx, my, n ? W * 0.72 : W * 0.74, scy + H * 0.05, "颜色在流动，时间停住了……", "think");
     ctx.restore();
   }
@@ -288,7 +288,7 @@ Anima.register("hallucinogens", {
     const tx = cx + tw * 0.4, ty = th * 0.78;
     const tr = Anima.transporter(tx, ty, H * 0.055, "#9fc3ea", rev > 0.5 ? -time * 5 : time * 1.5, false);
     const arrowY = ty + H * 0.1;
-    sfx(rev > 0.5 ? "↓ 往外送" : "↑ 往里收", tx + H * 0.14, ty, H * 0.03, rev > 0.5 ? C.bad : C.skyDeep, 0, 1);
+    sfx(rev > 0.5 ? "↓ 往外送" : "↑ 往里收", tx + H * (n ? 0.1 : 0.14), ty - (n ? H * 0.1 : 0), fsz(0.032), rev > 0.5 ? C.bad : C.skyDeep, 0, 1);
     // MDMA 访客钻进回收门
     if (lt > 2) {
       const q = prog(2, 2);
@@ -332,7 +332,7 @@ Anima.register("hallucinogens", {
     const P = [0, 1, 2].map((k) => ({ x: gap + k * (cw + gap), y: y0, w: cw, h: ch }));
     const titles = cur === 4 ? (n ? ["当晚：太热", "当晚：水太多", "几天后"] : ["当晚：体温升高", "当晚：水喝太多", "几天后、反复用"]) : ["危险行为", "坏旅程", n ? "精神病、闪回" : "诱发精神病、闪回"];
     P.forEach((p, k) => card(p.x, p.y, p.w, p.h, titles[k], ["#ffd9c7", "#dff0fb", "#e4e0ff"][k]));
-    const s = Math.min(H * 0.045, cw * 0.1), fs = fsz(0.024);
+    const s = Math.min(H * 0.05, cw * 0.13), fs = fsz(0.024);
     const on = (k) => prog(0.5 + k * 3.2, 1);
     if (cur === 4) {
       // 1：跳舞、体温升高
@@ -392,7 +392,7 @@ Anima.register("hallucinogens", {
       ctx.strokeStyle = "#fff"; ctx.lineWidth = 3; ctx.setLineDash([10, 8]); ctx.beginPath(); ctx.moveTo(p.x + 6, ry + p.h * 0.07); ctx.lineTo(p.x + p.w - 6, ry + p.h * 0.07); ctx.stroke(); ctx.setLineDash([]);
       const wk = prog(1, 2.5);
       chara(p.x + p.w * 0.3, lerp(p.y + p.h * 0.62, ry + p.h * 0.1, wk), s, { who: "neuron", eyes: "dizzy", mouth: "o", walk: wk < 1 ? time * 7 : null, arms: "down" });
-      const carX = p.x + p.w - 6 - ((lt * 0.12) % 1) * p.w * 0.5, carY = ry + p.h * 0.02;
+      const carX = p.x + p.w - 6 + Math.sin(time * 20) * p.w * 0.005, carY = ry + p.h * 0.02;
       rrect(carX - p.w * 0.22, carY, p.w * 0.22, p.h * 0.08, 6); ctx.fillStyle = "#9fc3ea"; ctx.fill(); outline(1.4); ctx.stroke();
       for (const d of [0.25, 0.75]) { ctx.beginPath(); ctx.arc(carX - p.w * 0.22 * d, carY + p.h * 0.08, p.h * 0.02, 0, Math.PI * 2); ctx.fillStyle = C.line; ctx.fill(); }
       if (wk > 0.6) { emote("!", p.x + p.w * 0.6, p.y + p.h * 0.3, s * 0.8); sfx("嘀——！", p.x + p.w * 0.65, p.y + p.h * 0.45, H * 0.034, C.bad, -0.1, 1); }
@@ -420,7 +420,7 @@ Anima.register("hallucinogens", {
       chara(bx2, p.y + p.h * 0.88, s, { who: "neuron", eyes: fb > 0.5 ? "wide" : "open", mouth: "flat", arms: "down" });
       ctx.restore();
       callout("sus", lt > 8 && lt < 10.5, bx2 + br2 * 0.1, by2 - br2 * 0.3, P[2].x + P[2].w * 0.5, P[2].y + P[2].h * 0.1, "易感的人：可能诱发精神病");
-      callout("flash", lt > 10.5, bx2 + br2 * 1.3, by2, P[2].x + P[2].w * 0.5, P[2].y + P[2].h * 0.62, "停用很久后还会闪回");
+      callout("flash", lt > 10.5, bx2 + br2 * 1.2, by2 - br2 * 0.3, P[2].x + P[2].w * 0.5, P[2].y + P[2].h * 0.1, "停用很久后还会闪回");
       say("res", lt > 11, W / 2, H * 0.9, W / 2, H * 0.92, n ? "治疗研究只在严格医疗条件下" : "治疗用途的研究只在严格医疗条件下，不是自己尝试的理由", "box");
     }
     ctx.restore();
