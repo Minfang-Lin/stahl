@@ -32,6 +32,7 @@ window.AnimaCatalog = {
     { n: 1, name: "化学神经传递", sections: [
       { name: "神经元、突触和化学信号", eps: ["synapse"] },
       { name: "神经传递的几种方式：经典、逆行、容积传递", eps: ["neurotransmission-types", "endocannabinoid"] },
+      { name: "四条信号转导通路", eps: ["signal-cascades"] },
       { name: "信号转导：G 蛋白和第二信使", eps: ["g-protein"] },
       { name: "从信号到基因：基因表达和表观遗传", eps: ["plasticity"] },
     ] },
