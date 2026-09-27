@@ -116,7 +116,7 @@ Anima.register("serotonin-lifecycle", {
       chara(x, y, s * 0.8, { who: "5HT", eyes: "happy", shadow: false, bob: 0.6, seed: k });
     }
     text(nw ? "肠道" : "肠道：大部分 5-HT 在这里", (gx0 + gx1) / 2, H * 0.95, fz(0.026), "#c0661e");
-    text("大脑", W * 0.04, wy - H * 0.05, fz(0.028), "#6b61c9", "left");
+    text("大脑", nw ? W * 0.96 : W * 0.04, wy - H * 0.05, fz(0.028), "#6b61c9", nw ? "right" : "left");
     text("血液", W * 0.97, r0 - H * 0.03, fz(0.024), "#b04a5c", "right");
     // 血液里的 5-HT 想往上走，被墙挡回
     const bx = W * (nw ? 0.3 : 0.32);
@@ -127,17 +127,17 @@ Anima.register("serotonin-lifecycle", {
     // 色氨酸从门里过去
     for (let k = 0; k < 2; k++) {
       const u = (time * 0.18 + k * 0.5) % 1, x = lerp(W * 0.94, (gate[0] + gate[1]) / 2, clamp(u * 2, 0, 1));
-      const y = u < 0.5 ? r1 - H * 0.01 : lerp(r1 - H * 0.01, wy * 0.72, (u - 0.5) * 2);
+      const y = u < 0.5 ? r1 - H * 0.01 : lerp(r1 - H * 0.01, wy * 0.85, (u - 0.5) * 2);
       chara(x, y, s * 0.95, Object.assign({}, TRP, { walk: time * 9 + k, eyes: "happy", alpha: Math.min(1, u * 8, (1 - u) * 6), shadow: false }));
     }
     // 脑子里的 5-HT 神经元
-    const nx = W * (nw ? 0.4 : 0.45), ny = wy - H * 0.035;
+    const nx = W * (nw ? 0.16 : 0.45), ny = wy - H * 0.035;
     chara(nx, ny, s * 1.1, { who: "neuron", hair: "#62c9ab", cloth: "#dff5ec", arms: "hold", item: "star", eyes: "happy" });
-    plate(nw ? "5-HT 神经元" : "脑里的 5-HT 神经元", nx + s * (nw ? 4.2 : 5.2), ny - s * 1.6, "#dff5ec", fz(0.022));
-    callout("bbb", win(1.2, 6), W * 0.2, wy + wh * 0.5, W * 0.14, top + H * 0.04, "血脑屏障：挡住 5-HT");
+    plate(nw ? "5-HT 神经元" : "脑里的 5-HT 神经元", nx + s * (nw ? 6.2 : 5.9), ny - s * 1.6, "#dff5ec", fz(0.022));
+    callout("bbb", win(1.2, 6), W * 0.2, wy + wh * 0.5, W * (nw ? 0.6 : 0.14), top + H * 0.04, "血脑屏障：挡住 5-HT");
     say("no", win(2.5, 7), bx, hy - s * 3, W * (nw ? 0.2 : 0.16), nw ? H * 0.7 : H * 0.2, "进不去呀～", "say");
-    callout("trp", win(6, 9.5), (gate[0] + gate[1]) / 2, wy + wh * 0.5, W * (nw ? 0.72 : 0.8), H * 0.22, "色氨酸：可以进去");
-    say("self", lt > 9.5, nx, ny - s * 3.4, W * (nw ? 0.74 : 0.24), nw ? H * 0.22 : top + H * 0.06, "那我们自己做！", "say");
+    callout("trp", win(6.5, 9.5), (gate[0] + gate[1]) / 2, wy + wh * 0.5, W * (nw ? 0.6 : 0.8), nw ? top + H * 0.04 : H * 0.22, "色氨酸：可以进去");
+    say("self", lt > 9.5, nx, ny - s * 3.4, W * (nw ? 0.6 : 0.24), nw ? top + H * 0.05 : top + H * 0.06, "那我们自己做！", "say");
     ctx.restore();
   }
 

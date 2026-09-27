@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>同一段基因，不同的剪法 · 脑内小剧场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-episode="rna-splicing">
+<div class="wrap">
+  <header id="epHeader"></header>
+
+  <div class="stage">
+    <canvas id="cv" aria-label="科普动画"></canvas>
+    <div class="bar"><i id="prog"></i></div>
+  </div>
+
+  <div class="below">
+    <ol class="chapters" id="chapters"></ol>
+    <section class="narr" aria-live="polite">
+      <h2 id="nTitle"></h2>
+      <p id="nText"></p>
+      <div class="fact" id="nFact"></div>
+      <div class="controls">
+        <button id="prev" type="button">上一幕</button>
+        <button id="play" type="button" class="primary">暂停</button>
+        <button id="next" type="button">下一幕</button>
+      </div>
+    </section>
+  </div>
+
+  <footer id="epFooter"></footer>
+</div>
+
+<script id="video-meta" type="application/json">
+{
+  "intro": "一个基因只能做一种蛋白吗？来看看 RNA 怎样被剪辑成不同的版本，又怎样被按下静音键。",
+  "spoken": {"mRNA": "信使 RNA", "RNA": "R N A", "microRNA": "微小 RNA", "siRNA": "小干扰 RNA", "RISC": "R I S C", "Dicer": "戴瑟", "DNA": "D N A", "D2": "D 2"},
+  "sad": []
+}
+</script>
+<script src="../shared/engine.js"></script>
+<script src="scene.js"></script>
+</body>
+</html>

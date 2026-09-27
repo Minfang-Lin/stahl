@@ -246,7 +246,7 @@ Anima.register("dementia-agitation", {
     const pos = [];
     for (let k = 0; k < 6; k++) {
       const q = -Math.PI / 2 + (k + 0.5) * Math.PI * 2 / 6;
-      const x = cx + Math.cos(q) * (n ? W * 0.4 : R), y = cy + Math.sin(q) * (n ? H * 0.3 : R * 0.62);
+      const x = cx + Math.cos(q) * (n ? W * 0.4 : R), y = cy + Math.sin(q) * (n ? H * 0.27 : R * 0.62);
       pos.push({ x, y });
       const r = H * 0.055, open = k < f;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = open ? "#fffdf8" : "#ece6ea"; ctx.fill(); outline(2); ctx.stroke();
@@ -260,10 +260,10 @@ Anima.register("dementia-agitation", {
     const t = ((lt - 1.4) % 1.6) / 1.6;
     const from = f > 0 ? pos[k] : { x: cx - W * 0.1, y: cy + H * 0.1 };
     const gx = f >= 6 ? pos[5].x : lerp(from.x, tgt.x, ease(t * 1.5)), gy = f >= 6 ? pos[5].y : lerp(from.y, tgt.y, ease(t * 1.5));
-    chara(gx + H * 0.12, gy + H * 0.05, H * 0.038, { who: "neuron", hair: "#7a8ba6", cloth: "#dff0e4", item: "lamp", arms: "hold", eyes: "open", mouth: "smile", walk: f < 6 && t < 0.66 ? time * 9 : null, tag: n ? null : "照护者", shadow: false });
+    chara(gx + (gx + H * 0.16 > W ? -H * 0.12 : H * 0.12), gy + H * 0.05, H * 0.038, { who: "neuron", hair: "#7a8ba6", cloth: "#dff0e4", item: "lamp", arms: "hold", eyes: "open", mouth: "smile", walk: f < 6 && t < 0.66 ? time * 9 : null, tag: n ? null : "照护者", shadow: false });
     if (!n) meter(W * 0.1, top + H * 0.03, W * 0.18, agit);
     say("why", lt > 0.5 && lt < 5, ex, cy + H * 0.1 - H * 0.16, W * 0.5, H * 0.93, "说不出哪里不舒服……", "think");
-    callout("cause", lt > 10.8, cx, cy - H * 0.02, W * 0.5, H * 0.93, "找到原因，激越常会平息");
+    callout("cause", lt > 10.8, cx, cy + H * 0.1, W * 0.5, H * 0.91, "找到原因，激越常会平息");
     ctx.restore();
   }
 
@@ -347,9 +347,9 @@ Anima.register("dementia-agitation", {
     wts.forEach((t, k) => {
       const q = prog(4.5 + k * 1.2, 1.2);
       if (q <= 0) return;
-      const x = pr.x + (k ? 1 : -1) * Math.max(arm * 0.13, H * 0.05), y = lerp(top, pr.y - H * 0.035, q);
+      const x = pr.x + (k ? 1 : -1) * H * 0.056, y = lerp(top, pr.y - H * 0.035, q);
       ctx.save(); ctx.globalAlpha *= q;
-      rrect(x - H * 0.045, y - H * 0.035, H * 0.09, H * 0.07, 8); ctx.fillStyle = "#f28b8b"; ctx.fill(); outline(1.8); ctx.stroke();
+      rrect(x - H * 0.051, y - H * 0.035, H * 0.102, H * 0.07, 8); ctx.fillStyle = "#f28b8b"; ctx.fill(); outline(1.8); ctx.stroke();
       text(t, x, y + 1, fsz(0.024), "#fff");
       ctx.restore();
       if (q < 1 && q > 0.8) sfx("咚！", x, pr.y - H * 0.12, H * 0.04, C.bad, 0.1, 1);
@@ -359,7 +359,7 @@ Anima.register("dementia-agitation", {
     chara(dx, dy, H * 0.05, { who: "neuron", hair: "#6d5a45", cloth: "#ffffff", eyes: "open", mouth: "flat", arms: lt > 8 ? "point" : "down", glasses: true, tag: "医生" });
     if (lt > 8) emote("bulb", dx + H * 0.05, dy - H * 0.17, H * 0.03);
     callout("help", lt > 2 && lt < 7, pl.x, pl.y - H * 0.05, n ? W * 0.22 : W * 0.2, H * 0.72, "严重时：短期减轻激越");
-    callout("warn", lt > 6, pr.x, pr.y, n ? W * 0.72 : W * 0.8, n ? H * 0.66 : H * 0.72, "警告：卒中、死亡风险增加");
+    callout("warn", lt > 6, pr.x, pr.y - H * 0.07, n ? W * 0.62 : W * 0.8, n ? top + H * 0.1 : H * 0.72, "警告：卒中、死亡风险增加");
     say("brex", lt > 1.8 && lt < (n ? 4.3 : 7.5), pl.x, top + H * 0.02, n ? W * 0.62 : W * 0.28, top + H * (n ? 0.1 : 0.08), "依匹哌唑：美国已获批用于阿尔茨海默病激越", "box");
     say("doc", lt > 8.5, dx, dy - H * 0.16, n ? W * 0.3 : W * 0.66, n ? H * 0.72 : H * 0.62, "由医生权衡：短期用、定期复查", "say");
     ctx.restore();

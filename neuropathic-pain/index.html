@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>神经自己出了错：神经病理性疼痛 · 脑内小剧场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-episode="neuropathic-pain">
+<div class="wrap">
+  <header id="epHeader"></header>
+
+  <div class="stage">
+    <canvas id="cv" aria-label="科普动画"></canvas>
+    <div class="bar"><i id="prog"></i></div>
+  </div>
+
+  <div class="below">
+    <ol class="chapters" id="chapters"></ol>
+    <section class="narr" aria-live="polite">
+      <h2 id="nTitle"></h2>
+      <p id="nText"></p>
+      <div class="fact" id="nFact"></div>
+      <div class="controls">
+        <button id="prev" type="button">上一幕</button>
+        <button id="play" type="button" class="primary">暂停</button>
+        <button id="next" type="button">下一幕</button>
+      </div>
+    </section>
+  </div>
+
+  <footer id="epFooter"></footer>
+</div>
+
+<script id="video-meta" type="application/json">
+{
+  "intro": "没有人碰你，神经却一直在喊痛？一起钻进受伤的神经和脊髓后角看看。",
+  "spoken": { "Aβ": "A 贝塔", "AMPA": "安帕", "NMDA": "N M D A", "α2δ": "阿尔法二 德尔塔", "α2": "阿尔法二", "SNRI": "S N R I", "NE": "去甲肾上腺素", "wind-up": "上发条", "5-HT": "五羟色胺" },
+  "sad": [1]
+}
+</script>
+<script src="../shared/engine.js"></script>
+<script src="scene.js"></script>
+</body>
+</html>
