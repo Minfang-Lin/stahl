@@ -243,7 +243,7 @@ Anima.register("nicotine", {
     }
     chara(V.x - r * 1.4, V.y + r * 2.2, H * 0.04, Object.assign({}, NIC, { arms: "point", eyes: "happy", mouth: "grin" }));
     const fs = fsz(0.03);
-    plate(n ? "VTA" : "腹侧被盖区（VTA）", V.x, V.y + r * 2.9, fs);
+    plate(n ? "VTA" : "腹侧被盖区（VTA）", V.x + (n ? r * 0.9 : 0), V.y + r * 2.9, fs);
     plate("伏隔核", N.x, N.y + R + fs * 1.4, fs);
     callout("fire", lt > 2.6 && lt < 7, W * 0.45, top + H * 0.08, n ? W * 0.5 : W * 0.46, H * 0.36, "多巴胺神经元放电 ⚡");
     say("nac", lt > 6, N.x - R * 0.7, N.y + R * 0.5, W * 0.47, H * 0.7, "好舒服！记住了，下次还要～", "say");

@@ -142,13 +142,16 @@ Anima.register("ketamine", {
     for (let k = 1; k <= 4; k++) {
       const x = lerp(x0 + W * 0.08, x1 - W * 0.04, (k - 1) / 3), y = y1 - H * 0.03;
       outline(1.4); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x, y - H * 0.06); ctx.stroke();
-      tag(nar ? k + "周" : "第 " + k + " 周", x, y - H * 0.075, fs * 0.9, "#fff8e6");
+      // 手机上最后一幕的安全提醒方框要占顶部，那时先把里程牌上的字淡出
+      const wa = nar && last ? 1 - prog(10.2, 0.5) : 1;
+      if (wa > 0.02) { ctx.save(); ctx.globalAlpha *= wa; tag(nar ? k + "周" : "第 " + k + " 周", x, y - H * 0.075, fs * 0.9, "#fff8e6"); ctx.restore(); }
     }
     // 快车道：高速公路
     rrect(x0, y2 - H * 0.055, x1 - x0, H * 0.11, H * 0.02); ctx.fillStyle = "#d9dde8"; ctx.fill(); outline(1.8); ctx.stroke();
     ctx.save(); ctx.strokeStyle = "#ffffff"; ctx.lineWidth = Math.max(2, H * 0.008); ctx.setLineDash([H * 0.04, H * 0.03]); ctx.lineDashOffset = last ? -time * 20 : -time * 120;
     ctx.beginPath(); ctx.moveTo(x0 + 10, y2); ctx.lineTo(x1 - 10, y2); ctx.stroke(); ctx.restore();
-    tag("慢车道", x0 + W * 0.06, y1 + H * 0.06, fs, "#fff1b8");
+    // 手机上第 1 幕“传统药”的名牌就在路口，车道名往下挪一点
+    tag("慢车道", x0 + W * 0.06, y1 + H * (nar && !last ? 0.11 : 0.06), fs, "#fff1b8");
     tag("快车道", x0 + W * 0.06, y2 + H * 0.085, fs, "#ffd9c2");
     // 终点：心情转晴
     const gx = W * 0.915;
@@ -169,7 +172,8 @@ Anima.register("ketamine", {
       if (cp >= 1) sparkles(gx - W * 0.1, y2 - H * 0.1, s * 3, 5, 1, 4);
       if (lt > 1.8 && lt < 3.2) sfx("咻——！", W * 0.5, y2 - H * 0.12, fsz(0.05), "#e07a2a", -0.1, 1);
       say("slow", lt > 0.5 && lt < 7, sx, y1 - s * 2.9, nar ? W * 0.3 : W * 0.3, H * 0.27, "我走慢车道，要几周哦～", "say");
-      say("fast", lt > 4, carPos.head.x, carPos.head.y, nar ? W * 0.44 : W * 0.5, H * 0.64, "我走快车道：几小时到一天！", "shout");
+      // 手机上爆炸框太大会盖住慢车道，改成普通气泡，放在两条路中间
+      say("fast", lt > 4, carPos.head.x, carPos.head.y, nar ? W * 0.55 : W * 0.5, H * (nar ? 0.665 : 0.64), "我走快车道：几小时到一天！", nar ? "say" : "shout");
       callout("anes", lt > 7.5, cx, y2 - H * 0.02, nar ? W * 0.3 : W * 0.36, H * 0.3, "氯胺酮：原本是一种麻醉药");
     } else {
       // 最后一幕：快车道中间有“医疗机构”关卡，医生护航
@@ -250,7 +254,7 @@ Anima.register("ketamine", {
     // 氯胺酮访客走过来
     const kp = prog(2.4, 1.8);
     const kx = lerp(-W * 0.06, gx - gr * 1.3, kp);
-    chara(kx, gy, cs * 1.15, drug(KET, { walk: kp < 1 ? time * 9 : null, arms: plug > 0.5 ? "point" : "down", eyes: "happy", mouth: "grin" }));
+    if (kp > 0) chara(kx, gy, cs * 1.15, drug(KET, { walk: kp < 1 ? time * 9 : null, arms: plug > 0.5 ? "point" : "down", eyes: "happy", mouth: "grin" }));
     // 谷氨酸神经元（锥体神经元，三角形）
     const px = W * (nar ? 0.66 : 0.66), pcy = H * 0.56, pr = Math.min(H * 0.15, W * 0.12);
     ctx.beginPath(); ctx.moveTo(px, pcy - pr * 1.1); ctx.quadraticCurveTo(px + pr * 0.15, pcy - pr * 0.9, px + pr * 0.95, pcy + pr * 0.6);

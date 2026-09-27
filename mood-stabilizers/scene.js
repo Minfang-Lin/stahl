@@ -224,7 +224,8 @@ Anima.register("mood-stabilizers", {
     ctx.restore();
     say("dizzy", lt > 0.6 && lt < 4.2, at.x, at.y - s * 3.3, px, H * 0.4, "晃得我头好晕……", "think");
     say("fix", lt > 5 && lt < 9.5, rx, gy - cs * 3.2, nar ? W * 0.62 : W * 0.7, H * (nar ? 0.5 : 0.48), "装上减震器，高低都不会太猛～", "say");
-    callout("absorb", lt > 5.5, pv.spring.x, (pv.spring.y + gy) / 2, pv.spring.x + W * 0.02, gy + H * 0.05, "减震器 = 心境稳定剂");
+    // 手机上把标注放到底部两个名牌中间，不被名牌挤到上面压住“高”字
+    callout("absorb", lt > 5.5, pv.spring.x, (pv.spring.y + gy) / 2, nar ? W * 0.46 : pv.spring.x + W * 0.02, nar ? H : gy + H * 0.05, "减震器 = 心境稳定剂");
     callout("goal", lt > 9.8, gx0, mid, nar ? W * 0.3 : W * 0.55, H * 0.42, "目标：起伏变小，少复发");
     ctx.restore();
   }
@@ -401,8 +402,8 @@ Anima.register("mood-stabilizers", {
       K.forEach((k, i) => tile(P[i][0], P[i][1], tr, k[0], k[1], prog(1 + i * 1.2, 0.6), "#8fcfb6", prog(6 + i * 1, 0.6)));
       text("定期检查", (col0 + col1) / 2, H * 0.2 + fsz(0.02), fsz(0.036), "#2f8a5f");
       callout("narrow", lt > 2, gp.edge.x, gp.edge.y, nar ? W * 0.38 : W * 0.4, H * 0.3, "有效和过量，离得很近");
-      say("why", lt > 4.5 && lt < 9.5, lx, ly - ls * 3.2, nar ? W * 0.5 : W * 0.5, H * 0.9, "我的安全区很窄，要常常量一量～", "say");
-      say("ok", lt > 10, lx, ly - ls * 3.2, nar ? W * 0.5 : W * 0.5, H * 0.9, "检查是让我安全工作的保障！", "say");
+      // 两句话用同一个气泡先后说：后一句不会被还没淡出的前一句挤到名牌上
+      say("why", lt > 4.5 && (lt < 9.5 || lt > 10), lx, ly - ls * 3.2, W * 0.5, H * 0.9, lt < 9.75 ? "我的安全区很窄，要常常量一量～" : "检查是让我安全工作的保障！", "say");
     } else {
       const K = [["sweat", "出汗脱水"], ["tummy", "腹泻呕吐"], ["pill", "止痛药"], ["drop", "利尿剂"]];
       const P = [[col0, H * 0.34], [col1, H * 0.34], [col0, H * 0.62], [col1, H * 0.62]];
@@ -525,9 +526,10 @@ Anima.register("mood-stabilizers", {
     // 两位访客守在通道旁边
     const cs = Math.min(H * 0.04, W * 0.035);
     const vIn = prog(1.5, 1.5);
-    const vx = lerp(-W * 0.05, chX - cs * 1.2, vIn);
+    // 手机上名牌相对角色更宽，两位站开一点，名牌不叠在一起
+    const vx = lerp(-W * 0.05, chX - cs * (nar ? 2 : 1.2), vIn);
     chara(vx, chY + H * 0.2, cs, drug(VPA, { walk: vIn < 1 ? time * 9 : null, arms: vIn >= 1 ? "shh" : "down", eyes: "happy" }));
-    chara(vx + cs * 2.6, chY + H * 0.22, cs, drug(LTG, { walk: vIn < 1 ? time * 9 : null, arms: vIn >= 1 ? "shh" : "down", eyes: "happy", alpha: clamp(vIn * 3, 0, 1) }));
+    chara(vx + cs * (nar ? 5.6 : 2.6), chY + H * 0.22, cs, drug(LTG, { walk: vIn < 1 ? time * 9 : null, arms: vIn >= 1 ? "shh" : "down", eyes: "happy", alpha: clamp(vIn * 3, 0, 1) }));
     // 受体
     RX.forEach((x, i) => Anima.receptor(x, post, rs, "#ffd27a", 0.4 + 0.3 * Math.sin(time * 2 + i), { label: i === 1 ? "谷氨酸受体" : null }));
     // 谷氨酸快递员：一开始挤成一团往外冲，后来一位一位走
@@ -547,7 +549,7 @@ Anima.register("mood-stabilizers", {
     gear(ix + gr * 1.05, iy - gr * 0.55, gr * 0.8, -time * sp * 1.25 + 0.2, "#d9ccfa");
     const lIn = prog(6.5, 1.5);
     const lx = lerp(W * 1.05, ix + gr * 3.4, lIn);
-    chara(lx, iy + gr * 1.2, cs, drug(LI, { walk: lIn < 1 ? time * 9 : null, dir: -1, arms: lIn >= 1 ? "point" : "down", eyes: "happy", mouth: "grin" }));
+    if (lIn > 0) chara(lx, iy + gr * 1.2, cs, drug(LI, { walk: lIn < 1 ? time * 9 : null, dir: -1, arms: lIn >= 1 ? "point" : "down", eyes: "happy", mouth: "grin" }));
     callout("chan", lt > 2 && lt < 9, chX, chY, nar ? W * 0.18 : W * 0.16, H * 0.18 + Anima.topSafe() * 0.5, "离子通道：放电别太“冲”");
     callout("sig", lt > 8, ix - gr * 1.3, iy, nar ? W * 0.3 : W * 0.36, H * 0.9, "细胞内信号：锂盐在里面调节");
     say("slow", lt > 4.5 && lt < 8.5, RX[1], post - rs * 3, cx + tw * 0.15, (th + post) / 2, "不用那么急啦～", "say");

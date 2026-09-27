@@ -181,8 +181,8 @@ Anima.register("endocannabinoid", {
     if (cur === 2 || cur === 3) {
       const cutM = cur === 3 ? prog(2.6, 0.8) : 0, drift = cur === 3 ? prog(3.4, 2) : 0, cutF = cur === 3 ? prog(5.8, 0.8) : 0;
       if (cutM < 1) chara(cbSite.x, cbSite.y, cs, Object.assign(ECB("2-AG"), { alpha: 1 - cutM, arms: "up", eyes: cutM > 0 ? "dizzy" : "happy" }));
-      const fx = W * (n ? 0.66 : 0.64), fy = post + H * 0.2;
-      if (cutF < 1) chara(lerp(gbSite.x, fx - cs * 2.2, drift), lerp(gbSite.y, fy, drift), cs, Object.assign(ECB("AEA"), { alpha: 1 - cutF, arms: drift > 0 ? "down" : "up", eyes: cutF > 0 ? "dizzy" : "happy", walk: drift > 0 && drift < 1 ? time * 8 : null }));
+      const fx = W * (n ? 0.66 : 0.64), fy = post + H * (n ? 0.13 : 0.2), fgap = cs * (n ? 4.6 : 2.2); // 手机上字相对大，两人的名牌要分开
+      if (cutF < 1) chara(lerp(gbSite.x, fx - fgap, drift), lerp(gbSite.y, fy, drift), cs, Object.assign(ECB("AEA"), { alpha: 1 - cutF, arms: drift > 0 ? "down" : "up", eyes: cutF > 0 ? "dizzy" : "happy", walk: drift > 0 && drift < 1 ? time * 8 : null }));
       if (cur === 2) {
         if (lt > 1.5) emote("zzz", caX + H * 0.03, caY - H * 0.06, H * 0.03);
         callout("cb1", lt > 1 && lt < 4.5, cbX + rs * 0.6, cbY + rs, n ? W * 0.7 : W * 0.66, H * 0.56, "CB1 收到回信，被激活");
@@ -196,7 +196,7 @@ Anima.register("endocannabinoid", {
         if (lt > 2.6 && lt < 3.6) sfx("咔嚓！", cbSite.x + cs, cbSite.y - cs * 2, H * 0.04, C.bad, -0.1, 1);
         if (lt > 5.8 && lt < 6.8) sfx("咔嚓！", fx - cs, fy - cs * 3.4, H * 0.04, C.bad, -0.1, 1);
         if (cutM > 0 && cutM < 1) sparkles(cbSite.x, cbSite.y - cs, cs * 2, 4, 1, 3);
-        if (cutF > 0 && cutF < 1) sparkles(fx - cs * 2.2, fy - cs, cs * 2, 4, 1, 5);
+        if (cutF > 0 && cutF < 1) sparkles(fx - fgap, fy - cs, cs * 2, 4, 1, 5);
         callout("magl", lt > 1 && lt < 5, mx, my - cs * 2, n ? W * 0.14 : W * 0.12, H * 0.54, "MAGL：在突触前拆 2-AG");
         callout("faah", lt > 4.5 && lt < 8.5, fx, fy - cs * 2.4, n ? W * 0.44 : W * 0.46, post - H * 0.08, "FAAH：在突触后拆 AEA");
         callout("back", lt > 8.8, T.cx - T.w * 0.05, termY(T.cx, T) + H * 0.04, n ? W * 0.62 : W * 0.6, H * 0.56, "回信拆掉，送信恢复");
@@ -271,7 +271,7 @@ Anima.register("endocannabinoid", {
     }
     ctx.beginPath(); ctx.arc(D.x, D.y, r, 0, Math.PI * 2); ctx.fillStyle = mix("#d9d2d6", C.soma, free); ctx.fill(); outline(2); ctx.stroke();
     face(D.x, D.y + r * 0.1, r * 0.5, free > 0.5 ? 1 : -0.4);
-    if (free > 0.6) { glow(D.x, D.y, r * 1.8, C.gold, 0.4 + 0.3 * Math.sin(time * 9)); emote("!", D.x + r, D.y - r * 1.2, r * 0.5); }
+    if (free > 0.6) { glow(D.x, D.y, r * 1.8, C.gold, 0.4 + 0.3 * Math.sin(time * 9)); emote("!", D.x + (n ? -r * 1.1 : r), D.y - r * 1.2, r * 0.5); }
     else emote("zzz", D.x + r * 0.8, D.y - r * 1.1, r * 0.45);
     plate(n ? "多巴胺神经元" : "多巴胺神经元（VTA）", D.x, D.y + r + fs * 1.4 > H - fs ? H - fs : D.y + r + fs * 1.4, fs);
     // GABA 末梢压在上面
@@ -283,7 +283,7 @@ Anima.register("endocannabinoid", {
     const tx = lerp(W + cs * 3, gr.site.x, prog(1.6, 2)), ty = gr.site.y + cs * 3.25;
     if (lt > 1.6) chara(tx, ty, cs, Object.assign({}, THC, { arms: thc > 0.9 ? "up" : "wave", walk: thc < 1 ? time * 9 : null, eyes: "happy", mouth: "grin" }));
     callout("brake", lt > 0.6 && lt < 4, Gt.cx - Gt.w * 0.2, termY(Gt.cx - Gt.w * 0.2, Gt), n ? W * 0.5 : W * 0.5, H * 0.26, "GABA：踩着多巴胺神经元的刹车");
-    callout("thc", lt > 4 && lt < 7.8, gX + rs * 0.5, gY + rs, n ? W * 0.56 : W * 0.54, H * 0.26, "THC 结合 CB1 → GABA 少放");
+    callout("thc", lt > 4 && lt < 7.8, gX + rs * 0.5, gY + rs, n ? W * 0.7 : W * 0.54, n ? H * 0.9 : H * 0.26, "THC 结合 CB1 → GABA 少放");
     callout("dis", lt > 7.8 && lt < 10.6, D.x + r * 0.7, D.y - r * 0.7, n ? W * 0.56 : W * 0.54, H * 0.3, "刹车松开 = 去抑制");
     say("teen", lt > 10.6, N.x, N.y - R, n ? W * 0.64 : W * 0.62, H * 0.24, "青少年：长期大量使用，与精神病风险增加有关", "box");
     ctx.restore();
