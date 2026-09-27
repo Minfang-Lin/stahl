@@ -126,7 +126,7 @@ Anima.register("secondary-negative", {
       if (d.b > 0.5) {
         const stopY = siteY - cs * 3.2;
         if (p < 0.45) { const k = ease(p / 0.45); x = lerp(sx, d.x + cs * 0.4, k); y = lerp(sy, stopY, k); }
-        else { const k = (p - 0.45) / 0.55; x = d.x + cs * 0.4 + k * o.tw * 0.08; y = stopY - Math.sin(k * Math.PI) * H * 0.05 - k * H * 0.08; eyes = "teary"; mouth = "o"; a = 1 - k; if (k < 0.25) sfx("咚", d.x + cs * 1.8, stopY - cs * 2.6, fsz(0.03, 11), C.skyDeep, 0.1, 1); }
+        else { const k = (p - 0.45) / 0.55; x = d.x + cs * 0.4 + k * o.tw * 0.08; y = stopY - Math.sin(k * Math.PI) * H * 0.05 - k * H * 0.08; eyes = "teary"; mouth = "o"; a = 1 - k; if (k < 0.25) sfx("咚", d.x - cs * 1.7, stopY - cs * 2.2, fsz(0.03, 11), C.skyDeep, 0.1, 1); }
       } else {
         if (p < 0.5) { const k = ease(p / 0.5); x = lerp(sx, d.x, k); y = lerp(sy, siteY, k); }
         else { x = d.x; y = siteY; arms = "up"; item = null; mouth = "grin"; a = p > 0.85 ? (1 - p) / 0.15 : 1; d.act = Math.max(d.act, a); arrivals += kind ? 1 : 0; }
@@ -161,7 +161,7 @@ Anima.register("secondary-negative", {
     Anima.petals(6, 0.4, 21);
     const cx = W * (n ? 0.42 : 0.4), tw = W * (n ? 0.74 : 0.56);
     const g = synapse({ doors: 4, n: 4, cx, tw, period: 4.2, alarmOf: (i) => (blocked ? i % 2 === 0 : i % 3 !== 0), blk: (k) => (blocked ? prog(0.6 + k * 0.6, 1.2) : 0) });
-    tagBox("伏隔核 · 中脑边缘线", n ? W * 0.3 : W * 0.2, H * 0.68, fsz(0.028, 11), "#fff", C.ink, 1.3);
+    tagBox("伏隔核 · 中脑边缘线", n ? W * 0.3 : W * 0.2, H * (n ? 0.95 : 0.68), fsz(0.028, 11), "#fff", C.ink, 1.3);
     // 膜下的居民：收到爱心信就开心，收到太多警报就紧张
     const gr = blocked ? 0.85 * prog(5, 3) : 0;
     const rs = H * (n ? 0.065 : 0.07), rx = W * (n ? 0.86 : 0.86), ry = H * 0.97;
@@ -172,16 +172,16 @@ Anima.register("secondary-negative", {
     // 标注
     const pick = (kind) => { for (const c of g.cour) if (c.kind === kind && c.a > 0.8 && c.y < g.post - g.rs * 3) return c; return null; };
     const hc = pick(1), ac = pick(0);
-    const L1 = n ? [W * 0.26, H * 0.8] : [W * 0.2, H * 0.8], L2 = n ? [W * 0.26, H * 0.9] : [W * 0.44, H * 0.9];
+    const L1 = n ? [W * 0.28, H * 0.8] : [W * 0.2, H * 0.8], L2 = n ? [W * 0.28, H * 0.8] : [W * 0.44, H * 0.9];
     if (cur === 0) {
-      callout("heartL", t > 1 && t < 12.5 && !!hc, hc ? hc.x + g.cs : 0, hc ? hc.y - g.cs * 1.5 : 0, L1[0], L1[1], n ? "爱心信：奖赏和动力" : "爱心信：奖赏、动力、开心");
-      callout("alarmL", t > 4 && !!ac, ac ? ac.x + g.cs : 0, ac ? ac.y - g.cs * 1.5 : 0, L2[0], L2[1], n ? "警报信：发病时太多" : "警报信：“这很重要”，发病时太多");
+      callout("heartL", t > 1 && t < (n ? 6.5 : 12.5) && !!hc, hc ? hc.x + g.cs : 0, hc ? hc.y - g.cs * 1.5 : 0, L1[0], L1[1], n ? "爱心信：奖赏和动力" : "爱心信：奖赏、动力、开心");
+      callout("alarmL", t > (n ? 6.8 : 4) && !!ac, ac ? ac.x + g.cs : 0, ac ? ac.y - g.cs * 1.5 : 0, L2[0], L2[1], n ? "警报信：发病时太多" : "警报信：“这很重要”，发病时太多");
     }
     if (cur === 1) {
       const d0 = g.doors[1];
       callout("calm", t > 3 && t < 8, d0.x, g.post - g.rs * 3.5, L1[0], L1[1], n ? "警报少了：阳性症状减轻" : "警报被挡：幻觉、妄想减轻 ✓");
       callout("cost", t > 7.5, g.doors[3].x, g.post - g.rs * 3.5, L2[0], L2[1], n ? "爱心信也进不来" : "爱心信也被挡：快乐和动力变少");
-      say("sigh", t > 8.5, rx, ry - rs * 3.4, W * (n ? 0.68 : 0.78), H * (n ? 0.4 : 0.42), n ? "唉……\n没什么意思" : "唉……好像什么都没意思", "think");
+      say("sigh", t > 8.5, rx, ry - rs * 3.4, W * (n ? 0.64 : 0.78), H * (n ? 0.7 : 0.42), n ? "唉……\n没什么意思" : "唉……好像什么都没意思", "think");
     }
     ctx.restore();
   }
@@ -257,7 +257,7 @@ Anima.register("secondary-negative", {
     Anima.bokeh(5, "#ddd5fa", 0.7, 41);
     const cx = W * (n ? 0.36 : 0.32), tw = W * (n ? 0.5 : 0.38);
     const g = synapse({ doors: 2, n: 1, cx, tw, period: 5, alarmOf: () => false, blk: (k) => (cur === 3 ? prog(3 + k * 0.9, 1.2) : 0) });
-    tagBox("前额叶 · 中脑皮层线", n ? W * 0.28 : W * 0.2, H * 0.68, fsz(0.028, 11), "#fff", C.ink, 1.3);
+    tagBox("前额叶 · 中脑皮层线", n ? W * 0.75 : W * 0.2, H * (n ? 0.95 : 0.68), fsz(0.028, 11), "#fff", C.ink, 1.3);
     // 计划板：信号越少，字越乱
     const blur = cur === 3 ? prog(6, 3) : 1;
     const bx = W * (n ? 0.08 : 0.06), bw = W * (n ? 0.3 : 0.2), by = H * 0.74, bh = H * 0.2;

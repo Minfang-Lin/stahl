@@ -320,11 +320,11 @@ Anima.register("adhd-development", {
     chara(W * P[1], gy, hs, { who: "neuron", hair: "#5a6a8a", cloth: "#d9ecff", glasses: true, arms: "hold", item: "book", eyes: "open", tag: "老师" });
     chara(W * P[2], gy, hs, { who: "neuron", hair: "#8a7a6a", cloth: "#ffffff", glasses: true, dir: -1, arms: "point", eyes: "happy", tag: "医生" });
     chara(R, gy, hs, { who: "drug", label: "药", dir: -1, arms: "wave", eyes: "happy", tag: "必要时" });
-    worker(bx + bw * 0.32, gy - fh * floors, H * 0.04, { arms: "up", eyes: "sparkle", mouth: "grin", jump: Math.abs(Math.sin(time * 3)) * 0.2 });
-    sparkles(bx + bw * 0.32, gy - fh * floors - H * 0.08, H * 0.08, 3, 0.8, 9);
+    worker(bx + bw / 2 + H * 0.07, gy - fh * floors, H * 0.04, { arms: "up", eyes: "sparkle", mouth: "grin", jump: Math.abs(Math.sin(time * 3)) * 0.2 });
+    sparkles(bx + bw / 2 + H * 0.07, gy - fh * floors - H * 0.08, H * 0.08, 3, 0.8, 9);
     callout("sup", lt > 2 && lt < 7, W * (P[0] + P[1]) / 2, gy - hs * 3.2, n ? W * 0.3 : W * 0.24, top + H * 0.12, "行为训练 · 学校支持");
-    callout("rx", lt > 5 && lt < 10, W * (P[2] + P[3]) / 2, gy - hs * 3.2, n ? W * 0.78 : W * 0.78, n ? H * 0.5 : top + H * 0.22, "必要时由医生用药");
-    say("kid", lt > 9.5, bx + bw * 0.32, gy - fh * floors - H * 0.12, n ? W * 0.2 : W * 0.26, n ? H * 0.4 : top + H * 0.14, "不是懒，也不是故意的——我在慢慢长～", "say");
+    callout("rx", lt > 5 && lt < 10, W * (P[2] + P[3]) / 2, gy - hs * 3.2, n ? W * 0.8 : W * 0.78, n ? H * 0.6 : top + H * 0.22, "必要时由医生用药");
+    say("kid", lt > 10, bx + bw / 2 + H * 0.07, gy - fh * floors - H * 0.12, n ? W * 0.8 : W * 0.26, n ? H * 0.45 : top + H * 0.14, n ? "我在慢慢长～" : "不是懒，也不是故意的——我在慢慢长～", "say");
     ctx.restore();
   }
 

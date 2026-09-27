@@ -155,14 +155,14 @@ Anima.register("rna-splicing", {
     ctx.restore();
     // 从 DNA 到胶片的抄写光束
     if (p > 0 && p < 1) { glow(px, (dnaY + sy) / 2, H * 0.08, C.gold, 0.6); sparkles(px, dnaY + H * 0.05, H * 0.05, 3, 1, Math.floor(time * 3)); }
-    const fy = sy - sh / 2 - H * 0.03;
+    const fy = sy - sh / 2 - H * 0.055;
     chara(px, fy, s, Object.assign({}, poly, { walk: p > 0 && p < 1 ? time * 9 : null, arms: p < 1 ? "hold" : "wave", item: p < 1 ? "book" : null, eyes: p < 1 ? "open" : "happy", tag: "RNA 聚合酶" }));
     const done = lt > 7.6;
     const L = preLayout(x0, x1 - x0);
     callout("ex", done && lt < 12, L[2].x + L[2].w / 2, sy + sh / 2, L[2].x + L[2].w / 2, H * 0.92, "外显子：要留下的镜头");
     callout("in", done && lt > 9.3, L[3].x + L[3].w / 2, sy + sh / 2, L[5].x + W * 0.02, H * 0.92, "内含子：大多要剪掉");
     say("copy", lt > 1.2 && lt < 6.8, px, fy - s * 3, clamp(px + W * 0.16, W * 0.2, W * 0.8), H * 0.55, "照着基因抄一遍～", "say");
-    say("film", done, px, fy - s * 3, W * 0.62, H * 0.55, "前体 mRNA：原始胶片！", "box");
+    say("film", done, px, fy - s * 3, W * (nar() ? 0.45 : 0.6), H * 0.55, "前体 mRNA：原始胶片！", "box");
     ctx.restore();
   }
 
@@ -193,7 +193,7 @@ Anima.register("rna-splicing", {
     const k = clamp(Math.floor((lt - 1) / 1.1), 0, 2);
     const tx = lt < 5.3 ? cuts[k].x + cuts[k].w / 2 : W * 0.5;
     const ex = lerp(W * 0.12, tx, prog(0.2, 1.2));
-    const fy = y - h / 2 - H * 0.03;
+    const fy = y - h / 2 - H * 0.055;
     chara(ex, fy, s, Object.assign({}, editor, { item: lt < 5.3 ? "scissors" : null, arms: lt < 5.3 ? "hold" : "up", eyes: lt < 5.3 ? "open" : "happy", mouth: lt < 5.3 ? "smile" : "grin", tag: "剪接工" }));
     for (let i = 0; i < 3; i++) {
       const t0 = 1.6 + i * 1.1;
@@ -238,7 +238,7 @@ Anima.register("rna-splicing", {
     const s = cs();
     chara(W / 2, H * 0.88, s, Object.assign({}, editor, { item: "scissors", arms: lt > 6 ? "wave" : "hold", eyes: lt > 6 ? "happy" : "open", tag: "剪接工" }));
     say("alt", lt > 3 && lt < 8.5, W / 2, H * 0.88 - s * 3.1, W / 2, H * 0.6, "跳过 3 号～", "think");
-    say("trailer", lt > 9, W / 2, H * 0.88 - s * 3.1, W / 2, H * 0.62, nar() ? "都来自同一卷！" : "正片和预告片，都来自同一卷！", "say");
+    say("trailer", lt > 9 && !n, W / 2, H * 0.88 - s * 3.1, W / 2, H * 0.57, nar() ? "都来自同一卷！" : "正片和预告片，都来自同一卷！", "say");
     callout("alt", lt > 6.5, W / 2 + pw / 2, top, W * (n ? 0.86 : 0.84), top + H * 0.02, "可变剪接");
     ctx.restore();
   }
@@ -274,7 +274,7 @@ Anima.register("rna-splicing", {
     ctx.strokeStyle = C.line; ctx.lineWidth = 3; ctx.stroke();
     ctx.beginPath(); ctx.arc(nx, ny, nr - 7, 0.26, Math.PI * 2 - 0.26); ctx.strokeStyle = "rgba(143,132,224,0.5)"; ctx.lineWidth = 2; ctx.stroke();
     helix(nx - nr * 0.7, nx + nr * 0.35, ny - nr * 0.55, H * 0.02, 0.9);
-    text("细胞核", nx, ny + nr * 0.82, fsz(0.03), "#6b61c9");
+    text("细胞核", nx, ny - nr * 0.8, fsz(0.03), "#6b61c9");
     text("细胞质", W * 0.88, H * 0.92, fsz(0.03), C.soft);
     // 发夹 RNA：先在核里折好，再被输出蛋白扛出核孔
     const born = prog(0.8, 1.4), carry = prog(3.2, 3.2), chop = lt > 7.4;
@@ -335,7 +335,7 @@ Anima.register("rna-splicing", {
     if (stopped) emote("?", rx + H * 0.07, my - H * 0.16, H * 0.04);
     // RISC 拿着小 RNA 从右边走来
     const come = prog(2.2, 3.6);
-    const kx = lerp(W * 1.02, tgt + W * 0.02, come), ky = my - mh / 2 - H * 0.02;
+    const kx = lerp(W * 0.95, tgt + W * 0.02, come), ky = my - mh / 2 - H * 0.02;
     piece(lerp(kx - s * 0.2, tgt, pair), lerp(ky - s * 2.1, my - mh * 0.15, pair), H * 0.05, 0, "#8f84e0");
     chara(kx + (pair > 0 ? W * 0.04 * pair : 0), ky, s, { who: "neuron", hair: "#9a8fe0", eye: "#5c52c4", cloth: "#e4e0ff", hat: "cap", hatColor: C.risc, label: "RISC", style: "pony", arms: pair > 0 ? "point" : "hold", dir: -1, walk: come > 0 && come < 1 ? time * 9 : null, eyes: cutT > 0.5 ? "happy" : "open", tag: "RISC" });
     if (lt > 8.2 && lt < 9.6) sfx("咔！", tgt, my - H * 0.12, fsz(0.05), "#8f84e0", -0.1, Math.sin((lt - 8.2) / 1.4 * Math.PI));
@@ -352,7 +352,7 @@ Anima.register("rna-splicing", {
     ctx.save(); ctx.globalAlpha *= a;
     Anima.wash("#fff7f2", "#f7effd");
     Anima.petals(12, 0.6, 80);
-    const top = Anima.topSafe() + H * 0.07, gap = W * 0.025, cw = (W - gap * 4) / 3, ch = H * 0.8 - top;
+    const top = Anima.topSafe() + H * 0.07, gap = W * 0.025, cw = (W - gap * 4) / 3, ch = H * (nar() ? 0.76 : 0.8) - top;
     const titles = ["种类变多", "受体分版本", "小 RNA 调音量"], cols = ["#fff1b8", "#ffe0ea", "#e4e0ff"];
     const fs = fsz(nar() ? 0.022 : 0.026);
     for (let i = 0; i < 3; i++) {
@@ -375,9 +375,8 @@ Anima.register("rna-splicing", {
         Anima.receptor(cx + cw * 0.22, ry, rs * 0.8, "#ffc3d4", 0.5 + 0.4 * Math.sin(time * 2 + 1), {});
         text("D2 长", cx - cw * 0.22, ry + H * 0.05, fs, C.ink);
         text("D2 短", cx + cw * 0.22, ry + H * 0.05, fs, C.ink);
-        chara(cx, top + ch * 0.44, Math.min(H * 0.042, cw * 0.1), { who: "DA", eyes: "sparkle", arms: "hold", item: "letter", shadow: false });
-        text("同一个基因", cx, top + ch * 0.12, fs, C.ink);
-        text("两种剪法", cx, top + ch * 0.2, fs, C.ink);
+        chara(cx, top + ch * 0.52, Math.min(H * 0.042, cw * 0.1), { who: "DA", eyes: "sparkle", arms: "hold", item: "letter", shadow: false });
+        if (!nar()) { text("同一个基因", cx, top + ch * 0.12, fs, C.ink); text("两种剪法", cx, top + ch * 0.2, fs, C.ink); }
       } else {
         // 音量推子：小 RNA 把某个蛋白的产量往下推
         const sx = cx, sy0 = top + ch * 0.24, sy1 = top + ch * 0.66, v = 0.5 + 0.3 * Math.sin(time * 0.9);

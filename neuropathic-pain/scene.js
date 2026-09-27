@@ -290,7 +290,7 @@ Anima.register("neuropathic-pain", {
     // 突触前末梢（初级传入纤维）
     Anima.terminal(g.cx, 0, g.tw, g.th, C.term);
     text("疼痛纤维的末梢", g.cx, Math.max(g.th * 0.45, Anima.topSafe() + fsS() * 0.6), fsS() * 0.8, C.ink);
-    text("后角神经元", W * (n ? 0.5 : 0.42), g.post + (H - g.post) * 0.62, fsS() * 0.8, C.soft);
+    text("后角神经元", W * (n ? 0.26 : 0.19), g.post + (H - g.post) * 0.55, fsS() * 0.8, C.soft);
     // 电压门控钙通道（第 5 幕放大看）
     const busy = (i) => i < 2;
     const drugA = cur === 4 ? P(3.4, 1.4) : 0;
@@ -370,7 +370,7 @@ Anima.register("neuropathic-pain", {
       callout("s-p", n ? win(1.2, 4.2) : win(1.2, 7.2), g.recX[2] + g.rs, g.post - g.rs * 1.1, n ? W * 0.45 : g.recX[2] + W * 0.06, g.th + H * 0.03, "磷酸化 + 多装一扇门");
       callout("s-more", n ? win(4.4, 7.2) : win(3, 7.2), g.cx + g.tw * 0.1, g.termY(g.cx) + g.gs * 2, n ? W * 0.3 : g.cx - W * 0.12, g.th + H * 0.03, "谷氨酸放得更多");
       callout("s-touch", lt > 7.6, W * (n ? 0.06 : 0.07), g.th * 0.78, n ? W * 0.3 : W * 0.22, g.th + H * 0.04, "轻触的信号也被当成痛");
-      say("s-ouch", lt > 8.4, n ? W * 0.08 : W * 0.07, g.post + H * 0.04, n ? W * 0.3 : W * 0.26, lowY, "轻轻一碰也好痛！", "shout");
+      say("s-ouch", lt > 8.4, n ? W * 0.08 : W * 0.07, g.post + H * 0.04, n ? W * 0.3 : W * 0.46, lowY, "轻轻一碰也好痛！", "shout");
     }
     if (cur === 4) {
       const c0 = chan[0];
@@ -401,11 +401,11 @@ Anima.register("neuropathic-pain", {
       ctx.save(); ctx.globalAlpha *= p;
       card(x, y, cw, chh, T[i], cols[i]);
       chip(sites[i], x + cw / 2, y + chh - fs * 1.2, "#fffaf0", fs);
-      const cx = x + cw / 2, my = y + chh * 0.4, s = Math.min(H * 0.055, cw * 0.12), tg = tags[i];
+      const cx = x + cw / 2, my = y + chh * 0.46, s = Math.min(H * 0.055, cw * 0.12), tg = tags[i];
       if (i === 0) { // 神经上的钠通道被挡住，火花熄掉
         tube([[x + cw * 0.06, my], [x + cw * 0.94, my]], C.fiberC, H * 0.034);
         for (let k = 0; k < 3; k++) Anima.receptor(x + cw * (0.2 + k * 0.3), my - H * 0.017, H * 0.03, C.na, 0, { shape: "square" });
-        chara(x + cw * 0.5, my - H * 0.075, s, { who: "drug", hatColor: "#8fc8f0", arms: "shh", eyes: "closed", mouth: "cat", tag: tg });
+        chara(x + cw * 0.5, my - H * 0.02, s, { who: "drug", hatColor: "#8fc8f0", arms: "shh", eyes: "closed", mouth: "cat", tag: tg });
         const fz = (time * 0.8) % 1;
         Anima.bolt(x + cw * 0.8, my + H * 0.08, s * 0.6 * (1 - fz), 1 - fz, C.gold);
         sfx("嘘…", x + cw * 0.22, my + H * 0.09, H * 0.04, C.skyDeep, -0.1, 1);
@@ -426,7 +426,7 @@ Anima.register("neuropathic-pain", {
     }
     const ty = Anima.topSafe() + H * 0.01;
     const ly = top + chh * 0.8;
-    if (pos[0]) callout("m-na", lt > 1, pos[0].cx, pos[0].my, pos[0].cx, ly, n ? "异常放电熄火" : "挡住钠通道：异常放电熄火");
+    if (pos[0]) callout("m-na", lt > 1, pos[0].x + cw * 0.8, pos[0].my, pos[0].cx, ly, n ? "异常放电熄火" : "挡住钠通道：异常放电熄火");
     if (pos[1]) callout("m-ca", lt > 3.8, pos[1].cx - cw * 0.16, pos[1].my - H * 0.06, pos[1].cx, ly, n ? "少放递质" : "少放递质：后角安静些");
     if (pos[2]) callout("m-ne", lt > 6.4, pos[2].cx - cw * 0.2, pos[2].my, pos[2].cx, ly, n ? "下行刹车" : "NE 经 α2 受体踩刹车");
     ctx.restore();

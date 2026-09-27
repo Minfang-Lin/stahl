@@ -342,8 +342,8 @@ Anima.register("dopamine-lifecycle", {
     chara(wk.x, wk.y, s * 1.1, Object.assign({}, DBH, { arms: popAt ? "up" : "hold", item: "star", eyes: "happy", mouth: popAt ? "grin" : "smile", tag: "β-羟化酶" }));
     if (popAt) sfx("变！", popAt.x + s * 0.5, popAt.y - s * 3.8, fz(0.032), "#c23a4a", -0.1, 1);
     text("VMAT2", door.x - fz(0.022) * 0.6, door.y - vr * 0.3, fz(0.022), "#3f8f6c", "right");
-    callout("dbh", win(1.2, 6.5), wk.x - s * 0.8, wk.y - s * 2.5, W * (nw ? 0.3 : 0.26), nw ? py0 + H * 0.1 : H * 0.36, "多巴胺 β-羟化酶：在囊泡里");
-    say("ne", lt > 6.5, home[0][0], home[0][1] - s * 2.7, W * (nw ? 0.25 : 0.24), nw ? py0 + H * 0.13 : H * 0.4, "我变成去甲肾上腺素啦！", nw ? "say" : "shout");
+    callout("dbh", win(1.2, 6), wk.x - s * 0.8, wk.y - s * 2.5, W * (nw ? 0.3 : 0.26), nw ? py0 + H * 0.1 : H * 0.36, "多巴胺 β-羟化酶：在囊泡里");
+    say("ne", lt > 6.8, home[0][0], home[0][1] - s * 2.7, W * (nw ? 0.25 : 0.24), nw ? py0 + H * 0.13 : H * 0.4, "我变成去甲肾上腺素啦！", nw ? "say" : "shout");
     ctx.restore();
   }
 

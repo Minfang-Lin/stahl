@@ -82,7 +82,7 @@ Anima.register("treatment-outcomes", {
   // 症状曲线图：sev(t) 返回 0～1（1 = 治疗前），p 是已画到的时间比例
   function chart(B, o) {
     card(B.x, B.y, B.w, B.h);
-    const fs = fz(0.024), phase = o.phase;
+    const fs = fz(Anima.narrow ? 0.024 : 0.03), phase = o.phase;
     const ax = B.x + fs * 1.4, aw = B.w - fs * 2.2, ay = B.y + fs * 2.2, ah = B.h - fs * (phase ? 5.6 : 4.2);
     const X = (t) => ax + t * aw, Y = (s) => ay + ah * (1 - s / 1.08);
     // 缓解区

@@ -16,12 +16,13 @@
   // 这一帧已经画出来的文字和方框（设备像素）：标注和气泡放置时会避开它们
   const frameObs = [];
   let obsOn = false; // 只记主画布 draw() 期间画的
+  let obsMute = false; // 正在淡出的标注/气泡：它马上就要消失，不该把新出现的标注挤开
   const hasT = typeof CanvasRenderingContext2D.prototype.getTransform === "function"; // Chrome 61 没有，就不做避让
   if (hasT) {
     ["fillText", "strokeText"].forEach((fn) => {
       const orig = CanvasRenderingContext2D.prototype[fn];
       CanvasRenderingContext2D.prototype[fn] = function (t, x, y) {
-        if (obsOn && this === ctx && !window.__inChara && this.globalAlpha > 0.3) {
+        if (obsOn && !obsMute && this === ctx && !window.__inChara && this.globalAlpha > 0.3) {
           const fs = parseFloat((this.font.match(/([\d.]+)px/) || [0, 12])[1]);
           const w = this.measureText(t).width, T = this.getTransform();
           const al = this.textAlign, bl = this.textBaseline;
@@ -753,6 +754,7 @@
   function say(key, on, tx, ty, bx, by, t, kind = "say", color) {
     const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 6.3));
     if (a < 0.02) { delete placeMemo["say:" + key]; return; }
+    obsMute = !on;
     ctx.save(); ctx.globalAlpha *= clamp(a * 1.4, 0, 1);
     const fs = Math.max(12, W / 58) * UI;
     ctx.font = `${fs}px ${ROUND}`;
@@ -826,13 +828,15 @@
     lines.forEach((l, i) => ctx.fillText(l, 0, -h / 2 + pad * (kind === "shout" ? 0.65 : 0.55) + lh * (i + 0.5) + 1));
     ctx.textAlign = "left";
     ctx.restore();
-    if (a > 0.3) pushObs(cx - w * ex / 2, cy - h * ex / 2, w * ex, h * ex);
+    obsMute = false;
+    if (on && a > 0.3) pushObs(cx - w * ex / 2, cy - h * ex / 2, w * ex, h * ex);
   }
 
   // 名词标注：(tx, ty) 指向的点，(lx, ly) 标签位置
   function callout(key, on, tx, ty, lx, ly, t) {
     const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 5));
     if (a < 0.02) { delete placeMemo["callout:" + key]; return; }
+    obsMute = !on;
     ctx.save();
     ctx.globalAlpha *= a;
     const fs = Math.max(12, W / 58) * UI;
@@ -857,7 +861,8 @@
     ctx.fillStyle = C.ink; ctx.textBaseline = "middle";
     ctx.fillText(t, bx + fs * 1.15, by + bh / 2 + 1);
     ctx.restore();
-    if (a > 0.3) pushObs(bx, by, w, bh);
+    obsMute = false;
+    if (on && a > 0.3) pushObs(bx, by, w, bh);
   }
 
   // 角落里的数值胶囊
@@ -1064,7 +1069,7 @@
     ctx.globalAlpha = 1; leftPillEnd = 0; pillRowsNow = 1;
     if (window.__LAYOUT) window.__LAYOUT.length = 0;
     ctx.textAlign = "left"; ctx.setLineDash([]);
-    frameObs.length = 0; obsOn = true;
+    frameObs.length = 0; obsOn = true; obsMute = false;
     try { sync(); ep.cfg.draw(); } finally { obsOn = false; }
     pillRows = pillRowsNow;
   }
