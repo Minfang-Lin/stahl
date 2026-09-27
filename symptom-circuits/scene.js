@@ -382,7 +382,8 @@ Anima.register("symptom-circuits", {
       ctx.restore();
     }
     ctx.restore();
-    say("cp-a", win(3.5, 7.5), gap + w * 0.5, top + h * 0.5, gap + w * 0.5, top + h * 0.52, "同一个名字，亮的回路不一样", "box");
+    // 手机上左边卡片塞满了症状卡，这时右边卡片还空着，旁白框放右边
+    say("cp-a", win(3.5, 7.5), gap + w * 0.5, top + h * 0.5, N() ? W - gap - w * 0.5 : gap + w * 0.5, top + h * 0.52, "同一个名字，亮的回路不一样", "box");
     callout("cp-s", lt > 10.5, rx0 + w / 2, top + h * 0.64, rx0 + w / 2, H * 0.97, "同一套睡眠觉醒回路");
     ctx.restore();
   }
