@@ -133,7 +133,7 @@
 
   // ---------- 3. 机制片段：直接播放真实的小剧场 ----------
   const CLIPS = [
-    { id: "synapse", ch: 2, at: 0.6, q: "神经递质是怎么送信的？" },
+    { id: "synapse", ch: 2, at: 1.8, q: "神经递质是怎么送信的？" },
     { id: "antidepressants", ch: 0, at: 1.5, q: "SSRI 到底堵住了什么？" },
     { id: "gaba-system", ch: 2, at: 1.5, q: "GABA 为什么是大脑的刹车？" },
     { id: "ketamine", ch: 2, at: 1.0, q: "氯胺酮为什么起效这么快？" },
