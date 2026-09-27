@@ -104,7 +104,8 @@ Anima.register("pain", {
     const q = a0 + span * clamp(v, 0, 1);
     ctx.strokeStyle = C.line; ctx.lineWidth = Math.max(2, r * 0.14); ctx.lineCap = "round";
     ctx.beginPath(); ctx.moveTo(x + Math.cos(q) * r * 0.2, y + Math.sin(q) * r * 0.2); ctx.lineTo(x + Math.cos(q) * r * 0.75, y + Math.sin(q) * r * 0.75); ctx.stroke();
-    if (label) text(label, x, y + r * 1.62, Math.max(10, r * 0.38) * Anima.UI, C.soft);
+    // 手机上字有最小字号，比旋钮大：按字号往下让，不压在外圈上
+    if (label) { const lf = Math.max(10, r * 0.38) * Anima.UI; text(label, x, y + r * 1.35 + lf * 0.72, lf, C.soft); }
   }
   function station(x, y, w, h, label, color, gray) {
     const col = gray ? mix(color, "#d8d2d6", gray) : color;
@@ -359,7 +360,8 @@ Anima.register("pain", {
       callout("m-soft", n ? win(2.4, 4.8) : win(2.4, 13), A.tip.x, A.tip.y - H * 0.04, n ? W * 0.3 : W * 0.14, n ? ty : H * 0.56, "轻轻一碰也痛");
       callout("m-sens", n ? win(5.2, 7.8) : lt > 4.2, g.knobP.x, g.knobP.y - g.knobP.r * 1.35, n ? W * 0.55 : g.knobP.x + W * 0.1, n ? ty : H * 0.62, "中枢敏化：音量被调大");
       callout("m-glu", n ? lt > 8.2 : lt > 6, ascMid.x, ascMid.y, n ? W * 0.4 : ascMid.x + W * 0.08, n ? ty : H * 0.2, "谷氨酸信号被放大");
-      say("m-hurt", lt > 9, C0.x, C0.y - C0.r, n ? W * 0.7 : W * 0.8, H * (n ? 0.78 : 0.8), n ? "伤好了还痛！" : "伤不是好了吗…还痛！", "think");
+      // 手机上放到右下角，不盖住“音量”旋钮
+      say("m-hurt", lt > 9, C0.x, C0.y - C0.r, n ? W * 0.8 : W * 0.8, H * (n ? 0.86 : 0.8), n ? "伤好了还痛！" : "伤不是好了吗…还痛！", "think");
     }
     if (c3) {
       callout("m-stem", n ? win(0.8, 3.6) : win(0.8, 7.4), g.stem.x - H * 0.09, g.stem.y - H * 0.05, n ? W * 0.3 : W * 0.14, n ? ty : H * 0.2, "脑干：下行抑制通路");
@@ -436,7 +438,8 @@ Anima.register("pain", {
     }
     const sy = stripY();
     if (out[0] && out[0].pt) callout("c-neuro", n ? win(2.8, 6.2) : lt > 2.8, out[0].pt.x, out[0].pt.y, n ? W * 0.5 : W * 0.34, sy, n ? "神经本身受了伤" : "神经病理性疼痛：神经本身出了问题");
-    if (out[2] && out[2].head) say("c-fibro", lt > 6.4, out[2].head.x, out[2].head.y, n ? W * 0.7 : out[2].head.x, n ? H * 0.9 : top + chh * 0.25, n ? "浑身酸痛…" : "浑身酸痛，还睡不好…", "think");
+    // 手机上等底部“神经本身受了伤”完全淡出再出现，否则会被挤到上面、盖住纤维肌痛那个人的脸
+    if (out[2] && out[2].head) say("c-fibro", lt > (n ? 7 : 6.4), out[2].head.x, out[2].head.y, n ? W * 0.7 : out[2].head.x, n ? H * 0.9 : top + chh * 0.25, n ? "浑身酸痛…" : "浑身酸痛，还睡不好…", "think");
     ctx.restore();
   }
 
@@ -558,7 +561,7 @@ Anima.register("pain", {
     knob(kx, ky, kr, v, "疼痛音量");
     if (done >= 4) sparkles(kx, ky, kr * 1.8, 6, 1, 4);
     const cs = H * (n ? 0.052 : 0.05);
-    const xs = n ? [0.12, 0.37, 0.63, 0.88] : [0.14, 0.38, 0.62, 0.86];
+    const xs = n ? [0.1, 0.32, 0.56, 0.84] : [0.14, 0.38, 0.62, 0.86];
     const labels = ["运动", "睡眠", "心理治疗", "药物"];
     const heads = [];
     for (let i = 0; i < 4; i++) {
@@ -594,7 +597,8 @@ Anima.register("pain", {
       }
     }
     const ty = topY();
-    callout("t-knob", n ? win(6.2, 8.4) : win(6.2, 13), kx + kr, ky - kr, n ? W * 0.5 : kx + W * 0.2, n ? ty : H * 0.2, "一起把音量慢慢调小");
+    // 手机上等它淡出后再出横幅，两条不叠在一起
+    callout("t-knob", n ? win(6.2, 7.9) : win(6.2, 13), kx + kr, ky - kr, n ? W * 0.5 : kx + W * 0.2, n ? ty : H * 0.2, "一起把音量慢慢调小");
     if (heads[0]) say("t-walk", win(1.4, 5.4), heads[0].x, heads[0].y, heads[0].x + W * (n ? 0.1 : 0.06), H * (n ? 0.3 : 0.3), "每天走一走～", "say");
     if (n) {
       banner("t-nsaid", win(8.4, 10.4), W / 2, ty + H * 0.04, "消炎止痛药（NSAIDs）：主要对炎症痛", C.warn);

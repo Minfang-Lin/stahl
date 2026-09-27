@@ -373,7 +373,11 @@ Anima.register("inflammation-depression", {
       const k = clamp(Math.floor(vi), 0, n - 1), f = clamp(vi - k, 0, 1), p0 = pos(k), p1 = pos(Math.min(n - 1, k + 1));
       const same = Math.floor(k / cols) === Math.floor(Math.min(n - 1, k + 1) / cols);
       const px = f < 0.6 || !same ? p0[0] : lerp(p0[0], p1[0], (f - 0.6) / 0.4);
-      chara(px - s * 1.1, p0[1] + s * 0.5, s * 0.8, { who: "drug", hatColor: "#ffb36b", tag: "抗炎（研究中）", walk: time * 9, eyes: "happy", dir: 1 });
+      // 名牌比人宽：站在最左边一位旁边时往右挪一点、在最下一排时往上提一点，名牌不出画面
+      const tf = Math.max(4.2 * s * 0.8 / 10, 10 * Anima.UI);
+      ctx.font = `${tf}px ${Anima.ROUND}`;
+      const half = ctx.measureText("抗炎（研究中）").width / 2 + tf * 0.45 + 4;
+      chara(Math.max(px - s * 1.1, half), Math.min(p0[1] + s * 0.5, H - tf * 1.6 - 6), s * 0.8, { who: "drug", hatColor: "#ffb36b", tag: "抗炎（研究中）", walk: time * 9, eyes: "happy", dir: 1 });
     }
     callout("crp", win(1.5, 4.5), cw * 1.7 + s * 1.1, rowY(0) - s * 0.6, nw ? W * 0.5 : W * 0.4, top + H * 0.04, "炎症指标偏高（如 CRP、IL-6）");
     // 手机上方框放在两排中间（第一排的腿和第二排的云那里），字短一点排成两行，不盖住任何人的脸

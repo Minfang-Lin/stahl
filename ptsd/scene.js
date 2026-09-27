@@ -450,10 +450,11 @@ Anima.register("ptsd", {
       say("p-ne", win(n ? 8.8 : 6.2, n ? 10.8 : 10.4), G.x, G.y - G.s * 3.2, G.x + W * (n ? 0.22 : 0.12), H * (n ? 0.3 : 0.2), "记住了！这些＝危险！", "shout");
     }
     if (c3 && hq) {
-      callout("p-pfc", n ? win(1.8, 5) : lt > 1.8, hq.feet.x + hq.cs * 1.9, hq.feet.y - hq.cs * 3.2, n ? W * 0.55 : hq.feet.x + W * 0.1, n ? ty : H * 0.2, "前额叶：学到“现在安全”");
-      callout("p-gaba", n ? win(5, 8.4) : lt > 4.5, Gb.x, Gb.y - Gb.s * 3.2, n ? W * 0.35 : Gb.x + W * 0.02, n ? ty : H * 0.17, "GABA：在杏仁核里踩刹车");
-      callout("p-old", n ? win(8.4, 10.6) : lt > 7.6, D.x - D.w * 0.45, D.y - D.h * 1.2, n ? W * 0.45 : D.x + W * 0.24, n ? ty : H * 0.74, "旧记忆还在，只是被压住");
-      say("p-safe", lt > (n ? 10.6 : 9.8), P.x, P.y - P.s * 3.2, P.x - W * (n ? 0.2 : 0.18), n ? ty : H * 0.62, "嗯，现在是安全的", "say");
+      // 手机上几条标注和最后的气泡轮流用顶部同一个位置：前后错开半秒，后一条不会被还在淡出的前一条挤到人脸上
+      callout("p-pfc", n ? win(1.8, 4.7) : lt > 1.8, hq.feet.x + hq.cs * 1.9, hq.feet.y - hq.cs * 3.2, n ? W * 0.55 : hq.feet.x + W * 0.1, n ? ty : H * 0.2, "前额叶：学到“现在安全”");
+      callout("p-gaba", n ? win(5.2, 8.2) : lt > 4.5, Gb.x, Gb.y - Gb.s * 3.2, n ? W * 0.35 : Gb.x + W * 0.02, n ? ty : H * 0.17, "GABA：在杏仁核里踩刹车");
+      callout("p-old", n ? win(8.7, 10.4) : lt > 7.6, D.x - D.w * 0.45, D.y - D.h * 1.2, n ? W * 0.45 : D.x + W * 0.24, n ? ty : H * 0.74, "旧记忆还在，只是被压住");
+      say("p-safe", lt > (n ? 10.9 : 9.8), P.x, P.y - P.s * 3.2, P.x - W * (n ? 0.2 : 0.18), n ? ty : H * 0.62, "嗯，现在是安全的", "say");
     }
     void midCable;
     ctx.restore();
@@ -801,10 +802,11 @@ Anima.register("ptsd", {
     }
     const ty = topY();
     const stripY = H * 0.9 - (Math.max(12, W / 58) * Anima.UI + 14) / 2;
-    callout("m-ssri", n ? win(1.6, 4.8) : win(1.6, 13), vx, gL - s * 3.2, n ? W * 0.3 : L.x + L.w * 0.6, n ? stripY : L.y + L.h * 0.08 + H * 0.06, "几周里慢慢调低灵敏度");
-    if (pz) callout("m-pz", n ? win(4.8, 8.6) : lt > 4.8, rx, ry - s * 1.8, n ? W * 0.62 : R.x + R.w * 0.6, n ? stripY : R.y + R.h * 0.08 + H * 0.06, "哌唑嗪：挡住 α1 门");
+    callout("m-ssri", n ? win(1.6, 4.4) : win(1.6, 13), vx, gL - s * 3.2, n ? W * 0.3 : L.x + L.w * 0.6, n ? stripY : L.y + L.h * 0.08 + H * 0.06, "几周里慢慢调低灵敏度");
+    // 手机上三条都用底部同一个位置：前后错开半秒，后一条不会被挤到人脸上
+    if (pz) callout("m-pz", n ? win(4.9, 8.3) : lt > 4.8, rx, ry - s * 1.8, n ? W * 0.62 : R.x + R.w * 0.6, n ? stripY : R.y + R.h * 0.08 + H * 0.06, "哌唑嗪：挡住 α1 门");
     if (pz) say("m-pzs", win(5.4, 8.8), pz.x, pz.y, R.x + R.w * 0.5, R.y + R.h * (n ? 0.3 : 0.45), "夜里的警报，小声点～", "say");
-    say("m-bzd", lt > 8.8, W / 2, H * 0.9, W / 2, H * 0.9, "苯二氮䓬：一般不推荐用于 PTSD", "box");
+    say("m-bzd", lt > (n ? 8.9 : 8.8), W / 2, H * 0.9, W / 2, H * 0.9, "苯二氮䓬：一般不推荐用于 PTSD", "box");
     ctx.restore();
   }
 
