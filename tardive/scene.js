@@ -167,7 +167,8 @@ Anima.register("tardive", {
     if (t > 8 && t < 99) {
       const q = ((t - 8) * 0.18) % 1, dx = lerp(x0 - sp, x1 + sp, q);
       chara(dx, post - H * 0.16 - Math.abs(Math.sin(time * 5)) * H * 0.01, cs * 0.9, { who: "DA", eyes: "wide", mouth: "o", arms: "up", shadow: false, walk: time * 8 });
-      sfx("叮铃铃", dx, post - H * 0.31, fsz(0.034, 12), "#e7a23a", -0.1, 0.9);
+      const fq = fsz(0.034, 12); // 字别跑出画面
+      sfx("叮铃铃", clamp(dx, fq * 2.2, W - fq * 2.2), post - H * 0.31, fq, "#e7a23a", -0.1, 0.9);
     }
     // 右上：日历翻页
     if (!n) {
@@ -333,7 +334,7 @@ Anima.register("tardive", {
       const s = H * (n ? 0.045 : 0.05);
       chara(b[0], bb - h, s, O(b[3], { eyes: "happy", mouth: i ? "smile" : "flat", arms: i ? "wave" : "down", shadow: false, tag: b[4] }));
     });
-    text("迟发性运动障碍风险", (bx0 + bx1) / 2, bb + fsz(0.028, 11) * 1.4, fsz(0.026, 10), C.soft);
+    text("迟发性运动障碍风险", (bx0 + bx1) / 2, bb + fsz(0.028, 11) * 2.6, fsz(0.026, 10), C.soft); // 留出名牌的位置
     const on = cur === 3;
     const hy = bb - (bb - bt) * 0.35 * grow - H * 0.05 * 3.2;
     callout("notzero", on && t > 6.5, bx1 + bw * 0.5, bb - (bb - bt) * 0.2, W * (n ? 0.8 : 0.84), H * (n ? 0.9 : 0.9), "较低，但不是零");
