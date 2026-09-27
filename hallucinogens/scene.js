@@ -116,7 +116,7 @@ Anima.register("hallucinogens", {
     others.forEach((o, i) => {
       const q = prog(5 + i * 0.8, 1.2);
       if (q <= 0) return;
-      chara(lerp(-H * 0.1, W * (n ? 0.1 : 0.12) + i * W * (n ? 0.15 : 0.1), q), H * 0.9, H * 0.034, Object.assign({}, LSD, { hatColor: o[1], tag: o[0], walk: q < 1 ? time * 9 : null, eyes: "open", shadow: false }));
+      chara(lerp(-H * 0.1, W * (n ? 0.1 : 0.12) + i * W * (n ? 0.21 : 0.1), q), H * 0.9, H * 0.034, Object.assign({}, LSD, { hatColor: o[1], tag: o[0], walk: q < 1 ? time * 9 : null, eyes: "open", shadow: false }));
     });
     // 谷氨酸从轴突末端涌出
     const nG = drug > 0.5 ? 6 : 2;
@@ -312,9 +312,9 @@ Anima.register("hallucinogens", {
       if (lt > 7) for (let k = 0; k < 3; k++) Anima.heart(W * (0.3 + k * 0.2), post + H * 0.08 - ((time * 0.5 + k / 3) % 1) * H * 0.1, H * 0.018, C.rose);
     }
     callout("sert", lt > 0.8 && lt < 4, tx, ty - H * 0.05, n ? W * 0.72 : W * 0.78, top + H * 0.06, "5-HT 转运体：回收门");
-    callout("flood", lt > 7.8 && lt < 12, R[1], post - H * 0.18, n ? W * 0.3 : W * 0.25, th + H * 0.07, "5-HT 大量涌出（还有 NE、DA）");
+    callout("flood", lt > 7.8 && lt < 12, R[1], post - H * 0.18, n ? W * 0.45 : W * 0.25, n ? post + H * 0.08 : th + H * 0.07, "5-HT 大量涌出（还有 NE、DA）");
     say("rev", lt > 4.2 && lt < 7.5, tx, ty + H * 0.1, n ? W * 0.62 : W * 0.66, th + H * 0.14, "门反着转啦！", "shout");
-    say("hug", lt > 9.5, W * 0.5, post + H * 0.06, n ? W * 0.72 : W * 0.78, post - H * 0.08, "好亲近……", "say");
+    say("hug", lt > 9.5, W * 0.5, post + H * 0.06, n ? W * 0.75 : W * 0.78, n ? post - H * 0.2 : post - H * 0.08, "好亲近……", "say");
     ctx.restore();
   }
 
