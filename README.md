@@ -7,55 +7,91 @@
 | 文件夹 | 主题 | 对应原书 |
 |---|---|---|
 | `synapse/` | 突触邮局 | 第 1 章 · 化学神经传递 |
-| `plasticity/` | 基因的开关：从信号到可塑性 | 第 1 章 · 信号转导与基因表达 |
+| `neurotransmission-types/` | 三种送信方式：经典、逆行和容积传递 | 第 1 章 · 神经传递的方式 |
+| `endocannabinoid/` | 倒着送的信：内源性大麻素 | 第 13 章 · 大麻素系统 |
+| `signal-cascades/` | 四条信号通路：从门口到细胞核 | 第 1 章 · 信号转导级联 |
 | `g-protein/` | 三种接力：G 蛋白和第二信使 | 第 2 章 · G 蛋白偶联受体 |
+| `plasticity/` | 基因的开关：从信号到可塑性 | 第 1 章 · 信号转导与基因表达 |
+| `rna-splicing/` | 同一段基因，不同的剪法 | 第 1 章 · 关于 RNA |
+| `transporter-families/` | 回收门的两大家族 | 第 2 章 · 转运体作为药物靶点 |
 | `agonist/` | 受体的调光开关 | 第 2 章 · 受体与激动剂谱 |
 | `receptor-regulation/` | 门变多还是变少：受体的上调和下调 | 第 2 章 · 受体的适应 |
+| `enzyme-inhibitors/` | 剪刀停工：可逆和不可逆的酶抑制 | 第 2 章 · 酶作为药物靶点 |
 | `cyp450/` | 肝脏里的代谢工厂 | 第 2 章 · 酶作为药物靶点（药物代谢） |
 | `pharmacokinetics/` | 药在身体里的旅程：半衰期和稳态 | 第 2 章 · 药代动力学基础 |
 | `ion-channels/` | 离子通道：药物的另一扇门 | 第 3 章 · 离子通道作为药物靶点 |
-| `symptom-circuits/` | 症状、回路和递质：Stahl 的看病地图 | 各章 · 症状—回路—递质 |
+| `voltage-channels/` | 感应电压的门：钠通道和钙通道 | 第 3 章 · 电压敏感离子通道 |
 | `psychosis/` | 多巴胺的四条铁路 | 第 4 章 · 精神病与精神分裂症 |
-| `neurodevelopment/` | 长大的大脑：突触修剪 | 第 4 章 · 神经发育假说 |
+| `dopamine-lifecycle/` | 多巴胺的一生：合成、装箱和清除 | 第 4 章 · 多巴胺的合成与终止 |
+| `glutamate-system/` | 谷氨酸的循环：神经元和星形胶质细胞 | 第 4 章 · 谷氨酸系统 |
+| `serotonin-lifecycle/` | 5-HT 的一生：从色氨酸出发 | 第 4 章 · 5-HT 的合成与终止 |
+| `dopamine-receptors/` | 多巴胺的五扇门 | 第 4～5 章 · 多巴胺受体 |
 | `glutamate-pathways/` | NMDA 掉线以后 | 第 4 章 · 谷氨酸假说 |
 | `serotonin-psychosis/` | 5-HT 与幻觉 | 第 4 章 · 5-HT 与精神病 |
 | `serotonin-receptors/` | 5-HT 的受体大家庭 | 第 4～5 章 · 5-HT 受体 |
-| `dopamine-receptors/` | 多巴胺的五扇门 | 第 4～5 章 · 多巴胺受体 |
+| `neurodevelopment/` | 长大的大脑：突触修剪 | 第 4 章 · 神经发育假说 |
+| `other-psychoses/` | 不只是精神分裂症：各种精神病性障碍 | 第 4 章 · 其他精神病性障碍 |
 | `antipsychotics/` | D2 受体的门卫 | 第 5 章 · 抗精神病药 |
+| `secondary-negative/` | 药让人没劲？继发性阴性症状 | 第 5 章 · 阻断 D2 引起继发性阴性症状 |
 | `basal-ganglia-loops/` | 直接通路和间接通路 | 第 5 章 · 皮层-纹状体-丘脑环路 |
-| `clozapine/` | 氯氮平：难治的王牌 | 第 5 章 · 氯氮平 |
+| `motor-side-effects/` | 僵、抖、坐不住：药物引起的运动副作用 | 第 5 章 · 黑质纹状体 D2 与运动副作用 |
 | `tardive/` | 停不下来的小动作 | 第 5 章 · 迟发性运动障碍 |
+| `antipsychotic-fingerprints/` | 抗精神病药的受体指纹 | 第 5 章 · 各药物的药理特点 |
+| `antipsychotic-metabolic/` | 体重和血糖：抗精神病药的代谢风险 | 第 5 章 · 心血管代谢风险 |
+| `clozapine/` | 氯氮平：难治的王牌 | 第 5 章 · 氯氮平 |
+| `long-acting-injectables/` | 长效针剂：慢慢释放的小仓库 | 第 5 章 · 长效注射剂 |
 | `muscarinic-antipsychotic/` | 不碰 D2 的抗精神病药 | 第 5 章 · 毒蕈碱受体与新机制 |
 | `depression/` | 心情的天气预报 | 第 6 章 · 心境障碍 |
+| `bipolar/` | 心境的跷跷板：双相障碍 | 第 6 章 · 双相谱系 |
+| `norepinephrine-system/` | 去甲肾上腺素：蓝斑的警戒哨 | 第 6 章 · 去甲肾上腺素系统 |
+| `gaba-system/` | GABA：大脑的刹车系统 | 第 6 章 · GABA 系统 |
+| `monoamine-brakes/` | 递质之间的刹车网络 | 第 6～7 章 · 单胺的相互调节 |
 | `hpa-axis/` | 压力的传话筒：HPA 轴 | 第 6 章 · 压力与 HPA 轴 |
 | `inflammation-depression/` | 身体发炎，心情也会下雨 | 第 6 章 · 炎症与抑郁 |
-| `bipolar/` | 心境的跷跷板：双相障碍 | 第 6 章 · 双相谱系 |
+| `symptom-circuits/` | 症状、回路和递质：Stahl 的看病地图 | 各章 · 症状—回路—递质 |
+| `treatment-outcomes/` | 有效、缓解、复发：怎样算治好了 | 第 7 章 · 抑郁治疗疗效的定义 |
 | `antidepressants/` | 回收站暂停营业 | 第 7 章 · 心境障碍的治疗 |
-| `monoamine-brakes/` | 递质之间的刹车网络 | 第 6～7 章 · 单胺的相互调节 |
 | `mood-stabilizers/` | 锂盐和心境稳定剂 | 第 7 章 · 心境稳定剂 |
-| `ketamine/` | 快车道：氯胺酮与艾司氯胺酮 | 第 7 章 · 快速起效的抗抑郁治疗 |
+| `multimodal-antidepressants/` | 不止堵门：多模式抗抑郁药 | 第 7 章 · 多模式抗抑郁药 |
+| `tca/` | 三环类：钥匙串太长的老前辈 | 第 7 章 · 三环类抗抑郁药 |
 | `neurosteroids/` | 突触外的安静开关：神经甾体 | 第 7 章 · GABA-A 与神经甾体 |
+| `augmentation-trd/` | 一种药不够时：增效和难治性抑郁 | 第 7 章 · 增效策略与难治性抑郁 |
+| `ketamine/` | 快车道：氯胺酮与艾司氯胺酮 | 第 7 章 · 快速起效的抗抑郁治疗 |
+| `future-antidepressants/` | 抗抑郁的新路线 | 第 7 章 · 心境障碍的未来治疗 |
 | `anxiety/` | 杏仁核的警报器 | 第 8 章 · 焦虑、创伤及其治疗 |
 | `fear-outputs/` | 杏仁核的五条广播线 | 第 8 章 · 恐惧回路的输出 |
+| `worry-loop/` | 停不下来的担心：担忧回路 | 第 8 章 · 担忧回路与广泛性焦虑 |
 | `ptsd/` | 恐惧的记忆：创伤后应激 | 第 8 章 · 创伤与恐惧记忆 |
+| `anxiety-subtypes/` | 惊恐、社交焦虑、广泛性焦虑：同中有异 | 第 8 章 · 各类焦虑障碍的治疗 |
 | `pain/` | 慢性疼痛：音量调太大的警报 | 第 9 章 · 慢性疼痛 |
+| `neuropathic-pain/` | 神经自己出了错：神经病理性疼痛 | 第 9 章 · 神经病理性疼痛 |
+| `fibromyalgia/` | 浑身疼、睡不好、脑子雾：纤维肌痛 | 第 9 章 · 纤维肌痛 |
 | `sleep/` | 睡眠开关和叫醒员 | 第 10 章 · 睡眠与觉醒障碍 |
+| `histamine/` | 组胺：清醒管家和它的四扇门 | 第 10 章 · 组胺系统 |
 | `rem-sleep/` | 一夜的换班：快速眼动和非快速眼动 | 第 10 章 · 睡眠结构与神经化学 |
 | `circadian/` | 身体里的小时钟 | 第 10 章 · 昼夜节律 |
-| `histamine/` | 组胺：清醒管家和它的四扇门 | 第 10 章 · 组胺系统 |
+| `hypnotics/` | 助眠药的一晚：药物浓度决定你的睡眠 | 第 10 章 · 失眠的治疗：催眠药 |
+| `daytime-sleepiness/` | 白天为什么总犯困：呼吸暂停和轮班 | 第 10 章 · 其他原因的白天嗜睡 |
 | `narcolepsy/` | 开关卡不住：发作性睡病 | 第 10 章 · 食欲素与发作性睡病 |
+| `restless-legs/` | 腿里的小虫子：不宁腿综合征 | 第 10 章 · 不宁腿综合征 |
+| `wake-promoting/` | 叫醒大脑的几种办法：促醒药 | 第 10 章 · 促醒药 |
 | `adhd/` | 前额叶的收音机 | 第 11 章 · 注意缺陷多动障碍 |
-| `stimulants/` | 两种兴奋剂，两种开门法 | 第 11 章 · 兴奋剂的作用机制 |
 | `alpha2a-hcn/` | 前额叶的漏水小门 | 第 11 章 · 去甲肾上腺素与前额叶网络 |
+| `adhd-development/` | 前额叶的成长时间表 | 第 11 章 · 神经发育和 ADHD |
+| `stimulants/` | 两种兴奋剂，两种开门法 | 第 11 章 · 兴奋剂的作用机制 |
 | `dementia/` | 消失的记忆邮差 | 第 12 章 · 痴呆 |
-| `amyloid-cascade/` | 淀粉样蛋白的连锁反应 | 第 12 章 · 淀粉样蛋白级联假说 |
 | `dementia-types/` | 不止阿尔茨海默：其他痴呆 | 第 12 章 · 痴呆的类型 |
+| `amyloid-cascade/` | 淀粉样蛋白的连锁反应 | 第 12 章 · 淀粉样蛋白级联假说 |
+| `dementia-biomarkers/` | 提前看见：分期和生物标志物 | 第 12 章 · 在太晚之前诊断阿尔茨海默病 |
+| `acetylcholine-system/` | 乙酰胆碱：记忆邮差的一生 | 第 12 章 · 乙酰胆碱系统 |
+| `dementia-agitation/` | 痴呆里的激越和幻觉 | 第 12 章 · 痴呆的行为和精神症状 |
+| `ocd-impulsivity/` | 油门和刹车：冲动与强迫 | 第 13 章 · 冲动与强迫 |
 | `addiction/` | 被劫持的奖赏快递 | 第 13 章 · 冲动、强迫与成瘾 |
 | `opioid-receptors/` | μ、δ、κ：阿片受体三姐妹 | 第 13 章 · 内源性阿片系统 |
-| `nicotine/` | 尼古丁的钥匙和伐尼克兰 | 第 13 章 · 尼古丁 |
-| `endocannabinoid/` | 倒着送的信：内源性大麻素 | 第 13 章 · 大麻素系统 |
-| `ocd-impulsivity/` | 油门和刹车：冲动与强迫 | 第 13 章 · 冲动与强迫 |
 | `alcohol-opioids/` | 酒精和阿片：依赖与戒断 | 第 13 章 · 酒精与阿片类物质 |
+| `nicotine/` | 尼古丁的钥匙和伐尼克兰 | 第 13 章 · 尼古丁 |
+| `hallucinogens/` | 致幻剂和分离性物质：两种扭曲 | 第 13 章 · 致幻剂与“派对药” |
+| `behavioral-addictions/` | 没有药物也会上瘾 | 第 13 章 · 行为成瘾和冲动控制障碍 |
 
 所有集用到的医学数字和说法汇总在 `docs/医学核对清单.md`（各集的原稿在 `docs/checklist/`），发布前请逐条核对。
 

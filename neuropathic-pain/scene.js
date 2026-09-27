@@ -408,7 +408,7 @@ Anima.register("neuropathic-pain", {
         chara(x + cw * 0.5, my - H * 0.02, s, { who: "drug", hatColor: "#8fc8f0", arms: "shh", eyes: "closed", mouth: "cat", tag: tg });
         const fz = (time * 0.8) % 1;
         Anima.bolt(x + cw * 0.8, my + H * 0.08, s * 0.6 * (1 - fz), 1 - fz, C.gold);
-        sfx("嘘…", x + cw * 0.22, my + H * 0.09, H * 0.04, C.skyDeep, -0.1, 1);
+        if (!n) sfx("嘘…", x + cw * 0.22, my + H * 0.09, H * 0.04, C.skyDeep, -0.1, 1);
       } else if (i === 1) { // 钙通道上的 α2δ 被抱住
         const vx = cx - cw * 0.16, vy = my - H * 0.06;
         Anima.receptor(vx, vy, H * 0.042, C.vscc, 0.15, { dir: -1, shape: "square" });
