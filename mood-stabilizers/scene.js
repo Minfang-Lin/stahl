@@ -413,8 +413,9 @@ Anima.register("mood-stabilizers", {
         sfx("↑", g.cx + g.r * 0.5, g.cy - g.r * 1.1, fsz(0.06), C.bad, 0, 0.8);
         if (k >= 0) sparkle(P[Math.min(3, k)][0], P[Math.min(3, k)][1] - tr, tr * 0.3, 0.8);
       }
-      callout("kid", lt > 2 && lt < 7.5, P[0][0] - tr, P[0][1], nar ? W * 0.62 : W * 0.55, H * 0.9, "锂排不出去，血锂就升高");
-      say("danger", lt > 7.6, lx, ly - ls * 3.2, nar ? W * 0.76 : W * 0.45, nar ? H * 0.55 : H * 0.9, "明显手抖、呕吐、走路不稳、意识模糊：马上就医！", "box");
+      // 手机上右边四个小牌子没有空位：提醒方框放到左下角（仪表盘下面），前面的标注靠右，两者不重叠
+      callout("kid", lt > 2 && lt < 7.5, P[0][0] - tr, P[0][1], nar ? W * 0.73 : W * 0.55, H * 0.9, "锂排不出去，血锂就升高");
+      say("danger", lt > 7.6, lx, ly - ls * 3.2, nar ? W * 0.22 : W * 0.45, H * 0.9, "明显手抖、呕吐、走路不稳、意识模糊：马上就医！", "box");
     }
     ctx.restore();
   }

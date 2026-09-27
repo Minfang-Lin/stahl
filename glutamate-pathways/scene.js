@@ -258,11 +258,11 @@ Anima.register("glutamate-pathways", {
     // 标注和对话
     callout("nmda", cur === 0 && lt > 1 && (!nw || lt < 5), R.site.x, R.site.y, nw ? W * 0.52 : g.N[0] + W * 0.06, H * (nw ? 0.68 : 0.2), "NMDA 受体：刹车员的“电源”");
     callout("pyr", cur === 0 && lt > (nw ? 5.5 : 4), g.P2[0] + s, g.top - s * 1.5, g.P2[0] + W * 0.14, H * 0.2, nw ? "锥体神经元：放谷氨酸" : "锥体神经元：放出谷氨酸的长线");
-    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, nw ? W * 0.2 : g.G1[0] + W * 0.14, H * (nw ? 0.7 : 0.74), nw ? "有我按着呢～" : "有我按着，大家别太激动～", "say");
+    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, nw ? W * 0.2 : g.G1[0] + W * 0.14, H * (nw ? 0.77 : 0.74), nw ? "有我按着呢～" : "有我按着，大家别太激动～", "say");
     callout("weak", cur === 1 && lt > 1.5 && lt < (nw ? 5.2 : 7), R.site.x, R.site.y, nw ? W * 0.52 : g.N[0] + W * 0.08, H * (nw ? 0.68 : 0.2), "钥匙插进来，门却打不开");
     say("wild", cur === 1 && lt > (nw ? 7 : 6), g.P1[0], g.top - s * 3.3, W * (nw ? 0.55 : 0.62), H * 0.68, nw ? "停不下来！" : "没人管啦，停不下来！", "shout");
     say("go", cur === 2 && lt > 3.5 && (!nw || lt < 5.5), g.D1[0], g.bot - s * 3.2, W * (nw ? 0.64 : 0.56), H * 0.68, "又要发车？！", "shout");
-    callout("pos", cur === 2 && lt > (nw ? 7.5 : 6.5), g.NAC[0], g.NAC[1] - H * 0.02, W * (nw ? 0.55 : 0.16), H * (nw ? 0.66 : 0.72), "阳性症状：幻觉、妄想");
+    callout("pos", cur === 2 && lt > (nw ? 7.5 : 6.5), g.NAC[0], g.NAC[1] - H * 0.02, W * (nw ? 0.6 : 0.16), H * (nw ? 0.66 : 0.72), "阳性症状：幻觉、妄想");
     callout("relay", cur === 3 && lt > 3 && (!nw || lt < 5.8), g.G2[0], g.bot - s * 2.8, nw ? W * 0.5 : g.G2[0] - W * 0.2, H * (nw ? 0.66 : 0.7), "多了一站：刹车踩得更狠");
     say("few", cur === 3 && lt > (nw ? 7.8 : 6), g.D2[0], g.bot - s * 3.2, W * 0.72, H * 0.66, "车开不出去……", "think");
     callout("neg", cur === 3 && lt > 8, g.PFC[0], g.PFC[1] + H * 0.02, W * 0.62, H * 0.2, "阴性、认知症状");

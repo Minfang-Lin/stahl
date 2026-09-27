@@ -187,7 +187,7 @@ Anima.register("antipsychotics", {
       else if (kind === 0) dOpt = dp > 0.5 ? { eyes: calm ? "happy" : "open", mouth: "smile", arms: "down" } : { eyes: "sparkle", mouth: "open", arms: "up" };
       else dOpt = dp > 0.5 ? { eyes: "open", mouth: "wavy", arms: "down" } : { eyes: "happy", mouth: "smile", arms: "up" };
       chara(dx, dy, g.cs, Object.assign({ who: "DA", seed: i, shadow: dp < 0.5, jump: dp < 0.5 && kind === 0 ? Math.abs(Math.sin(time * 6 + i)) * 0.25 : 0 }, dOpt));
-      if (kind === 0 && dp < 0.5 && i % 2 === 0) emote("!", dx + g.cs * 0.9, dy - g.cs * 3.5, g.cs * 0.55);
+      if (kind === 0 && dp < 0.3 && i % 2 === 0) emote("!", dx + g.cs * 0.9, dy - g.cs * 3.5, g.cs * 0.55);
       if (dp > 0.3 && dp < 0.95) emote("?", dx + g.cs * 0.8, dy - g.cs * 3.4, g.cs * 0.55);
       // 药物：从上方落进锁孔
       if (dp > 0.01) {

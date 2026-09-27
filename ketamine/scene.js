@@ -173,8 +173,8 @@ Anima.register("ketamine", {
       if (lt > 1.8 && lt < 3.2) sfx("咻——！", W * 0.5, y2 - H * 0.12, fsz(0.05), "#e07a2a", -0.1, 1);
       say("slow", lt > 0.5 && lt < (nar ? 6.3 : 7), sx, y1 - s * 2.9, nar ? W * 0.3 : W * 0.3, H * 0.27, "我走慢车道，要几周哦～", "say");
       // 手机上爆炸框太大会盖住慢车道，改成普通气泡，放在两条路中间
-      say("fast", lt > 4, carPos.head.x, carPos.head.y, nar ? W * 0.55 : W * 0.5, H * (nar ? 0.665 : 0.64), "我走快车道：几小时到一天！", nar ? "say" : "shout");
-      callout("anes", lt > 7.5, cx, y2 - H * 0.02, nar ? W * 0.3 : W * 0.36, H * 0.3, "氯胺酮：原本是一种麻醉药");
+      say("fast", lt > 4, carPos.head.x, carPos.head.y, nar ? W * 0.5 : W * 0.5, H * (nar ? 0.665 : 0.64), "我走快车道：几小时到一天！", nar ? "say" : "shout");
+      callout("anes", lt > 7.5, cx, y2 - H * 0.02, nar ? W * 0.56 : W * 0.36, H * 0.3, "氯胺酮：原本是一种麻醉药");
     } else {
       // 最后一幕：快车道中间有“医疗机构”关卡，医生护航
       const bx = W * 0.44, by = y2 - H * 0.055;

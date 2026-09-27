@@ -254,7 +254,7 @@ Anima.register("neurosteroids", {
     }
     if (c === 5) {
       callout("n5a", win(4.5, n ? 8.5 : 99), g.cx - g.tw * 0.62, g.mem - H * 0.12, W * 0.26, midY + H * 0.02, "酒、苯二氮䓬：抑制会叠加");
-      say("n5b", lt > (n ? 8.5 : 7.5), fx, fy - H * 0.06, W * 0.12, H * 0.72, "好困…", "think");
+      say("n5b", lt > (n ? 8.5 : 7.5), fx, fy - H * 0.06, W * (n ? 0.45 : 0.12), H * (n ? 0.9 : 0.72), "好困…", "think");
     }
     ctx.restore();
   }
