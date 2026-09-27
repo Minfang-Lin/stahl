@@ -16,13 +16,12 @@
   // 这一帧已经画出来的文字和方框（设备像素）：标注和气泡放置时会避开它们
   const frameObs = [];
   let obsOn = false; // 只记主画布 draw() 期间画的
-  let obsMute = false; // 正在淡出的标注/气泡：它马上就要消失，不该把新出现的标注挤开
   const hasT = typeof CanvasRenderingContext2D.prototype.getTransform === "function"; // Chrome 61 没有，就不做避让
   if (hasT) {
     ["fillText", "strokeText"].forEach((fn) => {
       const orig = CanvasRenderingContext2D.prototype[fn];
       CanvasRenderingContext2D.prototype[fn] = function (t, x, y) {
-        if (obsOn && !obsMute && this === ctx && !window.__inChara && this.globalAlpha > 0.3) {
+        if (obsOn && this === ctx && !window.__inChara && this.globalAlpha > 0.3) {
           const fs = parseFloat((this.font.match(/([\d.]+)px/) || [0, 12])[1]);
           const w = this.measureText(t).width, T = this.getTransform();
           const al = this.textAlign, bl = this.textBaseline;
@@ -716,7 +715,16 @@
   // 给方框 (x, y, w, h) 找一个不压住已画内容的位置；返回偏移 [dx, dy]（舞台坐标）
   // 同一个 key 上一帧的位置还能用就继续用，避免来回跳
   const placeMemo = {};
+  const placeShown = {}; // 实际显示的偏移：朝目标平滑移动，不会一下子跳过去
   function avoid(key, x, y, w, h, stepY) {
+    const tgt = avoidTarget(key, x, y, w, h, stepY);
+    const cur = placeShown[key] || tgt.slice();
+    const k = 1 - Math.exp(-frameDt * 6);
+    cur[0] += (tgt[0] - cur[0]) * k; cur[1] += (tgt[1] - cur[1]) * k;
+    placeShown[key] = cur;
+    return cur;
+  }
+  function avoidTarget(key, x, y, w, h, stepY) {
     if (!hasT || !frameObs.length) return [0, 0];
     const T = ctx.getTransform(), k = Math.abs(T.a) || 1;
     const minY = topSafe(), maxY = H - 6;
@@ -727,10 +735,11 @@
       for (const o of frameObs) c += Math.max(0, Math.min(r.x + r.w, o.x + o.w) - Math.max(r.x, o.x)) * Math.max(0, Math.min(r.y + r.h, o.y + o.h) - Math.max(r.y, o.y));
       return c / (r.w * r.h) + (Math.abs(dx) / W + Math.abs(dy) / H) * 0.05; // 同样不挡时，离原位越近越好
     };
-    const prev = placeMemo[key];
-    if (prev && cost(prev[0], prev[1]) < 0.04) return prev;
+    // 原位空着就回原位（比如刚才挡路的标注已经淡出了）；否则上一帧的位置还能用就继续用
     let best = [0, 0], bc = cost(0, 0);
     if (bc < 0.04) { placeMemo[key] = best; return best; }
+    const prev = placeMemo[key];
+    if (prev && cost(prev[0], prev[1]) < 0.04) return prev;
     const sy = stepY || h + 6, sx = w * 0.55;
     const cand = [];
     for (let j = 1; j <= 4; j++) cand.push([0, sy * j], [0, -sy * j]);
@@ -755,8 +764,7 @@
     // 气泡和标注的淡入淡出分开记（同一个 key 的标注和气泡不会互相拖住）
     const ak = "say:" + key;
     const a = labelAlpha[ak] = lerp(labelAlpha[ak] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 6.3));
-    if (a < 0.02) { delete placeMemo["say:" + key]; return; }
-    obsMute = !on;
+    if (a < 0.02) { delete placeMemo["say:" + key]; delete placeShown["say:" + key]; return; }
     ctx.save(); ctx.globalAlpha *= clamp(a * 1.4, 0, 1);
     const fs = Math.max(12, W / 58) * UI;
     ctx.font = `${fs}px ${ROUND}`;
@@ -830,15 +838,13 @@
     lines.forEach((l, i) => ctx.fillText(l, 0, -h / 2 + pad * (kind === "shout" ? 0.65 : 0.55) + lh * (i + 0.5) + 1));
     ctx.textAlign = "left";
     ctx.restore();
-    obsMute = false;
-    if (on && a > 0.3) pushObs(cx - w * ex / 2, cy - h * ex / 2, w * ex, h * ex);
+    if (a > 0.3) pushObs(cx - w * ex / 2, cy - h * ex / 2, w * ex, h * ex);
   }
 
   // 名词标注：(tx, ty) 指向的点，(lx, ly) 标签位置
   function callout(key, on, tx, ty, lx, ly, t) {
     const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 5));
-    if (a < 0.02) { delete placeMemo["callout:" + key]; return; }
-    obsMute = !on;
+    if (a < 0.02) { delete placeMemo["callout:" + key]; delete placeShown["callout:" + key]; return; }
     ctx.save();
     ctx.globalAlpha *= a;
     const fs = Math.max(12, W / 58) * UI;
@@ -863,8 +869,7 @@
     ctx.fillStyle = C.ink; ctx.textBaseline = "middle";
     ctx.fillText(t, bx + fs * 1.15, by + bh / 2 + 1);
     ctx.restore();
-    obsMute = false;
-    if (on && a > 0.3) pushObs(bx, by, w, bh);
+    if (a > 0.3) pushObs(bx, by, w, bh);
   }
 
   // 角落里的数值胶囊
@@ -1071,7 +1076,7 @@
     ctx.globalAlpha = 1; leftPillEnd = 0; pillRowsNow = 1;
     if (window.__LAYOUT) window.__LAYOUT.length = 0;
     ctx.textAlign = "left"; ctx.setLineDash([]);
-    frameObs.length = 0; obsOn = true; obsMute = false;
+    frameObs.length = 0; obsOn = true;
     try { sync(); ep.cfg.draw(); } finally { obsOn = false; }
     pillRows = pillRowsNow;
   }

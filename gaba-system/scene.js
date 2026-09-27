@@ -174,7 +174,7 @@ Anima.register("gaba-system", {
     if (c === 0) {
       callout("a0", lt > 3, g.gad.x, g.gad.y - cs * 2.2, n ? W * 0.28 : g.gad.x - W * 0.04, below, "GAD：谷氨酸 → GABA");
       callout("a1", lt > 6.5, va.x + g.ves.r * 0.3, va.y, n ? W * 0.72 : g.ves.x + W * 0.16, n ? below + H * 0.1 : below, "VIAAT：装进囊泡");
-      say("a2", lt > 9.5, g.gad.x, g.gad.y - cs * 3.2, n ? W * 0.3 : W * 0.1, n ? H * 0.62 : H * 0.34, "剪掉一小块，就变刹车！", "say");
+      say("a2", lt > 9.5, g.gad.x, g.gad.y - cs * 3.2, n ? W * 0.3 : W * 0.1, n ? H * 0.27 : H * 0.34, "剪掉一小块，就变刹车！", "say");
     }
     if (c === 1) {
       callout("b0", win(1, 4.5), g.gat.x + rs * 0.6, g.gat.y, n ? W * 0.7 : g.gat.x + W * 0.1, n ? below + H * 0.05 : H * 0.3, "GAT1：回收 GABA");
