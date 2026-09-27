@@ -350,7 +350,7 @@ Anima.register("antidepressants", {
     ctx.restore();
     callout("se", nar ? lt > 1.5 && lt < 4.5 : lt > 3, x0 + span * 0.27 + tr * 0.8, H * 0.3, x0 + span * 0.45, H * 0.2, "副作用：常常先到");
     callout("ben", lt > (nar ? 9 : 7.5), sunX + tr * 0.8, sunY, x0 + span * 0.8, H * 0.2, "疗效：一般 2～4 周开始");
-    say("tell", nar ? lt > 4.6 && lt < 8.8 : lt > 2 && lt < 7.5, wx, ly - cs * 3.2, nar ? W * 0.7 : wx + W * 0.2, nar ? H * 0.36 : H * 0.44, "有点恶心……要告诉医生吗？", "think");
+    say("tell", nar ? lt > 4.6 && lt < 8.8 : lt > 2 && lt < 7.5, wx, ly - cs * 3.2, nar ? W * 0.7 : wx + W * 0.2, nar ? H * 0.4 : H * 0.44, "有点恶心……要告诉医生吗？", "think");
     say("warn", lt > (nar ? 9 : 7.8), wx, ly - cs * 3.2, W * 0.5, H * 0.9, "年轻人刚用药时，如果情绪变差、有轻生念头，请马上告诉家人和医生。", "box");
     ctx.restore();
   }

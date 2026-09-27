@@ -223,10 +223,10 @@ Anima.register("mood-stabilizers", {
     ctx.stroke();
     ctx.restore();
     say("dizzy", lt > 0.6 && lt < 4.2, at.x, at.y - s * 3.3, px, H * 0.4, "晃得我头好晕……", "think");
-    say("fix", lt > 5 && lt < 9.5, rx, gy - cs * 3.2, nar ? W * 0.62 : W * 0.7, H * (nar ? 0.5 : 0.48), "装上减震器，高低都不会太猛～", "say");
+    say("fix", lt > (nar ? 5.4 : 5) && lt < (nar ? 9 : 9.5), rx, gy - cs * 3.2, nar ? W * 0.62 : W * 0.7, H * (nar ? 0.5 : 0.48), "装上减震器，高低都不会太猛～", "say");
     // 手机上把标注放到底部两个名牌中间，不被名牌挤到上面压住“高”字
     callout("absorb", lt > 5.5, pv.spring.x, (pv.spring.y + gy) / 2, nar ? W * 0.46 : pv.spring.x + W * 0.02, nar ? H : gy + H * 0.05, "减震器 = 心境稳定剂");
-    callout("goal", lt > 9.8, gx0, mid, nar ? W * 0.3 : W * 0.55, H * 0.42, "目标：起伏变小，少复发");
+    callout("goal", lt > (nar ? 10.2 : 9.8), gx0, mid, nar ? W * 0.3 : W * 0.55, H * 0.42, "目标：起伏变小，少复发");
     ctx.restore();
   }
 

@@ -386,8 +386,8 @@ Anima.register("hpa-axis", {
       callout("h3c", lt > (n ? 9.5 : 8), g.gauge.x, g.gauge.y + H * 0.035, g.gauge.x - W * 0.04, H * 0.52, "负反馈：皮质醇回落");
     }
     if (c === 4) {
-      callout("h4a", win(3, n ? 7 : 99), Hp.head.x, Hp.head.y, g.hip.x + W * 0.12, hi, "海马：BDNF↓，枝叶和信箱变少");
-      say("h4b", n ? win(7.4, 10) : lt > 6, Hp.box.x, Hp.box.y, W * (n ? 0.3 : 0.27), n ? top + H * 0.05 : H * 0.62, "收不到回执了…", "think");
+      callout("h4a", win(3, n ? 6.6 : 99), Hp.head.x, Hp.head.y, g.hip.x + W * 0.12, hi, "海马：BDNF↓，枝叶和信箱变少");
+      say("h4b", n ? win(7.8, 10.2) : lt > 6, Hp.box.x, Hp.box.y, W * (n ? 0.3 : 0.27), n ? top + H * 0.05 : H * 0.62, "收不到回执了…", "think");
       callout("h4c", lt > (n ? 10 : 9), g.hyp.x + g.hyp.s * 1.2, g.hyp.y - g.hyp.s * 0.4, W * 0.58, H * 0.44, "刹车弱 → 继续放 CRH");
     }
     if (c === 5) {

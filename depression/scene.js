@@ -428,8 +428,13 @@ Anima.register("depression", {
     if (cur === 2) {
       chart(g);
       const nar3 = Anima.narrow; // 手机上底部放不下云朵气泡：先让“到齐啦”说完，再把气泡放到上面
-      say("allhere", lt > 5.2 && lt < (nar3 ? 8.4 : 10), g.base[1], g.siteY - cs * 3, g.cx + g.tw * 0.18, g.bot + H * 0.05, "我们都到齐啦！", "shout");
-      say("stillrain", lt > (nar3 ? 8.8 : 7.5), mx, my - mr * 0.6, nar3 ? W * 0.27 : mx + W * 0.12, nar3 ? g.bot + H * 0.05 : my - H * 0.02, "……可心情还是阴天", "think");
+      if (nar3) { // 同一个 key 先后说两句，后一句不会被前一句挤开
+        const second = lt > 8.6;
+        say("allhere", (lt > 5.2 && lt < 8.4) || lt > 8.8, second ? mx : g.base[1], second ? my - mr * 0.6 : g.siteY - cs * 3, second ? W * 0.27 : g.cx + g.tw * 0.18, g.bot + H * 0.05, second ? "……可心情还是阴天" : "我们都到齐啦！", second ? "think" : "shout");
+      } else {
+        say("allhere", lt > 5.2 && lt < 10, g.base[1], g.siteY - cs * 3, g.cx + g.tw * 0.18, g.bot + H * 0.05, "我们都到齐啦！", "shout");
+        say("stillrain", lt > 7.5, mx, my - mr * 0.6, mx + W * 0.12, my - H * 0.02, "……可心情还是阴天", "think");
+      }
     } else if (cur === 3) {
       say("waiting", lt > 2 && lt < 6.3, g.extra[3], g.post - g.rs * 2, g.extra[3] - W * 0.04, g.post - H * 0.2, "信太少了，多开几扇门等等看！", "say");
       say("late", lt > 7.5 && lt < 11.5, g.base[1], g.siteY - cs * 3, g.cx + g.tw * 0.2, g.bot + H * 0.04, "久等啦，信来了～", "say");

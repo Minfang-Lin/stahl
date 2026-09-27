@@ -206,11 +206,11 @@ Anima.register("monoamine-brakes", {
     // 标注和对话
     callout("c-auto", cur === 0 && lt > 4 && (!nw || lt < 7.6), R2.site.x, R2.site.y, W * 0.5, H * 0.2, nw ? "α2 自身受体：刹车" : "α2 自身受体：自己的刹车");
     say("s-auto", cur === 0 && lt > (nw ? 8.5 : 6.5), NB[0] - rb * 0.7, NB[1], W * (nw ? 0.47 : 0.14), H * (nw ? 0.645 : 0.46), "外面够多了，少放点～", "say");
-    callout("c-gas", cur === 1 && lt > 3.5 && (!nw || lt < 7.6), a1x, bot - H * 0.08, W * 0.5, H * 0.7, nw ? "α1：5-HT 的油门" : "α1 受体：给 5-HT 踩油门");
+    callout("c-gas", cur === 1 && lt > 3.5 && (!nw || lt < 7.6), a1x, bot - H * 0.08, W * 0.5, H * (nw ? 0.2 : 0.7), nw ? "α1：5-HT 的油门" : "α1 受体：给 5-HT 踩油门");
     say("s-gas", cur === 1 && lt > (nw ? 8.5 : 6.5), RA[0], bot - s * 3.4, W * (nw ? 0.47 : 0.84), H * (nw ? 0.645 : 0.44), "放电变快啦！", "shout");
     callout("c-het", cur === 2 && lt > 4 && (!nw || lt < 7.6), RH.site.x, RH.site.y, W * 0.5, H * 0.2, nw ? "α2 异身受体：刹车" : "α2 异身受体：装在别人家的刹车");
     say("s-het", cur === 2 && lt > (nw ? 8.5 : 7), SB[0] + rb * 0.7, SB[1], W * (nw ? 0.55 : 0.86), H * (nw ? 0.7 : 0.46), "少放一点 5-HT～", "say");
-    callout("c-2c", cur === 3 && lt > 3.5 && (!nw || lt < 7.6), R2C.site.x, R2C.site.y, W * 0.64, H * 0.66, nw ? "5-HT2C → GABA 刹车" : "5-HT2C：叫 GABA 去刹车");
+    callout("c-2c", cur === 3 && lt > 3.5 && (!nw || lt < 7.6), R2C.site.x, R2C.site.y, W * (nw ? 0.5 : 0.64), H * (nw ? 0.2 : 0.66), nw ? "5-HT2C → GABA 刹车" : "5-HT2C：叫 GABA 去刹车");
     say("s-2c", cur === 3 && lt > (nw ? 8.5 : 6.5), LC[0], bot - s * 3.4, W * (nw ? 0.5 : 0.24), H * (nw ? 0.61 : 0.46), "被按住了，没精神……", "think");
     callout("c-mir", cur === 4 && lt > 9, W * 0.5, H * 0.52, W * 0.5, H * 0.2, nw ? "三道刹车都松开了" : "刹车松开：NE 和 5-HT 都多放");
     ctx.restore();

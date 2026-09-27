@@ -488,9 +488,9 @@ Anima.register("dementia-types", {
       text("!", wx, wy + wr * 0.18, wr * 1.1, C.bad);
       ctx.restore();
     }
-    callout("f-lewy", here && lt > 1 && lt < 8.6, nx + nr * 0.4, ny + nr * 0.3, nw ? nx + L.w * 0.18 : nx + L.w * 0.18, nw ? ny + nr * 1.5 : ny - nr * 0.2, "路易体");
-    callout("f-drug", here && lt > 5 && lt < 8.8, site.x - cs * 0.6, site.y - cs * 1.6, R.x + R.w * 0.3, R.y + R.h * 0.24, "多巴胺受体被挡住");
-    say("f-careful", here && lt > 9.6, px, py - cs * 3.1, R.x + R.w * 0.5, R.y + R.h * (nw ? 0.19 : 0.13), "可能出现严重反应，用药必须非常谨慎", "box");
+    callout("f-lewy", here && lt > 1 && lt < (nw ? 8 : 8.6), nx + nr * 0.4, ny + nr * 0.3, nw ? nx + L.w * 0.18 : nx + L.w * 0.18, nw ? ny + nr * 1.5 : ny - nr * 0.2, "路易体");
+    callout("f-drug", here && lt > 5 && lt < (nw ? 8.3 : 8.8), site.x - cs * 0.6, site.y - cs * 1.6, R.x + R.w * 0.3, R.y + R.h * 0.24, "多巴胺受体被挡住");
+    say("f-careful", here && lt > (nw ? 9.8 : 9.6), px, py - cs * 3.1, R.x + R.w * 0.5, R.y + R.h * (nw ? 0.19 : 0.13), "可能出现严重反应，用药必须非常谨慎", "box");
     ctx.restore();
   }
 

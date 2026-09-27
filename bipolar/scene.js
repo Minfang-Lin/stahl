@@ -468,10 +468,15 @@ Anima.register("bipolar", {
     const iiUpX = lerp(B.lx, B.rx, 0.36), iiUpY = B.Y(0.5);
     const fy = top + ch * 0.87;
     callout("mania", pI > 0.25 && lt < (nar ? 4.8 : 8.5), iPeakX, iPeakY, gap + cw * 0.5, fy, "躁狂：明显影响生活");
-    callout("hypo", pII > 0.4 && lt > (nar ? 5.6 : 0) && lt < (nar ? 9.2 : 9.5), iiUpX, iiUpY, nar ? W * 0.8 : gap * 2 + cw * 1.5, fy, "轻躁狂：轻一些，易被忽略");
-    callout("dep2", lt > (nar ? 9.9 : 9.5), iiDipX, iiDipY, nar ? W * 0.8 : gap * 2 + cw * 1.5, fy, "II 型：抑郁常常更多更久");
+    if (nar) { // 手机上两条标注先后用同一个位置（同一个 key），后一条不会被前一条挤开
+      const second = lt > 9.55;
+      callout("hypo", (pII > 0.4 && lt > 6 && lt < 9.2) || lt > 9.9, second ? iiDipX : iiUpX, second ? iiDipY : iiUpY, W * 0.8, fy, second ? "II 型：抑郁常常更多更久" : "轻躁狂：轻一些，易被忽略");
+    } else {
+      callout("hypo", pII > 0.4 && lt < 9.5, iiUpX, iiUpY, gap * 2 + cw * 1.5, fy, "轻躁狂：轻一些，易被忽略");
+      callout("dep2", lt > 9.5, iiDipX, iiDipY, gap * 2 + cw * 1.5, fy, "II 型：抑郁常常更多更久");
+    }
     // 手机上卡片上半部没有空位：心里话缩成一行，放到左卡片底部的空白处（“躁狂”标注这时已经收起）
-    say("good", lt > 5.6 && lt < 9.5, B.tipX, B.tipY - B.s * 3, nar ? W * 0.22 : gap * 2 + cw * 1.5, nar ? top + ch * 0.9 : top + ch * 0.2, nar ? "只是状态特别好？" : "那几天只是状态特别好吧？", "think");
+    say("good", lt > (nar ? 6 : 5.5) && lt < 9.5, B.tipX, B.tipY - B.s * 3, nar ? W * 0.22 : gap * 2 + cw * 1.5, nar ? top + ch * 0.9 : top + ch * 0.2, nar ? "只是状态特别好？" : "那几天只是状态特别好吧？", "think");
     ctx.restore();
   }
 
