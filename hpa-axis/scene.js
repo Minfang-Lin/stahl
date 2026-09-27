@@ -361,7 +361,7 @@ Anima.register("hpa-axis", {
     if (c === 0) {
       say("h0a", win(1.6, n ? 4.5 : 6), T.lamp.x, T.lamp.y, T.lamp.x + W * 0.12, top + H * 0.06, "有压力！警报——！", "shout");
       // 手机上：气泡和“CRH”标注先后用中间偏右的同一块空地，不压住“下丘脑”“血里的皮质醇”和人的脸
-      say("h0b", n ? win(4.5, 8.2) : lt > 5, g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * (n ? 0.68 : 0.62), H * (n ? 0.48 : 0.42), "收到！CRH，快去垂体！", "say");
+      say("h0b", n ? win(4.5, 8.2) : lt > 5, g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * (n ? 0.68 : 0.62), H * (n ? 0.51 : 0.42), "收到！CRH，快去垂体！", "say");
       const q = pick(fC, 0.3, 0.8);
       callout("h0c", lt > (n ? 8.5 : 7.5) && !!q, q ? q.x : 0, q ? q.y : 0, W * (n ? 0.68 : 0.6), H * (n ? 0.45 : 0.62), "CRH：第一位传话员");
     }

@@ -517,7 +517,7 @@ Anima.register("ion-channels", {
     callout("i4-storm", cur === 4 && win(N() ? 5.3 : 4.8, 9), x1 - tr * 0.7, ay + tr * 0.7, W * 0.45, low, "放电太密：可能引发癫痫发作");
     callout("i4-blk", cur === 4 && lt > 9.4, chs[1], ay + th, W * 0.35, low, "阻滞剂：让刚开过的门多歇一会儿");
     say("i4-s", cur === 4 && win(5, 8.8), x0, ay - sr, W * 0.3, ay - H * 0.22, "停、停不下来啦！", "shout");
-    say("i4-d", cur === 4 && win(10, 13.5) && heads.length > 1, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, W * (N() ? 0.62 : 0.7), N() ? ay + H * 0.13 : ay - H * 0.2, "跑太快的，先歇歇～", "say"); // 手机：放到轴突下面，不挡拉莫三嗪的脸
+    say("i4-d", cur === 4 && win(10, 13.5) && heads.length > 1, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, W * (N() ? 0.5 : 0.7), N() ? ay + H * 0.13 : ay - H * 0.2, "跑太快的，先歇歇～", "say"); // 手机：放到轴突下面，不挡拉莫三嗪的脸
     ctx.restore();
   }
 

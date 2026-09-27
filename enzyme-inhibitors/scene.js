@@ -288,7 +288,7 @@ Anima.register("enzyme-inhibitors", {
       bp = 0.3 + 0.65 * prog(9.5, 2);
       callout("mao", lt > 0.8 && lt < 4.2, gx + s * 2.8, my - s * 1.6, n ? W * 0.44 : W * 0.44, H * 0.93, "MAO-A 被焊死：挡不住");
       callout("push", lt > 7.2 && lt < 10.6, T.cx + T.w * 0.18, T.y0 + T.h * 0.62, n ? W * 0.3 : W * 0.34, H * 0.62, "NE 被挤出来");
-      say("hi", lt > 3.6 && lt < 6.8, W * 0.4, vy, n ? W * 0.42 : W * 0.42, H * 0.56, "我是酪胺，顺流而上～", "say");
+      say("hi", lt > 3.6 && lt < 6.8, W * 0.4, vy, n ? W * 0.8 : W * 0.42, n ? H * 0.92 : H * 0.56, n ? "顺流而上～" : "我是酪胺，顺流而上～", "say");
     } else {
       bp = 0.3 + 0.06 * Math.sin(time);
       callout("rev", lt > 1.2 && lt < 4.4, gx, my - s * 2.4, n ? W * 0.56 : W * 0.46, H * 0.36, "吗氯贝胺：可逆地坐着");
