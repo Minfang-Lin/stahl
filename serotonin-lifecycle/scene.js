@@ -100,7 +100,7 @@ Anima.register("serotonin-lifecycle", {
     const nw = Anima.narrow;
     ctx.save(); ctx.globalAlpha *= a;
     Anima.wash("#f6f2ff", "#fff1e6");
-    const top = Anima.topSafe(), wy = H * 0.36, wh = H * 0.07, r0 = H * 0.46, r1 = H * 0.6, s = H * 0.034;
+    const top = Anima.topSafe(), wy = H * (nw ? 0.4 : 0.36), wh = H * 0.07, r0 = wy + H * 0.1, r1 = wy + H * 0.24, s = H * 0.034;
     ctx.fillStyle = C.brain; ctx.fillRect(0, 0, W, wy);
     Anima.bokeh(5, "#ddd5fa", 0.8, 3);
     const gate = [W * 0.66, W * 0.72];
@@ -132,11 +132,12 @@ Anima.register("serotonin-lifecycle", {
     }
     // 脑子里的 5-HT 神经元
     const nx = W * (nw ? 0.4 : 0.45), ny = wy - H * 0.035;
-    chara(nx, ny, s * 1.1, { who: "neuron", hair: "#62c9ab", cloth: "#dff5ec", arms: "hold", item: "star", eyes: "happy", tag: "5-HT 神经元" });
-    callout("bbb", lt > 1.2 && lt < 7, W * 0.2, wy + wh * 0.5, W * 0.14, top + H * 0.04, "血脑屏障：挡住 5-HT");
-    say("no", lt > 3 && lt < 8.5, bx, hy - s * 3, W * (nw ? 0.14 : 0.16), H * 0.2, "进不去呀～", "say");
-    callout("trp", lt > 7, (gate[0] + gate[1]) / 2, wy + wh * 0.5, W * (nw ? 0.72 : 0.8), H * 0.22, "色氨酸：可以进去");
-    say("self", lt > 9, nx, ny - s * 3.4, W * (nw ? 0.3 : 0.24), top + H * 0.06, "那我们自己做！", "say");
+    chara(nx, ny, s * 1.1, { who: "neuron", hair: "#62c9ab", cloth: "#dff5ec", arms: "hold", item: "star", eyes: "happy" });
+    plate(nw ? "5-HT 神经元" : "脑里的 5-HT 神经元", nx + s * (nw ? 4.2 : 5.2), ny - s * 1.6, "#dff5ec", fz(0.022));
+    callout("bbb", win(1.2, 6), W * 0.2, wy + wh * 0.5, W * 0.14, top + H * 0.04, "血脑屏障：挡住 5-HT");
+    say("no", win(2.5, 7), bx, hy - s * 3, W * (nw ? 0.2 : 0.16), nw ? H * 0.7 : H * 0.2, "进不去呀～", "say");
+    callout("trp", win(6, 9.5), (gate[0] + gate[1]) / 2, wy + wh * 0.5, W * (nw ? 0.72 : 0.8), H * 0.22, "色氨酸：可以进去");
+    say("self", lt > 9.5, nx, ny - s * 3.4, W * (nw ? 0.74 : 0.24), nw ? H * 0.22 : top + H * 0.06, "那我们自己做！", "say");
     ctx.restore();
   }
 
@@ -152,7 +153,7 @@ Anima.register("serotonin-lifecycle", {
     wall(0, W, wy, wh, [gx - s * 1.6, gx + s * 1.6]);
     // 入口：一扇旋转门
     Anima.transporter(gx, wy + wh / 2, wh * 0.6, "#bfe8d6", time * 2, false);
-    text("大脑", W * 0.04, H * 0.3, fz(0.028), "#6b61c9", "left");
+    text("大脑", nw ? W * 0.96 : W * 0.04, nw ? wy - H * 0.04 : H * 0.3, fz(0.028), "#6b61c9", nw ? "right" : "left");
     text("血液", W * 0.04, H * 0.62, fz(0.026), "#b04a5c", "left");
     // 排队：从右下往门口
     const P = 1.3, ph = time / P, f = ph - Math.floor(ph), n0 = Math.floor(ph);
@@ -170,7 +171,7 @@ Anima.register("serotonin-lifecycle", {
       const id = n0 - j, u = (f + j) / 3, x = gx + (isT(id) ? 1 : -1) * u * W * 0.22, y = wy - u * H * 0.06;
       chara(x, y, s * 0.95, Object.assign({}, isT(id) ? TRP : OTH, { walk: time * 9 + j, eyes: "happy", alpha: 1 - u, shadow: false, seed: id }));
     }
-    plate(nw ? "去做 5-HT →" : "去 5-HT 神经元 →", gx + W * 0.28, H * 0.12 + Anima.topSafe() * 0.5, "#dff5ec", fz(0.024));
+    plate(nw ? "去做 5-HT →" : "去 5-HT 神经元 →", gx + W * 0.28, nw ? wy - H * 0.14 : H * 0.12 + Anima.topSafe() * 0.5, "#dff5ec", fz(0.024));
     // 犬尿氨酸岔路（左下）
     const kx = W * (nw ? 0.22 : 0.2), ky = H * 0.8;
     rrect(kx - W * 0.1, ky - H * 0.05, W * 0.2, H * 0.1, 12); ctx.fillStyle = "#ffe6d6"; ctx.fill(); outline(1.6); ctx.stroke();
@@ -179,9 +180,9 @@ Anima.register("serotonin-lifecycle", {
       const u = (time * 0.12 + k / 3) % 1, x = lerp(W * 0.46, kx + W * 0.06, u), y = lerp(H * 0.97, ky + H * 0.02, u) ;
       chara(x, y, s * 0.8, Object.assign({}, TRP, u > 0.7 ? { hair: "#f4a88a", cloth: "#ffe6d6" } : {}, { walk: time * 9 + k, eyes: "happy", alpha: Math.min(1, u * 6, (1 - u) * 6), shadow: false, dir: -1 }));
     }
-    callout("lat", lt > 1 && lt < 7.5, gx, wy + wh / 2, gx - W * 0.2, H * 0.2, nw ? "大家共用的入口" : "大中性氨基酸转运体：大家共用的入口");
-    say("crowd", lt > 4, slot(2).x, slot(2).y - s * 3.1, W * (nw ? 0.72 : 0.8), H * (nw ? 0.56 : 0.54), "人好多，好难挤进去～", "think");
-    callout("kyn", lt > 8, kx, ky - H * 0.05, kx + W * 0.04, H * (nw ? 0.28 : 0.26), "大部分色氨酸走这条路");
+    callout("lat", win(1, nw ? 5 : 7.5), gx, wy + wh / 2, gx - W * 0.2, H * 0.2, nw ? "大家共用的入口" : "大中性氨基酸转运体：大家共用的入口");
+    say("crowd", nw ? win(5, 10) : lt > 4, slot(2).x, slot(2).y - s * 3.1, W * (nw ? 0.3 : 0.8), H * (nw ? 0.22 : 0.54), "人好多，好难挤进去～", "think");
+    callout("kyn", lt > 8.5, kx, ky - H * 0.05, nw ? W * 0.24 : kx + W * 0.04, H * (nw ? 0.64 : 0.26), nw ? "大部分走这条路" : "大部分色氨酸走这条路");
     ctx.restore();
   }
 
@@ -240,7 +241,7 @@ Anima.register("serotonin-lifecycle", {
     plate(names[2], (X.b + (mel ? W * 0.95 : vx)) / 2, r1, mel ? "#e4e0ff" : "#dff5ec");
     plate(stn[0], X.a, r2, mel ? "#ffe1ee" : "#eeeaff");
     plate(stn[1], X.b, r2, mel ? "#f0e0fb" : "#e6f4fc");
-    if (!mel) text("VMAT2", vx, vy - vr - fz(0.022) * 0.8, fz(0.022), "#3f8f6c");
+    if (cur === 2) text("VMAT2", vx, vy - vr - fz(0.022) * 0.8, fz(0.022), "#3f8f6c");
     const hy = nw ? H * 0.19 : H * 0.2;
     callout("tph", cur === 2 && win(1.2, 5.5), X.a, topA - s * 1.5, X.a - W * 0.06, hy, "限速步骤：最慢的一站");
     say("wait", cur === 2 && win(5.5, 9), X.a - q * 2, by - s * 3, X.a - W * 0.16, hy, "排队排队～", "think");
@@ -313,39 +314,38 @@ Anima.register("serotonin-lifecycle", {
     Anima.terminal(cx, 0, tw, th, C.term);
     const SX = cx + tw * 0.4, SY = ty(SX);
     Anima.transporter(SX, SY, H * 0.04, "#9fc3ea", time * 2.5, false);
-    const V = { x: cx - tw * 0.2, y: th * 0.55 }, M = { x: cx + tw * 0.2, y: th * 0.4 };
+    const V = { x: cx - tw * 0.22, y: th * 0.66 }, M = { x: cx + tw * 0.2, y: th * 0.8 };
     Anima.vesicle(V.x, V.y, H * 0.055, "#62c9ab", 6, 1);
-    Anima.vesicle(cx - tw * 0.02, th * 0.72, H * 0.045, "#62c9ab", 5, 5);
+    Anima.vesicle(cx - tw * 0.04, th * 0.5, H * 0.045, "#62c9ab", 5, 5);
     chara(M.x, M.y, s * 1.2, { who: "MAO", label: "MAO-A", arms: "hold", item: "broom", eyes: "happy", dir: -1, tag: "MAO-A" });
     const RX = [cx - tw * 0.2, cx + tw * 0.05];
     const act = [0, 0];
-    let hiaa = null, back = null;
     for (let c = 0; c < 6; c++) {
       const t = (time * 0.13 + c / 6) % 1, ri = c % 2, rx = cx - tw * 0.08 + ri * tw * 0.1, ry = ty(rx) + s * 3.2, site = { x: RX[ri], y: post - H * 0.075 };
       let x, y, al = Math.min(1, t * 12), eyes = "happy", mouth = "smile", sc = 1;
       if (t < 0.2) { const k = ease(t / 0.2); x = lerp(rx, site.x, k); y = lerp(ry, site.y, k); }
       else if (t < 0.3) { x = site.x; y = site.y; act[ri] = 1; eyes = "sparkle"; }
-      else if (t < 0.55) { const k = ease((t - 0.3) / 0.25); x = lerp(site.x, SX, k); y = lerp(site.y, SY + H * 0.1, k) - Math.sin(k * Math.PI) * H * 0.04; if (c === 2 && k > 0.3) back = { x, y }; }
+      else if (t < 0.55) { const k = ease((t - 0.3) / 0.25); x = lerp(site.x, SX, k); y = lerp(site.y, SY + H * 0.1, k) - Math.sin(k * Math.PI) * H * 0.04; }
       else {
         const k = ease((t - 0.55) / 0.45), toM = c % 3 === 0, d = toM ? { x: M.x + s * 1.8, y: M.y } : V;
         x = lerp(SX, d.x, k); y = lerp(SY - H * 0.02, d.y + s * 1.5, k); sc = 0.85;
         if (!toM && k > 0.8) al = (1 - k) / 0.2;
-        if (toM && k > 0.95) { al = 0; hiaa = (t - 0.55 - 0.43) ; }
+        if (toM && k > 0.95) al = 0;
       }
       if (al > 0.02) chara(x, y, s * sc, { who: "5HT", walk: time * 9 + c, eyes, mouth, alpha: al, shadow: false, seed: c });
     }
     // 分解后的 5-HIAA：小小的灰色豆子飘出去
     for (let k = 0; k < 2; k++) {
-      const u = (time * 0.13 + k * 0.5) % 1, x = lerp(M.x + s * 2.4, M.x + tw * 0.28, u), y = lerp(M.y + s * 0.5, M.y - th * 0.35, u);
+      const u = (time * 0.13 + k * 0.5) % 1, x = lerp(M.x - s * 1.5, cx + tw * 0.62, u), y = lerp(M.y - s * 3, th * 0.3, u);
       ctx.save(); ctx.globalAlpha *= Math.min(1, u * 5, (1 - u) * 3);
       ctx.beginPath(); ctx.ellipse(x, y, H * 0.03, H * 0.02, 0.3, 0, Math.PI * 2); ctx.fillStyle = "#d8d0c8"; ctx.fill(); outline(1.3); ctx.stroke();
       ctx.restore();
     }
-    text("5-HIAA", M.x + tw * 0.2, M.y - th * 0.36, fz(0.024), "#8a7560");
+    text("5-HIAA", cx + tw * 0.62, th * 0.3 + H * 0.05, fz(0.024), "#8a7560");
     RX.forEach((x, i) => Anima.receptor(x, post, H * 0.042, "#8fdcc4", act[i], { shape: "tri" }));
     callout("sert", lt > 1 && lt < 7, SX, SY + H * 0.03, SX + W * 0.02, H * 0.62, "SERT：5-HT 回收门");
-    say("reuse", lt > 3 && lt < 7.5, V.x, V.y - H * 0.06, V.x - W * 0.04, th * 0.2, nw ? "回箱再用～" : "回到箱子里，下次再用～", "say");
-    callout("mao", lt > 7.5, M.x, M.y - s * 3, M.x - W * 0.2, th * 0.14, "MAO-A：分解成 5-HIAA");
+    say("reuse", lt > 3 && lt < 7.5, V.x, V.y - H * 0.06, V.x - W * 0.04, th * 0.24, nw ? "回箱再用～" : "回到箱子里，下次再用～", "say");
+    callout("mao", lt > 7.5, M.x, M.y - s * 3.2, M.x - W * 0.14, th * 0.22, "MAO-A：分解成 5-HIAA");
     say("ssri", lt > 9, SX, SY + H * 0.04, W * (nw ? 0.74 : 0.8), H * 0.66, "SSRI 就是来堵我这扇门的～", "think");
     ctx.restore();
   }
