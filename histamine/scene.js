@@ -266,8 +266,8 @@ Anima.register("histamine", {
       const onHet = cur === 4 ? prog(5, 1.4) : 0;
       if (onHet > 0) chara(lerp(g.cx + g.tw * 0.25, sh[0] - hs3 * 0.2, onHet), lerp(g.th + g.cs * 3, sh[1] + hs3 * 3.1, onHet), hs3, { who: "His", arms: onHet >= 1 ? "up" : "down", walk: onHet < 1 ? time * 9 : null, eyes: "open", mouth: "open", shadow: false, dir: 1 });
       if (tilo2 > 0) chara(lerp(g.cx + g.tw * 0.2, sh[0] - hs3 * 0.2, tilo2), sh[1] + hs3 * 3.2, hs3 * 1.05, { who: "drug", hatColor: "#8fc3ea", hatColor2: "#ffffff", walk: tilo2 < 1 ? time * 9 : null, eyes: "happy", arms: tilo2 >= 1 ? "up" : "down", shadow: false });
-      callout("het", cur === 4 && lt > 6.2, eh[0], eh[1] + rs3, nw ? W * 0.72 : W * 0.78, g.post - H * 0.18, nw ? "H3 也在别家末梢" : "别家末梢上的 H3：少放 ACh、NE");
-      callout("more", cur === 5 && lt > 5, nb.cx, g.nh * 0.9, nw ? W * 0.78 : W * 0.82, g.post - H * 0.14, "ACh、NE 也多放");
+      callout("het", cur === 4 && lt > 6.2, eh[0], eh[1] + rs3, nw ? W * 0.7 : W * 0.78, nw ? g.post + H * 0.12 : g.post - H * 0.18, nw ? "H3 也在别家末梢" : "别家末梢上的 H3：少放 ACh、NE");
+      callout("more", cur === 5 && lt > (nw ? 7.2 : 5), nb.cx, g.nh * 0.9, nw ? W * 0.32 : W * 0.82, nw ? g.post + H * 0.12 : g.post - H * 0.14, "ACh、NE 也多放");
       ctx.restore();
     }
     // —— 组胺快递员 ——
@@ -300,10 +300,10 @@ Anima.register("histamine", {
     say("wake", c === 1 && lt > 7.5, fx + H * 0.08, fy, nw ? W * 0.38 : W * 0.3, fy, "醒啦，精神满满～", "say");
     callout("blk", c === 2 && win(2.5, 7.5), g.recX[2] + g.rs, g.post - g.rs * 1.5, nw ? W * 0.8 : W * 0.84, g.post - H * 0.2, "占住 H1，钥匙插不进");
     say("sleepy", c === 2 && lt > 6.5, fx + H * 0.08, fy, nw ? W * 0.38 : W * 0.3, fy, "好困……还有点饿", "think");
-    callout("auto", c === 4 && win(2.8, 6), e3[0], e3[1], nw ? W * 0.2 : W * 0.14, g.th + H * 0.18, "H3 自身受体：自己的刹车");
+    callout("auto", c === 4 && win(2.8, 6), e3[0], e3[1], nw ? W * 0.42 : W * 0.14, nw ? g.post + H * 0.12 : g.th + H * 0.18, "H3 自身受体：自己的刹车");
     // 手机上一行放在囊泡那一排，别压住邻居末梢的“刹”灯
     say("less", c === 4 && lt > 8, g.cx - g.tw * 0.05, g.th * 0.85, g.cx + g.tw * (nw ? -0.05 : 0.18), g.th * (nw ? 0.75 : 0.6), nw ? "够多啦，少放点" : "外面够多啦，少放点", "say");
-    callout("inv", c === 5 && win(2.2, 7), s3[0], s3[1], nw ? W * 0.24 : W * 0.18, g.th + H * 0.2, nw ? "反向激动剂" : "反向激动剂：自带的刹车也松开");
+    callout("inv", c === 5 && win(2.2, 7), s3[0], s3[1], nw ? W * 0.36 : W * 0.18, nw ? g.post + H * 0.12 : g.th + H * 0.2, nw ? "反向激动剂" : "反向激动剂：自带的刹车也松开");
     say("more5", c === 5 && lt > 7.5, fx + H * 0.08, fy, nw ? W * 0.7 : W * 0.32, nw ? H * 0.9 : fy, "叫醒信号变多啦！", nw ? "say" : "shout"); // 手机上放右下角，别压住 H1
     ctx.restore();
   }
@@ -398,7 +398,7 @@ Anima.register("histamine", {
       const x = gap + col * (cw + gap) + cw * 0.3, y = top + row * (chh + gap) + chh * (nw ? 0.56 : 0.52) - H * 0.09;
       chara(x, y - Math.sin(Math.min(1, f * 2) * Math.PI) * H * 0.04, H * 0.035, { who: "His", item: "key", arms: "hold", eyes: "sparkle", walk: time * 9, alpha: f < 0.55 ? 1 : 1 - (f - 0.55) * 3 });
     }
-    say("same", lt > 9.8, W * 0.5, H * 0.5, W * 0.5, nw ? H * 0.5 : H * 0.89, "同一位组胺，门不同，效果不同", "box");
+    say("same", lt > 9.8, W * 0.5, H * 0.5, W * 0.5, nw ? top + chh + gap / 2 : H * 0.89, nw ? "门不同，效果不同" : "同一位组胺，门不同，效果不同", "box"); // 手机上放在两排卡片的缝里，别压住卡片上的字
     ctx.restore();
   }
 

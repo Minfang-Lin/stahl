@@ -235,7 +235,7 @@ Anima.register("alpha2a-hcn", {
       if (win(0.3, 2.2)) { sfx("压力来了！", W * 0.5, H * 0.3, H * 0.06, C.bad, -0.1, 1); Anima.speedLines(W * 0.5, H * 0.5, H * 0.3, 18, 0.4); }
       invU(n ? W * 0.62 : W * 0.78, topY, W * (n ? 0.34 : 0.19), H * (n ? 0.2 : 0.22), lerp(0.5, 0.92, prog(3, 3)));
       callout("x-a1", win(3, n ? 7.4 : 13), P[1].x, P[1].y - cs * 3, n ? W * 0.3 : W * 0.3, topY, "NE、DA 太多：α1、D1 过度");
-      callout("x-off", lt > (n ? 7.6 : 7.4), links[4].x, links[4].y, n ? W * 0.5 : W * 0.52, H * (n ? 0.93 : 0.9), "小门全开，网络掉线");
+      callout("x-off", lt > (n ? 7.6 : 7.4), links[4].x, links[4].y, n ? W * 0.33 : W * 0.52, n ? topY : H * 0.9, "小门全开，网络掉线");
     }
     ctx.restore();
   }
@@ -270,7 +270,7 @@ Anima.register("alpha2a-hcn", {
         const x = lerp(W + cs * 2, W * (n ? 0.62 : 0.6) + i * cs * 1.8, clamp(p * 1.3 - i * 0.15, 0, 1));
         if (p > 0) chara(x, g.shaftY - s * 0.5, cs * 0.85, { who: "NE", walk: p < 1 ? time * 9 + i : null, dir: -1, eyes: "happy", arms: "wave", seed: i });
       }
-      if (p > 0) chara(lerp(W + cs * 4, W * (n ? 0.86 : 0.9), p), g.shaftY - s * 0.5, cs, { who: "drug", hatColor: C.atx, tag: "托莫西汀", dir: -1, walk: p < 1 ? time * 9 : null, arms: "point", eyes: "happy" });
+      if (p > 0) chara(lerp(W + cs * 4, W * (n ? 0.8 : 0.9), p), g.shaftY - s * 0.5, cs, { who: "drug", hatColor: C.atx, tag: "托莫西汀", dir: -1, walk: p < 1 ? time * 9 : null, arms: "point", eyes: "happy" });
     }
     netInset(g.ix, g.iy, g.iw, g.ih, meter);
     if (k === 5) invU(g.ix, g.iy + g.ih + H * 0.02, g.iw, H * (n ? 0.16 : 0.18), lerp(0.2, 0.5, prog(3.5, 2.5)));
@@ -290,7 +290,7 @@ Anima.register("alpha2a-hcn", {
     }
     if (k === 5) {
       callout("f-g", win(2, 6.5), sp.R[0].x, sp.R[0].y, n ? W * 0.3 : W * 0.14, topY, "胍法辛：直接激动 α2A");
-      say("f-atx", lt > 9, W * 0.8, g.shaftY - s * 2, n ? W * 0.3 : W * 0.17, n ? topY + H * 0.1 : H * 0.7, "托莫西汀挡住 NET、兴奋剂提高 NE 和 DA，也走这条路", "box");
+      say("f-atx", lt > 9, W * 0.8, g.shaftY - s * 2, n ? W * 0.3 : W * 0.17, n ? H * 0.88 : H * 0.7, "托莫西汀挡住 NET、兴奋剂提高 NE 和 DA，也走这条路", "box");
     }
     ctx.restore();
   }
@@ -317,7 +317,7 @@ Anima.register("alpha2a-hcn", {
     sparkles(xs[1], hy - s, s * 1.5, 3, 0.8, 4);
     const topY = Anima.topSafe() + H * 0.02, lab = hy - s * 3.2;
     text("无关输入", xs[0], lab, fsz(0.9), C.soft); text("任务相关", xs[1], lab, fsz(0.9), "#2f86b8"); text("无关输入", xs[2], lab, fsz(0.9), C.soft);
-    callout("c-d1", win(2.6, 6.5), sp[0].R[0].x, sp[0].R[0].y, n ? W * 0.3 : W * 0.16, topY, "D1 受体：让 cAMP 增多");
+    callout("c-d1", win(2.6, 6.5), sp[0].R[0].x, sp[0].R[0].y, n ? W * 0.5 : W * 0.16, n ? H * 0.93 : topY, "D1 受体：让 cAMP 增多");
     callout("c-leak", win(6.5, 10.5), sp[2].D[1].x, sp[2].D[1].y, n ? W * 0.62 : W * 0.84, topY, "无关输入的小门打开，杂音漏走");
     say("c-too", lt > 10.6, xs[1], hy - s * 2.4, W * 0.5, H * 0.93, "D1 太多：连重要的连接也会变弱", "box");
     ctx.restore();

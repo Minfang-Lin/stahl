@@ -191,7 +191,7 @@ Anima.register("amyloid-cascade", {
       const gp = prog(4.2, 2.2), gx = lerp(-cs * 2, ax - cs * 1.3, gp), gy = M + H * 0.2;
       if (gp > 0) chara(gx, gy, cs, Object.assign({}, GAMMA, { arms: gp < 1 ? "down" : "wave", walk: gp < 1 && gp > 0 ? time * 9 : null }));
       // 放出来的 Aβ：长的（42）和短的（40）
-      const ab = prog(8.2, 1), abY = yB + up + H * 0.04, s2 = cs * 1.15;
+      const ab = prog(8.2, 1), abY = yB + up + H * (n ? 0.075 : 0.04), s2 = cs * 1.15;
       if (ab > 0.01) {
         const x42 = lerp(ax, ax + W * (n ? 0.2 : 0.16), prog(9.4, 1.4)), x40 = lerp(ax, ax + W * (n ? 0.38 : 0.3), prog(9.4, 1.4));
         ctx.save(); ctx.globalAlpha *= ab;
@@ -199,7 +199,7 @@ Anima.register("amyloid-cascade", {
         abMini(x42, abY + H * 0.02, s2, { tag: "Aβ42", eyes: lt > 10 ? "happy" : "wide", mouth: "cat", arms: lt > 10 ? "hug" : "up", sticky: lt > 9.8 });
         ctx.restore();
         if (lt > 8.2 && lt < 9.6) sfx("啵！", ax + H * 0.08, abY - H * 0.1, H * 0.05, "#e0a93e", -0.15, 1);
-        callout("sticky", lt > 10.3, x42 + s2 * 0.8, abY - s2 * 0.4, x42 + W * 0.1, abY - H * 0.16, "Aβ42 多两个氨基酸，更黏");
+        callout("sticky", lt > 10.3, x42 + s2 * 0.8, abY - s2 * 0.4, n ? W * 0.6 : x42 + W * 0.1, n ? Anima.topSafe() + H * 0.01 : abY - H * 0.16, "Aβ42 多两个氨基酸，更黏");
       }
       callout("beta", lt > 3 && lt < 6.5, ax + H * 0.02, yB, ax + W * 0.22, yB - H * 0.08, "β 分泌酶：先剪上面");
       callout("gamma", lt > 6.3 && lt < 9.2, ax + H * 0.02, yG, ax + W * 0.2, M + H * 0.2, "γ 分泌酶：在膜里剪第二刀");

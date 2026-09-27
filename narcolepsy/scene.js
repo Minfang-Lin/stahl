@@ -331,7 +331,7 @@ Anima.register("narcolepsy", {
     const topY = Anima.topSafe() + H * 0.02;
     callout("n3-dream", rem > 0.5 && win(3.8, n ? 6.6 : 9.4), dx, dy - dr * 0.7, n ? W * 0.3 : dx, topY, "REM：做梦开关打开");
     callout("n3-mute", rem > 0.5 && win(n ? 6.6 : 5.5, 9.4), px - cs * 0.2, by - cs * 2.1, n ? W * 0.4 : W * 0.5, n ? topY : H * 0.2, "同时肌肉静音：梦里跑，身体不动");
-    say("n3-guard", lt > 10, P.guard.x, P.guard.y, n ? W * 0.45 : W * 0.55, H * 0.25, "白天醒着时，我守住这两个开关！", "say");
+    say("n3-guard", lt > 10, P.guard.x, P.guard.y, n ? W * 0.28 : W * 0.55, n ? H * 0.22 : H * 0.25, "白天醒着时，我守住这两个开关！", "say");
     ctx.restore();
   }
   function cataView(a) {
@@ -428,7 +428,7 @@ Anima.register("narcolepsy", {
     callout("n5-his", win(3.6, n ? 6.4 : 9.5), A.mid.x, A.mid.y - ds * 2, L.x + L.w * 0.5, L.y + L.h * 0.98, "反向激动 → 组胺放得更多");
     callout("n5-da", win(n ? 7.4 : 7, 9.6), B.mid.x, B.mid.y - ds * 2, R.x + R.w * 0.5, R.y + R.h * 0.98, "多巴胺在间隙里多留一会儿");
     // 手机上放到上半张卡的空处，别压住莫达非尼的名牌
-    say("n5-sol", lt > 9.8, B.site.x, B.site.y, R.x + R.w * 0.5, R.y + R.h * (n ? 0.19 : 0.9), n ? "索利氨酯：DAT 和 NET 一起挡" : "索利氨酯（solriamfetol）：DAT 和 NET 一起挡", "box");
+    say("n5-sol", lt > (n ? 10.3 : 9.8), B.site.x, B.site.y, n ? W * 0.5 : R.x + R.w * 0.5, R.y + R.h * (n ? 0.98 : 0.9), n ? "索利氨酯：DAT 和 NET 一起挡" : "索利氨酯（solriamfetol）：DAT 和 NET 一起挡", "box");
     void topY;
     ctx.restore();
   }

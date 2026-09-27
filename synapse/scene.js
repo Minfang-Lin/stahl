@@ -288,13 +288,14 @@ Anima.register("synapse", {
     callout("ca", on("ca") && lt > 2, chX, chY, chX - W * 0.02, g.post + H * 0.08, "钙通道打开，Ca²⁺ 涌进来");
     callout("ves", on("ves") && lt > 3.5, g.ves[2][0], g.ves[2][1], g.cx + g.tw * 0.55, g.th * 0.45, "囊泡：装满递质的小泡泡");
     callout("cleft", on("cleft") && lt > 5, g.cx - g.tw * 0.45, (g.bot + g.post) / 2 + H * 0.02, g.cx - g.tw * 0.45, g.post + H * 0.1, "突触间隙：只有几十纳米宽");
-    callout("rec", on("rec"), g.recX[1] + g.rs * 0.6, g.post - g.rs, g.recX[1] + g.tw * 0.12, g.post + H * 0.1, "受体：只认自己钥匙的门");
-    callout("post", on("post") && bindSum > 0.5, g.recX[2] + g.rs * 2, g.post + H * 0.12, g.recX[2] + g.tw * 0.25, g.post + H * 0.2, "信号传给下一个神经元");
+    const nw = Anima.narrow; // 手机：两个标注在膜下同一处先后出现，不压住角色的脸
+    callout("rec", on("rec") && (!nw || (lt > 0.6 && lt < 5)), g.recX[1] + g.rs * 0.6, g.post - g.rs, nw ? W * 0.33 : g.recX[1] + g.tw * 0.12, g.post + H * (nw ? 0.09 : 0.1), "受体：只认自己钥匙的门");
+    callout("post", on("post") && bindSum > 0.5 && (!nw || lt >= 5.8), g.recX[2] + g.rs * 2, g.post + H * 0.12, nw ? W * 0.36 : g.recX[2] + g.tw * 0.25, g.post + H * (nw ? 0.09 : 0.2), "信号传给下一个神经元");
     callout("pump", on("pump") && lt < 6.5, g.T.x, g.T.y, g.T.x + W * 0.05, g.th * 0.3, "转运体：把递质拉回去");
     callout("mao", on("mao") && lt >= 6.5, mx, my - g.cs * 2, mx + W * 0.1, g.th * 0.3, "MAO：分解多余的单胺递质");
     const p0 = pos[0];
     say("go", cur === 2 && p0 && lt < 6, p0 ? p0.x : 0, p0 ? p0.y - g.cs * 3 : 0, p0 ? p0.x - W * 0.1 : 0, g.bot + H * 0.03, "多巴胺快递，出发～！", "shout");
-    say("recv", cur === 3 && lt > 1 && lt < 7, W * 0.1, g.post + H * 0.14, W * 0.24, g.post + H * 0.14, "收到信啦！", "say");
+    say("recv", cur === 3 && lt > 1 && lt < 7, nw ? W * 0.9 : W * 0.1, nw ? g.post + H * 0.05 : g.post + H * 0.14, nw ? W * 0.78 : W * 0.24, nw ? g.post + H * 0.16 : g.post + H * 0.14, "收到信啦！", "say");
     const p3 = pos[3];
     say("lost", cur === 3 && lt > 6 && !!p3, p3 ? p3.x : 0, p3 ? p3.y - g.cs * 3 : 0, p3 ? p3.x + W * 0.06 : 0, g.bot - H * 0.06, "门都满了，我该去哪呀？", "think");
     say("back", cur === 4 && lt > 1.2 && lt < 6, px, py - g.cs * 3.2, px + W * 0.02, py - H * 0.2, "辛苦啦，回家重新装箱～", "say");
@@ -367,17 +368,21 @@ Anima.register("synapse", {
     const gx = R.x + R.w * 0.58, gy = ry + R.h * 0.14;
     ctx.beginPath(); ctx.ellipse(gx, gy, H * 0.05, H * 0.04, 0, 0, Math.PI * 2); ctx.fillStyle = C.gprot; ctx.fill(); outline(2); ctx.stroke();
     face(gx, gy, H * 0.03, 1); text("G 蛋白", gx, gy - H * 0.065, Math.max(11, H * 0.028) * Anima.UI, C.ink);
-    const nx = R.x + R.w * 0.5, ny = R.y + R.h * 0.8, nr = Math.min(H * 0.085, R.w * 0.16);
+    const nw = Anima.narrow; // 手机：细胞核挪到左边，名字写在右边，底下留给“几秒～几天”
+    const nx = R.x + R.w * (nw ? 0.32 : 0.5), ny = R.y + R.h * (nw ? 0.68 : 0.8), nr = Math.min(H * 0.085, R.w * 0.16);
     nucleus(nx, ny, nr);
-    text("细胞核（基因）", nx, ny + nr + H * 0.035, Math.max(11, H * 0.028) * Anima.UI, C.ink);
+    if (nw) {
+      text("细胞核", R.x + R.w * 0.74, ny - H * 0.028, Math.max(11, H * 0.028) * Anima.UI, C.ink);
+      text("（基因）", R.x + R.w * 0.74, ny + H * 0.028, Math.max(11, H * 0.028) * Anima.UI, C.ink);
+    } else text("细胞核（基因）", nx, ny + nr + H * 0.035, Math.max(11, H * 0.028) * Anima.UI, C.ink);
     // 第二信使：一路小光点
-    const pts = [[rx, ry + H * 0.02], [gx, gy], [R.x + R.w * 0.3, ry + R.h * 0.34], [nx, ny - nr]];
+    const pts = nw ? [[rx, ry + H * 0.02], [gx, gy], [nx, ny - nr]] : [[rx, ry + H * 0.02], [gx, gy], [R.x + R.w * 0.3, ry + R.h * 0.34], [nx, ny - nr]];
     ctx.save(); ctx.setLineDash([4, 6]); outline(1.4); ctx.beginPath(); pts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]))); ctx.stroke(); ctx.restore();
     const t = (time * 0.18) % 1;
     Anima.spark(pts, t, H * 0.02, "#8f84e0");
-    text("⏳ 几秒～几天", R.x + R.w * 0.78, R.y + R.h - H * 0.06, Math.max(12, H * 0.036) * Anima.UI, "#6b61c9");
+    text("⏳ 几秒～几天", R.x + R.w * (nw ? 0.5 : 0.78), R.y + R.h - H * 0.06, Math.max(12, H * 0.036) * Anima.UI, "#6b61c9");
     say("fast", lt > 1 && lt < 8, lx - cs, my - H * 0.2, L.x + L.w * 0.26, L.y + L.h * 0.16, "门开啦，快冲！", "shout");
-    say("slow", lt > 4, rx + cs, ry - H * 0.2, R.x + R.w * 0.72, R.y + R.h * 0.14, "我把消息一站一站慢慢传进去～", "say");
+    say("slow", lt > 4, rx + cs, ry - H * 0.2, R.x + R.w * (nw ? 0.76 : 0.72), R.y + R.h * (nw ? 0.23 : 0.14), nw ? "一站一站\n慢慢传～" : "我把消息一站一站慢慢传进去～", "say");
     ctx.restore();
   }
   function hud() {

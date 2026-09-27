@@ -146,7 +146,7 @@ Anima.register("antidepressants", {
     if (block > 0 && block < 1) sfx("啪！", g.T.x + g.rs * 1.4, g.T.y - g.rs * 0.2, H * 0.05, "#e7a23a", -0.15, 1);
     if (lt > 4.2 && lt < 5.2) sfx("啪！", g.T.x + g.rs * 1.4, g.T.y - g.rs * 0.2, H * 0.05, "#e7a23a", -0.15, 1 - (lt - 4.2));
 
-    callout("sert", lt > 0.6 && lt < 4.2, g.T.x - g.rs * 0.7, g.T.y, g.T.x - W * 0.08, g.bot + H * 0.14, "5-HT 转运体：回收门");
+    callout("sert", lt > 0.6 && lt < 4.2, g.T.x - g.rs * 0.7, g.T.y, g.T.x - W * 0.08, narrow() ? g.post + H * 0.14 : g.bot + H * 0.14, "5-HT 转运体：回收门"); // 手机上放到膜下面，不压住受体上 5-HT 的脸
     callout("ssri", lt > 5.2, dx - g.cs * 0.8, dy - g.cs * 1.5, g.T.x - W * 0.14, g.post + H * 0.1, "SSRI：把回收门先堵上");
     say("closed", lt > 4.6 && lt < 9, dx + g.cs * 0.5, dy - g.cs * 3.2, W * 0.86, g.bot * 0.45, "回收门暂停营业～", "say");
     const p1 = pos[3];
@@ -210,7 +210,8 @@ Anima.register("antidepressants", {
     const recA = clamp(1 - d * 0.75, 0, 1); // 脱敏后变小、变灰
     ctx.save(); ctx.translate(rx, ry); ctx.scale(0.55 + recA * 0.45, 0.55 + recA * 0.45); ctx.translate(-rx, -ry);
     if (d > 0.5 && ctx.filter !== undefined) ctx.filter = "grayscale(0.7)";
-    const rec = Anima.receptor(rx, ry, rs, "#f7a8c0", brake, { label: "5-HT1A" });
+    // 手机上门上的小字太小看不清，名字交给标注来点
+    const rec = Anima.receptor(rx, ry, rs, "#f7a8c0", brake, { label: narrow() ? "" : "5-HT1A" });
     ctx.filter = "none";
     ctx.restore();
     const pdx = sx - sr * 1.25, pdy = sy - sr * 0.55;
@@ -247,8 +248,8 @@ Anima.register("antidepressants", {
     rrect(bx, byy - H * 0.012, bw, H * 0.024, H * 0.012); ctx.fillStyle = "#fff"; ctx.fill(); outline(1.4); ctx.stroke();
     rrect(bx, byy - H * 0.012, bw * (0.1 + d * 0.9), H * 0.024, H * 0.012); ctx.fillStyle = mix("#ffb3b3", "#8fdcc4", d); ctx.fill();
     const nar = narrow();
-    callout("auto", lt > 1 && lt < (nar ? 4.4 : 8.5), rx + rs * 0.7, ry - rs * 0.9, L.x + L.w * 0.62, L.y + L.h * (nar ? 0.2 : 0.16), "5-HT1A 自身受体 = 刹车");
-    callout("desens", lt > 9, rx + rs * 0.5, ry - rs * 0.4, L.x + L.w * 0.55, L.y + L.h * (nar ? 0.2 : 0.16), "几周后：自身受体脱敏、变少");
+    callout("auto", lt > 1 && lt < (nar ? 4.4 : 8.5), rx + rs * 0.7, ry - rs * 0.9, L.x + L.w * 0.62, L.y + L.h * (nar ? 0.27 : 0.16), "5-HT1A 自身受体 = 刹车");
+    callout("desens", lt > 9, rx + rs * 0.5, ry - rs * 0.4, L.x + L.w * 0.55, L.y + L.h * (nar ? 0.27 : 0.16), nar ? "几周后：受体脱敏、变少" : "几周后：自身受体脱敏、变少");
     say("brake", lt > (nar ? 4.6 : 1.2) && lt < (nar ? 8.8 : 6.8), sx - sr * 0.5, sy - sr * 0.3, L.x + L.w * 0.3, L.y + L.h * 0.3, "5-HT 一多，我先踩一脚刹车……", "think");
     say("go", lt > 9.5, tcx, T.bot, tcx, ty0 + tth * 0.45, "刹车松开，信终于多起来啦！", "shout");
     ctx.restore();
@@ -315,8 +316,8 @@ Anima.register("antidepressants", {
     Anima.wash("#fff8f0", "#f3f0fd");
     Anima.bokeh(6, "#ffe3a8", 0.7, 17);
     const nar = narrow();
-    // 手机上时间线略往上提，给底部的安全提醒方框留出位置，不压住“几周”的刻度
-    const x0 = W * 0.07, x1 = W * 0.93, ly = nar ? H * 0.54 : H * 0.68, span = x1 - x0;
+    // 手机上时间线略往上提，给底部的安全提醒方框留出位置，不压住“几周”的刻度；副作用小圆牌排在更上面，名牌不压住路上的人
+    const x0 = W * 0.07, x1 = W * 0.93, ly = nar ? H * 0.57 : H * 0.68, span = x1 - x0;
     // 时间线（一条小路）
     rrect(x0 - H * 0.02, ly - H * 0.018, span + H * 0.04, H * 0.036, H * 0.018); ctx.fillStyle = "#f3e3cf"; ctx.fill(); outline(1.8); ctx.stroke();
     const fs = fsz(0.03);
@@ -329,7 +330,7 @@ Anima.register("antidepressants", {
     const wp = clamp(lt / 12.5, 0, 1);
     const wx = x0 + span * 0.72 * wp;
     const week = wp * 0.72 * 6;
-    const cs = H * 0.045;
+    const cs = H * (nar ? 0.04 : 0.045);
     const good = week > 2.5;
     chara(wx, ly - H * 0.005, cs, { who: "neuron", walk: time * 7, eyes: good ? "happy" : week > 0.3 ? "sleepy" : "open", mouth: good ? "grin" : "wavy", arms: good ? "wave" : "down" });
     chara(wx - cs * 2.2, ly - H * 0.005, cs * 0.9, { who: "drug", label: "药", walk: time * 7 + 1, eyes: "happy", arms: "hold", mouth: "smile" });
@@ -340,20 +341,20 @@ Anima.register("antidepressants", {
     SE.forEach((e, i) => {
       const appear = prog(0.6 + i * 0.5, 0.6);
       const fade = e[4] ? prog(7 + i * 0.4, 2) * 0.65 : 0;
-      // 手机上名牌相对更宽：小圆牌左右拉开一点，名牌不互相压
-      const ex = nar ? [0, 0.17, 0.34, 0.07, 0.27][i] : e[2];
-      tile(x0 + span * ex, H * (nar ? (e[3] > 0.4 ? 0.39 : 0.22) : e[3]), tr, e[0], e[1], appear * (1 - fade), "#f2b5c4");
+      // 手机上竖向放不下两排：五个小圆牌排成一排，名牌之间留缝，也不压住路上的人
+      const ex = nar ? [0, 0.162, 0.321, 0.506, 0.711][i] : e[2];
+      tile(x0 + span * ex, nar ? H * 0.19 : H * e[3], tr, e[0], e[1], appear * (1 - fade), "#f2b5c4");
     });
     // 疗效：太阳慢慢升起
     const sp = prog(5, 5);
-    const sunX = x0 + span * 0.55, sunY = lerp(ly - H * 0.05, H * 0.34, sp);
+    const sunX = x0 + span * (nar ? 0.93 : 0.55), sunY = lerp(ly - H * 0.05, H * (nar ? 0.3 : 0.34), sp);
     ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, ly - H * 0.02); ctx.clip();
     sun(sunX, sunY, Math.min(H * 0.07, W * 0.05), sp > 0.02 ? 1 : 0);
     ctx.restore();
-    callout("se", nar ? lt > 1.5 && lt < 4.5 : lt > 3, x0 + span * (nar ? 0.34 : 0.27) + tr * 0.8, H * (nar ? 0.22 : 0.3), nar ? W * 0.72 : x0 + span * 0.45, H * 0.2, "副作用：常常先到");
-    callout("ben", lt > (nar ? 9 : 7.5), sunX + tr * 0.8, sunY, x0 + span * 0.8, H * 0.2, "疗效：一般 2～4 周开始");
-    say("tell", nar ? lt > 4.6 && lt < 8.8 : lt > 2 && lt < 7.5, wx, ly - cs * 3.2, nar ? W * 0.7 : wx + W * 0.2, nar ? H * 0.4 : H * 0.44, "有点恶心……要告诉医生吗？", "think");
-    say("warn", lt > (nar ? 9 : 7.8), wx, ly - cs * 3.2, W * 0.5, H * 0.9, "年轻人刚用药时，如果情绪变差、有轻生念头，请马上告诉家人和医生。", "box");
+    callout("se", nar ? lt > 1.5 && lt < 4.5 : lt > 3, x0 + span * (nar ? 0.321 : 0.27) + tr * 0.8, H * (nar ? 0.19 : 0.3), nar ? W * 0.62 : x0 + span * 0.45, H * (nar ? 0.37 : 0.2), "副作用：常常先到");
+    callout("ben", lt > (nar ? 9 : 7.5), sunX + tr * 0.8, sunY, nar ? W * 0.45 : x0 + span * 0.8, H * (nar ? 0.33 : 0.2), "疗效：一般 2～4 周开始");
+    say("tell", nar ? lt > 5.2 && lt < 8.8 : lt > 2 && lt < 7.5, wx, ly - cs * 3.2, nar ? W * 0.74 : wx + W * 0.2, nar ? H * 0.405 : H * 0.44, "有点恶心……要告诉医生吗？", nar ? "say" : "think"); // 手机上云朵太高，改用小一点的对话框
+    say("warn", lt > (nar ? 9 : 7.8), wx, ly - cs * 3.2, W * 0.5, H * (nar ? 0.83 : 0.9), "年轻人刚用药时，如果情绪变差、有轻生念头，请马上告诉家人和医生。", "box");
     ctx.restore();
   }
 
@@ -362,7 +363,7 @@ Anima.register("antidepressants", {
     ctx.save(); ctx.globalAlpha *= a;
     Anima.wash("#f6fbff", "#fdf0f5");
     Anima.petals(8, 0.5, 60);
-    // 手机上卡片矮一点，把“被堵住的门”标注放到卡片下面，不压住门边的字
+    // 手机上卡片矮一点，把“被堵住的门”标注和两个气泡放到卡片下面，不压住门边的字和药物访客的脸
     const nar4 = narrow();
     const gap = W * 0.025, cw = (W - gap * 4) / 3, top = H * 0.24, ch = H * (nar4 ? 0.6 : 0.7);
     const D = [
@@ -400,9 +401,9 @@ Anima.register("antidepressants", {
       ctx.restore();
     });
     const g1 = posDrug[1], g2 = posDrug[2];
-    callout("tape", lt > 2 && lt < 6.5, gap + cw * 0.52 + Math.min(H * 0.042, cw * 0.1) * 0.95, top + ch * 0.19 + Math.min(H * 0.042, cw * 0.1) * 0.2, nar4 ? W * 0.5 : gap + cw * 0.5, H * (nar4 ? 0.93 : 0.13), "被堵住的门：递质留得更久");
-    say("snri", lt > 4.2 && lt < 7.6 && !!g1, g1 ? g1.x : 0, g1 ? g1.y : 0, g1 ? g1.x + cw * 0.3 : 0, top + ch * 0.72, "两扇门我都管！", "say");
-    say("bup", lt > 8 && !!g2, g2 ? g2.x : 0, g2 ? g2.y : 0, g2 ? g2.x - cw * 0.35 : 0, top + ch * 0.72, "我管去甲和多巴胺～", "say");
+    callout("tape", lt > 2 && lt < (nar4 ? 4.2 : 6.5), gap + cw * 0.52 + Math.min(H * 0.042, cw * 0.1) * 0.95, top + ch * 0.19 + Math.min(H * 0.042, cw * 0.1) * 0.2, nar4 ? W * 0.5 : gap + cw * 0.5, H * (nar4 ? 0.93 : 0.13), "被堵住的门：递质留得更久");
+    say("snri", lt > 4.2 && lt < 7.6 && !!g1, g1 ? g1.x : 0, g1 ? g1.y : 0, nar4 ? W * 0.5 : g1 ? g1.x + cw * 0.3 : 0, nar4 ? H * 0.925 : top + ch * 0.72, "两扇门我都管！", "say");
+    say("bup", lt > 8 && !!g2, g2 ? g2.x : 0, g2 ? g2.y : 0, nar4 ? W * 0.62 : g2 ? g2.x - cw * 0.35 : 0, nar4 ? H * 0.925 : top + ch * 0.72, "我管去甲和多巴胺～", "say");
     ctx.restore();
   }
 
@@ -470,7 +471,7 @@ Anima.register("antidepressants", {
     }
     if (nMore > 3) sparkles(cx + tw * 0.15, th * 0.55, tw * 0.25, 5, 0.9, 8);
     // 右：忌口卡片
-    const kx = nar ? W * 0.66 : W * 0.64, kw = W * 0.97 - kx, ky = H * 0.24, kh = H * 0.62;
+    const kx = nar ? W * 0.66 : W * 0.64, kw = W * 0.97 - kx, ky = H * 0.24, kh = H * (nar ? 0.7 : 0.62);
     const kon = prog(7, 0.9);
     if (kon > 0.02) {
       ctx.save(); ctx.globalAlpha *= kon; ctx.translate(0, (1 - kon) * H * 0.04);
@@ -481,11 +482,17 @@ Anima.register("antidepressants", {
       ctx.strokeStyle = C.bad; ctx.lineWidth = Math.max(3, cz * 0.12);
       ctx.beginPath(); ctx.arc(kx + kw * 0.5, ky + kh * 0.27, cz * 1.25, 0, Math.PI * 2); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(kx + kw * 0.5 - cz * 0.88, ky + kh * 0.27 - cz * 0.88); ctx.lineTo(kx + kw * 0.5 + cz * 0.88, ky + kh * 0.27 + cz * 0.88); ctx.stroke();
-      const fs = fsz(0.032);
-      ctx.font = `${fs}px ${Anima.ROUND}`;
-      const L1 = Anima.wrapText(nar ? "忌口：陈年奶酪等含酪胺的食物" : "严格忌口：陈年奶酪等富含酪胺的食物", kw * 0.86);
-      const L2 = Anima.wrapText(nar ? "当心药物相互作用" : "当心药物相互作用：用别的药之前先问医生", kw * 0.86);
-      let yy = ky + kh * 0.6;
+      // 手机上卡片窄、字换行多：字从禁止符号下方开始排，放不下就把字缩小一点，保证不出卡片底边
+      let fs = fsz(0.032), L1, L2, yy;
+      for (;;) {
+        ctx.font = `${fs}px ${Anima.ROUND}`;
+        L1 = Anima.wrapText(nar ? "忌口：陈年奶酪等含酪胺的食物" : "严格忌口：陈年奶酪等富含酪胺的食物", kw * 0.86);
+        L2 = Anima.wrapText(nar ? "当心药物相互作用" : "当心药物相互作用：用别的药之前先问医生", kw * 0.86);
+        yy = nar ? ky + kh * 0.27 + cz * 1.25 + fs * 1.3 : ky + kh * 0.6;
+        const bottom = yy + (L1.length + L2.length - 1) * fs * 1.35 + fs * 0.6 + fs * 0.7;
+        if (!nar || bottom <= ky + kh - fs * 0.4 || fs <= 10) break;
+        fs -= 0.5;
+      }
       L1.forEach((l) => { text(l, kx + kw * 0.5, yy, fs, C.ink); yy += fs * 1.35; });
       yy += fs * 0.6;
       L2.forEach((l) => { text(l, kx + kw * 0.5, yy, fs, C.ink); yy += fs * 1.35; });

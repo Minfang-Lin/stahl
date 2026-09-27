@@ -340,7 +340,7 @@ Anima.register("opioid-receptors", {
       if (i < 2) plate("剂量 ×" + dose, mx, top + ch * 0.2, "#fff6e6", fz(0.024));
     });
     const x1 = gap * 2 + cw;
-    callout("ceil", lt > 7, x1 + cw * 0.18 + cw * 0.64 * 0.45, top + ch * 0.58 + (ch * 0.42) * 0.45, x1 + cw * 0.5, top + ch * 0.36, "天花板：加量也不再往上");
+    callout("ceil", lt > 7, x1 + cw * 0.18 + cw * 0.64 * 0.45, top + ch * 0.58 + (ch * 0.42) * 0.45, nw ? W * 0.5 : x1 + cw * 0.5, nw ? H * 0.93 : top + ch * 0.36, "天花板：加量也不再往上"); // 手机上放到卡片下方空处，别压住“剂量 ×3”和小人
     ctx.restore();
   }
 
@@ -367,9 +367,9 @@ Anima.register("opioid-receptors", {
     }
     const e = eff.reduce((p, q) => p + q, 0) / n;
     meter(W * (nw ? 0.5 : 0.62), Anima.topSafe() + H * 0.06, W * (nw ? 0.42 : 0.3), e, "效果", C.mu);
-    callout("tag", win(2.3, 5.5), W * 0.31 + rs * 0.9, mem - rs * 0.8, nw ? W * 0.4 : W * 0.3, nw ? H * 0.28 : H * 0.24, "贴上标记：和 G 蛋白脱钩（脱敏）");
+    callout("tag", win(2.3, 5.5), W * 0.31 + rs * 0.9, mem - rs * 0.8, nw ? W * 0.5 : W * 0.3, nw ? H * 0.62 : H * 0.24, "贴上标记：和 G 蛋白脱钩（脱敏）");
     callout("in", lt > 5.5, W * 0.69, mem + H * 0.26, nw ? W * 0.5 : W * 0.5, H * 0.91, "收进细胞里（内化）");
-    say("more", lt > 8.5, W * 0.88, mem - rs * 3.4, nw ? W * 0.5 : W * 0.6, H * 0.27, "同样的量，没以前管用了……", "think");
+    say("more", lt > 8.5, W * 0.88, mem - rs * 3.4, nw ? W * 0.5 : W * 0.6, nw ? H * 0.6 : H * 0.27, "同样的量，没以前管用了……", "think");
     ctx.restore();
   }
 

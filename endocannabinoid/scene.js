@@ -185,10 +185,10 @@ Anima.register("endocannabinoid", {
       if (cutF < 1) chara(lerp(gbSite.x, fx - fgap, drift), lerp(gbSite.y, fy, drift), cs, Object.assign(ECB("AEA"), { alpha: 1 - cutF, arms: drift > 0 ? "down" : "up", eyes: cutF > 0 ? "dizzy" : "happy", walk: drift > 0 && drift < 1 ? time * 8 : null }));
       if (cur === 2) {
         if (lt > 1.5) emote("zzz", caX + H * 0.03, caY - H * 0.06, H * 0.03);
-        callout("cb1", lt > 1 && lt < 4.5, cbX + rs * 0.6, cbY + rs, n ? W * 0.7 : W * 0.66, H * 0.56, "CB1 收到回信，被激活");
-        callout("ca2", lt > 4.5 && lt < 8.5, caX, caY, n ? W * 0.3 : W * 0.24, H * 0.56, "钙通道少开 → 少放递质");
-        callout("gaba", lt > 8.5, gbX - rs * 0.6, gbY + rs, n ? W * 0.6 : W * 0.62, H * 0.56, "GABA 末梢也收到回信");
-        say("ok", lt > 5 && lt < 10, T.cx, T.h * 0.45, n ? W * 0.72 : W * 0.66, H * 0.3, "收到～那我先少送点", "say");
+        callout("cb1", lt > 1 && lt < 4.5, cbX + rs * 0.6, cbY + rs, n ? W * 0.62 : W * 0.66, n ? H * 0.9 : H * 0.56, "CB1 收到回信，被激活");
+        callout("ca2", lt > 4.5 && lt < 8.5, caX, caY, n ? W * 0.38 : W * 0.24, n ? H * 0.19 : H * 0.56, "钙通道少开 → 少放递质");
+        callout("gaba", lt > (n ? 9 : 8.5), gbX - rs * 0.6, gbY + rs, n ? W * 0.6 : W * 0.62, n ? H * 0.9 : H * 0.56, "GABA 末梢也收到回信");
+        say("ok", lt > 5 && lt < (n ? 8.4 : 10), T.cx, T.h * 0.45, n ? W * 0.72 : W * 0.66, H * 0.3, "收到～那我先少送点", "say");
       } else {
         const mx = cbX - rs * 1.8, my = termY(mx, T) - H * 0.015;
         chara(mx, my, cs * 1.1, Object.assign({}, MAGL, { arms: "point", eyes: lt > 3.4 ? "happy" : "open" }));
@@ -199,7 +199,7 @@ Anima.register("endocannabinoid", {
         if (cutF > 0 && cutF < 1) sparkles(fx - fgap, fy - cs, cs * 2, 4, 1, 5);
         callout("magl", lt > 1 && lt < 5, mx, my - cs * 2, n ? W * 0.14 : W * 0.12, H * 0.54, "MAGL：在突触前拆 2-AG");
         callout("faah", lt > 4.5 && lt < 8.5, fx, fy - cs * 2.4, n ? W * 0.44 : W * 0.46, post - H * 0.08, "FAAH：在突触后拆 AEA");
-        callout("back", lt > 8.8, T.cx - T.w * 0.05, termY(T.cx, T) + H * 0.04, n ? W * 0.62 : W * 0.6, H * 0.56, "回信拆掉，送信恢复");
+        callout("back", lt > 8.8, T.cx - T.w * 0.05, termY(T.cx, T) + H * 0.04, n ? W * 0.38 : W * 0.6, n ? H * 0.19 : H * 0.56, "回信拆掉，送信恢复");
       }
     }
     if (cur === 4) {
@@ -223,7 +223,7 @@ Anima.register("endocannabinoid", {
         ctx.restore();
       });
       callout("thc", lt > 2.4 && lt < 7, cbSite.x + cs, cbSite.y - cs * 2, n ? W * 0.66 : W * 0.64, H * 0.56, "THC：到处占住 CB1");
-      callout("long", lt > 7 && lt < 11, spots[2].x, spots[2].y - cs * 3, n ? W * 0.62 : W * 0.66, H * 0.46, "拆不掉，久久不走");
+      callout("long", lt > 7 && lt < 11, spots[2].x, spots[2].y - cs * 3, n ? W * 0.38 : W * 0.66, n ? H * 0.19 : H * 0.46, "拆不掉，久久不走");
     }
     ctx.restore();
   }

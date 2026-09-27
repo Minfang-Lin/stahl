@@ -219,14 +219,14 @@ Anima.register("dementia", {
     ctx.beginPath(); ctx.ellipse(W * 0.26, H * 0.86, W * 0.2, H * 0.05, 0, 0, Math.PI * 2); ctx.fillStyle = "#f9d3dc"; ctx.fill(); outline(1.5); ctx.stroke();
     // 四盏“能力小灯”：一盏接一盏地变暗
     const names = ["记忆", "判断", "语言", "生活自理"];
-    const lx0 = W * 0.47, lx1 = W * 0.9, ly = Y(0.34), lr = Math.min(H * 0.045, W * 0.035);
+    const lx0 = W * (narrow() ? 0.46 : 0.47), lx1 = W * (narrow() ? 0.91 : 0.9), ly = Y(0.34), lr = Math.min(H * 0.045, W * 0.035);
     ctx.strokeStyle = alpha(C.line, 0.5); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(lx0 - lr * 2, Y(0.19)); ctx.lineTo(lx1 + lr * 2, Y(0.19)); ctx.stroke();
     const dimAt = [2.5, 4.5, 6.5, 8.5];
     names.forEach((n, i) => {
       const x = lerp(lx0, lx1, i / 3);
       const flick = lt > dimAt[i] - 0.6 && lt < dimAt[i] ? (Math.sin(lt * 40) > 0 ? 1 : 0.4) : 1;
       const lit = (1 - prog(dimAt[i], 1.2) * (i === 3 ? 0.55 : 0.8)) * flick;
-      lamp(x, Y(0.19), ly + (i % 2) * H * 0.02, lr, lit, n);
+      lamp(x, Y(0.19), ly + (i % 2) * H * (narrow() ? 0.04 : 0.02), lr, lit, n); // 手机上灯距窄，名牌上下错开多一点
     });
     // 饼图：痴呆的原因
     const px = W * (narrow() ? 0.62 : 0.74), py = narrow() ? H * 0.84 : H * 0.68, pr = Math.min(H * (narrow() ? 0.08 : 0.1), W * 0.08);
@@ -546,10 +546,10 @@ Anima.register("dementia", {
     const calm = plugIn > 0.8;
     chara(resident.x, resident.y, cs * 0.95, { who: "neuron", arms: calm ? (clear ? "up" : "down") : "hug", eyes: calm ? (clear ? "sparkle" : "happy") : "x", mouth: calm ? "smile" : "wavy", brow: calm ? null : "worry", dir: -1 });
     if (!calm) emote("sweat", resident.x + cs * 1, resident.y - cs * 3, cs * 0.6);
-    callout("d-nmda", here && lt < 5.2, rx + rs * 0.7, post - rs * 0.4, W * 0.2, post + H * 0.1, "NMDA 受体：学习记忆的门");
+    callout("d-nmda", here && lt < 5.2, rx + rs * 0.7, post - rs * 0.4, narrow() ? W * 0.3 : W * 0.2, narrow() ? H * 0.93 : post + H * 0.1, "NMDA 受体：学习记忆的门");
     callout("d-noise", here && lt > 0.8 && lt < 5.2, site.x - rs * 2.6, site.y - H * 0.08, W * 0.8, H * 0.28, "持续的背景杂音");
     callout("d-mem", here && lt > 6.3, mx - cs * 0.6, my - cs * 1.4, W * 0.18, post + H * 0.1, "美金刚：松松的塞子");
-    say("d-loud", here && lt > 1.5 && lt < 5.2, resident.x, resident.y - cs * 3.1, resident.x - W * 0.08, post - H * 0.12, "好吵，听不清信号……", "think");
+    say("d-loud", here && lt > 1.5 && lt < 5.2, resident.x, resident.y - cs * 3.1, narrow() ? W * 0.66 : resident.x - W * 0.08, post - H * 0.12, "好吵，听不清信号……", "think");
     say("d-clear", here && lt > 9.4, resident.x, resident.y - cs * 3.1, resident.x - W * 0.06, post - H * 0.12, "这下听清楚啦！", "say");
     ctx.restore();
   }
@@ -616,7 +616,7 @@ Anima.register("dementia", {
     const tfs = Math.min(fsUI() * 1.1, R.w / (narrow() ? 8 : 11));
     tips.forEach((t, k) => {
       const col = k % 2, row = Math.floor(k / 2), nw = narrow();
-      const x = nw ? R.x + R.w * 0.5 : R.x + R.w * (col ? 0.72 : 0.28), y = nw ? R.y + R.h * (0.13 + k * 0.12) : R.y + R.h * (0.14 + row * 0.15);
+      const x = nw ? R.x + R.w * 0.5 : R.x + R.w * (col ? 0.72 : 0.28), y = nw ? R.y + R.h * (0.16 + k * 0.14) : R.y + R.h * (0.14 + row * 0.15);
       chip(t, x, y, tfs, ["#fff1b8", "#e1f5ec", "#e3f3fc", "#ffe1ee"][k], prog(1.5 + k * 1.2, 0.8) * (nw ? 1 - prog(9.3, 0.6) : 1));
     });
     const drug0 = ab[0];

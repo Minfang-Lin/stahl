@@ -57,11 +57,11 @@ Anima.register("monoamine-brakes", {
   }
 
   // ---------- 小工具 ----------
-  function plate(t, x, y, bg, fs) {
+  function plate(t, x, y, bg, fs, x0, x1) {
     fs = fs || fz(0.026);
     ctx.font = `${fs}px ${Anima.ROUND}`;
     const w = ctx.measureText(t).width + fs * 1.1, h = fs * 1.5;
-    x = clamp(x, w / 2 + 4, W - w / 2 - 4);
+    x = clamp(x, w / 2 + (x0 === undefined ? 4 : x0), (x1 === undefined ? W - 4 : x1) - w / 2);
     rrect(x - w / 2, y - h / 2, w, h, h / 2); ctx.fillStyle = bg || "rgba(255,255,255,0.95)"; ctx.fill(); outline(1.4); ctx.stroke();
     text(t, x, y + 1, fs, C.ink);
   }
@@ -236,7 +236,7 @@ Anima.register("monoamine-brakes", {
     const nw = Anima.narrow;
     Anima.wash("#fdf6f8", "#f3f0fd");
     Anima.petals(10, 0.5, 33);
-    const top = Anima.topSafe() + H * 0.05, ch = H * 0.62, gap = W * 0.03, cw = (W - gap * 3) / 2;
+    const top = Anima.topSafe() + H * 0.05, ch = H * (nw ? 0.56 : 0.62), gap = W * 0.03, cw = (W - gap * 3) / 2;
     const L = { x: gap, y: top, w: cw, h: ch }, R = { x: gap * 2 + cw, y: top, w: cw, h: ch };
     card(L.x, L.y, L.w, L.h, "曲唑酮", "#e4e0ff");
     card(R.x, R.y, R.w, R.h, "阿戈美拉汀", "#ffe3e6");
@@ -245,7 +245,7 @@ Anima.register("monoamine-brakes", {
     const my = L.y + L.h * 0.62, t1 = prog(0.8, 2);
     ctx.save(); rrect(L.x, L.y, L.w, L.h, 18); ctx.clip(); ctx.fillStyle = "#f1eefc"; ctx.fillRect(L.x, my, L.w, L.h); ctx.restore();
     outline(1.6); ctx.beginPath(); ctx.moveTo(L.x, my); ctx.lineTo(L.x + L.w, my); ctx.stroke();
-    const doors = [["5-HT2A", "#ffd27a", 0.22, "tri"], ["H1", "#e0c8f5", 0.52, "round"], ["α1", "#ffd3d6", 0.8, "square"]];
+    const doors = [["5-HT2A", "#ffd27a", 0.22, "tri"], ["H1", "#e0c8f5", nw ? 0.57 : 0.52, "round"], ["α1", "#ffd3d6", 0.8, "square"]];
     doors.forEach((d, i) => {
       const x = L.x + L.w * d[2], p = i === 0 ? t1 : prog(1.8 + i * 0.8, 1.6);
       const Rr = Anima.receptor(x, my, rs, d[1], (1 - p) * 0.8, { shape: d[3] });
@@ -269,7 +269,7 @@ Anima.register("monoamine-brakes", {
     const RM = Anima.receptor(mx, ry, rs, "#fff1b8", t2 * (0.7 + 0.3 * Math.sin(time * 4)), { shape: "round" });
     plate(nw ? "褪黑素" : "褪黑素受体 MT1/2", mx, ry + H * 0.05, "#fff", fz(0.022));
     const RC = Anima.receptor(cx, ry, rs, "#f7b8d2", 0.8 * (1 - t3), { shape: "tri" });
-    plate(nw ? "2C" : "5-HT2C", cx, ry + H * (nw ? 0.1 : 0.05), "#fff", fz(0.022));
+    plate(nw ? "2C" : "5-HT2C", cx, ry + H * 0.05, "#fff", fz(0.022));
     const AG = { who: "drug", hatColor: "#ff9aa9", hatColor2: "#fff", label: "", eyes: "happy", shadow: false };
     if (t2 > 0) chara(lerp(R.x + R.w * 0.05, RM.site.x, t2), t2 < 1 ? ry : RM.site.y + s * 0.15, s * 0.8, Object.assign({}, AG, { walk: t2 < 1 ? time * 9 : null, arms: t2 >= 1 ? "up" : "down" }));
     if (t3 > 0) chara(lerp(R.x + R.w * 0.4, RC.site.x, t3), t3 < 1 ? ry : RC.site.y + s * 0.15, s * 0.8, Object.assign({}, AG, { walk: t3 < 1 ? time * 9 : null, arms: "shh" }));
@@ -280,16 +280,17 @@ Anima.register("monoamine-brakes", {
     chara(dx - s * 0.9, ry, s * 0.8, { who: "DA", gray: (1 - up) * 0.5, eyes: up > 0.5 ? "sparkle" : "sleepy", arms: up > 0.5 ? "up" : "down", shadow: false });
     chara(dx + s * 0.9, ry, s * 0.8, { who: "NE", gray: (1 - up) * 0.5, eyes: up > 0.5 ? "sparkle" : "sleepy", arms: up > 0.5 ? "up" : "down", shadow: false });
     pedal(dx, R.y + R.h * 0.2, H * 0.034, "brake", 1 - up);
-    plate(up > 0.5 ? "DA、NE↑" : "DA、NE", dx, ry + H * (nw ? 0.15 : 0.05), up > 0.5 ? "#fff1b8" : "#fff", fz(0.022));
+    // 手机上卡片窄，名牌放到刹车踏板下面、角色头顶上方，并限制在卡片内
+    plate(up > 0.5 ? "DA、NE↑" : "DA、NE", dx, nw ? R.y + R.h * 0.2 + H * 0.07 : ry + H * 0.05, up > 0.5 ? "#fff1b8" : "#fff", fz(0.022), R.x + 4, R.x + R.w - 4);
     if (!nw) text("激活＋挡住", R.x + R.w / 2, R.y + R.h * 0.9, fz(0.024), C.soft);
     // 底部小结
     const k = prog(9, 1.2);
     if (k > 0) {
       ctx.save(); ctx.globalAlpha *= k;
-      const y = top + ch + H * 0.09;
+      const y = nw ? H - H * 0.07 : top + ch + H * 0.12;
       plate(nw ? "① 堵住回收门" : "① 堵住回收门（如 SSRI）", W * 0.28, y, "#dff5ec", fz(0.028));
       plate(nw ? "② 松开刹车" : "② 松开刹车（如米氮平）", W * 0.72, y, "#ffe3e6", fz(0.028));
-      text("递质变多的两条路", W / 2, y - H * 0.065, fz(0.024), C.soft);
+      text("递质变多的两条路", W / 2, y - H * 0.06, fz(0.024), C.soft);
       ctx.restore();
     }
     ctx.restore();

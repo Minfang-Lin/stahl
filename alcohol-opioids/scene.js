@@ -194,7 +194,7 @@ Anima.register("alcohol-opioids", {
     callout("a-gaba", here && lt > 3.5 && lt < 7.5, P.L.x - s, P.L.y - s * 2.5, nw ? W * 0.18 : W * 0.14, Y(0.02), "增强 GABA：刹车更灵");
     callout("a-nmda", here && lt > 5 && lt < 8.4, P.R.x, P.R.y - s * 2.5, nw ? W * 0.72 : W * 0.66, Y(0.02), "压住谷氨酸（NMDA）");
     callout("a-endo", here && lt > 9.2, rx - rs * 2.4, ry - rs * 2, W * 0.7, Y(0.1), "还放出内啡肽和多巴胺");
-    say("a-relax", here && lt > 5.5, rx, ry - rs * 3.1, nw ? W * 0.76 : W * 0.82, nw ? Y(0.6) : Y(0.52), "好放松……反应也慢了", "think");
+    say("a-relax", here && lt > 5.5, rx, ry - rs * 3.1, nw ? W * 0.3 : W * 0.82, nw ? Y(0.74) : Y(0.52), "好放松……反应也慢了", "think");
     ctx.restore();
   }
 
@@ -238,7 +238,7 @@ Anima.register("alcohol-opioids", {
     resident(rx, ry, rs, lt > 7.5 ? "okay" : "tipsy");
     callout("b-dull", here && lt > 2.5 && lt < 8, P.L.x, P.L.y - s * 3, nw ? W * 0.2 : W * 0.16, Y(0.02), "GABA 变迟钝：耐受");
     callout("b-glu", here && lt > 6 && lt < 11, P.R.x, P.R.y - s * 3.2, nw ? W * 0.62 : W * 0.6, Y(0.02), "谷氨酸增兵：上调");
-    say("b-need", here && lt > 8.5, rx, ry - rs * 3.1, nw ? W * 0.76 : W * 0.8, Y(0.5), "有酒才觉得“正常”……", "think");
+    say("b-need", here && lt > 8.5, rx, ry - rs * 3.1, nw ? W * 0.3 : W * 0.8, nw ? Y(0.74) : Y(0.5), "有酒才觉得“正常”……", "think");
     ctx.restore();
   }
 
@@ -466,7 +466,7 @@ Anima.register("alcohol-opioids", {
     plate("+ 心理治疗、社会支持", nw ? W * 0.27 : W * 0.2, nw ? Y(0.9) : Y(0.92), fs, "#ffe1ee", prog(9.5, 0.6));
     callout("f-ceil", here && lt > 5.5 && lt < 9.6, ceil ? ceil.x : 0, ceil ? ceil.y : 0, nw ? W * 0.5 : W * 0.6, Y(0.04), "天花板效应：再多也不会开更大");
     callout("f-meth", here && lt > 1.8 && lt < 5.3, XS[0], my - rs * 2, W * 0.2, Y(0.04), "稳稳地替代，减少渴求和戒断");
-    say("f-wd", here && lt > 10, W * 0.5, H, nw ? W * 0.5 : W * 0.78, nw ? Y(0.08) : Y(0.9), nw ? "阿片戒断很难受，但通常不危及生命" : "阿片戒断很难受，但通常不像酒精戒断那样危及生命", "box");
+    say("f-wd", here && lt > 10, W * 0.5, H, nw ? W * 0.5 : W * 0.78, nw ? 0 : Y(0.9), nw ? "阿片戒断很难受，但通常不危及生命" : "阿片戒断很难受，但通常不像酒精戒断那样危及生命", "box");
     ctx.restore();
   }
 

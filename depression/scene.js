@@ -254,7 +254,8 @@ Anima.register("depression", {
       const tr = Math.min(H * 0.075, W * 0.06);
       K.forEach((k, i) => { const p = tilePos(i, K.length); tile(p.x, p.y, tr, k[0], k[1], prog(1 + i * 0.6, 0.6), ["#ff9aa9", "#b8b0f0", "#8fd3a8", "#ffd27a"][i], false); });
       say("slow", lt > 1.5 && lt < 6.5, x + s * 0.3, gy - s * 3.2, x + W * 0.13, H * 0.5, "慢慢来，天会晴的～", "say");
-      say("help", lt > 6.5, x, gy - s * 3.3, x, H * 0.5, "有伤害自己的想法时，请马上告诉身边的人，联系当地心理援助热线，或去医院急诊。", "box");
+      // 等“慢慢来”气泡淡出后再出现，否则会被它挤到下面、压住居民的脸；方框放在居民头顶上方
+      say("help", lt > 7.2, x, gy - s * 3.3, x, H * (W / H < 1.5 ? 0.4 : 0.45), "有伤害自己的想法时，请马上告诉身边的人，联系当地心理援助热线，或去医院急诊。", "box");
     }
     ctx.restore();
   }

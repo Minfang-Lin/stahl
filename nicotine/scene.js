@@ -169,14 +169,14 @@ Anima.register("nicotine", {
       say("huh", lt > 5 && lt < 11, dj, siteY - cs * 3, dj - W * 0.18, top + H * 0.14, "咦？门怎么不开了？", "think");
     }
     if (cur === 3) {
-      const wx = W * 0.13, wy = H * 0.95;
+      const wx = W * 0.13, wy = H * (n ? 0.9 : 0.95); // 手机上名牌别贴着舞台下沿
       chara(wx, wy, cs * 1.1, { who: "neuron", arms: lt < 7 ? "point" : "down", eyes: "open", mouth: "smile", tag: "神经元" });
       say("more", lt > 0.8 && lt < 6.5, wx, wy - cs * 3.4, W * 0.3, top + H * 0.14, "门不够用？再装几扇！", "say");
       callout("up", lt > 7, slotX(6), M - rs * 1.4, n ? W * 0.7 : W * 0.72, top + H * 0.08, "上调：门越装越多");
     }
     if (cur === 4) {
       callout("empty", lt > 4.5 && lt < 9.5, slotX(5), M - rs * 1.4, n ? W * 0.68 : W * 0.7, top + H * 0.08, "门恢复敏感，却空着");
-      const px = W * 0.13, py = H * 0.95;
+      const px = W * 0.13, py = H * (n ? 0.9 : 0.95);
       chara(px, py, cs * 1.1, { who: "neuron", eyes: lt > 11.6 ? "happy" : "angry", brow: lt > 11.6 ? null : "angry", mouth: lt > 11.6 ? "smile" : "wavy", arms: lt > 11.6 ? "down" : "fist", tag: "神经元" });
       if (lt > 5 && lt < 11.6) emote("anger", px + cs, py - cs * 3.3, cs * 0.8);
       say("crave", lt > 5.4 && lt < 11, px, py - cs * 3.4, W * 0.3, top + H * 0.14, "好烦……想再来一支", "think");

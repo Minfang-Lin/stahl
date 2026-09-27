@@ -208,7 +208,7 @@ Anima.register("g-protein", {
     });
     if (L > 3 && L < 4.2) sfx("咔哒", W * 0.5, mem + H * 0.12, H * 0.045, C.warn, -0.1, Math.sin(P(L, 3, 1.2) * Math.PI));
     const lx = W * (0.5 - (n ? 0.24 : 0.22));
-    callout("g1e", L > 0.5 && L < 4.3, lx + s * 0.9, mem + s * 0.4, W * 0.5, H * 0.16, "腺苷酸环化酶：把 ATP 做成 cAMP");
+    callout("g1e", L > 0.5 && L < 4.3, lx + s * 0.9, mem + s * 0.4, W * (n ? 0.56 : 0.5), H * 0.16, "腺苷酸环化酶：把 ATP 做成 cAMP");
     say("g1s", L > 4.5 && L < 8, lx - s * 1.9, mem + s * 0.7, W * 0.4, H * 0.19, "油门踩到底～", n ? "say" : "shout");
     say("g1i", L > 8.3 && L < 12.5, W - lx + s * 1.9, mem + s * 0.7, W * 0.6, H * 0.19, "嘘，慢一点做…", "say");
     ctx.restore();
@@ -289,7 +289,9 @@ Anima.register("g-protein", {
     });
     callout("g3a", L > 7 && L < 12.5, W * 0.245, mem + mt / 2 + fs * 4.6 + s * 3.2, W * 0.25, H * (n ? 0.76 : 0.93), "多巴胺：D1 油门，D2 刹车");
     callout("g3b", L > 8 && L < 12.5, W * 0.755, mem + mt / 2 + fs * 4.6 + s * 3.2, W * 0.75, H * 0.93, "5-HT：1A 刹车，2A 开钙库");
-    say("g3s", L > 5.5 && L < 9.5, W * 0.36, mem - s * 3.4, W * 0.5, Anima.topSafe() + H * 0.07, "同一封信，结果不一样？", "think");
+    // 手机：顶上没有空当，气泡放到下面空着的地方，在两个标注出来之前说完，不挡住角色的脸
+    if (n) say("g3s", L > 4.6 && L < 6.9, W * 0.3, H * 0.72, W * 0.26, H * 0.9, "同一封信，结果不一样？", "think");
+    else say("g3s", L > 5.5 && L < 9.5, W * 0.36, mem - s * 3.4, W * 0.5, Anima.topSafe() + H * 0.07, "同一封信，结果不一样？", "think");
     ctx.restore();
   }
 

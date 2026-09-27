@@ -283,7 +283,8 @@ Anima.register("dopamine-receptors", {
     say("a-say", q(2, 4, 12.5), rT.site.x, rT.site.y + cs, n ? W * 0.66 : W * 0.44, H * (n ? 0.53 : 0.74), n ? "少放一点～" : "外面够多啦，少放一点～", "say");
     callout("a-low", q(3, 2.5, 8), rT.site.x, rT.site.y + cs * 2, n ? W * 0.4 : W * 0.36, H * 0.66, n ? "小剂量：先占刹车" : "小剂量：先占住自身受体");
     say("a-more", q(3, 4, 8.3), tx + tw * 0.3, tb, n ? W * 0.3 : W * 0.3, T + H * 0.12, "刹车松了，多巴胺更多！", "shout");
-    say("a-hi", q(3, 9, 13.5), pX[1], post - rs * 3, n ? W * 0.4 : W * 0.4, H * (n ? 0.7 : 0.7), "剂量加大：突触后的 D2 也被挡住", "box");
+    // 手机上方框放到左上方（轴突上面），不压住突触里被挡住的 D2 和快递员
+    say("a-hi", q(3, 9, 13.5), pX[1], post - rs * 3, n ? W * 0.3 : W * 0.4, H * (n ? 0.27 : 0.7), "剂量加大：突触后的 D2 也被挡住", "box");
     ctx.restore();
   }
 

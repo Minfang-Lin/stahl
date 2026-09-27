@@ -235,7 +235,7 @@ Anima.register("plasticity", {
     say("p0-5", cur === 0 && win(1.2, 4.4), r1.site.x, r1.site.y - cs * 3.1, n ? W * 0.44 : W * 0.3, g.mem + H * (n ? 0.1 : 0.16), "信送到门口，接力开始～", "say");
     say("p0-k", cur === 0 && win(6, 12), kx, ky - cs * 3.4, kx + W * (n ? 0.3 : 0.16), ky - cs * (n ? 5 : 3.2), "收到！盖章～", "shout");
     callout("p1-creb", cur === 1 && win(3.4, 6.5), crebX, crebY - cs * 1.5, n ? W * 0.5 : nu.x - nu.r * 0.9, n ? H * 0.97 : top + H * 0.05, "转录因子 CREB：被盖章后醒来");
-    callout("p1-gene", cur === 1 && win(6.5, 9.5), lampX, lampY, n ? W * 0.6 : nu.x + nu.r * 0.2, n ? H * 0.97 : top + H * 0.05, "基因打开：抄成 mRNA");
+    callout("p1-gene", cur === 1 && win(6.5, 9.5), lampX, lampY, n ? W * 0.3 : nu.x + nu.r * 0.2, n ? H * 0.58 : top + H * 0.05, "基因打开：抄成 mRNA");
     callout("p1-new", cur === 1 && lt > 10, W * (n ? 0.56 : 0.52), g.mem - rs * 1.2, n ? W * 0.55 : W * 0.56, n ? H * 0.97 : top + H * 0.05, "造出新蛋白：受体、BDNF…");
     say("p1-c", cur === 1 && win(4.4, 8.5), crebX, crebY - cs * 3.1, n ? W * 0.84 : nu.x + nu.r * 0.9, nu.y - nu.r * 0.55, "开关按下啦！", "shout");
     ctx.restore();
@@ -281,7 +281,7 @@ Anima.register("plasticity", {
       }
     }
     // 晚期基因的产物：砖块和新受体，一路送去右边搭新突触
-    const bx0 = x1 + W * 0.02, sx = W * (n ? 0.86 : 0.84), sy = dy - H * 0.02;
+    const bx0 = x1 + W * 0.02, sx = W * (n ? 0.9 : 0.84), sy = dy - H * 0.02;
     const build = prog(8, 4.5);
     // 右边：一小段树突和慢慢长出来的树突棘
     ctx.strokeStyle = C.line; ctx.lineWidth = H * 0.07; ctx.lineCap = "round";
@@ -301,7 +301,8 @@ Anima.register("plasticity", {
       else { ctx.beginPath(); ctx.arc(x, y, H * 0.016, 0, Math.PI * 2); ctx.fillStyle = "#b3e3c4"; ctx.fill(); outline(1.2); ctx.stroke(); }
       ctx.restore();
     }
-    text("树突棘", sx - H * 0.06 - sr, sy + sr + fsS() * 1.1, fsS() * 0.9, C.soft);
+    // 手机：名字放在细胞核和树突之间的空当里，不压住树突
+    text("树突棘", n ? (bx0 + sx - H * 0.035) / 2 : sx - H * 0.06 - sr, sy + sr + fsS() * 1.1, fsS() * 0.9, C.soft);
     // 顶上的时钟：几分钟 → 几小时 → 几天
     const top = Anima.topSafe() + H * 0.04;
     const stage = L < 4.8 ? 0 : (L < 8 ? 1 : 2);
@@ -519,7 +520,7 @@ Anima.register("plasticity", {
     emote("heart", x0 + W * 0.03, y2 - cs * 3.8, cs * 0.6);
     text("心理治疗", x0 + W * 0.03, y2 + fsS() * 1.1, fsS(), C.ink);
     // 两条路都汇到“信号 → 基因 → 新蛋白 → 新连接”
-    const hub = { x: W * (n ? 0.44 : 0.42), y: H * 0.64 };
+    const hub = { x: W * (n ? 0.4 : 0.42), y: H * 0.64 };
     const pathA = [[x0 + W * 0.18, y1 - H * 0.02], [hub.x - W * 0.08, y1 + H * 0.02], [hub.x, hub.y]];
     const pathB = [[x0 + W * 0.13, y2 - cs * 2], [hub.x - W * 0.08, y2 - H * 0.08], [hub.x, hub.y]];
     ctx.save(); ctx.setLineDash([5, 7]); ctx.strokeStyle = Anima.alpha(C.line, 0.5); ctx.lineWidth = 2;
@@ -532,7 +533,7 @@ Anima.register("plasticity", {
     ctx.save(); ctx.beginPath(); ctx.arc(hub.x, hub.y, H * 0.06, 0, Math.PI * 2); ctx.clip();
     dnaStrand(hub.x - H * 0.06, hub.x + H * 0.06, hub.y, H * 0.015, 0, 0, 0);
     ctx.restore();
-    text("信号 → 基因 → 新蛋白", hub.x, hub.y + H * 0.11, fsS(), C.lavDeep);
+    text("信号 → 基因 → 新蛋白", hub.x + (n ? W * 0.025 : 0), hub.y + H * (n ? 0.12 : 0.11), fsS() * (n ? 0.92 : 1), C.lavDeep);
     // 通往小树
     ctx.save(); ctx.setLineDash([5, 7]); ctx.strokeStyle = Anima.alpha(C.line, 0.5); ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(hub.x + H * 0.07, hub.y); ctx.quadraticCurveTo(tx - W * 0.12, hub.y - H * 0.05, tx - ts * 0.8, ty - ts * 1.4); ctx.stroke(); ctx.restore();
@@ -541,14 +542,14 @@ Anima.register("plasticity", {
     const grow = clamp((L - 0.8) / 10, 0, 1);
     tree(tx, ty, ts, grow);
     const wk = 1 + Math.min(7, Math.floor(grow * 8));
-    const ccx = tx + ts * 1.6, ccy = ty - ts * 2.9, cw = H * 0.12;
+    const ccx = tx + ts * (n ? 1.3 : 1.6), ccy = ty - ts * 2.9, cw = H * (n ? 0.19 : 0.12); // 手机：日历放宽，“第 7 周”不出框
     rrect(ccx - cw / 2, ccy - cw * 0.4, cw, cw * 0.8, 6); ctx.fillStyle = "#fffdf8"; ctx.fill(); outline(1.5); ctx.stroke();
     ctx.fillStyle = C.rose; rrect(ccx - cw / 2, ccy - cw * 0.4, cw, cw * 0.22, 6); ctx.fill();
     text("第 " + wk + " 周", ccx, ccy + cw * 0.1, Math.max(10, H * 0.026) * Anima.UI, C.ink);
     callout("p5-drug", cur === 5 && win(1, 5.5), x0 + W * 0.14, y1 - H * 0.07, n ? W * 0.3 : x0 + W * 0.16, top + H * 0.04, "药物：从受体入手改变信号");
-    callout("p5-talk", cur === 5 && win(4.5, 9), x0 + W * 0.03, y2 - cs * 2, n ? W * 0.4 : x0 + W * 0.2, H * 0.68, "心理治疗：练出新的连接");
+    callout("p5-talk", cur === 5 && (n ? win(5.3, 8.8) : win(4.5, 9)), x0 + W * 0.03, y2 - cs * 2, n ? W * 0.4 : x0 + W * 0.2, n ? top + H * 0.04 : H * 0.68, "心理治疗：练出新的连接");
     callout("p5-tree", cur === 5 && lt > 9, tx - ts * 0.6, ty - ts * 2, n ? W * 0.5 : tx - W * 0.2, top + H * 0.04, "新连接一点点长出来");
-    say("p5-t", cur === 5 && lt > 7, tx, ty - ts * 2.9, n ? W * 0.74 : tx - W * 0.02, top + H * 0.2, "慢慢长，也在长～", "say");
+    say("p5-t", cur === 5 && lt > (n ? 9 : 7), tx, ty - ts * 2.9, n ? W * 0.5 : tx - W * 0.02, top + H * (n ? 0.1 : 0.2), "慢慢长，也在长～", "say");
     ctx.restore();
   }
 

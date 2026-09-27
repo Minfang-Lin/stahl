@@ -223,7 +223,7 @@ Anima.register("stimulants", {
     if (k === 1) {
       callout("s1-look", win(0.5, 2.3), AP.x, AP.y - cs * 3, rx, cy, "苯丙胺：长得像单胺");
       callout("s1-in", win(2.6, 7.5), g.D.x, g.D.y, rx, cy, "DAT 把它当自己人运进去");
-      say("s1-q", lt > 7.5, g.out.x - cs * 2, g.out.y - cs * 3.2, n ? W * 0.3 : rx, n ? H * 0.34 : H * 0.62, "门被占着，我回不去啦", "think");
+      say("s1-q", lt > 7.5, g.out.x - cs * 2, g.out.y - cs * 3.2, n ? W * 0.24 : rx, n ? H * 0.62 : H * 0.62, "门被占着，我回不去啦", "think");
     }
     if (k === 2) {
       callout("s2-vmat", win(1.2, 4), g.ves[1].x + vr, g.ves[1].y, n ? W * 0.3 : W * 0.14, H * (n ? 0.62 : 0.66), "VMAT2：囊泡的装货门");
@@ -280,7 +280,7 @@ Anima.register("stimulants", {
     // 慢慢托高水位的缓释药
     const pd = prog(4, 1.6);
     if (pd > 0 && !n) chara(lerp(-cs, gx + gw * 0.12, pd), gy + gh + H * 0.14, cs * 0.9, { who: "drug", hatColor: C.mph, tag: "缓释", arms: "up", walk: pd < 1 ? time * 8 : null, eyes: "happy" });
-    if (pd > 0 && n) chara(lerp(-cs, W * 0.2, pd), H * 0.95, cs * 0.85, { who: "drug", hatColor: C.mph, tag: "缓释", arms: "up", walk: pd < 1 ? time * 8 : null, eyes: "happy" });
+    if (pd > 0 && n) chara(lerp(-cs, W * 0.2, pd), H * 0.9, cs * 0.85, { who: "drug", hatColor: C.mph, tag: "缓释", arms: "up", walk: pd < 1 ? time * 8 : null, eyes: "happy" });
     const topY = Anima.topSafe() + H * 0.01;
     callout("t-tonic", win(0.5, n ? 2.4 : 4.3), gx + gw * 0.3, Y(base(lt)), n ? W * 0.3 : gx + gw * 0.3, n ? topY : H * 0.95, "紧张性：背景水位（偏低、乱晃）");
     if (star) callout("t-phasic", win(n ? 2.5 : 1.4, 4.3), star[0], star[1], n ? W * 0.7 : gx + gw * 0.8, topY, "相位性：一下子的尖峰");
@@ -385,7 +385,7 @@ Anima.register("stimulants", {
     const topY = Anima.topSafe() + H * 0.02;
     callout("p-tail", win(0.8, 4.5), W * 0.1, (vy0 + vy1) / 2 + cs * 0.2, n ? W * 0.62 : W * 0.5, n ? topY : H * 0.36, "赖氨酸尾巴：连着时不起作用");
     callout("p-cut", win(4.8, 9.5), rbcs[0].x, rbcs[0].y, n ? W * 0.62 : W * 0.5, n ? topY : H * 0.36, "红细胞里的酶慢慢剪开");
-    say("p-go", lt > 9.8, brain.x - br, brain.y + br * 0.5, n ? W * 0.62 : W * 0.55, n ? topY + H * 0.08 : H * 0.3, "剪一个进一个，上升自然平稳", "box");
+    say("p-go", lt > 9.8, brain.x - br, brain.y + br * 0.5, n ? W * 0.3 : W * 0.55, n ? topY + H * 0.06 : H * 0.3, "剪一个进一个，上升自然平稳", "box");
     ctx.restore();
   }
 

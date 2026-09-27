@@ -203,9 +203,9 @@ Anima.register("ocd-impulsivity", {
     gauge(W * 0.94 - gw, gyy, gw, "刹车 · 前额叶", brk, "#8f84e0");
     if (want && near) emote("heart", k.dx + s * 0.8, k.dy, s * 0.6);
     callout("o-gas", here && lt > 0.8 && lt < 6, k.dx + s * 0.4, k.dy + s * 1.5, W * 0.18, Y(0.38), "开车的多巴胺：想去就踩油门");
-    callout("o-brake", here && lt > 5.4 && lt < 11, k.lx, k.ly, W * 0.8, Y(0.38), "前额叶教练：拉住手刹");
-    say("o-wait", here && lt > 5.6 && lt < 10, k.cx, k.cy, nw ? W * 0.3 : W * 0.3, Y(0.5), "先等等，吃完正餐再说～", "say");
-    say("o-ok", here && lt > 10.2, k.dx, k.dy, W * 0.66, Y(0.52), "好，油门刹车配合好！", "say");
+    callout("o-brake", here && lt > 5.4 && lt < (nw ? 9.8 : 11), k.lx, k.ly, W * 0.8, Y(0.38), "前额叶教练：拉住手刹");
+    say("o-wait", here && lt > (nw ? 6.1 : 5.6) && lt < 10, k.cx, k.cy, W * 0.3, nw ? Y(0.26) : Y(0.5), "先等等，吃完正餐再说～", "say");
+    say("o-ok", here && lt > 10.2, k.dx, k.dy, W * 0.66, nw ? Y(0.28) : Y(0.52), "好，油门刹车配合好！", "say");
     ctx.restore();
   }
 
@@ -246,7 +246,7 @@ Anima.register("ocd-impulsivity", {
     gauge(W * 0.94 - gw, gyy, gw, "刹车 · 前额叶底部", lerp(0.3, 0.12, rush), "#8f84e0");
     callout("r-vs", here && lt > 1.5 && lt < 4.8, W * 0.06 + gw * 0.8, gyy + H * 0.03, W * 0.24, Y(0.34), "奖赏回路喊：马上要！");
     callout("r-pfc", here && lt > 9 && lt < 13, k.cx - s * 0.3, k.cy + s * 1.2, W * 0.2, Y(0.4), "刹车那头管不住");
-    say("r-now", here && lt > 4.8 && lt < 9, k.dx, k.dy, nw ? W * 0.62 : W * 0.68, Y(0.44), "现在就要！全都要！", "shout");
+    say("r-now", here && lt > 4.8 && lt < 9, k.dx, k.dy, nw ? W * 0.62 : W * 0.68, nw ? Y(0.22) : Y(0.44), "现在就要！全都要！", "shout");
     say("r-oops", here && lt > 9.4, k.cx, k.cy, W * 0.72, Y(0.4), "诶？刚才是不是该停一下……", "think");
     ctx.restore();
   }
@@ -454,7 +454,7 @@ Anima.register("ocd-impulsivity", {
     callout("c-obs", here && lt > 1 && lt < 7, n0.x + fs * 3, n0.y, nw ? W * 0.78 : W * 0.72, Y(0.1), "强迫思维");
     callout("c-com", here && lt > 5 && lt < 11, n2.x + fs * 3, n2.y, nw ? W * 0.78 : W * 0.75, Y(0.96), "强迫行为");
     say("c-germ", here && lt < 8 && stage === 0, px, py - cs * 3.2, nw ? W * 0.24 : W * 0.24, Y(0.2), "手上是不是有细菌？", "think");
-    say("c-know", here && lt > 8.5, px, py - cs * 3.2, nw ? W * 0.22 : W * 0.2, Y(0.3), "明明知道没必要……可是停不下来", "think");
+    say("c-know", here && lt > 8.5, px, py - cs * 3.2, nw ? W * 0.25 : W * 0.2, nw ? Y(0.76) : Y(0.3), "明明知道没必要……可是停不下来", "think");
     ctx.restore();
   }
 
@@ -515,11 +515,11 @@ Anima.register("ocd-impulsivity", {
       chara(x, y - (k % 2) * rs * 0.9, Math.min(rs * 0.6, R.w * 0.035), { who: "5HT", eyes: "happy", mouth: "smile", arms: k % 2 ? "wave" : "down", seed: k, shadow: false });
     }
     const notes = [
-      { t: "SSRI：剂量常更高、见效更慢", c: "#e1f5ec", at: 4 },
+      { t: nw ? "SSRI：剂量常更高、见效慢" : "SSRI：剂量常更高、见效更慢", c: "#e1f5ec", at: 4 },
       { t: "氯米帕明也有效", c: "#fff1b8", at: 6 },
-      { t: nw ? "难治：小剂量抗精神病药增效" : "难治时：加小剂量抗精神病药增效", c: "#ffe1ee", at: 8 },
+      { t: nw ? "难治：加小剂量抗精神病药" : "难治时：加小剂量抗精神病药增效", c: "#ffe1ee", at: 8 },
     ];
-    const nfs = Math.min(fs, R.w / 16);
+    const nfs = Math.min(fs, R.w / (nw ? 13.6 : 16)); // 手机上文字缩短一点、字放大一点
     notes.forEach((n, k) => plate(n.t, R.x + R.w / 2, R.y + R.h * (0.6 + k * 0.12), nfs, n.c, prog(n.at, 0.6)));
     callout("t-erp", here && lt > 6 && lt < 8.8, P(0.6, 0.2)[0], P(0.6, 0.2)[1], L.x + L.w * 0.5, L.y + L.h * 0.68, "面对它，但不做仪式");
     say("t-with", here && lt > 9.5, tx, fy - cs * 3.2, L.x + L.w * (nw ? 0.5 : 0.72), L.y + L.h * (nw ? 0.72 : 0.68), nw ? "焦虑会自己落下来" : "我陪着你，焦虑会自己落下来", "say");

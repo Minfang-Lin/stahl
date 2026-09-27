@@ -388,14 +388,14 @@ Anima.register("dementia-types", {
         sleeper = { x: headX, y: by - cs * 1.4 };
         rrect(headX + cs * 1.05, by - cs * 1.25, bx + bw * 0.98 - headX - cs * 1.05, cs * 1.3, cs * 0.5); ctx.fillStyle = "#c9d6f5"; ctx.fill(); outline(1.5); ctx.stroke();
         emote("zzz", headX, by - cs * 2.6, cs * 0.55);
-        if (punch) sfx("嘿！", headX + cs * 2.4, by - cs * 2.4, Math.max(12, cs * 0.9), C.bad, -0.15, 1);
+        if (punch && !(narrow() && lt > 9.2)) sfx("嘿！", headX + cs * 2.4, by - cs * 2.4, Math.max(12, cs * 0.9), C.bad, -0.15, 1);
       }
       ctx.restore();
       plate(titles[i], q.x + q.w / 2, q.y + fs * 1.2, fs, cols[i]);
       ctx.restore();
     });
     say("l-cat", here && lt > 4 && !!hallu, hallu ? hallu.x : 0, hallu ? hallu.y : 0, P[1].x + P[1].w * (narrow() ? 0.7 : 0.45), P[1].y + P[1].h * (narrow() ? 0.4 : 0.42), narrow() ? "有只小猫！" : "那边有只小猫呀～", "say");
-    callout("l-rbd", here && lt > 9.4 && !!sleeper, sleeper ? sleeper.x + cs * 3 : 0, sleeper ? sleeper.y + cs * 0.3 : 0, P[3].x + P[3].w * 0.62, P[3].y + P[3].h * (narrow() ? 0.45 : 0.32), "快速眼动睡眠行为障碍");
+    callout("l-rbd", here && lt > 9.4 && !!sleeper, sleeper ? sleeper.x + cs * 3 : 0, sleeper ? sleeper.y + cs * 0.3 : 0, P[3].x + P[3].w * (narrow() ? 0.5 : 0.62), P[3].y + P[3].h * (narrow() ? 0.42 : 0.32), "快速眼动睡眠行为障碍");
     ctx.restore();
   }
 
@@ -628,7 +628,7 @@ Anima.register("dementia-types", {
     }
     callout("c-rev", here && lt > 7.4 && lt < 9.5, brX + fs * 0.6, iy0 + ih * 2, R.x + R.w * (nw ? 0.55 : 0.84), nw ? iy0 + ih * 3.9 : iy0 - ih * 0.2, "可能治好的原因");
     callout("c-mix", here && lt > 4.5 && lt < 12, ccx, ccy + fs, ccx, L.y + L.h * 0.93, nw ? "很常见" : "阿尔茨海默 + 血管，很常见");
-    say("c-doc", here && lt > 9.6, dx, fy - cs * 3.2, R.x + R.w * 0.42, R.y + R.h * 0.66, "查清楚，才好对症照顾～", "say");
+    say("c-doc", here && lt > (nw ? 10.2 : 9.6), dx, fy - cs * 3.2, R.x + R.w * (nw ? 0.5 : 0.42), R.y + R.h * (nw ? 0.64 : 0.66), "查清楚，才好对症照顾～", "say");
     ctx.restore();
   }
 

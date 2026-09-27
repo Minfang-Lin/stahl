@@ -89,7 +89,7 @@ Anima.register("receptor-regulation", {
   function sign(x, y, s, a) {
     if (a < 0.03) return;
     ctx.save(); ctx.globalAlpha *= a; ctx.translate(x, y); ctx.rotate(Math.sin(time * 2 + x) * 0.05);
-    const fs = Math.max(8, s * 0.36) * Anima.UI;
+    const fs = Math.max(N() ? 9.5 : 8, s * 0.36) * Anima.UI; // 手机上牌子字别太小
     ctx.font = `${fs}px ${Anima.ROUND}`;
     const w = ctx.measureText("暂停").width + fs * 0.8;
     outline(1); ctx.beginPath(); ctx.moveTo(-w * 0.3, -fs * 0.7); ctx.lineTo(0, -fs * 1.3); ctx.lineTo(w * 0.3, -fs * 0.7); ctx.stroke();
@@ -149,7 +149,7 @@ Anima.register("receptor-regulation", {
     const ly = { x: W * (n ? 0.8 : 0.82), y: H * 0.84, r: H * 0.09 };
     ctx.beginPath(); ctx.arc(ly.x, ly.y, ly.r, 0, Math.PI * 2); ctx.fillStyle = C.lyso; ctx.fill(); outline(1.6); ctx.stroke();
     face(ly.x, ly.y - ly.r * 0.2, ly.r * 0.4, 1);
-    text("溶酶体（拆解站）", ly.x, ly.y + ly.r * 0.45, fsS() * 0.8, C.ink);
+    text(n ? "溶酶体" : "溶酶体（拆解站）", ly.x, ly.y + ly.r * 0.5, fsS() * (n ? 0.95 : 0.8), C.ink); // 手机：长名字会跑出圆圈
     let count = 0;
     XS.forEach((x, i) => {
       const inn = i >= 1 && i <= 3, sink = inn ? P(L, 1 + (i - 1) * 0.6, 2) : 0;
@@ -192,7 +192,8 @@ Anima.register("receptor-regulation", {
       // 同样多的药：每扇门前一位开门药访客
       const lost = gone > 0.5;
       const vx = lost ? x + Math.sin(time * 1.2 + i) * W * 0.02 : x, vy = lost ? mem - rs * 0.6 - H * 0.06 : r.site.y;
-      chara(vx, vy, s, Object.assign(drug("开门药", "#ff9aa9"), { eyes: lost ? "open" : "happy", mouth: lost ? "wavy" : "smile", arms: lost ? "down" : "up", walk: lost ? time * 6 : null }));
+      chara(vx, vy, s, Object.assign(drug(n && i % 2 ? null : "开门药", "#ff9aa9"), // 手机：隔一个写名牌，免得挤在一起
+        { eyes: lost ? "open" : "happy", mouth: lost ? "wavy" : "smile", arms: lost ? "down" : "up", walk: lost ? time * 6 : null }));
       if (lost) emote("?", vx + s, vy - s * 3.3, s * 0.6);
     });
     pv = open + " 扇"; pv2 = L < 1.5 ? "开始" : "几周后";
@@ -201,7 +202,7 @@ Anima.register("receptor-regulation", {
     face(W * (n ? 0.82 : 0.72), my, H * 0.045, open > 4 ? 1 : 0);
     callout("r2d", L > 3 && L < 8.5, XS[4], mem + rs * 0.6, W * 0.72, mem + H * 0.12, "下调：新门越造越少");
     callout("r2t", L > 8.5, W * 0.3, my, W * (n ? 0.5 : 0.62), mem + H * 0.12, "耐受：同样的量，效果变弱");
-    say("r2q", L > 6 && L < 10, XS[5], mem - H * 0.2, W * 0.66, Anima.topSafe() + H * 0.08, "我的门呢？", "think");
+    say("r2q", L > 6 && L < 10, XS[5], mem - H * 0.2, W * (n ? 0.72 : 0.66), n ? mem + H * 0.27 : Anima.topSafe() + H * 0.08, "我的门呢？", "think"); // 手机：放到膜下，不挡住找门的角色
     ctx.restore();
   }
 
@@ -272,7 +273,7 @@ Anima.register("receptor-regulation", {
       ctx.restore();
     });
     ctx.save(); outline(2); ctx.beginPath(); ctx.moveTo(W / 2, 0); ctx.lineTo(W / 2, H); ctx.stroke(); ctx.restore();
-    const fs = fsS() * (n ? 0.85 : 1), ty = Anima.topSafe() + fs;
+    const fs = fsS() * (n ? 0.95 : 1), ty = Anima.topSafe() + fs;
     ctxChip("挡门药突然停", W * 0.25, ty, "#e8eefc", fs);
     ctxChip("开门药突然停", W * 0.75, ty, "#ffe1ea", fs);
     callout("r4l", L > 5 && L < 12.5, W * 0.25, mem - rs * 1.8, W * 0.25, mem + H * 0.24, n ? "门多又灵：信号过强" : "门多又灵，一下子全露出来");
@@ -312,16 +313,16 @@ Anima.register("receptor-regulation", {
         ctx.stroke();
       }
       outline(1.4); ctx.beginPath(); ctx.moveTo(px0, py0 - 6); ctx.lineTo(px0, py1); ctx.lineTo(px1, py1); ctx.stroke();
-      text("时间 →", px1, py1 + fsS() * 0.8, fsS() * 0.8, C.soft, "right");
+      text("时间 →", px1, py1 + fsS() * 0.8, fsS() * (n ? 0.9 : 0.8), C.soft, "right");
     });
     // 图例
-    const lf = fsS() * 0.85, ly = bot + lf * 1.4;
+    const lf = fsS() * (n ? 0.95 : 0.85), ly = bot + lf * 1.4;
     ctx.fillStyle = "#e0913a"; ctx.fillRect(W * 0.2 - lf * 2, ly - 2, lf * 1.4, 4); text("药量", W * 0.2 - lf * 0.3, ly, lf, C.ink, "left");
     ctx.fillStyle = "#6b61c9"; ctx.fillRect(W * 0.45 - lf * 2, ly - 2, lf * 1.4, 4); text("受体的适应", W * 0.45 - lf * 0.3, ly, lf, C.ink, "left");
     ctx.fillStyle = Anima.alpha(C.bad, 0.35); ctx.fillRect(W * (n ? 0.78 : 0.72) - lf * 2, ly - lf * 0.4, lf * 1.4, lf * 0.8); text("失衡", W * (n ? 0.78 : 0.72) - lf * 0.3, ly, lf, C.ink, "left");
     const ex = ["抗抑郁药：一些 5-HT 受体下调", "长期阻断 D2：门变多变灵", "苯二氮䓬：用久了耐受"];
     const cy0 = ly + lf * 2.2, dy = (H - 8 - cy0) / 3;
-    ex.forEach((t, i) => { const e = P(L, 7 + i * 1.2, 0.8); if (e > 0.02) { ctx.save(); ctx.globalAlpha *= e; ctxChip(t, W * 0.5, cy0 + dy * (i + 0.4), "#fff", fsS() * 0.9); ctx.restore(); } });
+    ex.forEach((t, i) => { const e = P(L, 7 + i * 1.2, 0.8); if (e > 0.02) { ctx.save(); ctx.globalAlpha *= e; ctxChip(t, W * 0.5, cy0 + dy * (i + 0.4), "#fff", fsS() * (n ? 1 : 0.9)); ctx.restore(); } });
     callout("r5a", L > 3 && L < 7, gap + cw * 0.4, lerp(bot, top, 0.35), gap + cw * 0.64, top + (bot - top) * 0.36, "差距大：反跳");
     callout("r5b", L > 4 && L < 7, W - gap - cw * 0.5, lerp(bot, top, 0.5), W - gap - cw * 0.3, top + (bot - top) * 0.36, "一步步跟上");
     ctx.restore();

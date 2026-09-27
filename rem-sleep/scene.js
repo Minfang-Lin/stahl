@@ -272,7 +272,7 @@ Anima.register("rem-sleep", {
     say("sh-dream", ph === 2, ax, gy - s * 3.4, sx - pw * 0.06, sy, "皮层放映：梦 ♪", "think");
     const midX = px + pw * (nb ? 0.33 : 0.3);
     callout("sh-off", nb ? win(7.5, 10.5) : lt > 7.5, midX, gy - s * 3.2, midX, nb ? H * 0.99 : py + ph2 * 0.12, "REM 关：NE、5-HT、组胺");
-    callout("sh-on", lt > 9.5, ax - s * 0.8, gy - s * 2, ax - pw * 0.05, gy + s * 1.6, "REM 开：乙酰胆碱");
+    callout("sh-on", lt > (nb ? 11.2 : 9.5), ax - s * 0.8, gy - s * 2, ax - pw * (nb ? 0.12 : 0.05), nb ? H * 0.99 : gy + s * 1.6, "REM 开：乙酰胆碱");
     say("sh-g", win(4, 7), midX, gy - s * 3.2, midX + pw * 0.12, py + ph2 * 0.18, "灯调暗一点～", "say");
     ctx.restore();
   }
@@ -322,7 +322,7 @@ Anima.register("rem-sleep", {
     text("肌肉张力", kx, ky + fsz(1), fsz(0.85), C.ink);
     if (rem > 0.8) sfx("静音", kx + kr * 1.3, ky - kr * 0.5, fsz(1.1), C.rem, -0.1, 1);
     callout("mu-cmd", win(3, 8.5), rx, (stemY + cordY) / 2, rx - W * 0.2, (stemY + cordY) / 2, "静音命令：传到脊髓");
-    callout("mu-ok", lt > 8.5, hx - s * 1.4, by - s * 0.3, W * 0.22, H * 0.5, "呼吸和眼球照常动");
+    callout("mu-ok", lt > (nb ? 9.1 : 8.5), hx - s * 1.4, by - s * 0.3, nb ? W * 0.5 : W * 0.22, nb ? H * 0.63 : H * 0.5, "呼吸和眼球照常动");
     say("mu-run", win(4.5, 8.5) && !nb, dx - W * 0.05, dy + H * 0.08, dx - W * 0.12, dy + H * 0.25, "梦里在跑，身体没动～", "say");
     ctx.restore();
   }
@@ -366,8 +366,8 @@ Anima.register("rem-sleep", {
     if (off && up3 > 6) sparkles(g2.X(4), g2.Y(1), rw * 0.25, 4, 1, 5);
     callout("dg-late", win(5, 8.5), g2.X(2.95), g2.Y(1), g2.X(4.2), g2.Y(4), "第一次 REM 推迟、变少");
     callout("dg-reb", lt > 11, g2.X(6.6), g2.Y(1), g2.X(5), g2.Y(4), "REM 反跳：多梦");
-    say("dg-g", win(2, 8), lx + lw * 0.3, gy - s * 3.2, lx + lw * 0.5, top + lh * 0.2, "还不能下班……", "think");
-    say("dg-stop", win(9, 13.5), ax, ay - s * 3, lx + lw * 0.5, top + lh * 0.2, "一下子全是梦！", "shout");
+    say("dg-g", N() ? win(2, 5) : win(2, 8), lx + lw * 0.3, gy - s * 3.2, N() ? W * 0.78 : lx + lw * 0.5, N() ? y2 + gh * 0.6 : top + lh * 0.2, "还不能下班……", "think");
+    say("dg-stop", win(9, 13.5), ax, ay - s * 3, N() ? lx + lw * 0.62 : lx + lw * 0.5, N() ? top + lh * 0.1 : top + lh * 0.2, "一下子全是梦！", "shout");
     ctx.restore();
   }
   function arrowH(x0, y0, x1, y1, col) {

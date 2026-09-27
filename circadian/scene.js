@@ -520,12 +520,17 @@ Anima.register("circadian", {
         o.head = { x: cx, y: ground - s * 3.4 };
       }
       const sf = Math.max(10, H * 0.028) * Anima.UI;
-      text(subs[i], cx, y + chh * 0.91, Math.min(sf, cw / (subs[i].length + 0.8)), C.ink);
+      if (n) {
+        // 手机上卡片窄：副标题按逗号拆成两行，字才不会小到看不清
+        const ls = subs[i].split("，"), fs2 = Math.min(sf * 1.05, cw / (Math.max(ls[0].length, ls[1].length) + 1));
+        text(ls[0], cx, y + chh * 0.85, fs2, C.ink);
+        text(ls[1], cx, y + chh * 0.85 + fs2 * 1.15, fs2, C.ink);
+      } else text(subs[i], cx, y + chh * 0.91, Math.min(sf, cw / (subs[i].length + 0.8)), C.ink);
       ctx.restore();
       out.push(Object.assign(o, { cx, cy: y + chh * 0.24, r }));
     }
-    if (out[0]) callout("k-mis", lt > 1.4 && (n ? lt < 7 : true), out[0].cx, out[0].cy + out[0].r * 1.1, n ? W * 0.5 : W * 0.3, stripY(), "身体钟和外面的钟对不上");
-    if (out[2] && out[2].head) say("k-teen", lt > 5.6, out[2].head.x, out[2].head.y, n ? out[2].head.x - W * 0.1 : W * 0.78, H * 0.9, "还一点都不困呀…", "think");
+    if (out[0]) callout("k-mis", lt > 1.4 && (n ? lt < 6.2 : true), out[0].cx, out[0].cy + out[0].r * 1.1, n ? W * 0.5 : W * 0.3, stripY(), "身体钟和外面的钟对不上");
+    if (out[2] && out[2].head) say("k-teen", lt > (n ? 7 : 5.6), out[2].head.x, out[2].head.y, n ? W * 0.72 : W * 0.78, H * 0.9, "还一点都不困呀…", "think");
     ctx.restore();
   }
 

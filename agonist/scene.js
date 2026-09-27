@@ -85,7 +85,7 @@ Anima.register("agonist", {
     // 气泡和标注的落点：宽屏放在受体两侧上方，手机上往两边挪
     const bubR = narrow ? { x: W * 0.78, y: H * 0.28 } : { x: rx + W * 0.2, y: H * 0.2 };
     const bubL = narrow ? { x: W * 0.22, y: H * 0.28 } : { x: rx - W * 0.22, y: H * 0.2 };
-    const labR = narrow ? { x: W * 0.27, y: H * 0.3 } : { x: rx + W * 0.25, y: H * 0.38 };
+    const labR = narrow ? { x: W * 0.26, y: H * 0.255 } : { x: rx + W * 0.25, y: H * 0.38 };
     const bubRoom = narrow ? { x: W * 0.24, y: post + H * 0.1 } : { x: W * 0.24 + W * 0.1, y: post + H * 0.1 };
     return { narrow, post, rx, rs, cs, siteY, kx, ky, kr, lampY, br, bubR, bubL, labR, bubRoom };
   }
@@ -316,7 +316,7 @@ Anima.register("agonist", {
 
     // ---- 标注 ----
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
-    callout("rec", on("rec") && lt > 0.6, g.rx + g.rs * 0.7, g.post - g.rs * 1.2, g.labR.x, H * 0.3, "受体：一扇带锁孔的门");
+    callout("rec", on("rec") && lt > 0.6, g.rx + g.rs * 0.7, g.post - g.rs * 1.2, g.narrow ? W * 0.74 : g.labR.x, H * 0.3, "受体：一扇带锁孔的门");
     callout("base", on("base") && lt > 2.5 && cur === 0, g.rx + g.br * 0.3, g.lampY + g.br * 0.7, g.narrow ? W * 0.66 : g.rx + W * 0.05, H * 0.88, "基础活性：没钥匙也微微亮");
     callout("knob", on("knob") && (cur === 0 ? lt > 4.5 : lt > 3.5), g.kx - g.kr * 1.3, g.ky - g.kr * 0.4, g.kx - W * 0.13, g.post + H * 0.1,
       cur === 0 ? "调光旋钮：受体有多“亮”" : cur === 1 ? "旋钮拧到底：100%" : "拧到基础亮度以下");
@@ -373,13 +373,13 @@ Anima.register("agonist", {
         chara(x, y, cs, Object.assign(o, { eyes, arms, mouth: i === 3 ? "grin" : i === 0 ? "o" : "smile", alpha: clamp(pin * 2, 0, 1), jump: i === 3 && pin >= 1 ? Math.abs(Math.sin(time * 4)) * 0.2 : 0 }));
         if (i === 0 && pin >= 1) emote("zzz", x + cs, footY - cs * 3.4, cs * 0.6);
         // 名字 + 位置
-        const fs2 = narrow ? Math.max(10, W * 0.03) : Math.max(11, Math.min(H * 0.032, W * 0.028)) * Anima.UI;
+        const fs2 = narrow ? Math.max(12, W * 0.034) : Math.max(11, Math.min(H * 0.032, W * 0.028)) * Anima.UI;
         ctx.save(); ctx.globalAlpha *= clamp(pin * 2, 0, 1);
         ctx.font = `${fs2}px ${Anima.ROUND}`;
         const tw = ctx.measureText(it.name).width + fs2 * 1.2;
         rrect(x - tw / 2, footY + H * 0.02, tw, fs2 * 1.5, fs2 * 0.75); ctx.fillStyle = "#fff"; ctx.fill(); outline(1.5); ctx.stroke();
         text(it.name, x, footY + H * 0.02 + fs2 * 0.78, fs2, C.ink);
-        text(it.tag, x, footY + H * 0.02 + fs2 * 2.3, fs2 * 0.85, C.soft);
+        text(it.tag, x, footY + H * 0.02 + fs2 * 2.3, fs2 * (narrow ? 0.92 : 0.85), C.soft);
         // 光谱条上的小标记
         const mx = lerp(bx0, bx1, [0.06, 0.29, 0.6, 0.95][i]);
         ctx.beginPath(); ctx.moveTo(mx, barY - bh * 0.6); ctx.lineTo(mx - fs2 * 0.4, barY - bh * 0.6 - fs2 * 0.6); ctx.lineTo(mx + fs2 * 0.4, barY - bh * 0.6 - fs2 * 0.6); ctx.closePath();
@@ -387,7 +387,7 @@ Anima.register("agonist", {
         ctx.restore();
       }
     });
-    if (narrow) text("基础活性", baseX, barY + bh * 1.3, Math.max(10, W * 0.028), C.lavDeep);
+    if (narrow) text("基础活性", baseX, barY + bh * 1.35, Math.max(11, W * 0.031), C.lavDeep);
     callout("specBase", lt > 8 && !narrow, baseX, barY + bh * 0.9, baseX + W * 0.2, H * 0.975, "虚线：基础活性");
     say("same", lt > 6.5, xs[3] - cs * 0.5, footY - cs * 3.3, narrow ? W * 0.56 : xs[3] - W * 0.12, narrow ? H * 0.46 : H * 0.4, "同一扇门，不同的钥匙～", "say");
     ctx.restore();

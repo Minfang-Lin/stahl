@@ -257,12 +257,19 @@ Anima.register("addiction", {
     if (!drug) level = 0.12 + burst * 0.24;
     else level = lerp(0.12, 1.15, prog(2, 7));
     meter(g.mX, g.m0, g.m1, Math.max(12, W * 0.024), level, 0.38, "多巴胺音量");
-    if (!drug || lt < 4) text("自然奖赏", g.mX - Math.max(12, W * 0.024) * 1.1, g.m1 - (g.m1 - g.m0) * 0.38, fsSmall() * 0.9, C.mintDeep, "right");
+    if (!drug || lt < 4) {
+      if (narrow()) {
+        // 手机上伏隔核的树突伸到表旁边，文字直接画会和树突搅在一起：加个白底小牌
+        const pf = fsSmall() * 0.85;
+        ctx.font = `${pf}px ${Anima.ROUND}`;
+        plate("自然奖赏", g.mX - Math.max(12, W * 0.024) * 0.9 - (ctx.measureText("自然奖赏").width + pf * 1.1) / 2, g.m1 - (g.m1 - g.m0) * 0.38, pf, "#e9f8f0");
+      } else text("自然奖赏", g.mX - Math.max(12, W * 0.024) * 1.1, g.m1 - (g.m1 - g.m0) * 0.38, fsSmall() * 0.9, C.mintDeep, "right");
+    }
     if (drug && flood > 0.3) sfx("哗——！", g.N.x - r * 0.4, g.N.y - r * 2.4, Math.max(16, H * 0.06), "#ff9a52", -0.12, flood);
     // 标注和对话
     callout("a-vta", here1 && lt > 0.5 && lt < 7, g.V.x + r * 0.7, g.V.y - r * 0.5, g.V.x + W * 0.18, Y(0.2), "多巴胺神经元的家");
     callout("a-nac", here1 && lt > 2 && lt < 7, g.N.x - r * 0.5, g.N.y + r * 0.8, g.N.x - W * 0.18, Y(0.93), "伏隔核：收到“开心信件”");
-    say("a-like", here1 && lt > 7.2, g.N.x, g.N.y - r * 1.4, g.N.x - W * (narrow() ? 0.24 : 0.12), Y(0.2), "这个好，下次还想要！", "say");
+    say("a-like", here1 && lt > 7.2, g.N.x, g.N.y - r * 1.4, narrow() ? W * 0.5 : g.N.x - W * 0.12, narrow() ? Y(0.92) : Y(0.2), "这个好，下次还想要！", "say");
     callout("a-brake", here2 && lt > 2.8 && lt < 7, gx + gs * 1.4, gy - gs * 1.5, g.V.x + W * 0.24, Y(0.93), "GABA 刹车被松开了");
     callout("a-coke", here2 && lt > 4.4 && lt < 7, dx, dy, g.T.x + W * 0.02, Y(0.14), "回收门被堵住");
     callout("a-amph", here2 && lt > 7.5 && lt < 10.5, dx, dy, g.T.x + W * 0.02, Y(0.14), "回收门反着转，往外送");
@@ -381,7 +388,7 @@ Anima.register("addiction", {
     ctx.fillStyle = C.gold; ctx.fill(); outline(1.5); ctx.stroke();
     if (shift > 0.05 && shift < 0.95) sparkles(fx, fy - cs * 2, cs * 1.5, 3, 1, 4);
     callout("a-flag", here && lt > 1 && lt < 9, fx + cs * 0.9, fy - cs * 2.2, x0 + (x1 - x0) * 0.62, V.y + V.h * 0.3, "行为的“指挥权”慢慢往上移");
-    say("a-stop", here && lt > 9, walkerX, by - cs * 3.2, (bx0 + bx1) / 2 + W * 0.08, D.y + D.h * 0.32, "不是想要……是停不下来", "think");
+    say("a-stop", here && lt > 9, walkerX, by - cs * 3.2, nw ? W * 0.7 : (bx0 + bx1) / 2 + W * 0.08, nw ? V.y + V.h * 0.5 : D.y + D.h * 0.32, "不是想要……是停不下来", "think");
     ctx.restore();
   }
 
@@ -521,7 +528,7 @@ Anima.register("addiction", {
       plate("家人朋友", cx + cs * 2.6, fy + cs * 0.8, fsSmall(), "#ffe1ee", fIn);
     }
     if (fIn >= 1) { emote("heart", cx, fy - cs * 4, cs * 0.8); sparkles(cx, fy - cs * 1.6, cs * 3, 5, 0.9, 8); }
-    callout("a-partial", here && lt > 2.6, RX[0] + rs * 0.6, my - rs * 0.8, L.x + L.w * 0.5, L.y + L.h * (nw ? 0.45 : 0.38), nw ? "部分激动剂：只开一半" : "部分激动剂：稳稳占住，只开一半");
+    callout("a-partial", here && lt > (nw ? 7.2 : 2.6), RX[0] + rs * 0.6, my - rs * 0.8, L.x + L.w * 0.5, L.y + L.h * (nw ? 0.24 : 0.38), nw ? "部分激动剂：只开一半" : "部分激动剂：稳稳占住，只开一半");
     say("a-with", here && lt > 6.2, cx + cs * 2.6, fy - cs * 3.3, R.x + R.w * 0.55, R.y + R.h * (nw ? 0.3 : 0.28), "我们陪你慢慢来", "say");
     ctx.restore();
   }
