@@ -445,7 +445,8 @@ Anima.register("neurodevelopment", {
     }
     if (prune >= 1) glow(Rt.x, gy - th * 0.6, th * 0.5, "#c4bcc0", 0.35);
     callout("hy-pfc", lt > 9.5, Rt.x + th * 0.25, gy - th * 0.7, Rt.x + W * 0.14, gy - th * 0.35, "前额叶连接变少");
-    say("hy-g", win(6.5, 9.5), Rt.x + th * 0.42, gy - H * 0.1, Rt.x - W * 0.12, top + H * 0.22, "咦，我是不是剪太多了？", "think");
+    // 手机上：云朵缩成一行，塞进时间轴和树梢之间，不压住“青春期”和树
+    say("hy-g", win(6.5, 9.5), Rt.x + th * 0.42, gy - H * 0.1, nb ? W * 0.6 : Rt.x - W * 0.12, nb ? ty + H * 0.19 : top + H * 0.22, nb ? "是不是剪太多了？" : "咦，我是不是剪太多了？", "think");
     say("hy-on", lt > 10, lerp(tx0, tx1, 0.82), ty + H * 0.02, lerp(tx0, tx1, 0.8), ty + H * 0.13, "常在这时起病", "box");
     ctx.restore();
   }
@@ -512,8 +513,9 @@ Anima.register("neurodevelopment", {
       if (lt > 11) sparkles(g.x + th * 0.3, gy - th * 0.6, th * 0.3, 4, 1, 3);
     }
     callout("hp-sleep", win(1, 4.8), g.x + th * 0.2, gy - th * 0.7, W * (nb ? 0.8 : 0.78), Anima.topSafe() + H * 0.08, "睡眠：整理连接的时间");
-    say("hp-can", win(6.2, 9), g.x + th * 0.52, gy - H * 0.12, W * 0.8, H * 0.32, "青春期，大麻离远点！", "shout");
-    callout("hp-ref", win(6.5, 10.5), g.x + th * 0.6, gy - H * 0.1, W * 0.84, H * 0.72, "见《倒着送的信》");
+    // 手机上爆炸框太大，会压住树和青少年：改成普通气泡放到树梢上方，标注放到左下空地
+    say("hp-can", win(6.2, 9), g.x + th * 0.52, gy - H * 0.12, W * (nb ? 0.62 : 0.8), H * (nb ? 0.25 : 0.32), "青春期，大麻离远点！", nb ? "say" : "shout");
+    callout("hp-ref", win(6.5, 10.5), g.x + th * 0.6, gy - H * 0.1, W * (nb ? 0.22 : 0.84), H * 0.72, "见《倒着送的信》");
     say("hp-help", lt > 10, g.x - th * 0.55, gy - H * 0.12, W * 0.2, H * 0.44, "有变化，早点来找我们～", "say");
     ctx.restore();
   }

@@ -367,7 +367,7 @@ Anima.register("rem-sleep", {
     callout("dg-late", win(5, 8.5), g2.X(2.95), g2.Y(1), g2.X(4.2), g2.Y(4), "第一次 REM 推迟、变少");
     callout("dg-reb", lt > 11, g2.X(6.6), g2.Y(1), g2.X(5), g2.Y(4), "REM 反跳：多梦");
     say("dg-g", N() ? win(2, 5) : win(2, 8), lx + lw * 0.3, gy - s * 3.2, N() ? W * 0.78 : lx + lw * 0.5, N() ? y2 + gh * 0.6 : top + lh * 0.2, "还不能下班……", "think");
-    say("dg-stop", win(9, 13.5), ax, ay - s * 3, N() ? lx + lw * 0.62 : lx + lw * 0.5, N() ? top + lh * 0.1 : top + lh * 0.2, "一下子全是梦！", "shout");
+    say("dg-stop", win(9, 13.5), ax, ay - s * 3, lx + lw * 0.5, N() ? top + lh * 0.12 : top + lh * 0.2, "一下子全是梦！", N() ? "say" : "shout"); // 手机上爆炸框太大，改成小气泡放在值班室上方
     ctx.restore();
   }
   function arrowH(x0, y0, x1, y1, col) {

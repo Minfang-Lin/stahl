@@ -628,7 +628,7 @@ Anima.register("dementia-types", {
     }
     callout("c-rev", here && lt > 7.4 && lt < 9.5, brX + fs * 0.6, iy0 + ih * 2, R.x + R.w * (nw ? 0.55 : 0.84), nw ? iy0 + ih * 3.9 : iy0 - ih * 0.2, "可能治好的原因");
     callout("c-mix", here && lt > 4.5 && lt < 12, ccx, ccy + fs, ccx, L.y + L.h * 0.93, nw ? "很常见" : "阿尔茨海默 + 血管，很常见");
-    say("c-doc", here && lt > (nw ? 10.2 : 9.6), dx, fy - cs * 3.2, R.x + R.w * (nw ? 0.5 : 0.42), R.y + R.h * (nw ? 0.64 : 0.66), "查清楚，才好对症照顾～", "say");
+    say("c-doc", here && lt > (nw ? 10.2 : 9.6), dx, fy - cs * 3.2, R.x + R.w * (nw ? 0.5 : 0.42), R.y + R.h * (nw ? 0.66 : 0.66), nw ? "查清楚，才好照顾～" : "查清楚，才好对症照顾～", "say");
     ctx.restore();
   }
 

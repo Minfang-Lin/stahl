@@ -41,7 +41,12 @@ Anima.register("bipolar", {
   const DUR = 14;
 
   const C = Object.assign({}, Anima.C, { hot: "#ffb36b", rainC: "#8fb3dc" });
-  const { rnd, clamp, lerp, ease, mix, alpha, outline, rrect, text, face, chara, say, callout, pill, glow, sparkle, sparkles, sfx, emote } = Anima;
+  const { rnd, clamp, lerp, ease, mix, alpha, outline, rrect, text, face, chara, pill, glow, sparkle, sparkles, sfx, emote } = Anima;
+  // 换幕时上一幕的画面还在淡出，它的气泡和标注只在“本幕就是这个画面”时出现，
+  // 否则旧气泡会借新一幕的计时冒出来，把新一幕的气泡挤到别处
+  let live = true;
+  const say = (key, on, ...r) => Anima.say(key, on && live, ...r);
+  const callout = (key, on, ...r) => Anima.callout(key, on && live, ...r);
   const ctx = Anima.ctx;
   let W = 0, H = 0, time = 0, cur = 0;
   let lastCur = -1, lt = 0;
@@ -374,7 +379,8 @@ Anima.register("bipolar", {
     } else {
       callout("base", lt > 3 && lt < 7.5, px + bw * 0.5, gy - bh * 0.5, px + L * 0.42, gy + H * 0.05, "地基：规律作息 + 规范治疗");
       say("night", lt > 0.8 && lt < 4.2, at.x, at.y - s * 3.3, nar ? W * 0.3 : px - W * 0.02, H * 0.34, "熬夜、睡太少，跷跷板就晃起来", "think");
-      say("help", lt > 7.5, at.x, at.y - s * 3.3, W * 0.5, H * (nar ? 0.3 : 0.34), "有伤害自己的想法时，请马上告诉身边的人，尽快去医院急诊。", "box");
+      // 手机上方框太高：放到右上（挡住太阳没关系），不压住跷跷板上居民的脸
+      say("help", lt > 7.5, at.x, at.y - s * 3.3, W * (nar ? 0.78 : 0.5), H * (nar ? 0.3 : 0.34), "有伤害自己的想法时，请马上告诉身边的人，尽快去医院急诊。", "box");
     }
     ctx.restore();
   }
@@ -418,10 +424,11 @@ Anima.register("bipolar", {
     const K = [["batt", "精力旺盛"], ["moon", "睡得很少"], ["talk", "话变多"], ["idea", "想法飞快"], ["coin", "冲动花钱"], ["crown", "无所不能"]];
     const tr = Math.min(H * 0.07, W * 0.055);
     K.forEach((k, i) => { const p = tilePos(i, K.length); tile(p.x, p.y, tr, k[0], k[1], prog(0.8 + i * 0.8, 0.6), "#ffb36b"); });
-    say("idea", lt > 1.2 && lt < 7, x, gy - s * 3.3, W * 0.5, H * 0.5, "我有一百个好点子！今晚不睡也行！", "shout");
+    // 手机上爆炸框放到太阳那里（上方），不盖住居民；等上一幕的字淡出再出现
+    say("idea", lt > (nar ? 2.6 : 1.2) && lt < 7, x, gy - s * 3.3, W * 0.5, H * (nar ? 0.3 : 0.5), "我有一百个好点子！今晚不睡也行！", "shout");
     const mp = tilePos(1, K.length);
     callout("sleep", lt > 7.2, mp.x + tr, mp.y, W * 0.36, H * (nar ? 0.4 : 0.36), "睡得少：常是最早的信号");
-    say("friend", lt > 9.2, x, gy - s * 3.3, nar ? W * 0.5 : W * 0.6, H * (nar ? 0.56 : 0.52), "身边的人：“你最近好像变了一个人……”", "box");
+    say("friend", lt > 9.2, x, gy - s * 3.3, nar ? W * 0.5 : W * 0.6, H * (nar ? 0.24 : 0.52), "身边的人：“你最近好像变了一个人……”", "box");
     ctx.restore();
   }
 
@@ -534,7 +541,8 @@ Anima.register("bipolar", {
     const remember = lt > 5.2;
     chara(px, fy, s, { who: "neuron", eyes: remember ? "wide" : "sleepy", mouth: remember ? "o" : "flat", arms: "down", dir: -1, gray: remember ? 0.1 : 0.4 });
     if (remember) emote("bulb", px + s * 0.9, fy - s * 3.2, s * 0.6);
-    say("ask", lt > 0.6 && lt < 5.6, dx, fy - s * 3.2, L.x + L.w * 0.42, L.y + L.h * 0.25, "以前有没有特别兴奋、不怎么睡也不累的时候？", "say");
+    // 手机上等上一幕的字淡出再出现，否则会被挤到下面、盖住医生和来访者
+    say("ask", lt > (nar ? 2.4 : 0.6) && lt < 5.6, dx, fy - s * 3.2, L.x + L.w * 0.42, L.y + L.h * 0.25, "以前有没有特别兴奋、不怎么睡也不累的时候？", "say");
     // 回忆：一个小太阳的云朵泡泡
     const mp = prog(5.2, 0.8);
     if (mp > 0.02) {
@@ -584,11 +592,13 @@ Anima.register("bipolar", {
 
   function draw() {
     ctx.fillStyle = "#fff6f2"; ctx.fillRect(0, 0, W, H);
-    if (S.v0 > 0.02) seesawView(S.v0);
-    if (S.v1 > 0.02) maniaView(S.v1);
-    if (S.v2 > 0.02) typesView(S.v2);
-    if (S.v3 > 0.02) mixedView(S.v3);
-    if (S.v4 > 0.02) clinicView(S.v4);
+    const c = CH[cur];
+    if (S.v0 > 0.02) { live = c.v0 === 1; seesawView(S.v0); }
+    if (S.v1 > 0.02) { live = c.v1 === 1; maniaView(S.v1); }
+    if (S.v2 > 0.02) { live = c.v2 === 1; typesView(S.v2); }
+    if (S.v3 > 0.02) { live = c.v3 === 1; mixedView(S.v3); }
+    if (S.v4 > 0.02) { live = c.v4 === 1; clinicView(S.v4); }
+    live = true;
     hud();
   }
 

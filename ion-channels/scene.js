@@ -280,11 +280,12 @@ Anima.register("ion-channels", {
     flushLabels();
     if (!N()) sideLabels(mem, mt);
     const fy = N() ? H * 0.97 : mem + H * 0.33;
-    callout("i1-gaba", cur === 1 && win(2.2, 6.3), D[0].x, mem + hh * 0.4, D[0].x + W * 0.05, fy, "GABA-A：放 Cl⁻ 进来，踩刹车");
-    callout("i1-ampa", cur === 1 && win(6.3, 9.6), D[1].x, mem + hh * 0.4, D[1].x, fy, "AMPA：放 Na⁺ 进来，踩油门");
-    callout("i1-nic", cur === 1 && lt > 9.6, D[2].x, mem + hh * 0.4, D[2].x - W * 0.05, fy, "烟碱型受体：乙酰胆碱的门");
-    say("i1-g", cur === 1 && win(2.2, 5.8) && !!heads[0], heads[0] ? heads[0].x : 0, heads[0] ? heads[0].y : 0, W * 0.24, mem - H * 0.36, "嘘——大家安静一点～", "say");
-    say("i1-u", cur === 1 && win(5.8, 10) && !!heads[1], heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, W * 0.62, mem - H * 0.37, "油门踩下去！", "shout");
+    const nn = N(); // 手机：三个标注都在底部同一处，中间留空当，免得新标注被还没淡出的旧标注挤到角色身上
+    callout("i1-gaba", cur === 1 && win(2.2, nn ? 6 : 6.3), D[0].x, mem + hh * 0.4, D[0].x + W * 0.05, fy, "GABA-A：放 Cl⁻ 进来，踩刹车");
+    callout("i1-ampa", cur === 1 && win(nn ? 6.6 : 6.3, nn ? 9.4 : 9.6), D[1].x, mem + hh * 0.4, D[1].x, fy, "AMPA：放 Na⁺ 进来，踩油门");
+    callout("i1-nic", cur === 1 && lt > (nn ? 10 : 9.6), D[2].x, mem + hh * 0.4, D[2].x - W * 0.05, fy, "烟碱型受体：乙酰胆碱的门");
+    say("i1-g", cur === 1 && win(2.2, 5.8) && !!heads[0], heads[0] ? heads[0].x : 0, heads[0] ? heads[0].y : 0, nn ? W * 0.3 : W * 0.24, nn ? Anima.topSafe() + H * 0.06 : mem - H * 0.36, nn ? "嘘——安静一点～" : "嘘——大家安静一点～", "say"); // 手机：一行，放在头顶上方
+    say("i1-u", cur === 1 && win(5.8, 10) && !!heads[1], heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, nn ? W * 0.72 : W * 0.62, nn ? Anima.topSafe() + H * 0.06 : mem - H * 0.37, "油门踩下去！", nn ? "say" : "shout");
     ctx.restore();
   }
 
@@ -512,10 +513,11 @@ Anima.register("ion-channels", {
     text("末梢", x1, ay + tr + fs * 1.2, fs, C.soft);
     const low = ay + H * 0.24;
     callout("i4-na", cur === 4 && win(0.8, 4.6), chs[2], ay + th, W * 0.4, low, "电压门控钠通道：一扇接一扇开门");
-    callout("i4-storm", cur === 4 && win(4.8, 9), x1 - tr * 0.7, ay + tr * 0.7, W * 0.45, low, "放电太密：可能引发癫痫发作");
+    // 手机：等上一个标注淡出再出现，免得被挤到轴突上
+    callout("i4-storm", cur === 4 && win(N() ? 5.3 : 4.8, 9), x1 - tr * 0.7, ay + tr * 0.7, W * 0.45, low, "放电太密：可能引发癫痫发作");
     callout("i4-blk", cur === 4 && lt > 9.4, chs[1], ay + th, W * 0.35, low, "阻滞剂：让刚开过的门多歇一会儿");
     say("i4-s", cur === 4 && win(5, 8.8), x0, ay - sr, W * 0.3, ay - H * 0.22, "停、停不下来啦！", "shout");
-    say("i4-d", cur === 4 && win(10, 13.5) && heads.length > 1, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, W * 0.7, ay - H * 0.2, "跑太快的，先歇歇～", "say");
+    say("i4-d", cur === 4 && win(10, 13.5) && heads.length > 1, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, W * (N() ? 0.62 : 0.7), N() ? ay + H * 0.13 : ay - H * 0.2, "跑太快的，先歇歇～", "say"); // 手机：放到轴突下面，不挡拉莫三嗪的脸
     ctx.restore();
   }
 

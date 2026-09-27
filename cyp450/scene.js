@@ -65,8 +65,8 @@ Anima.register("cyp450", {
   // spd 传送带速度，crew 工人数，pile 堆积，lvl 血药浓度（0～1），gray 工人被按住
   function rowsFor(k, t) {
     if (k === 1) return [
-      { id: "1A2", drug: "氯氮平、奥氮平…", spd: 1, crew: 1, pile: 0, lvl: 0.5 },
-      { id: "2D6", drug: "不少抗抑郁药…", spd: 1, crew: 1, pile: 0, lvl: 0.5 },
+      { id: "1A2", drug: "氯氮平、奥氮平…", drugN: "氯氮平等", spd: 1, crew: 1, pile: 0, lvl: 0.5 },
+      { id: "2D6", drug: "不少抗抑郁药…", drugN: "不少抗抑郁药", spd: 1, crew: 1, pile: 0, lvl: 0.5 },
       { id: "2C19", drug: "西酞普兰…", spd: 1, crew: 1, pile: 0, lvl: 0.5 },
       { id: "3A4", drug: "很多很多药", spd: 1.6, crew: 1, pile: 0, lvl: 0.5, busy: 1 },
     ];
@@ -207,7 +207,8 @@ Anima.register("cyp450", {
     text("大脑", B.x, B.y - B.r * 1.3, fsS(), C.soft);
     // 排出口
     const ex = outP[2];
-    rrect(ex[0] - W * 0.05, ex[1] - H * 0.05, W * 0.1, H * 0.06, H * 0.02); ctx.fillStyle = "#e9f5ee"; ctx.fill(); outline(1.4); ctx.stroke();
+    const ew = W * (n ? 0.16 : 0.1); // 手机：框放宽，字不出框
+    rrect(ex[0] - ew / 2, ex[1] - H * 0.05, ew, H * 0.06, H * 0.02); ctx.fillStyle = "#e9f5ee"; ctx.fill(); outline(1.4); ctx.stroke();
     text("排出体外", ex[0], ex[1] - H * 0.02, fsS() * 0.9, C.mintDeep);
     // 工厂
     const fx = F.x - F.w / 2, fy = F.y - F.h;
@@ -223,7 +224,7 @@ Anima.register("cyp450", {
     rrect(fx, fy + F.h * 0.22, F.w, F.h * 0.78, 8); ctx.fillStyle = C.liver; ctx.fill(); outline(2); ctx.stroke();
     rrect(F.x - F.w * 0.14, F.y - F.h * 0.3, F.w * 0.28, F.h * 0.3, 6); ctx.fillStyle = "#8c5a4a"; ctx.fill(); ctx.stroke();
     face(F.x, fy + F.h * 0.42, F.h * 0.1, 1);
-    sign(F.x, fy + F.h * 0.26, "肝脏代谢工厂", "#fff6e8", Math.min(fsS(), F.w * 0.1));
+    sign(F.x, fy + F.h * 0.26, "肝脏代谢工厂", "#fff6e8", Math.min(fsS(), F.w * (n ? 0.12 : 0.1)));
     // 走路的药物访客
     const cs = H * (n ? 0.045 : 0.04);
     for (let k = 0; k < 5; k++) {
@@ -261,7 +262,7 @@ Anima.register("cyp450", {
     // 左边的车间牌
     const fs = Math.min(fsS() * 1.05, rh * 0.2);
     sign(W * (n ? 0.1 : 0.085), by - rh * 0.28, "CYP" + r.id, e.col, fs);
-    text(r.drug, W * (n ? 0.1 : 0.085), by + rh * 0.02, fs * 0.8, C.soft);
+    text(n && r.drugN ? r.drugN : r.drug, W * (n ? 0.1 : 0.085), by + rh * 0.02, n ? Math.max(10.5, fs * 0.85) : fs * 0.8, C.soft); // 手机：字别太小，太长的换短写法
     // 工人（站在传送带后面）
     const crew = s.crew, nW = Math.max(1, Math.round(crew));
     const ws = [];
@@ -357,19 +358,20 @@ Anima.register("cyp450", {
     });
     const topC = Anima.topSafe() + H * 0.02;
     if (cur === 1) {
-      callout("c1-3a4", lt > 3 && lt < 9, R[3].xs + cs, R[3].by - cs * 2, n ? W * 0.62 : R[3].xs + W * 0.2, R[3].by - H * 0.1, "3A4：最忙的流水线");
-      callout("c1-met", lt > 8, R[0].x1 - W * 0.06, R[0].by - cs * 0.6, n ? W * 0.62 : R[0].x1 - W * 0.12, R[1].by - H * 0.08, "加工完：变成代谢物");
-      say("c1-w", win(1, 6), R[0].ws[0].x, R[0].ws[0].y - cs * 3.1, R[0].xs + W * (n ? 0.2 : 0.14), R[0].by - H * 0.08, "来一个加工一个～", "say");
+      // 手机：行距太挤，标注放进本行工人右边的空处，文字写短，不盖住上下两行的工人
+      callout("c1-3a4", lt > 3 && lt < 9, R[3].xs + cs, R[3].by - cs * 2, n ? W * 0.7 : R[3].xs + W * 0.2, n ? R[3].by - cs * 0.9 : R[3].by - H * 0.1, n ? "3A4 最忙" : "3A4：最忙的流水线");
+      callout("c1-met", lt > 8, R[0].x1 - W * 0.06, R[0].by - cs * 0.6, n ? W * 0.7 : R[0].x1 - W * 0.12, n ? R[0].by - cs * 1.9 : R[1].by - H * 0.08, n ? "变成代谢物" : "加工完：变成代谢物");
+      say("c1-w", win(1, 6), R[0].ws[0].x, R[0].ws[0].y - cs * 3.1, R[0].xs + W * (n ? 0.3 : 0.14), R[0].by - H * 0.08, "来一个加工一个～", "say");
     }
     if (cur === 2 && R[0] && R[1]) {
       callout("c2-inh", lt > 2.2 && lt < (n ? 5.5 : 7), heads[0] ? heads[0].x : 0, heads[0] ? heads[0].y + cs * 2 : 0, n ? W * 0.45 : R[0].xs + W * 0.2, R[0].by - H * 0.2, "抑制剂：按住 1A2 的工人");
-      callout("c2-lvl", lt > 5, R[0].gauge.x - W * 0.01, R[0].gauge.y, n ? W * 0.64 : W * 0.72, R[1].by + H * 0.01, "氯氮平在血里越积越多");
+      callout("c2-lvl", lt > 5 && (!n || lt < 8.5), R[0].gauge.x - W * 0.01, R[0].gauge.y, n ? W * 0.62 : W * 0.72, n ? R[0].by + H * 0.085 : R[1].by + H * 0.01, "氯氮平在血里越积越多"); // 手机：放在两行之间，不盖住 2D6 工人
       say("c2-pile", n ? win(5.8, 8.4) : win(3, 8), R[0].pileX, R[0].pileY, n ? W * 0.28 : R[0].x0 + W * 0.08, R[0].by - H * 0.22, "排不上队啦～", "say");
       say("c2-par", lt > 8.5, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, n ? W * 0.3 : R[1].x0 + W * 0.12, R[1].by - H * 0.26, "氟西汀和我，都会拖慢 2D6～", "say");
     }
     if (cur === 3 && R[0] && R[1]) {
       callout("c3-ind", lt > 2 && lt < 5.5, R[0].xs + cs * 2, R[0].by - cs * 1.5, n ? W * 0.62 : R[0].xs + W * 0.16, R[0].by + H * 0.05, "诱导剂：给 3A4 加派工人");
-      callout("c3-smoke", lt > 5.5 && lt < 8.5, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y + cs * 1.5 : 0, n ? W * 0.62 : R[1].xs + W * 0.16, R[1].by - H * 0.26, "吸烟：诱导 1A2，工人变多");
+      callout("c3-smoke", lt > 5.5 && lt < 8.5, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y + cs * 1.5 : 0, n ? W * 0.52 : R[1].xs + W * 0.16, n ? Anima.topSafe() + H * 0.1 : R[1].by - H * 0.26, "吸烟：诱导 1A2，工人变多");
       callout("c3-quit", lt > (n ? 10.9 : 9), R[1].gauge.x - W * 0.01, R[1].gauge.y, n ? W * 0.55 : W * 0.68, n ? R[1].by + H * 0.1 : R[1].by - H * 0.26, "戒烟后：氯氮平浓度回升");
       say("c3-cbz", win(1.6, 5), heads[0] ? heads[0].x : 0, heads[0] ? heads[0].y : 0, n ? W * 0.5 : R[0].x0 + W * 0.02, n ? R[0].by - H * 0.3 : R[0].by - H * 0.22, n ? "加油！快一点！" : "大家加油，加工快一点！", "shout");
       say("c3-w", n ? win(8.8, 10.8) : lt > 9.5, R[1].ws[0].x, R[1].ws[0].y - cs * 3.1, n ? W * 0.32 : R[1].xs - W * 0.2, R[1].by - H * 0.22, "多出来的同事下班啦～", "say");
@@ -465,7 +467,7 @@ Anima.register("cyp450", {
       ctx.save(); ctx.globalAlpha *= cp;
       rrect(cx, cy, cw, chh, 12); ctx.fillStyle = "#fffdf6"; ctx.fill(); outline(1.8); ctx.stroke();
       ctx.fillStyle = C.sakura; rrect(cx, cy, cw, chh * 0.2, 12); ctx.fill(); outline(1.8); ctx.stroke();
-      const f2 = Math.min(fsS() * 1.15, chh * 0.12);
+      const f2 = Math.min(fsS() * 1.15, chh * (n ? 0.13 : 0.12));
       text("我在吃什么", cx + cw / 2, cy + chh * 0.1, f2, C.ink);
       const li = ["所有处方药", "保健品、中草药", "吸烟、饮酒", "饮食（比如西柚）"];
       li.forEach((t, i) => {
@@ -473,13 +475,13 @@ Anima.register("cyp450", {
         const yy = cy + chh * (0.32 + i * 0.18);
         ctx.beginPath(); ctx.rect(cx + cw * 0.08, yy - f2 * 0.45, f2 * 0.9, f2 * 0.9); ctx.fillStyle = "#ffffff"; ctx.fill(); outline(1.2); ctx.stroke();
         if (on) { ctx.strokeStyle = C.good; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.moveTo(cx + cw * 0.08 + f2 * 0.15, yy); ctx.lineTo(cx + cw * 0.08 + f2 * 0.4, yy + f2 * 0.3); ctx.lineTo(cx + cw * 0.08 + f2 * 0.85, yy - f2 * 0.4); ctx.stroke(); }
-        text(t, cx + cw * 0.08 + f2 * 1.4, yy + 1, f2 * 0.92, C.ink, "left");
+        text(t, cx + cw * 0.08 + f2 * 1.4, yy + 1, f2 * (n ? 0.96 : 0.92), C.ink, "left");
       });
       ctx.restore();
     }
     if (L > 11) sparkles(px, gy - cs * 1.6, cs * 2, 4, 1, 3);
     say("c5-p", cur === 5 && win(1, 6), px, gy - cs * 3.1, n ? W * 0.72 : W * 0.66, H * 0.5, "这些也会影响我的药吗？", "think");
-    say("c5-d", cur === 5 && lt > 8.5, dx, gy - cs * 3.1, n ? W * 0.72 : W * 0.76, H * (n ? 0.6 : 0.52), "都告诉我，我来帮你查查～", "say");
+    say("c5-d", cur === 5 && lt > 8.5, dx, gy - cs * 3.1, n ? W * 0.7 : W * 0.76, H * (n ? 0.595 : 0.52), n ? "我来帮你查查～" : "都告诉我，我来帮你查查～", "say"); // 手机：一行说完，不挡清单和两人的脸
     ctx.restore();
   }
 

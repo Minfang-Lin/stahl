@@ -87,11 +87,17 @@ Anima.register("muscarinic-antipsychotic", {
     rrect(x + w / 2 - tw / 2, y - fs * 0.75, tw, fs * 1.5, fs * 0.75); ctx.fillStyle = color; ctx.fill(); outline(1.4); ctx.stroke();
     text(title, x + w / 2, y + 1, fs, C.ink);
   }
-  function bar(x, y0, y1, w, v, col, label) {
+  function bar(x, y0, y1, w, v, col, label, xmax) {
     rrect(x - w / 2, y0, w, y1 - y0, w / 2); ctx.fillStyle = "rgba(255,255,255,0.9)"; ctx.fill(); outline(1.4); ctx.stroke();
     const hh = (y1 - y0 - 4) * clamp(v, 0, 1);
     if (hh > 2) { rrect(x - w / 2 + 2, y1 - 2 - hh, w - 4, hh, Math.min((w - 4) / 2, hh / 2)); ctx.fillStyle = col; ctx.fill(); }
-    if (label) text(label, x, y0 - fsz(0.022, 10) * 0.9, fsz(0.022, 10), C.ink);
+    if (label) {
+      // 名字比柱子宽：左右夹在画面（或所在方框）里面，不出边
+      const fs = fsz(0.022, 10);
+      ctx.font = `${fs}px ${Anima.ROUND}`;
+      const hw = ctx.measureText(label).width / 2 + 3;
+      text(label, clamp(x, hw, (xmax || W) - hw), y0 - fs * 0.9, fs, C.ink);
+    }
   }
   function soma(x, y, r, col, mood, label) {
     const g = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
@@ -151,7 +157,7 @@ Anima.register("muscarinic-antipsychotic", {
       }
     });
     say("n-say", lt > 2 && lt < 7.5, gap + cw * (n ? 0.62 : 0.38), n ? top + ch * 0.5 : top + ch * 0.5 - s * 5.5, gap + cw * (n ? 0.5 : 0.72), top + ch * (n ? 0.74 : 0.18), n ? "门开就冲！" : "门一开，离子就冲！", "say");
-    say("m-say", lt > 5.5, gap * 2 + cw * 1.5, top + ch * 0.5 - s * (n ? 0 : 3.5), gap * 2 + cw * 1.5, top + ch * (n ? 0.62 : 0.18), n ? "慢慢接力" : "五扇 M 门，各在各的地方", "say");
+    say("m-say", lt > 5.5, gap * 2 + cw * 1.5, top + ch * 0.5 - s * (n ? 0 : 3.5), gap * 2 + cw * 1.5, top + ch * (n ? 0.665 : 0.18), n ? "慢慢接力" : "五扇 M 门，各在各的地方", "say");
     ctx.restore();
   }
 
@@ -313,18 +319,19 @@ Anima.register("muscarinic-antipsychotic", {
     Anima.receptor(0, 0, H * 0.032, C.m, M.ach * 0.9, { label: "M5" });
     ctx.restore();
     soma(cA.x, cA.y, dr * 0.9, "#ffd0e2", 1, n ? "胆碱能神经元" : "胆碱能神经元（脑干）");
-    const m4 = Anima.receptor(cA.x, cA.y - dr * 0.85, H * 0.036, C.m, M.m4, { label: "M4" });
-    // 占诺美林：按下 M4
+    // 占诺美林：按下 M4（手机上它站好以后，脚下名牌会压住 M4 小牌，M4 交给标注“按下 M4 刹车”来点名）
     const xp = prog(4, 1.4);
+    const m4 = Anima.receptor(cA.x, cA.y - dr * 0.85, H * 0.036, C.m, M.m4, { label: n && cur === 2 && xp > 0.9 ? "" : "M4" });
     if (cur === 2 && xp > 0) chara(m4.site.x, lerp(T + H * 0.1, m4.site.y, xp), H * 0.034, O(XAN, { eyes: xp < 1 ? "open" : "happy", arms: xp < 1 ? "up" : "shh", mouth: "cat", shadow: false, tag: "占诺美林" }));
     // 计量柱
     const bw = Math.max(12, W * 0.022);
     bar(W * (n ? 0.06 : 0.05), T + H * (n ? 0.2 : 0.12), H * 0.56, bw, M.ach, "#f29cc0", "乙酰胆碱");
-    bar(px + pw - bw * 1.2, py + ph * 0.28, floor - rs * 2.2, bw, M.da, "#ff9a52", "多巴胺");
+    bar(px + pw - bw * 1.2, py + ph * 0.28, floor - rs * 2.2, bw, M.da, "#ff9a52", "多巴胺", px + pw - 2);
     const q = (a0, b0) => t > a0 && t < b0;
     callout("m-m5", q(1, 4.5), dA.x - dr * 1.1, dA.y, n ? W * 0.3 : W * 0.3, H * 0.52, n ? "乙酰胆碱催它放电" : "乙酰胆碱经 M5 催它放电");
     callout("m-m4", q(5.5, 13), m4.site.x + H * 0.02, m4.site.y, n ? W * 0.36 : W * 0.26, n ? H * 0.45 : H * 0.5, n ? "按下 M4 刹车" : "按下 M4：乙酰胆碱少放");
-    say("m-da", q(8.5, 13.5), dx[1], R[1].site.y - rs, n ? W * 0.72 : W * 0.72, H * (n ? 0.6 : 0.62), "多巴胺少了，D2 门清静了～", "say");
+    // 手机上气泡在方框下面，尾巴指向多巴胺计量柱，不压住 D2 的小牌
+    say("m-da", q(8.5, 13.5), n ? px + pw - bw * 1.2 : dx[1], n ? floor - rs * 2.2 : R[1].site.y - rs, n ? W * 0.8 : W * 0.72, H * (n ? 0.75 : 0.62), "多巴胺少了，D2 门清静了～", "say");
     ctx.restore();
   }
 
@@ -360,7 +367,7 @@ Anima.register("muscarinic-antipsychotic", {
       }
     });
     say("c-l", lt > 3 && lt < 8, gap + cw * 0.5, top + ch * 0.3, gap + cw * 0.5, top + ch * 0.14, n ? "我们进不去！" : "让一让，我们进不去！", "say");
-    say("c-r", lt > 7.5, gap * 2 + cw * 1.5, top + ch * 0.5, gap * 2 + cw * 1.5, top + ch * 0.14, "人少，门也照常开～", "say");
+    say("c-r", lt > 7.5, gap * 2 + cw * 1.5, top + ch * 0.5, gap * 2 + cw * 1.5, top + ch * 0.14, n ? "人少，门照常开～" : "人少，门也照常开～", "say"); // 手机上卡片窄，气泡字短一点才不出卡片
     ctx.restore();
   }
 

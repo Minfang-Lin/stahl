@@ -200,7 +200,7 @@ Anima.register("symptom-circuits", {
       const P2 = pts[i][1];
       callout("sn-" + i, lt > t0 + 1.3 && lt < t0 + 3.4, P2.x, P2.y, P2.x + W * 0.08, i === 2 ? top - H * 0.02 : H * 0.92, c.name);
     });
-    say("sn-end", lt > 11, g.cx - g.rx * 0.3, g.cy + g.ry * 0.6, g.cx - g.rx * 0.1, H * 0.93, "看不见的症状，有了位置！", "say");
+    say("sn-end", lt > 11, g.cx - g.rx * 0.3, g.cy + g.ry * 0.6, N() ? W * 0.28 : g.cx - g.rx * 0.1, H * 0.93, "看不见的症状，有了位置！", "say"); // 手机：放到左下空处，不盖住下面两条回路
     ctx.restore();
   }
 
@@ -253,8 +253,9 @@ Anima.register("symptom-circuits", {
     const top = Anima.topSafe() + H * 0.07, gap = W * 0.04, w = (W - gap * 3) / 2, h = H * 0.92 - top;
     const L = loopPanel(gap, top, w, h, 0), R = loopPanel(gap * 2 + w, top, w, h, 1);
     const nb = N();
-    say("tn-q", win(1.5, 7), L.px, L.py - h * 0.2, nb ? L.cx : L.px - w * 0.18, nb ? L.cy : L.py - h * 0.28, "好事来了，也提不起劲……", "think");
-    say("tn-l", win(6.5, 13), R.px, R.py - h * 0.2, R.cx, R.cy, "一点小事，警报就响！", "shout");
+    // 手机：气泡放到回路上方、写短一点，不挡住回路两端和下面的小人
+    say("tn-q", win(1.5, 7), L.px, L.py - h * 0.2, nb ? L.cx : L.px - w * 0.18, nb ? top + h * 0.17 : L.py - h * 0.28, nb ? "好事也提不起劲…" : "好事来了，也提不起劲……", "think");
+    say("tn-l", win(6.5, 13), R.px, R.py - h * 0.2, R.cx, nb ? top + h * 0.17 : R.cy, nb ? "一点小事就响！" : "一点小事，警报就响！", nb ? "say" : "shout");
     callout("tn-slow", win(2, 6.5) && !nb, L.cx, L.cy - L.r * 0.75, L.cx, top + h * 0.12, "信号稀稀拉拉");
     callout("tn-fast", win(7, 13) && !nb, R.cx, R.cy - R.r * 0.75, R.cx, top + h * 0.12, "信号挤成一团");
     ctx.restore();
@@ -284,7 +285,7 @@ Anima.register("symptom-circuits", {
     callout("cr-da", win(2.4, 5.5), pts[0][0].x, pts[0][0].y, W * 0.3, H * 0.9, "多巴胺：让好事“值得期待”");
     callout("cr-am", win(5, 8.1), pts[1][0].x, pts[1][0].y, g.cx + g.rx * 0.2, H * 0.92, "5-HT、GABA：把警报调小");
     callout("cr-at", win(7.6, 10.7), pts[2][0].x, pts[2][0].y, g.cx - g.rx * 0.2, top - H * 0.02, "NE、DA：调好信噪比");
-    callout("cr-sl", lt > 10.2, pts[3][0].x, pts[3][0].y, g.cx + g.rx * 0.5, top - H * 0.02, "组胺、食欲素叫醒，GABA 哄睡");
+    callout("cr-sl", lt > 10.2, pts[3][0].x, pts[3][0].y, N() ? W * 0.6 : g.cx + g.rx * 0.5, N() ? H * 0.92 : top - H * 0.02, "组胺、食欲素叫醒，GABA 哄睡");
     ctx.restore();
   }
 
@@ -349,10 +350,10 @@ Anima.register("symptom-circuits", {
       const L = [0, 1, 2, 3].map((i) => (lit.indexOf(i) >= 0 ? prog(1.5 + k * 1.7, 0.8) : 0));
       brainMap(cx, cy, rx, rx * 0.66, L, [0, 0, 0, 0], 0);
       const px = gap + w * 0.18;
-      chara(px, yy + h * 0.13, h * 0.055, { who: "neuron", hair: k ? "#6d5a45" : "#b08968", style: k ? "long" : "short", eyes: "open", mouth: "smile", tag: "抑郁症" });
+      chara(px, yy + h * 0.13, h * (nb ? 0.048 : 0.055), { who: "neuron", hair: k ? "#6d5a45" : "#b08968", style: k ? "long" : "short", eyes: "open", mouth: "smile", tag: "抑郁症" });
       lit.forEach((ci, j) => {
         const c = CIR[ci];
-        const nb2 = N(); symCard(gap + w * 0.2, yy - h * (nb2 ? 0.2 : 0.18) + j * h * (nb2 ? 0.105 : 0.075), w * 0.37, h * (nb2 ? 0.095 : 0.068), c.sym, c.col);
+        const nb2 = N(); symCard(gap + w * 0.2, yy - h * (nb2 ? (k ? 0.17 : 0.2) : 0.18) + j * h * (nb2 ? 0.095 : 0.075), w * 0.37, h * (nb2 ? 0.085 : 0.068), c.sym, c.col);
       });
       ctx.restore();
     });
@@ -364,11 +365,11 @@ Anima.register("symptom-circuits", {
     const DX = ["抑郁", "焦虑", "双相", "创伤后应激"];
     DX.forEach((d, i) => {
       const q = prog(7 + i * 0.5, 0.8);
-      const fx = rx0 + w * (0.14 + (i % 2) * 0.72), fy = top + h * (0.5 + Math.floor(i / 2) * 0.28);
+      const fx = rx0 + w * (nb ? 0.22 + (i % 2) * 0.56 : 0.14 + (i % 2) * 0.72), fy = top + h * (0.5 + Math.floor(i / 2) * (nb ? 0.32 : 0.28));
       if (q <= 0) return;
       ctx.save(); ctx.globalAlpha *= q;
       ctx.save(); ctx.setLineDash([4, 5]); outline(1.4); ctx.beginPath(); ctx.moveTo(scx, scy + h * 0.05); ctx.lineTo(fx, fy - h * 0.06); ctx.stroke(); ctx.restore();
-      const fw = w * (nb ? 0.26 : 0.24);
+      const fw = w * (nb ? 0.4 : 0.24); // 手机：文件夹放宽，“创伤后应激”才不会小得看不清
       folder(fx, fy, fw, h * 0.12, d, 0);
       ctx.restore();
     });

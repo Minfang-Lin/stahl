@@ -204,7 +204,7 @@ Anima.register("ocd-impulsivity", {
     if (want && near) emote("heart", k.dx + s * 0.8, k.dy, s * 0.6);
     callout("o-gas", here && lt > 0.8 && lt < 6, k.dx + s * 0.4, k.dy + s * 1.5, W * 0.18, Y(0.38), "开车的多巴胺：想去就踩油门");
     callout("o-brake", here && lt > 5.4 && lt < (nw ? 9.8 : 11), k.lx, k.ly, W * 0.8, Y(0.38), "前额叶教练：拉住手刹");
-    say("o-wait", here && lt > (nw ? 6.1 : 5.6) && lt < 10, k.cx, k.cy, W * 0.3, nw ? Y(0.26) : Y(0.5), "先等等，吃完正餐再说～", "say");
+    say("o-wait", here && lt > (nw ? 6.6 : 5.6) && lt < 10, k.cx, k.cy, nw ? W * 0.76 : W * 0.3, nw ? Y(0.9) : Y(0.5), nw ? "先等等，吃完饭再说～" : "先等等，吃完正餐再说～", "say"); // 手机上一行放得下，气泡待在车顶上方
     say("o-ok", here && lt > 10.2, k.dx, k.dy, W * 0.66, nw ? Y(0.28) : Y(0.52), "好，油门刹车配合好！", "say");
     ctx.restore();
   }
@@ -246,7 +246,7 @@ Anima.register("ocd-impulsivity", {
     gauge(W * 0.94 - gw, gyy, gw, "刹车 · 前额叶底部", lerp(0.3, 0.12, rush), "#8f84e0");
     callout("r-vs", here && lt > 1.5 && lt < 4.8, W * 0.06 + gw * 0.8, gyy + H * 0.03, W * 0.24, Y(0.34), "奖赏回路喊：马上要！");
     callout("r-pfc", here && lt > 9 && lt < 13, k.cx - s * 0.3, k.cy + s * 1.2, W * 0.2, Y(0.4), "刹车那头管不住");
-    say("r-now", here && lt > 4.8 && lt < 9, k.dx, k.dy, nw ? W * 0.62 : W * 0.68, nw ? Y(0.22) : Y(0.44), "现在就要！全都要！", "shout");
+    say("r-now", here && lt > (nw ? 5.4 : 4.8) && lt < 9, k.dx, k.dy, nw ? W * 0.62 : W * 0.68, nw ? Y(0.22) : Y(0.44), "现在就要！全都要！", "shout");
     say("r-oops", here && lt > 9.4, k.cx, k.cy, W * 0.72, Y(0.4), "诶？刚才是不是该停一下……", "think");
     ctx.restore();
   }
@@ -454,7 +454,7 @@ Anima.register("ocd-impulsivity", {
     callout("c-obs", here && lt > 1 && lt < 7, n0.x + fs * 3, n0.y, nw ? W * 0.78 : W * 0.72, Y(0.1), "强迫思维");
     callout("c-com", here && lt > 5 && lt < 11, n2.x + fs * 3, n2.y, nw ? W * 0.78 : W * 0.75, Y(0.96), "强迫行为");
     say("c-germ", here && lt < 8 && stage === 0, px, py - cs * 3.2, nw ? W * 0.24 : W * 0.24, Y(0.2), "手上是不是有细菌？", "think");
-    say("c-know", here && lt > 8.5, px, py - cs * 3.2, nw ? W * 0.25 : W * 0.2, nw ? Y(0.76) : Y(0.3), "明明知道没必要……可是停不下来", "think");
+    say("c-know", here && lt > 8.5, px, py - cs * 3.2, nw ? W * 0.68 : W * 0.2, nw ? Y(0.16) : Y(0.3), nw ? "明知没必要，\n却停不下来" : "明明知道没必要……可是停不下来", "think"); // 手机上放右上空处，气泡窄一点
     ctx.restore();
   }
 

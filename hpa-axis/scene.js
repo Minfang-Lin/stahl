@@ -360,9 +360,10 @@ Anima.register("hpa-axis", {
     const top = Anima.topSafe() + H * 0.02, c = cur, hi = top + H * 0.03;
     if (c === 0) {
       say("h0a", win(1.6, n ? 4.5 : 6), T.lamp.x, T.lamp.y, T.lamp.x + W * 0.12, top + H * 0.06, "有压力！警报——！", "shout");
-      say("h0b", lt > (n ? 4.5 : 5), g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * 0.62, H * 0.42, "收到！CRH，快去垂体！", "say");
+      // 手机上：气泡和“CRH”标注先后用中间偏右的同一块空地，不压住“下丘脑”“血里的皮质醇”和人的脸
+      say("h0b", n ? win(4.5, 8.2) : lt > 5, g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * (n ? 0.68 : 0.62), H * (n ? 0.48 : 0.42), "收到！CRH，快去垂体！", "say");
       const q = pick(fC, 0.3, 0.8);
-      callout("h0c", lt > (n ? 8.5 : 7.5) && !!q, q ? q.x : 0, q ? q.y : 0, W * 0.6, H * 0.62, "CRH：第一位传话员");
+      callout("h0c", lt > (n ? 8.5 : 7.5) && !!q, q ? q.x : 0, q ? q.y : 0, W * (n ? 0.68 : 0.6), H * (n ? 0.45 : 0.62), "CRH：第一位传话员");
     }
     if (c === 1) {
       const q = pick(fA, 0.35, 0.75);
@@ -382,17 +383,19 @@ Anima.register("hpa-axis", {
     }
     if (c === 3) {
       callout("h3a", win(2, n ? 6 : 99), Hp.box.x, Hp.box.y - g.hip.s * 0.3, g.hip.x + W * 0.1, hi, "糖皮质激素受体：信箱");
-      say("h3b", lt > (n ? 6 : 4.5), g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * 0.57, H * 0.45, "收到，可以停了～", "say");
+      // 手机上气泡放到中间偏右的空地，不压住下丘脑的房子和名牌；它先淡出，再出“负反馈”标注
+      say("h3b", n ? win(6, 9) : lt > 4.5, g.hyp.x + g.hyp.s, g.hyp.y - g.hyp.s * 1.6, W * (n ? 0.66 : 0.57), H * (n ? 0.5 : 0.45), "收到，可以停了～", "say");
       callout("h3c", lt > (n ? 9.5 : 8), g.gauge.x, g.gauge.y + H * 0.035, g.gauge.x - W * 0.04, H * 0.52, "负反馈：皮质醇回落");
     }
     if (c === 4) {
       callout("h4a", win(3, n ? 6.6 : 99), Hp.head.x, Hp.head.y, g.hip.x + W * 0.12, hi, "海马：BDNF↓，枝叶和信箱变少");
-      say("h4b", n ? win(7.8, 10.2) : lt > 6, Hp.box.x, Hp.box.y, W * (n ? 0.3 : 0.27), n ? top + H * 0.05 : H * 0.62, "收不到回执了…", "think");
+      say("h4b", n ? win(7.8, 10.2) : lt > 6, Hp.box.x, Hp.box.y, W * (n ? 0.86 : 0.27), n ? H * 0.52 : H * 0.62, n ? "没回执了…" : "收不到回执了…", "think"); // 手机上字短一点，放右边空地，不压住“下丘脑”和“恶性循环”
       callout("h4c", lt > (n ? 10 : 9), g.hyp.x + g.hyp.s * 1.2, g.hyp.y - g.hyp.s * 0.4, W * 0.58, H * 0.44, "刹车弱 → 继续放 CRH");
     }
     if (c === 5) {
       callout("h5a", win(2.5, n ? 6.5 : 99) && hs.length > 2, hs[2] ? hs[2].x : 0, hs[2] ? hs[2].y : 0, W * 0.8, H * 0.47, "帮海马恢复的帮手们");
-      say("h5b", lt > (n ? 6.5 : 7), Hp.head.x, Hp.head.y, W * 0.33, H * 0.62, "信箱回来了，又能收到啦！", "say");
+      // 手机上放到底部血管上方，不压住“海马”“垂体”名牌
+      say("h5b", lt > (n ? 6.5 : 7), Hp.head.x, Hp.head.y, W * (n ? 0.55 : 0.33), H * (n ? 0.9 : 0.62), "信箱回来了，又能收到啦！", "say");
     }
   }
 

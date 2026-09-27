@@ -194,7 +194,7 @@ Anima.register("alcohol-opioids", {
     callout("a-gaba", here && lt > 3.5 && lt < 7.5, P.L.x - s, P.L.y - s * 2.5, nw ? W * 0.18 : W * 0.14, Y(0.02), "增强 GABA：刹车更灵");
     callout("a-nmda", here && lt > 5 && lt < 8.4, P.R.x, P.R.y - s * 2.5, nw ? W * 0.72 : W * 0.66, Y(0.02), "压住谷氨酸（NMDA）");
     callout("a-endo", here && lt > 9.2, rx - rs * 2.4, ry - rs * 2, W * 0.7, Y(0.1), "还放出内啡肽和多巴胺");
-    say("a-relax", here && lt > 5.5, rx, ry - rs * 3.1, nw ? W * 0.3 : W * 0.82, nw ? Y(0.74) : Y(0.52), "好放松……反应也慢了", "think");
+    say("a-relax", here && lt > 5.5, rx, ry - rs * 3.1, nw ? W * 0.42 : W * 0.82, nw ? Y(0.78) : Y(0.52), "好放松……反应也慢了", "think");
     ctx.restore();
   }
 

@@ -340,7 +340,7 @@ Anima.register("opioid-receptors", {
       if (i < 2) plate("剂量 ×" + dose, mx, top + ch * 0.2, "#fff6e6", fz(0.024));
     });
     const x1 = gap * 2 + cw;
-    callout("ceil", lt > 7, x1 + cw * 0.18 + cw * 0.64 * 0.45, top + ch * 0.58 + (ch * 0.42) * 0.45, nw ? W * 0.5 : x1 + cw * 0.5, nw ? H * 0.93 : top + ch * 0.36, "天花板：加量也不再往上"); // 手机上放到卡片下方空处，别压住“剂量 ×3”和小人
+    callout("ceil", lt > 7, x1 + cw * 0.18 + cw * 0.64 * 0.45, top + ch * 0.58 + (ch * 0.42) * 0.45, nw ? W * 0.5 : x1 + cw * 0.5, nw ? H * 0.95 : top + ch * 0.36, "天花板：加量也不再往上"); // 手机上放到卡片下方空处，别压住“剂量 ×3”和小人
     ctx.restore();
   }
 

@@ -383,7 +383,7 @@ Anima.register("psychosis", {
     callout("l1", on2(1), m1.x, m1.y, L1.x, L1.y, nw ? "动力和思考" : "中脑皮层：动力和思考");
     callout("l2", on2(2) || (cur === 4 && lt > 1 && (!nw || lt < 7)), m2.x, m2.y, L2.x, L2.y, nw ? "管动作" : "黑质纹状体：管动作");
     callout("l3", on2(3) || (cur === 4 && lt > 2.5 && (!nw || lt < 7)), m3.x, m3.y, L3.x, L3.y, nw ? "管泌乳素" : "结节漏斗：管泌乳素");
-    say("from", cur === 1 && lt > 11.6, dx - cs, dy - cs * 3, nw ? W * 0.72 : dx + W * 0.1, nw ? H * 0.6 : dy - H * 0.32, "三条从中脑出发，一条从下丘脑出发～", "say");
+    say("from", cur === 1 && lt > 11.6, dx - cs, dy - cs * 3, nw ? W * 0.7 : dx + W * 0.1, nw ? Anima.topSafe() + H * 0.09 : dy - H * 0.32, "三条从中脑出发，一条从下丘脑出发～", "say");
     // 第 5 幕：两条线运行正常，药物访客在远处探头
     if (cur === 4) {
       const ok = (p, t0, label) => {
@@ -401,7 +401,7 @@ Anima.register("psychosis", {
       if (k > 0) {
         const px = lerp(W + cs * 2, nw ? W * 0.76 : W * 0.87, k), py = nw ? H * 0.98 : H * 0.9;
         chara(px, py, cs * 1.05, { who: "drug", label: "药", dir: -1, arms: "wave", eyes: "happy", mouth: "cat", walk: k < 1 ? time * 9 : null });
-        say("next", lt > 7.2, px - cs, py - cs * 3.2, nw ? W * 0.62 : px - W * 0.04, nw ? H * 0.3 : py - H * 0.33, "下一集，我会路过这几条线哦～", "say");
+        say("next", lt > 7.2, px - cs, py - cs * 3.2, nw ? W * 0.62 : px - W * 0.04, nw ? Anima.topSafe() + H * 0.09 : py - H * 0.33, "下一集，我会路过这几条线哦～", "say");
       }
     }
     ctx.restore();
@@ -533,7 +533,7 @@ Anima.register("psychosis", {
     const on = cur === 2;
     if (nw) {
       callout("tooMany", on && lt > 1.5 && lt < 7.2, W * 0.55, H * 0.87, W * 0.72, H * 0.2, "车太多：多巴胺过量");
-      if (stamper) say("stamp", on && lt > 2.5 && lt < 7.2, stamper.x, stamper.y, W * 0.26, H * 0.24, "这个也超重要！！", "shout");
+      if (stamper) say("stamp", on && lt > 2.5 && lt < 7.2, stamper.x, stamper.y, W * 0.26, H * 0.24, "这也超重要！", "say"); // 手机：爆炸框太大会被挤到人群脸上
       say("worry", on && lt > 7.5, rx, plat - s * 3.4, W * 0.7, H * 0.24, "路人……在说我吗？", "think");
       callout("stampNote", on && lt > 9.5, stampX + W * 0.1, cy, W * 0.25, H * 0.24, "小事被标成“重要”");
     } else {
@@ -595,9 +595,9 @@ Anima.register("psychosis", {
     const on = cur === 3;
     if (nw) {
       callout("cog", on && lt > 1 && lt < 4.8, bx + bw / 2, by + bh * 0.5, W * 0.3, H * 0.24, "认知：注意、计划变难");
-      callout("neg", on && lt > 4.8 && lt < 8.5, r2.x, plat - s * 1.6, W * 0.6, H * 0.24, "阴性：没动力、不想社交");
-      say("tired", on && lt > 1.5 && lt < 7, r1.x, plat - s * 3.3, W * 0.66, H * 0.42, "提不起劲……", "think");
-      say("alone", on && lt > 7.5, dA.x, plat - s * 3.3, W * 0.72, H * 0.42, "只来了我一个……", "say");
+      callout("neg", on && lt > 5.2 && lt < 7.3, r2.x, plat - s * 1.6, W * 0.6, H * 0.24, "阴性：没动力、不想社交");
+      say("tired", on && lt > 1.5 && lt < 7, r1.x, plat - s * 3.3, W * 0.66, H * 0.36, "提不起劲……", "think");
+      say("alone", on && lt > 7.5, dA.x, plat - s * 3.3, W * 0.72, H * 0.34, "只来了我一个……", "say"); // 手机：再高一点，不压长椅上两人的头
       callout("few", on && lt > 8.5, trainX + tr.cw * 0.4, tr.y + tr.ch * 0.4, W * 0.36, H * 0.24, "车太少：多巴胺不足");
     } else {
       callout("cog", on && lt > 1, bx + bw / 2, by + bh * 0.5, bx + bw / 2 + W * 0.04, H * 0.28, "认知症状：注意、记忆、计划变差");
@@ -701,7 +701,7 @@ Anima.register("psychosis", {
     // 标注和气泡
     const on = cur === 5;
     callout("nmda", on && lt > 1.2 && (!nw || lt < 5), nx, nr.site.y, W * (nw ? 0.3 : 0.2), H * (nw ? 0.24 : 0.28), nw ? "NMDA 受体功能不足" : "NMDA 受体功能不足：刹车员掉线");
-    say("hyper", on && lt > 5 && lt < (nw ? 8.5 : 12), x[2], fy - s * 3.4, W * (nw ? 0.66 : 0.6), H * (nw ? 0.25 : 0.28), nw ? "停不下来啦！" : "没人拦着，停不下来啦！", "shout");
+    say("hyper", on && lt > (nw ? 5.4 : 5) && lt < (nw ? 8.5 : 12), x[2], fy - s * 3.4, W * (nw ? 0.66 : 0.6), H * (nw ? 0.25 : 0.28), nw ? "停不下来啦！" : "没人拦着，停不下来啦！", nw ? "say" : "shout"); // 手机：普通气泡，等上一个标注淡出再出现，不盖住角色
     callout("more", on && lt > 7, x[3] + s, ry, W * 0.84, H * 0.8, nw ? "多巴胺↑" : "中脑边缘多巴胺↑");
     ctx.restore();
   }

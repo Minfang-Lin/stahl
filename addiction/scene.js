@@ -269,7 +269,7 @@ Anima.register("addiction", {
     // 标注和对话
     callout("a-vta", here1 && lt > 0.5 && lt < 7, g.V.x + r * 0.7, g.V.y - r * 0.5, g.V.x + W * 0.18, Y(0.2), "多巴胺神经元的家");
     callout("a-nac", here1 && lt > 2 && lt < 7, g.N.x - r * 0.5, g.N.y + r * 0.8, g.N.x - W * 0.18, Y(0.93), "伏隔核：收到“开心信件”");
-    say("a-like", here1 && lt > 7.2, g.N.x, g.N.y - r * 1.4, narrow() ? W * 0.5 : g.N.x - W * 0.12, narrow() ? Y(0.92) : Y(0.2), "这个好，下次还想要！", "say");
+    say("a-like", here1 && lt > 7.2, g.N.x, g.N.y - r * 1.4, narrow() ? W * 0.66 : g.N.x - W * 0.12, Y(0.2), "这个好，下次还想要！", "say");
     callout("a-brake", here2 && lt > 2.8 && lt < 7, gx + gs * 1.4, gy - gs * 1.5, g.V.x + W * 0.24, Y(0.93), "GABA 刹车被松开了");
     callout("a-coke", here2 && lt > 4.4 && lt < 7, dx, dy, g.T.x + W * 0.02, Y(0.14), "回收门被堵住");
     callout("a-amph", here2 && lt > 7.5 && lt < 10.5, dx, dy, g.T.x + W * 0.02, Y(0.14), "回收门反着转，往外送");

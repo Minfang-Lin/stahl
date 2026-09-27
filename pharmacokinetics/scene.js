@@ -232,7 +232,9 @@ Anima.register("pharmacokinetics", {
     return { dx, dy, fx, fy, wl };
   }
   function axes(c, tMax, xl) {
-    rrect(c.x0 - W * 0.02, c.y0 - H * 0.02, c.x1 - c.x0 + W * 0.03, c.y1 - c.y0 + H * 0.1, 14); ctx.fillStyle = "rgba(255,255,255,0.85)"; ctx.fill(); outline(1.4); ctx.stroke();
+    // 手机：框往上下各放一点，“血药浓度”和横轴名不压在框线上
+    const n = N(), f0 = fsS() * 0.8, cTop = c.y0 - (n ? f0 * 1.3 : H * 0.02), cBot = n ? c.y1 + f0 * 3.1 : c.y1 + H * 0.08;
+    rrect(c.x0 - W * 0.02, cTop, c.x1 - c.x0 + W * 0.03, cBot - cTop, 14); ctx.fillStyle = "rgba(255,255,255,0.85)"; ctx.fill(); outline(1.4); ctx.stroke();
     outline(1.4); ctx.beginPath(); ctx.moveTo(c.x0 + W * 0.02, c.y0); ctx.lineTo(c.x0 + W * 0.02, c.y1); ctx.lineTo(c.x1 - W * 0.01, c.y1); ctx.stroke();
     const fs = fsS() * 0.8, X = (t) => lerp(c.x0 + W * 0.02, c.x1 - W * 0.02, t / tMax);
     for (let t = 1; t <= tMax; t++) { outline(1); ctx.beginPath(); ctx.moveTo(X(t), c.y1); ctx.lineTo(X(t), c.y1 + 4); ctx.stroke(); if (!N() || t % 2 === 1 || tMax < 6) text(String(t), X(t), c.y1 + fs * 0.9, fs, C.soft); }
@@ -344,7 +346,7 @@ Anima.register("pharmacokinetics", {
     rrect(wx - ww / 2, wy, ww, ww * 0.6, 4); ctx.fillStyle = "#fff4e4"; ctx.fill(); ctx.stroke();
     face(wx, wy + ww * 0.3, ww * 0.18, 1);
     for (let k = 0; k < 3; k++) { const tt = (time * 0.6 + k / 3) % 1; ctx.beginPath(); ctx.arc(wx, lerp(wy + ww * 0.6, b.wl, tt), H * 0.008, 0, Math.PI * 2); ctx.fillStyle = Anima.alpha("#ffc94d", 1 - tt * 0.5); ctx.fill(); }
-    const lf = fsS() * 0.8, ly = g.ch.y1 + lf * 3.4;
+    const lf = fsS() * 0.8, ly = g.ch.y1 + lf * (n ? 4.1 : 3.4);
     ctx.fillStyle = "#6b61c9"; ctx.fillRect(g.ch.x0, ly - 2, lf * 1.4, 4); text("长效针剂", g.ch.x0 + lf * 1.7, ly, lf, C.ink, "left");
     ctx.fillStyle = Anima.alpha("#e0913a", 0.6); ctx.fillRect(g.ch.x0 + lf * 7, ly - 2, lf * 1.4, 4); text("每天口服", g.ch.x0 + lf * 8.7, ly, lf, C.ink, "left");
     callout("p6w", L > 1 && L < 6.5, wx + ww * 0.4, wy, g.tub.x + g.tub.w + W * 0.12, Anima.topSafe() + H * 0.04, "注射在肌肉里的小仓库");
