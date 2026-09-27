@@ -161,7 +161,7 @@ Anima.register("rna-splicing", {
     const L = preLayout(x0, x1 - x0);
     callout("ex", done && lt < 12, L[2].x + L[2].w / 2, sy + sh / 2, L[2].x + L[2].w / 2, H * 0.92, "外显子：要留下的镜头");
     callout("in", done && lt > 9.3, L[3].x + L[3].w / 2, sy + sh / 2, L[5].x + W * 0.02, H * 0.92, "内含子：大多要剪掉");
-    say("copy", lt > 1.2 && lt < 6.8, px, fy - s * 3, clamp(px + W * 0.16, W * 0.2, W * 0.8), H * 0.55, "照着基因抄一遍～", "say");
+    say("copy", lt > 1.2 && lt < 6.8, px, fy - s * 3, clamp(px + W * (nar() ? 0.3 : 0.16), W * 0.2, W * 0.8), H * 0.52, "照着基因抄一遍～", "say");
     say("film", done, px, fy - s * 3, W * (nar() ? 0.45 : 0.6), H * 0.55, "前体 mRNA：原始胶片！", "box");
     ctx.restore();
   }

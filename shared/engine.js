@@ -752,7 +752,9 @@
   // 漫画对话气泡：(tx, ty) 是说话的角色（气泡的尾巴朝向它），(bx, by) 是气泡中心
   //   kind: say 普通对话 | shout 喊出来（爆炸框） | think 心里想（云朵） | box 旁白方框（没有尾巴）
   function say(key, on, tx, ty, bx, by, t, kind = "say", color) {
-    const a = labelAlpha[key] = lerp(labelAlpha[key] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 6.3));
+    // 气泡和标注的淡入淡出分开记（同一个 key 的标注和气泡不会互相拖住）
+    const ak = "say:" + key;
+    const a = labelAlpha[ak] = lerp(labelAlpha[ak] || 0, on ? 1 : 0, 1 - Math.exp(-frameDt * 6.3));
     if (a < 0.02) { delete placeMemo["say:" + key]; return; }
     obsMute = !on;
     ctx.save(); ctx.globalAlpha *= clamp(a * 1.4, 0, 1);

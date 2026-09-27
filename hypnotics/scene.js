@@ -102,7 +102,7 @@ Anima.register("hypnotics", {
     mem(L, my);
     Anima.receptor(rx, my, H * 0.055, "#b8b0f0", 0.8, { label: "GABA-A" });
     chara(rx, my - H * 0.09, s, { who: "GABA", arms: "up", eyes: "happy" });
-    chara(rx + H * 0.1, my - H * 0.01, s, { who: "drug", hatColor: "#b8b0f0", arms: "hug", eyes: "closed", mouth: "cat", dir: -1, tag: "Z 药" });
+    chara(rx + H * (n ? 0.15 : 0.1), my - H * 0.01, s, { who: "drug", hatColor: "#b8b0f0", arms: "hug", eyes: "closed", mouth: "cat", dir: -1, tag: "Z 药" });
     for (let k = 0; k < 4; k++) { const t = (time * 0.8 + k / 4) % 1; ctx.save(); ctx.globalAlpha *= Math.sin(t * Math.PI); Anima.ion(rx + (k - 1.5) * H * 0.012, my - H * 0.04 + t * H * 0.16, H * 0.014, "Cl", "#d7f0c8"); ctx.restore(); }
     emote("zzz", L.x + L.w * 0.8, L.y + L.h * 0.2, H * 0.04);
     const cf = fsS() * (n ? 0.74 : 0.82);
@@ -170,7 +170,7 @@ Anima.register("hypnotics", {
     if (state === "groggy" || state === "fresh") {
       chara(x + w * 0.1, y - hgt, s, Object.assign({}, PERSON, state === "groggy" ? { eyes: "dizzy", mouth: "wavy", arms: "down", brow: "worry" } : { eyes: "happy", mouth: "grin", arms: "up" }));
       rrect(x - w * 0.25, y - hgt * 1.5, w * 0.72, hgt * 0.6, hgt * 0.3); ctx.fillStyle = C.blanket; ctx.fill(); outline(1.4); ctx.stroke();
-      if (state === "groggy") { emote("sweat", x + w * 0.1 + s * 1.1, y - hgt - s * 3.2, s * 0.8); sfx("晕乎乎…", x + w * 0.38, y - hgt - s * 4.2, H * 0.036, C.slow, -0.1, 1); }
+      if (state === "groggy") { emote("sweat", x + w * 0.1 + s * 1.1, y - hgt - s * 3.2, s * 0.8); sfx("晕乎乎…", Math.min(x + w * 0.56, W - H * 0.12), y - hgt * 2.2, H * 0.036, C.slow, -0.1, 1); }
       else sparkles(x + w * 0.1, y - hgt - s * 2, s * 2.2, 4, 1, 3);
     } else {
       // 躺着：枕头上的脑袋 + 被子
@@ -228,7 +228,7 @@ Anima.register("hypnotics", {
     });
     // 吃药的小胶囊 + “现在”的竖线
     const xd = g.X(23);
-    ctx.save(); ctx.translate(xd, ch.y1 + fs * 2.3); ctx.rotate(-0.4);
+    ctx.save(); ctx.translate(xd, ch.y1 - H * 0.035); ctx.rotate(-0.4);
     rrect(-H * 0.022, -H * 0.01, H * 0.044, H * 0.02, H * 0.01); ctx.fillStyle = "#ffffff"; ctx.fill(); outline(1.2); ctx.stroke();
     rrect(-H * 0.022, -H * 0.01, H * 0.022, H * 0.02, H * 0.01); ctx.fillStyle = "#ff9aa9"; ctx.fill(); ctx.stroke();
     ctx.restore();
@@ -249,12 +249,13 @@ Anima.register("hypnotics", {
     } else {
       bedsPos = [{ x: W * (n ? 0.3 : 0.3), c: cvs[0] }];
       bed(bedsPos[0].x, g.bedY, bw, stateOf(cvs[0].k), null);
-      if (hc < 28) moon(W * (n ? 0.72 : 0.62), g.bedY - H * 0.12, H * 0.035);
-      else { glow(W * (n ? 0.72 : 0.62), g.bedY - H * 0.12, H * 0.08, C.gold, day); ctx.beginPath(); ctx.arc(W * (n ? 0.72 : 0.62), g.bedY - H * 0.12, H * 0.035, 0, Math.PI * 2); ctx.fillStyle = mix("#fff1b8", "#ffc94d", day); ctx.fill(); outline(1.4); ctx.stroke(); }
+      const sx = W * (n ? 0.85 : 0.62), sy = g.bedY - H * (n ? 0.2 : 0.12);
+      if (hc < 28) moon(sx, sy, H * 0.035);
+      else { glow(sx, sy, H * 0.08, C.gold, day); ctx.beginPath(); ctx.arc(sx, sy, H * 0.035, 0, Math.PI * 2); ctx.fillStyle = mix("#fff1b8", "#ffc94d", day); ctx.fill(); outline(1.4); ctx.stroke(); }
     }
     // CBT-I 小卡片（第 6 幕）
     if (cur === 5 && lt > 8.2) {
-      const p = P(8.2, 0.8), cw = W * (n ? 0.5 : 0.3), chh = H * (n ? 0.26 : 0.24), cx0 = W * (n ? 0.47 : 0.66), cy0 = g.bedY - chh;
+      const p = P(8.2, 0.8), cw = W * (n ? 0.5 : 0.3), chh = H * (n ? 0.24 : 0.24), cx0 = W * (n ? 0.47 : 0.66), cy0 = g.bedY - chh + H * 0.035;
       ctx.save(); ctx.globalAlpha *= p;
       card(cx0, cy0 + (1 - p) * H * 0.05, cw, chh, "CBT-I：首选的基础", "#dff3e6");
       const lines = n ? ["固定起床时间", "困了再上床"] : ["固定起床时间", "困了再上床", "床只用来睡觉"];
@@ -265,17 +266,17 @@ Anima.register("hypnotics", {
     const ty = Anima.topSafe() + H * 0.01;
     const c0 = cvs[0];
     if (cur === 1) {
-      callout("g-dose", win(0.5, 3.5), xd, ch.y1 + fs * 2.3, n ? W * 0.35 : xd + W * 0.12, n ? ty : ch.y1 - H * 0.12, "23:00 吃药");
-      callout("g-in", win(4, 13), g.X(27), g.Y(Math.max(TH, conc(c0.k, 27))) + H * 0.04, n ? W * 0.5 : g.X(27), n ? ty : yt + H * 0.1, n ? "门槛以上：睡着" : "浓度在门槛以上：睡着");
+      callout("g-dose", win(0.5, 3.5), xd, ch.y1 - H * 0.035, n ? W * 0.45 : xd + W * 0.12, n ? ty : ch.y1 - H * 0.12, "23:00 吃药");
+      callout("g-in", win(4, 13), g.X(27), g.Y(Math.max(TH, conc(c0.k, 27))) + H * 0.04, n ? W * 0.45 : g.X(27), n ? ty : yt + H * 0.1, n ? "门槛以上：睡着" : "浓度在门槛以上：睡着");
     }
     if (cur === 2) {
-      callout("g-fast", win(1.5, 6), g.X(23.6), g.Y(conc("fast", 23.6)), n ? W * 0.35 : g.X(25), n ? ty : ch.y0 + H * 0.02, "很快越过门槛");
-      callout("g-slow", lt > 6.2, g.X(25), g.Y(conc("slow", 25)), n ? W * 0.55 : g.X(26.8), n ? ty : yt + H * 0.1, "爬得慢：躺着干等");
+      callout("g-fast", win(1.5, 6), g.X(23.6), g.Y(conc("fast", 23.6)), n ? W * 0.45 : g.X(25), n ? ty : ch.y0 + H * 0.02, "很快越过门槛");
+      callout("g-slow", lt > 6.2, g.X(25), g.Y(conc("slow", 25)), n ? W * 0.45 : g.X(26.8), n ? ty : yt + H * 0.1, "爬得慢：躺着干等");
     }
-    if (cur === 3) callout("g-drop", lt > 4.2, g.X(26.6), yt, n ? W * 0.6 : g.X(28.5), n ? ty : ch.y0 + H * 0.04, n ? "凌晨就掉下门槛" : "凌晨两三点就掉到门槛以下");
-    if (cur === 4) callout("g-hot", lt > 8.4, xw, g.Y(conc("long", 31)), n ? W * 0.62 : xw + W * 0.03, n ? ty : yt + H * 0.12, n ? "起床时还在门槛上" : "7 点了，还在门槛以上");
-    if (cur === 5) callout("g-8h", win(3, 8), g.X(27), yt, n ? W * 0.5 : g.X(27), n ? ty : yt + H * 0.1, "门槛以上约 8 小时");
-    if (cur === 3 && hc > 26.8 && hc < 31) say("g-wake", true, bedsPos[0].x - bw * 0.25, g.bedY - bw * 0.35, bedsPos[0].x + bw * (n ? 0.75 : 0.9), g.bedY - H * 0.12, "怎么才两点多…", "think");
+    if (cur === 3) callout("g-drop", lt > 4.2, g.X(26.6), yt, n ? W * 0.45 : g.X(28.5), n ? ty : ch.y0 + H * 0.04, n ? "凌晨就掉下门槛" : "凌晨两三点就掉到门槛以下");
+    if (cur === 4) callout("g-hot", lt > 8.4, xw, g.Y(conc("long", 31)), n ? W * 0.45 : xw + W * 0.03, n ? ty : yt + H * 0.12, n ? "起床时还在门槛上" : "7 点了，还在门槛以上");
+    if (cur === 5) callout("g-8h", win(3, 8), g.X(27), yt, n ? W * 0.45 : g.X(27), n ? ty : yt + H * 0.1, "门槛以上约 8 小时");
+    say("g-wake", cur === 3 && hc > 26.6 && hc < 29, bedsPos[0].x - bw * 0.3, g.bedY - bw * 0.25, bedsPos[0].x + bw * (n ? 0.62 : 0.95), g.bedY - H * 0.2, "才凌晨两三点…", "think");
     ctx.restore();
   }
 
