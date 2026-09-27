@@ -1,5 +1,6 @@
 // 展厅目录：大脑地图上的脑区、按《Stahl 精神药理学精要》章节的分组、角色图鉴，以及还在筹备中的小剧场。
-// 已上线的小剧场不用写在这里：每一集的 scene.js 在 meta 里写了 regions 和 parts，展厅会自动把它挂到对应的脑区和章节下。
+// 脑区：每一集的 scene.js 在 meta 里写了 regions，展厅会自动把它挂到对应的脑区下。
+// 按章节：下面 chapters 里列出每个小节对应的剧集 id；新做好一集，把 id 写进对应小节即可。
 // 新做好一集后，把它从下面的 planned 里删掉即可；想预告新主题，就加进对应的 planned。
 window.AnimaCatalog = {
   regions: {
@@ -24,6 +25,104 @@ window.AnimaCatalog = {
     { id: "adhd", name: "注意缺陷多动障碍", book: "第 11 章", desc: "前额叶的信号与噪音，以及兴奋剂怎样帮忙", planned: [] },
     { id: "dementia", name: "痴呆", book: "第 12 章", desc: "阿尔茨海默病里的乙酰胆碱和谷氨酸", planned: [] },
     { id: "addiction", name: "冲动、强迫与成瘾", book: "第 13 章", desc: "奖赏回路怎样被“劫持”", planned: [] },
+  ],
+  // 按原书目录：13 章，每章的小节，以及讲这个小节的剧集 id（第 5 版目录，凭整理，请对照原书核对）
+  // eps 里的 id 还没做出来时，这个小节在展厅里显示“筹备中”
+  chapters: [
+    { n: 1, name: "化学神经传递", sections: [
+      { name: "神经元、突触和化学信号", eps: ["synapse"] },
+      { name: "神经传递的几种方式：经典、逆行、容积传递", eps: ["neurotransmission-types", "endocannabinoid"] },
+      { name: "信号转导：G 蛋白和第二信使", eps: ["g-protein"] },
+      { name: "从信号到基因：基因表达和表观遗传", eps: ["plasticity"] },
+    ] },
+    { n: 2, name: "转运体、受体和酶：药物的靶点", sections: [
+      { name: "转运体的两大家族（膜转运体和囊泡转运体）", eps: ["transporter-families"] },
+      { name: "G 蛋白偶联受体和激动剂谱", eps: ["agonist"] },
+      { name: "受体的适应：脱敏、上调和下调", eps: ["receptor-regulation"] },
+      { name: "酶作为药物靶点：可逆和不可逆抑制", eps: ["enzyme-inhibitors"] },
+      { name: "药物代谢：CYP450", eps: ["cyp450"] },
+      { name: "药代动力学：半衰期和稳态", eps: ["pharmacokinetics"] },
+    ] },
+    { n: 3, name: "离子通道作为药物靶点", sections: [
+      { name: "配体门控和电压门控离子通道、变构调节", eps: ["ion-channels"] },
+    ] },
+    { n: 4, name: "精神病、精神分裂症和递质网络", sections: [
+      { name: "精神病的症状和多巴胺通路", eps: ["psychosis"] },
+      { name: "多巴胺的合成、终止和受体", eps: ["dopamine-lifecycle", "dopamine-receptors"] },
+      { name: "谷氨酸系统：合成、回收和受体", eps: ["glutamate-system"] },
+      { name: "谷氨酸假说：NMDA 功能不足", eps: ["glutamate-pathways"] },
+      { name: "5-HT 的合成和受体", eps: ["serotonin-lifecycle", "serotonin-receptors"] },
+      { name: "5-HT 与精神病：帕金森病和痴呆相关精神病", eps: ["serotonin-psychosis"] },
+      { name: "神经发育假说", eps: ["neurodevelopment"] },
+    ] },
+    { n: 5, name: "抗精神病药：多巴胺和 5-HT 受体", sections: [
+      { name: "D2 阻断：疗效和副作用", eps: ["antipsychotics"] },
+      { name: "基底节环路和锥体外系反应", eps: ["basal-ganglia-loops"] },
+      { name: "各药物的受体“指纹”", eps: ["antipsychotic-fingerprints"] },
+      { name: "代谢和心血管风险", eps: ["antipsychotic-metabolic"] },
+      { name: "长效针剂", eps: ["long-acting-injectables"] },
+      { name: "氯氮平和难治性精神分裂症", eps: ["clozapine"] },
+      { name: "迟发性运动障碍和 VMAT2 抑制剂", eps: ["tardive"] },
+      { name: "新机制：毒蕈碱受体", eps: ["muscarinic-antipsychotic"] },
+    ] },
+    { n: 6, name: "心境障碍和递质网络：去甲肾上腺素与 GABA", sections: [
+      { name: "抑郁症与单胺假说", eps: ["depression"] },
+      { name: "双相谱系和混合特征", eps: ["bipolar"] },
+      { name: "去甲肾上腺素系统", eps: ["norepinephrine-system", "monoamine-brakes"] },
+      { name: "GABA 系统", eps: ["gaba-system"] },
+      { name: "压力和 HPA 轴", eps: ["hpa-axis"] },
+      { name: "炎症假说", eps: ["inflammation-depression"] },
+      { name: "症状、回路和递质", eps: ["symptom-circuits"] },
+    ] },
+    { n: 7, name: "心境障碍的治疗", sections: [
+      { name: "SSRI、SNRI 和起效时间", eps: ["antidepressants"] },
+      { name: "松开刹车的抗抑郁药（米氮平等）", eps: ["monoamine-brakes"] },
+      { name: "三环类和 MAOI", eps: ["tca"] },
+      { name: "多模式抗抑郁药", eps: ["multimodal-antidepressants"] },
+      { name: "增效和难治性抑郁", eps: ["augmentation-trd"] },
+      { name: "快速起效：氯胺酮", eps: ["ketamine"] },
+      { name: "神经甾体", eps: ["neurosteroids"] },
+      { name: "心境稳定剂", eps: ["mood-stabilizers"] },
+    ] },
+    { n: 8, name: "焦虑、创伤及其治疗", sections: [
+      { name: "杏仁核、GABA 和苯二氮䓬", eps: ["anxiety"] },
+      { name: "恐惧回路的输出和惊恐发作", eps: ["fear-outputs"] },
+      { name: "担忧回路：广泛性焦虑", eps: ["worry-loop"] },
+      { name: "恐惧记忆和创伤后应激", eps: ["ptsd"] },
+    ] },
+    { n: 9, name: "慢性疼痛及其治疗", sections: [
+      { name: "疼痛通路、中枢敏化和下行抑制", eps: ["pain"] },
+    ] },
+    { n: 10, name: "睡眠和觉醒障碍", sections: [
+      { name: "睡眠开关和失眠的治疗", eps: ["sleep"] },
+      { name: "睡眠结构：快速眼动和非快速眼动", eps: ["rem-sleep"] },
+      { name: "昼夜节律", eps: ["circadian"] },
+      { name: "组胺系统", eps: ["histamine"] },
+      { name: "发作性睡病", eps: ["narcolepsy"] },
+      { name: "其他白天嗜睡：睡眠呼吸暂停、轮班工作", eps: ["daytime-sleepiness"] },
+      { name: "不宁腿综合征", eps: ["restless-legs"] },
+    ] },
+    { n: 11, name: "注意缺陷多动障碍", sections: [
+      { name: "前额叶的信号和噪音", eps: ["adhd"] },
+      { name: "兴奋剂的作用机制", eps: ["stimulants"] },
+      { name: "去甲肾上腺素、α2A 和前额叶网络", eps: ["alpha2a-hcn"] },
+    ] },
+    { n: 12, name: "痴呆", sections: [
+      { name: "阿尔茨海默病和乙酰胆碱", eps: ["dementia"] },
+      { name: "乙酰胆碱系统", eps: ["acetylcholine-system"] },
+      { name: "淀粉样蛋白级联", eps: ["amyloid-cascade"] },
+      { name: "痴呆的激越和精神病症状", eps: ["dementia-agitation"] },
+      { name: "其他类型的痴呆", eps: ["dementia-types"] },
+    ] },
+    { n: 13, name: "冲动、强迫和成瘾", sections: [
+      { name: "奖赏回路和成瘾", eps: ["addiction"] },
+      { name: "阿片受体", eps: ["opioid-receptors"] },
+      { name: "酒精和阿片类物质", eps: ["alcohol-opioids"] },
+      { name: "尼古丁", eps: ["nicotine"] },
+      { name: "大麻素系统", eps: ["endocannabinoid"] },
+      { name: "致幻剂和分离性物质", eps: ["hallucinogens"] },
+      { name: "冲动和强迫", eps: ["ocd-impulsivity"] },
+    ] },
   ],
   // 角色图鉴：key 对应 Anima.CAST 里的角色
   cast: [

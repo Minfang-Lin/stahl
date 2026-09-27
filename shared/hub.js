@@ -111,20 +111,32 @@
   $("sheetBackdrop").addEventListener("click", closeSheet);
   addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("sheet").hidden) closeSheet(); });
 
-  // ---------- 按章节 ----------
+  // ---------- 按章节：原书 13 章，每章列出小节和对应的剧集 ----------
+  const plannedSections = [];
   function setupBook() {
     const box = $("bookList");
-    for (const c of catalog.parts) {
+    for (const c of catalog.chapters) {
       const sec = document.createElement("section");
       sec.className = "disease";
       const h = document.createElement("h2"); h.textContent = c.name;
-      const small = document.createElement("small"); small.className = "book-ch"; small.textContent = c.book;
-      h.appendChild(small);
-      const p = document.createElement("p"); p.textContent = c.desc;
-      const ul = document.createElement("ul"); ul.className = "ep-list";
-      epsFor(c.id, "parts").forEach((e) => ul.appendChild(episodeItem(e)));
-      c.planned.forEach((name) => ul.appendChild(plannedItem(name)));
-      sec.appendChild(h); sec.appendChild(p); sec.appendChild(ul);
+      const small = document.createElement("small"); small.className = "book-ch"; small.textContent = `第 ${c.n} 章`;
+      h.insertBefore(small, h.firstChild);
+      sec.appendChild(h);
+      const ol = document.createElement("ol"); ol.className = "book-sections";
+      c.sections.forEach((s, i) => {
+        const li = document.createElement("li"); li.className = "book-section";
+        const t = document.createElement("h3");
+        const num = document.createElement("span"); num.className = "sec-n"; num.textContent = `${c.n}.${i + 1}`;
+        t.appendChild(num); t.appendChild(document.createTextNode(s.name));
+        li.appendChild(t);
+        const ul = document.createElement("ul"); ul.className = "ep-list";
+        const live = s.eps.filter((id) => byId[id]);
+        live.forEach((id) => ul.appendChild(episodeItem(byId[id])));
+        if (live.length < s.eps.length) { ul.appendChild(plannedItem("这一节的小剧场")); plannedSections.push(s.name); }
+        li.appendChild(ul);
+        ol.appendChild(li);
+      });
+      sec.appendChild(ol);
       box.appendChild(sec);
     }
   }
@@ -214,14 +226,10 @@
   $("back").addEventListener("click", () => { if (fromHome) history.back(); else location.hash = ""; });
   addEventListener("hashchange", route);
 
-  const planned = {};
-  Object.keys(catalog.regions).forEach((k) => catalog.regions[k].planned.forEach((n) => { planned[n] = 1; }));
-  catalog.parts.forEach((c) => c.planned.forEach((n) => { planned[n] = 1; }));
-  const np = Object.keys(planned).length;
-  $("count").textContent = np ? `已开演 ${eps.length} 集 · 筹备中 ${np} 集 · 持续更新` : `已开演 ${eps.length} 集 · 持续更新`;
-
   setupBrain();
   setupBook();
+  const nsec = catalog.chapters.reduce((a, c) => a + c.sections.length, 0);
+  $("count").textContent = `已开演 ${eps.length} 集 · 原书 ${nsec} 个小节已讲到 ${nsec - plannedSections.length} 个 · 持续更新`;
   setupCast();
   fromHome = null;
   route();
