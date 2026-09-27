@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>不碰 D2 的抗精神病药 · 脑内小剧场</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body data-episode="muscarinic-antipsychotic">
+<div class="wrap">
+  <header id="epHeader"></header>
+
+  <div class="stage">
+    <canvas id="cv" aria-label="科普动画"></canvas>
+    <div class="bar"><i id="prog"></i></div>
+  </div>
+
+  <div class="below">
+    <ol class="chapters" id="chapters"></ol>
+    <section class="narr" aria-live="polite">
+      <h2 id="nTitle"></h2>
+      <p id="nText"></p>
+      <div class="fact" id="nFact"></div>
+      <div class="controls">
+        <button id="prev" type="button">上一幕</button>
+        <button id="play" type="button" class="primary">暂停</button>
+        <button id="next" type="button">下一幕</button>
+      </div>
+    </section>
+  </div>
+
+  <footer id="epFooter"></footer>
+</div>
+
+<script id="video-meta" type="application/json">
+{
+  "intro": "几十年来，抗精神病药几乎都要挡住多巴胺 D2 受体。有没有一种药，完全不碰 D2 呢？这一次，主角换成了乙酰胆碱。",
+  "spoken": { "D2": "D 2", "M1": "M 1", "M4": "M 4", "M5": "M 5", "M2": "M 2", "M3": "M 3" },
+  "sad": []
+}
+</script>
+<script src="../shared/engine.js"></script>
+<script src="scene.js"></script>
+</body>
+</html>

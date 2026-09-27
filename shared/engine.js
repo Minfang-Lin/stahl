@@ -13,6 +13,43 @@
     };
   }
 
+  // 这一帧已经画出来的文字和方框（设备像素）：标注和气泡放置时会避开它们
+  const frameObs = [];
+  let obsOn = false; // 只记主画布 draw() 期间画的
+  const hasT = typeof CanvasRenderingContext2D.prototype.getTransform === "function"; // Chrome 61 没有，就不做避让
+  if (hasT) {
+    ["fillText", "strokeText"].forEach((fn) => {
+      const orig = CanvasRenderingContext2D.prototype[fn];
+      CanvasRenderingContext2D.prototype[fn] = function (t, x, y) {
+        if (obsOn && this === ctx && !window.__inChara && this.globalAlpha > 0.3) {
+          const fs = parseFloat((this.font.match(/([\d.]+)px/) || [0, 12])[1]);
+          const w = this.measureText(t).width, T = this.getTransform();
+          const al = this.textAlign, bl = this.textBaseline;
+          const x0 = x - (al === "center" ? w / 2 : al === "right" || al === "end" ? w : 0);
+          const y0 = y - (bl === "middle" ? fs / 2 : bl === "top" || bl === "hanging" ? 0 : fs * 0.8);
+          const sx = Math.abs(T.a) + Math.abs(T.c), sy = Math.abs(T.b) + Math.abs(T.d);
+          // 太小的字（离子、帽子上的名牌）不算障碍
+          if (fs * sy >= 9 * (ctx.canvas.width / (ctx.canvas.clientWidth || ctx.canvas.width))) {
+            const cxp = T.a * (x0 + w / 2) + T.c * (y0 + fs / 2) + T.e, cyp = T.b * (x0 + w / 2) + T.d * (y0 + fs / 2) + T.f;
+            frameObs.push({ x: cxp - w * sx / 2, y: cyp - fs * sy / 2, w: w * sx, h: fs * sy });
+          }
+        }
+        return orig.apply(this, arguments);
+      };
+    });
+  }
+
+  // 半径算成负数时（机器卡顿、一帧跨度很大时偶尔会发生）按 0 画，不要抛错把整段动画停掉
+  ["arc", "ellipse"].forEach((fn) => {
+    const orig = CanvasRenderingContext2D.prototype[fn];
+    CanvasRenderingContext2D.prototype[fn] = function (x, y, a, b) {
+      const args = Array.prototype.slice.call(arguments);
+      args[2] = Math.max(0, a || 0);
+      if (fn === "ellipse") args[3] = Math.max(0, b || 0);
+      return orig.apply(this, args);
+    };
+  });
+
   // 共用配色：奶油纸底 + 樱花、天空、薄荷、柠檬、薰衣草几种淡彩；线条用暖棕紫，不用纯黑
   const C = {
     ink: "#5a4650", line: "#6d5760", paper: "#ffffff", soft: "#a08a93", cream: "#fffaf3",
@@ -310,6 +347,7 @@
   function chara(x, y, s, opt) {
     const o = Object.assign({}, BASE, opt && opt.who ? CAST[opt.who] : null, opt);
     if (s < 1) return;
+    window.__inChara = true; // 检查工具据此忽略帽子上的小字
     if (o.gray) { // 变灰：把每种颜色往灰色混（不用 ctx.filter，它在软件渲染和旧 WebView 上很慢或不支持）
       const g = typeof o.gray === "number" ? o.gray : 0.75;
       ["hair", "eye", "cloth", "skin", "hatColor", "hatColor2"].forEach((k) => { o[k] = mix(o[k], "#c4bcc0", g); });
@@ -329,7 +367,7 @@
     const lw = Math.max(0.75, 1 / k);
     const line = (w) => { ctx.strokeStyle = C.line; ctx.lineWidth = Math.max(w || 0.75, lw); ctx.lineJoin = "round"; ctx.lineCap = "round"; };
 
-    if (s < 6) { miniChara(o, line); ctx.restore(); return; }
+    if (s < 6) { miniChara(o, line); ctx.restore(); window.__inChara = false; return; }
     const hy = -21; // 头的中心
     const sway = Math.sin(time * 2.2 + x * 0.02) * 0.12;
 
@@ -469,6 +507,7 @@
     }
 
     // --- 脚下的名牌（胶囊帽上的字太小时，用它写药名）---
+    window.__inChara = false; // 脚下的名牌要算进检查
     if (o.tag) { // 字至少 10 像素（手机上的小角色也看得清）
       const tf = Math.max(4.2, 10 * UI / k);
       ctx.font = `${tf}px ${ROUND}`;
@@ -483,6 +522,7 @@
       drawItem(o.item, ip[0], ip[1], o, line);
     }
     ctx.restore();
+    window.__inChara = false;
   }
 
   function miniChara(o, line) {
@@ -668,6 +708,42 @@
   }
   // 手机网页上数值胶囊用小一点的字，两个胶囊尽量排在一行（录制视频时不变）
   const pillUI = () => (!REC && UI > 1.2 ? 1.05 : UI);
+  // tools/overlap.js 用：把这一帧画出来的标注、气泡、胶囊方框记下来，检查文字有没有被挡住
+  const logBox = (kind, x, y, w, h, t) => { if (window.__LAYOUT) window.__LAYOUT.push({ k: kind, x, y, w, h, t, a: ctx.globalAlpha }); };
+  // 给方框 (x, y, w, h) 找一个不压住已画内容的位置；返回偏移 [dx, dy]（舞台坐标）
+  // 同一个 key 上一帧的位置还能用就继续用，避免来回跳
+  const placeMemo = {};
+  function avoid(key, x, y, w, h, stepY) {
+    if (!hasT || !frameObs.length) return [0, 0];
+    const T = ctx.getTransform(), k = Math.abs(T.a) || 1;
+    const minY = topSafe(), maxY = H - 6;
+    const cost = (dx, dy) => {
+      const bx = clamp(x + dx, 4, W - w - 4), by = clamp(y + dy, minY, maxY - h);
+      const r = { x: T.a * bx + T.e, y: T.d * by + T.f, w: w * k, h: h * k };
+      let c = 0;
+      for (const o of frameObs) c += Math.max(0, Math.min(r.x + r.w, o.x + o.w) - Math.max(r.x, o.x)) * Math.max(0, Math.min(r.y + r.h, o.y + o.h) - Math.max(r.y, o.y));
+      return c / (r.w * r.h) + (Math.abs(dx) / W + Math.abs(dy) / H) * 0.05; // 同样不挡时，离原位越近越好
+    };
+    const prev = placeMemo[key];
+    if (prev && cost(prev[0], prev[1]) < 0.04) return prev;
+    let best = [0, 0], bc = cost(0, 0);
+    if (bc < 0.04) { placeMemo[key] = best; return best; }
+    const sy = stepY || h + 6, sx = w * 0.55;
+    const cand = [];
+    for (let j = 1; j <= 4; j++) cand.push([0, sy * j], [0, -sy * j]);
+    for (let i = 1; i <= 2; i++) [0, 1, -1, 2, -2].forEach((v) => cand.push([sx * i, sy * v], [-sx * i, sy * v]));
+    for (const c of cand) {
+      const v = cost(c[0], c[1]);
+      if (v < bc - 0.01) { bc = v; best = c; if (v < 0.04) break; }
+    }
+    placeMemo[key] = best;
+    return best;
+  }
+  const pushObs = (x, y, w, h) => {
+    if (!hasT) return;
+    const T = ctx.getTransform();
+    frameObs.push({ x: T.a * x + T.e, y: T.d * y + T.f, w: w * Math.abs(T.a), h: h * Math.abs(T.d) });
+  };
   const topSafe = () => (Math.max(11, W / 60) * pillUI() * 1.35 + 20) * pillRows + 10;
 
   // 漫画对话气泡：(tx, ty) 是说话的角色（气泡的尾巴朝向它），(bx, by) 是气泡中心
@@ -683,8 +759,13 @@
     const lh = fs * 1.32, pad = kind === "shout" ? fs * 1.3 : fs * 0.85;
     const w = tw + pad * 2, h = lines.length * lh + pad * (kind === "shout" ? 1.3 : 1.1);
     const ex = kind === "shout" ? 1.32 : 1; // 爆炸框的尖角会超出 w、h
-    const cx = clamp(bx, w * ex / 2 + 6, W - w * ex / 2 - 6), cy = clamp(by, topSafe() + h * ex / 2, H - h * ex / 2 - 6);
+    let cx = clamp(bx, w * ex / 2 + 6, W - w * ex / 2 - 6), cy = clamp(by, topSafe() + h * ex / 2, H - h * ex / 2 - 6);
+    {
+      const off = avoid("say:" + key, cx - w * ex / 2, cy - h * ex / 2, w * ex, h * ex, h * ex * 0.6 + 6);
+      cx = clamp(cx + off[0], w * ex / 2 + 6, W - w * ex / 2 - 6); cy = clamp(cy + off[1], topSafe() + h * ex / 2, H - h * ex / 2 - 6);
+    }
     const pop = 0.82 + 0.18 * ease(a);
+    logBox("say", cx - w * pop / 2, cy - h * pop / 2, w * pop, h * pop, t);
     ctx.translate(cx, cy); ctx.scale(pop, pop);
     const dx = tx - cx, dy = ty - cy, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
     const edge = Math.min(Math.abs(w / 2 / (ux || 1e-6)), Math.abs(h / 2 / (uy || 1e-6)));
@@ -743,6 +824,7 @@
     lines.forEach((l, i) => ctx.fillText(l, 0, -h / 2 + pad * (kind === "shout" ? 0.65 : 0.55) + lh * (i + 0.5) + 1));
     ctx.textAlign = "left";
     ctx.restore();
+    if (a > 0.3) pushObs(cx - w * ex / 2, cy - h * ex / 2, w * ex, h * ex);
   }
 
   // 名词标注：(tx, ty) 指向的点，(lx, ly) 标签位置
@@ -754,7 +836,12 @@
     const fs = Math.max(12, W / 58) * UI;
     ctx.font = `${fs}px ${ROUND}`;
     const w = ctx.measureText(t).width + fs * 1.9, bh = fs + 14;
-    const bx = clamp(lx - w / 2, 6, W - w - 6), by = clamp(ly < ty ? ly - bh : ly, topSafe(), H - bh - 6);
+    let bx = clamp(lx - w / 2, 6, W - w - 6), by = clamp(ly < ty ? ly - bh : ly, topSafe(), H - bh - 6);
+    {
+      const off = avoid("callout:" + key, bx, by, w, bh, bh + 6);
+      bx = clamp(bx + off[0], 6, W - w - 6); by = clamp(by + off[1], topSafe(), H - bh - 6);
+    }
+    logBox("callout", bx, by, w, bh, t);
     outline(1.6);
     ctx.setLineDash([3, 4]);
     ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(clamp(lx, bx + 12, bx + w - 12), ly < ty ? by + bh : by); ctx.stroke();
@@ -768,6 +855,7 @@
     ctx.fillStyle = C.ink; ctx.textBaseline = "middle";
     ctx.fillText(t, bx + fs * 1.15, by + bh / 2 + 1);
     ctx.restore();
+    if (a > 0.3) pushObs(bx, by, w, bh);
   }
 
   // 角落里的数值胶囊
@@ -783,6 +871,7 @@
     let bx = alignRight ? x - w : x;
     if (alignRight && y < H / 2 && bx < leftPillEnd + 8) { bx = 14; y = y + h + 8; pillRowsNow = 2; }
     if (!alignRight && y < H / 2) leftPillEnd = Math.max(leftPillEnd, bx + w);
+    logBox("pill", bx, y, w, h, label + value);
     ctx.save();
     ctx.shadowColor = "rgba(120,80,100,0.16)"; ctx.shadowBlur = 8; ctx.shadowOffsetY = 2;
     rrect(bx, y, w, h, h / 2); ctx.fillStyle = "rgba(255,255,255,0.94)"; ctx.fill();
@@ -971,8 +1060,10 @@
   }
   function draw() {
     ctx.globalAlpha = 1; leftPillEnd = 0; pillRowsNow = 1;
+    if (window.__LAYOUT) window.__LAYOUT.length = 0;
     ctx.textAlign = "left"; ctx.setLineDash([]);
-    sync(); ep.cfg.draw();
+    frameObs.length = 0; obsOn = true;
+    try { sync(); ep.cfg.draw(); } finally { obsOn = false; }
     pillRows = pillRowsNow;
   }
 
@@ -1028,12 +1119,14 @@
 
   function frame(now) {
     if (!ep) { rafId = 0; return; }
-    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    // window.__SPEED：检查工具用来快进（平时是 1）
+    const sp = window.__SPEED || 1;
+    const dt = Math.min(0.05, (now - last) / 1000) * sp; last = now;
     time += dt;
     if (playing) { ep.chT += dt; if (ep.chT > ep.DUR) go(cur + 1); }
     $("prog").style.width = (ep.chT / ep.DUR * 100).toFixed(2) + "%";
-    update(dt);
-    draw();
+    // 某一帧画错了也不要让整段动画停住：记下错误，下一帧照常继续
+    try { update(dt); draw(); } catch (e) { if (window.console) console.error(e); }
     rafId = requestAnimationFrame(frame);
   }
 
