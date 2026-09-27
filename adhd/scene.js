@@ -456,7 +456,7 @@ Anima.register("adhd", {
     callout("mph", on("mph") && lt > 5.6 && !(nar && lt > 9.4), dX, dY - cs * 1.4, W * (nar ? 0.27 : 0.22), H * 0.95, "哌甲酯：堵住回收门");
     callout("amp", on("amp") && lt > 9.6, aX, dY - cs * 1.4, W * (nar ? 0.7 : 0.76), H * 0.95, "苯丙胺类：还让门反着开");
     say("mphSay", lt > 5.6 && lt < 9.4, dX, g.T1.y - g.rs, W * 0.3, H * (nar ? 0.1 : 0.2), "回收门先歇一会儿～", "say");
-    say("ampSay", lt > 9.6, aX, g.T2.y - g.rs, W * (nar ? 0.62 : 0.7), H * (nar ? 0.1 : 0.2), "门反过来开，往外送！", "say");
+    say("ampSay", lt > 9.6, aX, g.T2.y - g.rs, W * (nar ? 0.62 : 0.7), H * (nar ? 0.1 : 0.2), nar ? "门反着开，往外送！" : "门反过来开，往外送！", "say"); // 手机上一行放得下，才能待在上方不压住小人
     ctx.restore();
   }
 
