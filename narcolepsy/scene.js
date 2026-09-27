@@ -206,7 +206,7 @@ Anima.register("narcolepsy", {
     const topY = Anima.topSafe() + H * 0.02;
     callout("n1-ox", win(0.5, 3.4), map(OX[1]).x, map(OX[1]).y - cs * 3, n ? W * 0.35 : W * 0.3, topY, "食欲素神经元：只住在下丘脑");
     callout("n1-im", win(3.6, n ? 8 : 13), im[0].x, im[0].y - cs * 3.1, n ? W * 0.62 : W * 0.78, n ? topY : H * 0.2, "可能是免疫系统误伤");
-    if (lastP) say("n1-last", lt > 8.8, lastP.x, lastP.y - cs * 3.2, lastP.x + W * (n ? 0.02 : 0.1), H * (n ? 0.3 : 0.24), "大家都不见了…锁扣没人扣了", "think");
+    if (lastP) say("n1-last", lt > 8.8, lastP.x, lastP.y - cs * 3.2, n ? bx + bw / 2 : lastP.x + W * 0.1, H * (n ? 0.56 : 0.24), "大家都不见了…锁扣没人扣了", "think"); // 手机上放进小屋里空出来的位置，别压住屋顶的“下丘脑”
     ctx.restore();
   }
 
@@ -242,7 +242,7 @@ Anima.register("narcolepsy", {
     if (wk) sfx("又醒了", r.gp.x, r.gp.y - cs * 4.6, H * 0.04, "#e7a23a", -0.1, 0.9);
     const topY = Anima.topSafe() + H * 0.02;
     callout("n2-empty", win(0.3, n ? 3.8 : 7.4), cx, py + H * 0.075, n ? W * 0.3 : W * 0.24, n ? topY : H * 0.4, "锁扣空了：一碰就翻");
-    say("n2-nap", p < DAY && lt > 3.8, r.pts[1].x, r.pts[1].y - cs * 3.2, n ? W * 0.7 : W * 0.8, H * 0.36, "白天说睡就睡着了？！", "shout");
+    say("n2-nap", p < DAY && lt > 3.8, r.pts[1].x, r.pts[1].y - cs * 3.2, n ? W * 0.62 : W * 0.8, n ? topY : H * 0.36, "白天说睡就睡着了？！", "shout");
     say("n2-wake", p >= DAY + 0.04, r.gp.x, r.gp.y - cs * 3.3, n ? W * 0.28 : W * 0.2, H * 0.36, "夜里却一次次醒来…", "think");
     ctx.restore();
   }
@@ -421,13 +421,14 @@ Anima.register("narcolepsy", {
     // 替洛利生坐到 H3 上
     const p1 = prog(1, 1.4), p2 = prog(5, 1.4);
     if (p1 > 0) chara(lerp(L.x + L.w * 0.9, A.site.x, p1), lerp(L.y + L.h * 0.75, A.site.y + ds * 3.2, p1), ds, { who: "drug", hatColor: "#c9a6ee", tag: "替洛利生", arms: p1 >= 1 ? "up" : "down", walk: p1 < 1 ? time * 9 : null, dir: -1, eyes: "happy" });
-    if (p2 > 0) chara(lerp(R.x + R.w * 0.95, B.site.x, p2), lerp(R.y + R.h * 0.75, B.site.y + ds * 2.4, p2), ds, { who: "drug", hatColor: "#ffb347", tag: "莫达非尼", arms: p2 >= 1 ? "fist" : "down", walk: p2 < 1 ? time * 9 : null, dir: -1, eyes: "happy" });
+    if (p2 > 0) chara(lerp(R.x + R.w * (n ? 0.8 : 0.95), B.site.x, p2), lerp(R.y + R.h * 0.75, B.site.y + ds * 2.4, p2), ds, { who: "drug", hatColor: "#ffb347", tag: "莫达非尼", arms: p2 >= 1 ? "fist" : "down", walk: p2 < 1 ? time * 9 : null, dir: -1, eyes: "happy" });
     if (win(2.4, 3.6)) sfx("刹车松开！", L.x + L.w * 0.5, L.y + L.h * 0.92, H * 0.04, "#8f84e0", -0.1, 1);
     const topY = Anima.topSafe() + H * 0.01;
     callout("n5-h3", win(0.3, 2.4), A.site.x, A.site.y - ds, L.x + L.w * 0.5, L.y + L.h * 0.62, "H3：组胺自己的刹车");
     callout("n5-his", win(3.6, n ? 6.4 : 9.5), A.mid.x, A.mid.y - ds * 2, L.x + L.w * 0.5, L.y + L.h * 0.98, "反向激动 → 组胺放得更多");
     callout("n5-da", win(n ? 7.4 : 7, 9.6), B.mid.x, B.mid.y - ds * 2, R.x + R.w * 0.5, R.y + R.h * 0.98, "多巴胺在间隙里多留一会儿");
-    say("n5-sol", lt > 9.8, B.site.x, B.site.y, R.x + R.w * 0.5, R.y + R.h * 0.9, "索利氨酯（solriamfetol）：DAT 和 NET 一起挡", "box");
+    // 手机上放到上半张卡的空处，别压住莫达非尼的名牌
+    say("n5-sol", lt > 9.8, B.site.x, B.site.y, R.x + R.w * 0.5, R.y + R.h * (n ? 0.19 : 0.9), n ? "索利氨酯：DAT 和 NET 一起挡" : "索利氨酯（solriamfetol）：DAT 和 NET 一起挡", "box");
     void topY;
     ctx.restore();
   }

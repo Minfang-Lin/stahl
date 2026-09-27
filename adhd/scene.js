@@ -438,7 +438,9 @@ Anima.register("adhd", {
         const tx = i === 4 ? recX[2] - g.tw * 0.12 : recX[1] - g.tw * 0.14, ty = midY;
         x = lerp(g.T2.x, tx, p); y = lerp(g.T2.y + g.rs, ty, p);
         al = clamp(p * 3, 0, 1); eyes = "wide";
-        if (p < 0.6) sfx("咻～", x + cs, y - cs * 3, H * 0.035, "#ff9a52", -0.1, Math.sin(p / 0.6 * Math.PI));
+        // 手机上等快递员离开回收门一段再喊，别压住门上的“DAT / NET”
+        if (!narrowNow() && p < 0.6) sfx("咻～", x + cs, y - cs * 3, H * 0.035, "#ff9a52", -0.1, Math.sin(p / 0.6 * Math.PI));
+        if (narrowNow() && p > 0.35 && p < 0.8) sfx("咻～", x + cs * 1.5, y - cs * 2, H * 0.035, "#ff9a52", -0.1, Math.sin((p - 0.35) / 0.45 * Math.PI));
       }
       chara(x, y, cs, { who, eyes, mouth: "grin", arms: eyes === "open" ? "down" : "up", walk, jump, alpha: al, seed: i, dir: 1 });
     }
@@ -501,10 +503,11 @@ Anima.register("adhd", {
     if (R.T > 0.03 && R.T < 0.2) Anima.speedLines(R.tipX, R.tipY - cs, cs * 2.5, 24, 0.6);
     if (R.T > 0.3) emote("sweat", R.tipX + cs, R.tipY - cs * 3.2, cs * 0.6);
     const on = (k) => CH[cur].labels.indexOf(k) >= 0;
-    callout("slow", on("slow") && lt > 5 && !(nar && lt > 8.4), L.plat.x, L.plat.y, gap + cw * 0.5, nar ? top + ch * 0.95 : top + ch * 0.12 + H * 0.02, "平稳：主要帮专注");
-    callout("fast", on("fast") && lt > 3.5 && !(nar && lt > 8.4), R.peak.x, R.peak.y, gap * 2 + cw * 1.5, top + ch * 0.95, "奖赏中心猛升：易被滥用");
-    say("slowSay", lt > 7.5 && lt < (nar ? 10.6 : 13.5), L.tipX, L.tipY - cs * 3.2, nar ? W * 0.3 : gap + cw * 0.62, nar ? H * 0.9 : top + ch * 0.72, "稳稳的，刚好能专心～", "say");
-    say("fastSay", lt > 2.8 && lt < 7.5, R.tipX, R.tipY - cs * 3.2, gap * 2 + cw * 1.6, top + ch * 0.42, "冲太快啦……", "think");
+    callout("slow", on("slow") && lt > 5 && !(nar && lt > 8.4), L.plat.x, L.plat.y, gap + cw * 0.5, nar ? top + ch * 0.92 : top + ch * 0.12 + H * 0.02, "平稳：主要帮专注");
+    callout("fast", on("fast") && lt > 3.5 && !(nar && lt > 8.4), R.peak.x, R.peak.y, nar ? W * 0.75 : gap * 2 + cw * 1.5, top + ch * (nar ? 0.92 : 0.95), nar ? "快感区猛升：易被滥用" : "奖赏中心猛升：易被滥用");
+    say("slowSay", lt > (nar ? 8.4 : 7.5) && lt < (nar ? 10.6 : 13.5), L.tipX, L.tipY - cs * 3.2, nar ? W * 0.3 : gap + cw * 0.62, nar ? H * 0.9 : top + ch * 0.72, "稳稳的，刚好能专心～", "say");
+    // 手机上卡片里没空处，放到卡片下面
+    say("fastSay", lt > 2.8 && lt < 7.5, R.tipX, R.tipY - cs * 3.2, nar ? W * 0.75 : gap * 2 + cw * 1.6, nar ? H * 0.93 : top + ch * 0.42, "冲太快啦……", "think");
     say("rule", lt > (nar ? 10.8 : 8.5), 0, 0, W * 0.5, H * 0.92, "请按医嘱服用：别自己掰开、碾碎或改用法", "box");
     ctx.restore();
   }

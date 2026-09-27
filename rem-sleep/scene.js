@@ -346,7 +346,7 @@ Anima.register("rem-sleep", {
     const ddx = lerp(lx + lw * 0.5, lx - lw * 0.6, stop);
     chara(ddx, top + lh * 0.9, s * 1.05, { who: "drug", label: "药", tag: "抗抑郁药", arms: stop > 0 ? "wave" : "point", eyes: "happy", walk: stop > 0 && stop < 1 ? time * 9 : null, dir: stop > 0 ? -1 : 1, shadow: false, alpha: 1 - stop * 0.9 });
     // ACh：停药后一下子忙起来
-    const ax = lx + lw * 0.5, ay = top + lh * 0.72;
+    const ax = lx + lw * 0.5, ay = top + lh * (nb ? 0.82 : 0.72); // 手机上往下挪一点，头上的“!”别压住 NE 的名牌
     if (off) { chara(ax, ay, s * 0.9, { who: "ACh", item: "star", arms: "carry", eyes: "sparkle", mouth: "grin", tag: "ACh", jump: Math.abs(Math.sin(time * 6)) * 0.3, shadow: false }); emote("!", ax + s, ay - s * 3, s * 0.6); }
     // 右：三张睡眠图
     const rx = lx + lw + W * 0.03, rw = W * 0.96 - rx, gh = (H * 0.93 - top) / 2 - H * 0.05;

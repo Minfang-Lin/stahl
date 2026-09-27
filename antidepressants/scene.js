@@ -150,7 +150,9 @@ Anima.register("antidepressants", {
     callout("ssri", lt > 5.2, dx - g.cs * 0.8, dy - g.cs * 1.5, g.T.x - W * 0.14, g.post + H * 0.1, "SSRI：把回收门先堵上");
     say("closed", lt > 4.6 && lt < 9, dx + g.cs * 0.5, dy - g.cs * 3.2, W * 0.86, g.bot * 0.45, "回收门暂停营业～", "say");
     const p1 = pos[3];
-    say("stay", lt > 9.2 && !!p1, p1 ? p1.x : 0, p1 ? p1.y - g.cs * 3.2 : 0, W * 0.84, g.bot * 0.5, "那我在这儿多待一会儿！", "shout");
+    // 手机上右边是回收门和“暂停回收”封条，喊话气泡改成普通气泡，放到左上方末梢里
+    const nar1 = narrow();
+    say("stay", lt > 9.2 && !!p1, p1 ? p1.x : 0, p1 ? p1.y - g.cs * 3.2 : 0, nar1 ? W * 0.3 : W * 0.84, g.bot * (nar1 ? 0.45 : 0.5), "那我在这儿多待一会儿！", nar1 ? "say" : "shout");
     ctx.restore();
   }
 
@@ -313,7 +315,8 @@ Anima.register("antidepressants", {
     Anima.wash("#fff8f0", "#f3f0fd");
     Anima.bokeh(6, "#ffe3a8", 0.7, 17);
     const nar = narrow();
-    const x0 = W * 0.07, x1 = W * 0.93, ly = nar ? H * 0.6 : H * 0.68, span = x1 - x0;
+    // 手机上时间线略往上提，给底部的安全提醒方框留出位置，不压住“几周”的刻度
+    const x0 = W * 0.07, x1 = W * 0.93, ly = nar ? H * 0.54 : H * 0.68, span = x1 - x0;
     // 时间线（一条小路）
     rrect(x0 - H * 0.02, ly - H * 0.018, span + H * 0.04, H * 0.036, H * 0.018); ctx.fillStyle = "#f3e3cf"; ctx.fill(); outline(1.8); ctx.stroke();
     const fs = fsz(0.03);
@@ -337,7 +340,7 @@ Anima.register("antidepressants", {
     SE.forEach((e, i) => {
       const appear = prog(0.6 + i * 0.5, 0.6);
       const fade = e[4] ? prog(7 + i * 0.4, 2) * 0.65 : 0;
-      tile(x0 + span * e[2], H * (nar ? (e[3] > 0.4 ? 0.41 : 0.27) : e[3]), tr, e[0], e[1], appear * (1 - fade), "#f2b5c4");
+      tile(x0 + span * e[2], H * (nar ? (e[3] > 0.4 ? 0.39 : 0.24) : e[3]), tr, e[0], e[1], appear * (1 - fade), "#f2b5c4");
     });
     // 疗效：太阳慢慢升起
     const sp = prog(5, 5);
@@ -357,7 +360,9 @@ Anima.register("antidepressants", {
     ctx.save(); ctx.globalAlpha *= a;
     Anima.wash("#f6fbff", "#fdf0f5");
     Anima.petals(8, 0.5, 60);
-    const gap = W * 0.025, cw = (W - gap * 4) / 3, top = H * 0.24, ch = H * 0.7;
+    // 手机上卡片矮一点，把“被堵住的门”标注放到卡片下面，不压住门边的字
+    const nar4 = narrow();
+    const gap = W * 0.025, cw = (W - gap * 4) / 3, top = H * 0.24, ch = H * (nar4 ? 0.6 : 0.7);
     const D = [
       { name: "SSRI", block: [1, 0, 0], hat: "#8fdcc4" },
       { name: "SNRI", block: [1, 1, 0], hat: "#ec6470" },
@@ -393,7 +398,7 @@ Anima.register("antidepressants", {
       ctx.restore();
     });
     const g1 = posDrug[1], g2 = posDrug[2];
-    callout("tape", lt > 2 && lt < 6.5, gap + cw * 0.52 + Math.min(H * 0.042, cw * 0.1) * 0.95, top + ch * 0.19 + Math.min(H * 0.042, cw * 0.1) * 0.2, gap + cw * 0.5, H * 0.13, "被堵住的门：递质留得更久");
+    callout("tape", lt > 2 && lt < 6.5, gap + cw * 0.52 + Math.min(H * 0.042, cw * 0.1) * 0.95, top + ch * 0.19 + Math.min(H * 0.042, cw * 0.1) * 0.2, nar4 ? W * 0.5 : gap + cw * 0.5, H * (nar4 ? 0.93 : 0.13), "被堵住的门：递质留得更久");
     say("snri", lt > 4.2 && lt < 7.6 && !!g1, g1 ? g1.x : 0, g1 ? g1.y : 0, g1 ? g1.x + cw * 0.3 : 0, top + ch * 0.72, "两扇门我都管！", "say");
     say("bup", lt > 8 && !!g2, g2 ? g2.x : 0, g2 ? g2.y : 0, g2 ? g2.x - cw * 0.35 : 0, top + ch * 0.72, "我管去甲和多巴胺～", "say");
     ctx.restore();

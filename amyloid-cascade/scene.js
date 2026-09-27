@@ -189,7 +189,7 @@ Anima.register("amyloid-cascade", {
       const bp = prog(0.6, 2), bx = lerp(-cs * 2, ax - cs * 1.55, bp), by = M - mt / 2 - H * 0.055;
       chara(bx, M - mt / 2, cs, Object.assign({}, BETA, { arms: bp < 1 ? "down" : "point", walk: bp < 1 && bp > 0 ? time * 9 : null, dir: 1 }));
       const gp = prog(4.2, 2.2), gx = lerp(-cs * 2, ax - cs * 1.3, gp), gy = M + H * 0.2;
-      chara(gx, gy, cs, Object.assign({}, GAMMA, { arms: gp < 1 ? "down" : "wave", walk: gp < 1 && gp > 0 ? time * 9 : null }));
+      if (gp > 0) chara(gx, gy, cs, Object.assign({}, GAMMA, { arms: gp < 1 ? "down" : "wave", walk: gp < 1 && gp > 0 ? time * 9 : null }));
       // 放出来的 Aβ：长的（42）和短的（40）
       const ab = prog(8.2, 1), abY = yB + up + H * 0.04, s2 = cs * 1.15;
       if (ab > 0.01) {
@@ -304,7 +304,7 @@ Anima.register("amyloid-cascade", {
     }
     tangle(TX, TY - H * 0.04, H * 0.085, prog(8, 3), 7);
     const kw = lt > 3 && lt < 6.6;
-    if (lt < 7.2) chara(kx, mY + cs * 3.3 + H * 0.02, cs * 1.05, Object.assign({}, KIN, { walk: kw ? time * 9 : null, arms: "hold", item: "star", alpha: 1 - prog(6.6, 0.6) }));
+    if (lt > 3 && lt < 7.2) chara(kx, mY + cs * 3.3 + H * 0.02, cs * 1.05, Object.assign({}, KIN, { walk: kw ? time * 9 : null, arms: "hold", item: "star", alpha: 1 - prog(6.6, 0.6) }));
     // 运货小车：沿轨道跑，轨道散了就卡住
     const cartX = lt < 7.5 ? (W * 0.1 + ((lt * 0.12) % 1) * W * 0.8) : lerp(W * 0.1 + (((7.5 * 0.12) % 1)) * W * 0.8, W * 0.44, prog(7.5, 1.5));
     const ci = clamp(Math.floor((cartX + 20) / L), 0, NS - 1), cy = (broke > 0 ? segY(ci) : mY) - H * 0.022;

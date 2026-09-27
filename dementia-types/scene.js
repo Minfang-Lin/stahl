@@ -210,7 +210,7 @@ Anima.register("dementia-types", {
     callout("t-ad", here && lt > 2 && lt < 7.4, b0.x + b0.w * 0.3, b0.y, W * 0.78, narrow() ? Y(0.8) : Y(0.2), "最常见，但不是唯一");
     callout("t-mix", here && lt > 7 && !narrow(), b4.x - b4.w * 0.35, b4.y + fs * 0.8, W * 0.3, narrow() ? Y(0.44) : Y(0.6), "常常几种同时存在");
     say("t-q", here && lt > 2 && lt < 7.4, ex, gy - s * 3.2, W * 0.2, Y(0.3), "记性差，就是阿尔茨海默病吧？", "think");
-    say("t-a", here && lt > 7.6, ax, gy - s * 3.2, W * 0.78, narrow() ? Y(0.62) : Y(0.5), narrow() ? "原因不止一种，还常常混在一起！" : "原因可不止一种哦！", "say");
+    say("t-a", here && lt > 7.6, ax, gy - s * 3.2, W * 0.78, narrow() ? Y(0.49) : Y(0.5), narrow() ? "原因常常混在一起！" : "原因可不止一种哦！", "say");
     ctx.restore();
   }
 
@@ -488,9 +488,9 @@ Anima.register("dementia-types", {
       text("!", wx, wy + wr * 0.18, wr * 1.1, C.bad);
       ctx.restore();
     }
-    callout("f-lewy", here && lt > 1 && lt < 9, nx + nr * 0.4, ny + nr * 0.3, nw ? nx + L.w * 0.18 : nx + L.w * 0.18, nw ? ny + nr * 1.5 : ny - nr * 0.2, "路易体");
-    callout("f-drug", here && lt > 5 && lt < 9.5, site.x - cs * 0.6, site.y - cs * 1.6, R.x + R.w * 0.3, R.y + R.h * 0.24, "多巴胺受体被挡住");
-    say("f-careful", here && lt > 9.4, px, py - cs * 3.1, R.x + R.w * 0.5, R.y + R.h * 0.17, "可能出现严重反应，用药必须非常谨慎", "box");
+    callout("f-lewy", here && lt > 1 && lt < 8.6, nx + nr * 0.4, ny + nr * 0.3, nw ? nx + L.w * 0.18 : nx + L.w * 0.18, nw ? ny + nr * 1.5 : ny - nr * 0.2, "路易体");
+    callout("f-drug", here && lt > 5 && lt < 8.8, site.x - cs * 0.6, site.y - cs * 1.6, R.x + R.w * 0.3, R.y + R.h * 0.24, "多巴胺受体被挡住");
+    say("f-careful", here && lt > 9.6, px, py - cs * 3.1, R.x + R.w * 0.5, R.y + R.h * (nw ? 0.25 : 0.17), "可能出现严重反应，用药必须非常谨慎", "box");
     ctx.restore();
   }
 

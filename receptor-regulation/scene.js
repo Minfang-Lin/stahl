@@ -128,9 +128,10 @@ Anima.register("receptor-regulation", {
       chara(W * (0.23 + k * 0.18), lerp(Anima.topSafe() + s * 2, mem - rs * 1.4, t) , s * 0.75, { who: "DA", item: "letter", arms: "hold", alpha: Math.sin(t * Math.PI) * 0.8, shadow: false });
     }
     const fy = mem + H * (n ? 0.3 : 0.28);
-    chara(gx, fy, s, { who: "neuron", tag: "GRK", hat: "cap", label: "GRK", hair: "#8f6fd0", cloth: "#fff1b8", hatColor: "#c9b8f5", walk: time * 9, arms: "hold", eyes: "happy" });
-    pBadge(gx + s * 0.1, fy - s * 0.9, s * 0.28, 1);
-    chara(bx, fy, s, { who: "neuron", tag: "β-抑制蛋白", hat: "beret", hair: "#e8739a", cloth: "#ffe1ea", hatColor: "#ff9fb3", walk: time * 9, arms: "carry", eyes: "open" });
+    const gp = P(L, 2.2, 4.5), bp = P(L, 5, 4.5);
+    if (gp > 0 && gp < 1) chara(gx, fy, s, { who: "neuron", tag: "GRK", hat: "cap", label: "GRK", hair: "#8f6fd0", cloth: "#fff1b8", hatColor: "#c9b8f5", walk: time * 9, arms: "hold", eyes: "happy" });
+    if (gp > 0 && gp < 1) pBadge(gx + s * 0.1, fy - s * 0.9, s * 0.28, 1);
+    if (bp > 0 && bp < 1) chara(bx, fy, s, { who: "neuron", tag: "β-抑制蛋白", hat: "beret", hair: "#e8739a", cloth: "#ffe1ea", hatColor: "#ff9fb3", walk: time * 9, arms: "carry", eyes: "open" });
     face(W * 0.5, H * 0.92, H * 0.04, L > 9 ? 0 : -1);
     if (L < 5) { Anima.sweat(W * 0.5 + H * 0.05, H * 0.88, H * 0.02); }
     callout("r0g", L > 3.4 && L < 6.8, gx, fy - s * 2.6, W * 0.3, H * (n ? 0.94 : 0.95), "GRK：给门里侧盖上磷酸章");
@@ -158,7 +159,7 @@ Anima.register("receptor-regulation", {
       if (go > 0) { vx = lerp(x, ly.x, go); vy = lerp(mem + H * 0.24, ly.y, go); }
       const onMem = !inn || back >= 1;
       if (onMem) count++;
-      const signA = i === 1 ? 1 - P(L, 4, 1.2) : 1;
+      const signA = i === 1 ? 1 - P(L, 4, 1.2) : 1 - go;
       const al = 1 - P(L, 7.5 + (i - 2) * 0.6, 1.2) * (go > 0 ? 1 : 0);
       if (inn && sink > 0.05 && back < 1) { // 小泡
         ctx.save(); ctx.globalAlpha *= al * Math.min(1, sink * 3);
@@ -258,7 +259,7 @@ Anima.register("receptor-regulation", {
         const x = x0 + f * W / 2;
         const act = side === 0 ? (L < 2.5 ? 0.05 : flood) : (L < 2.5 ? 0.9 : (i === 1 ? 0.35 * flood : 0));
         const r = door(x, mem, rs, act, { hot: side === 0 ? flood : 0 });
-        if (stop < 1) chara(x, r.site.y - stop * H * 0.3, s, Object.assign(side === 0 ? drug("挡门药", "#9fb7e8", "#e8eefc") : drug("开门药", "#ff9aa9"), { alpha: 1 - stop, eyes: stop > 0 ? "happy" : "closed", arms: stop > 0 ? "wave" : side === 0 ? "shh" : "up", shadow: false }));
+        if (stop < 1) chara(x, r.site.y - stop * H * 0.3, s, Object.assign(side === 0 ? drug(n && i !== (side === 0 ? 3 : 1) ? null : "挡门药", "#9fb7e8", "#e8eefc") : drug(n && i !== 1 ? null : "开门药", "#ff9aa9"), { alpha: 1 - stop, eyes: stop > 0 ? "happy" : "closed", arms: stop > 0 ? "wave" : side === 0 ? "shh" : "up", shadow: false }));
         if (side === 0 && flood > 0) chara(x, lerp(Anima.topSafe() + s * 3, r.site.y, flood), s, { who: "DA", eyes: "sparkle", arms: "up", alpha: flood });
         if (side === 1 && i === 1 && flood > 0) chara(x, lerp(Anima.topSafe() + s * 3, r.site.y, flood), s, { who: "GABA", eyes: "open", mouth: "wavy", alpha: flood });
       });

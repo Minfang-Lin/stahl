@@ -301,9 +301,10 @@ Anima.register("histamine", {
     callout("blk", c === 2 && win(2.5, 7.5), g.recX[2] + g.rs, g.post - g.rs * 1.5, nw ? W * 0.8 : W * 0.84, g.post - H * 0.2, "占住 H1，钥匙插不进");
     say("sleepy", c === 2 && lt > 6.5, fx + H * 0.08, fy, nw ? W * 0.38 : W * 0.3, fy, "好困……还有点饿", "think");
     callout("auto", c === 4 && win(2.8, 6), e3[0], e3[1], nw ? W * 0.2 : W * 0.14, g.th + H * 0.18, "H3 自身受体：自己的刹车");
-    say("less", c === 4 && lt > 8, g.cx - g.tw * 0.05, g.th * 0.85, g.cx + g.tw * 0.18, g.th * 0.6, "外面够多啦，少放点", "say");
+    // 手机上一行放在囊泡那一排，别压住邻居末梢的“刹”灯
+    say("less", c === 4 && lt > 8, g.cx - g.tw * 0.05, g.th * 0.85, g.cx + g.tw * (nw ? -0.05 : 0.18), g.th * (nw ? 0.75 : 0.6), nw ? "够多啦，少放点" : "外面够多啦，少放点", "say");
     callout("inv", c === 5 && win(2.2, 7), s3[0], s3[1], nw ? W * 0.24 : W * 0.18, g.th + H * 0.2, nw ? "反向激动剂" : "反向激动剂：自带的刹车也松开");
-    say("more5", c === 5 && lt > 7.5, fx + H * 0.08, fy, nw ? W * 0.4 : W * 0.32, fy, "叫醒信号变多啦！", "shout");
+    say("more5", c === 5 && lt > 7.5, fx + H * 0.08, fy, nw ? W * 0.7 : W * 0.32, nw ? H * 0.9 : fy, "叫醒信号变多啦！", nw ? "say" : "shout"); // 手机上放右下角，别压住 H1
     ctx.restore();
   }
 
@@ -346,7 +347,8 @@ Anima.register("histamine", {
     chara(nx, lerp(vb - cs * 0.6, wt + cs * 1.2, clamp(down, 0, 1)), cs, { who: "drug", hatColor: "#8fd3a8", tag: "新一代", walk: t2 > 2.4 && t2 < 4.4 ? time * 9 : null, eyes: t2 > 1 && t2 < 2.6 ? "x" : "happy", arms: t2 > 1 && t2 < 2.4 ? "up" : "down", dir: 1 });
     chara(pumpX, wb + cs * 3.3, cs * 0.95, { who: "pump", label: "门卫", arms: t2 > 0.8 && t2 < 2.6 ? "carry" : "down", eyes: t2 > 0.8 && t2 < 2.6 ? "angry" : "happy", mouth: t2 > 0.8 && t2 < 2.6 ? "open" : "smile" });
     if (t2 > 1 && t2 < 2.4) sfx("请回～", pumpX + W * 0.08, wb + cs * 1.4, H * 0.04, C.skyDeep, 0.1, 1);
-    callout("bbb", cur === 3 && win(0.8, 5.5), W * 0.18, (wt + wb) / 2, nw ? W * 0.22 : W * 0.2, H * 0.6, "血脑屏障：砌得很密的城墙");
+    // 手机上放到血管上沿，别挡住钻进来的“老一代”
+    callout("bbb", cur === 3 && win(0.8, 5.5), W * 0.18, (wt + wb) / 2, nw ? W * 0.55 : W * 0.2, nw ? Anima.topSafe() : H * 0.6, "血脑屏障：砌得很密的城墙");
     callout("pgp", cur === 3 && win(6.8, 10), pumpX - cs, wb + cs * 1.5, nw ? W * 0.5 : W * 0.5, H * 0.66, "“门卫”把它送回血里");
     say("old", cur === 3 && win(3.5, 6.5), gapX, post - H * 0.14, nw ? W * 0.22 : W * 0.2, H * 0.62, "我溜进来啦～", "say");
     say("new", cur === 3 && lt > 9.5, W * 0.9, vt + H * 0.05, nw ? W * 0.4 : W * 0.72, vt + H * 0.08, "我去鼻子和皮肤那儿干活～", "say");

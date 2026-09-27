@@ -422,7 +422,7 @@ Anima.register("addiction", {
     if (lt > 10) { emote("sweat", cx + cs * 1.1, cy - chh - cs * 3, cs * 0.6); emote("gloom", cx - cs * 0.2, cy - chh - cs * 3.6, cs * 0.6); }
     // 提示线索：路边一个接一个冒出来
     const cueX = [0.62, 0.76, 0.9].map((f) => W * f);
-    const cueY = Y(0.42);
+    const cueY = Y(narrow() ? 0.34 : 0.42);
     const names = ["熟悉的地方", "某些人", "某些东西"];
     cues.forEach((t0, k) => {
       const p = prog(t0 - 0.4, 0.6);
@@ -449,7 +449,7 @@ Anima.register("addiction", {
     callout("a-pfc", here && lt > 1 && lt < 6, px + W * 0.05, py - cs * 1.5, px + W * 0.16, Y(0.22), "前额叶：大脑的刹车变弱了");
     callout("a-cue", here && lt > 3 && lt < 10, cueX[0] - H * 0.05, cueY, cueX[0] - W * 0.08, Y(0.2), "提示线索：场景、人、物");
     callout("a-wd", here && lt > 10.3, cx - cs * 0.3, cy - chh - cs * 2.4, cx + W * 0.1, Y(0.25), "戒断：身体和情绪都很难受");
-    say("a-crave", here && lt > 5.4 && lt < 10, cx, cy - chh - cs * 3.2, cx - W * 0.12, Y(0.64), "一看到它，就好想……", "think");
+    say("a-crave", here && lt > 5.4 && lt < 10, cx, cy - chh - cs * 3.2, narrow() ? W * 0.3 : cx - W * 0.12, narrow() ? Y(0.04) : Y(0.64), "一看到它，就好想……", "think");
     ctx.restore();
   }
 
@@ -521,7 +521,7 @@ Anima.register("addiction", {
       plate("家人朋友", cx + cs * 2.6, fy + cs * 0.8, fsSmall(), "#ffe1ee", fIn);
     }
     if (fIn >= 1) { emote("heart", cx, fy - cs * 4, cs * 0.8); sparkles(cx, fy - cs * 1.6, cs * 3, 5, 0.9, 8); }
-    callout("a-partial", here && lt > 2.6, RX[0] + rs * 0.6, my - rs * 0.8, L.x + L.w * 0.5, L.y + L.h * 0.38, nw ? "部分激动剂：只开一半" : "部分激动剂：稳稳占住，只开一半");
+    callout("a-partial", here && lt > 2.6, RX[0] + rs * 0.6, my - rs * 0.8, L.x + L.w * 0.5, L.y + L.h * (nw ? 0.45 : 0.38), nw ? "部分激动剂：只开一半" : "部分激动剂：稳稳占住，只开一半");
     say("a-with", here && lt > 6.2, cx + cs * 2.6, fy - cs * 3.3, R.x + R.w * 0.55, R.y + R.h * (nw ? 0.3 : 0.28), "我们陪你慢慢来", "say");
     ctx.restore();
   }

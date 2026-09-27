@@ -251,7 +251,7 @@ Anima.register("agonist", {
     if (cur === 0) {
       const dx = g.rx - W * (g.narrow ? 0.3 : 0.25);
       chara(dx, g.post, cs, { who: "DA", eyes: lt > 6 ? "wide" : "open", mouth: "o", arms: lt > 6 ? "point" : "hold", item: lt > 6 ? null : "key", dir: 1 });
-      emote("?", dx + cs * 0.9, g.post - cs * 3.4, cs * 0.7);
+      if (!g.narrow || lt < 1 || lt > 9) emote("?", dx + cs * 0.9, g.post - cs * 3.4, cs * 0.7);
       say("wonder", lt > 1 && lt < 7.5, dx, g.post - cs * 3.2, g.bubL.x, g.bubL.y, "咦？还没人插钥匙，灯怎么已经微微亮着？", "think");
       say("baseSay", lt > 7.5, resX + H * 0.02, resY - H * 0.16, g.bubRoom.x, g.bubRoom.y, "这叫基础活性～", "say");
     }

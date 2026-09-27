@@ -538,7 +538,7 @@ Anima.register("pain", {
     const sy2 = stripY();
     if (dPos) callout("d-snri", n ? win(2.4, 6.2) : lt > 2.6, tx, tyy + ts * 0.8, n ? W * 0.3 : L.x + L.w * 0.5, sy2, n ? "挡住回收门" : "SNRI、部分三环类：挡住回收门");
     callout("d-a2d", n ? win(6.2, 10) : lt > 4.2, ax, ay + crs * 0.4, n ? W * 0.62 : R.x + R.w * 0.5, sy2, n ? "α2δ：钙通道的小零件" : "α2δ：钙通道上的小零件");
-    if (gPos) say("d-glu", lt > (n ? 10 : 7), recX[1], post - crs * 3.2, R.x + R.w * 0.62, R.y + R.h * 0.55, "今天少出门几个～", "say");
+    if (gPos) say("d-glu", lt > (n ? 10 : 7), recX[1], post - crs * 3.2, R.x + R.w * (n ? 0.55 : 0.62), R.y + R.h * (n ? 0.3 : 0.55), "今天少出门几个～", "say"); // 手机上放到末梢那块空处，别压住 α2δ 小零件
     ctx.restore();
   }
 
@@ -597,7 +597,7 @@ Anima.register("pain", {
     callout("t-knob", n ? win(6.2, 8.4) : win(6.2, 13), kx + kr, ky - kr, n ? W * 0.5 : kx + W * 0.2, n ? ty : H * 0.2, "一起把音量慢慢调小");
     if (heads[0]) say("t-walk", win(1.4, 5.4), heads[0].x, heads[0].y, heads[0].x + W * (n ? 0.1 : 0.06), H * (n ? 0.3 : 0.3), "每天走一走～", "say");
     if (n) {
-      banner("t-nsaid", win(8.4, 10.8), W / 2, ty + H * 0.04, "消炎止痛药（NSAIDs）：主要对炎症痛", C.warn);
+      banner("t-nsaid", win(8.4, 10.4), W / 2, ty + H * 0.04, "消炎止痛药（NSAIDs）：主要对炎症痛", C.warn);
       banner("t-op", lt > 10.8, W / 2, ty + H * 0.04, "阿片类：慢性非癌痛要非常谨慎", C.bad);
     } else {
       say("t-nsaid", lt > 8.4, W * 0.2, H * 0.4, W * 0.2, H * 0.42, "消炎止痛药（NSAIDs）：主要对付炎症引起的疼痛", "box");

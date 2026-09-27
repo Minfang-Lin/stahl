@@ -254,7 +254,7 @@ Anima.register("symptom-circuits", {
     const L = loopPanel(gap, top, w, h, 0), R = loopPanel(gap * 2 + w, top, w, h, 1);
     const nb = N();
     say("tn-q", win(1.5, 7), L.px, L.py - h * 0.2, nb ? L.cx : L.px - w * 0.18, nb ? L.cy : L.py - h * 0.28, "好事来了，也提不起劲……", "think");
-    say("tn-l", win(6.5, 13), R.px, R.py - h * 0.2, nb ? R.cx : R.px + w * 0.2, nb ? R.cy : R.py - h * 0.3, "一点小事，警报就响！", "shout");
+    say("tn-l", win(6.5, 13), R.px, R.py - h * 0.2, R.cx, R.cy, "一点小事，警报就响！", "shout");
     callout("tn-slow", win(2, 6.5) && !nb, L.cx, L.cy - L.r * 0.75, L.cx, top + h * 0.12, "信号稀稀拉拉");
     callout("tn-fast", win(7, 13) && !nb, R.cx, R.cy - R.r * 0.75, R.cx, top + h * 0.12, "信号挤成一团");
     ctx.restore();
@@ -277,7 +277,7 @@ Anima.register("symptom-circuits", {
       c.who.forEach((w, j) => {
         const node = pts[i][j % pts[i].length];
         const ox = (j - (c.who.length - 1) / 2) * s * 1.9;
-        const x = lerp(sx + g.cw * 0.6, node.x + ox * 0.5, p), y = lerp(sy + s * 1.2, node.y + s * 0.3, p) - Math.sin(p * Math.PI) * H * 0.05;
+        const x = lerp(sx + g.cw * 0.6, node.x + ox * (c.who.length > pts[i].length ? 1 : 0.5), p), y = lerp(sy + s * 1.2, node.y + s * 0.3, p) - Math.sin(p * Math.PI) * H * 0.05;
         chara(x, y, s, { who: w, walk: p < 1 ? time * 9 + j : null, eyes: p >= 1 ? "happy" : "open", arms: p >= 1 ? "wave" : "hold", item: p >= 1 ? null : "letter", tag: TAG[w], shadow: false });
       });
     });
@@ -317,7 +317,7 @@ Anima.register("symptom-circuits", {
       chara(xWho, y + s * 1.5, s, { who: r.who, tag: TAG[r.who], eyes: done ? (happy ? "happy" : "sleepy") : "open", arms: done && happy ? "up" : "hold", item: done && happy ? null : "letter", shadow: false });
       if (done && !happy) emote("zzz", xWho + s, y - s * 1.6, s * 0.8);
       const dx = lerp(xDrug0, xDoor + s * 2.8, p);
-      chara(dx, y + s * 1.5, s * 1.05, { who: "drug", label: "药", tag: r.drug, walk: p > 0 && p < 1 ? time * 9 : null, dir: -1, arms: done ? "point" : "down", eyes: done ? "happy" : "open", shadow: false });
+      if (p > 0) chara(dx, y + s * 1.5, s * 1.05, { who: "drug", label: "药", tag: r.drug, walk: p > 0 && p < 1 ? time * 9 : null, dir: -1, arms: done ? "point" : "down", eyes: done ? "happy" : "open", shadow: false });
       if (done) {
         const rk = prog(t0 + 1.7, 0.6), rxx = W * (nb ? 0.86 : 0.84);
         ctx.save(); ctx.globalAlpha *= rk;

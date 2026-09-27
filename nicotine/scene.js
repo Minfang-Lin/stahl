@@ -142,16 +142,20 @@ Anima.register("nicotine", {
     }
     // 坐在门上的角色
     const siteY = M - rs * 1.62;
+    let tagged = -9; // 手机上相邻两扇门都有名牌会挤在一起：隔一个才写
     doors.forEach((d, j) => {
       const st = d.st;
       if (!st.who || st.wa < 0.02) return;
       const x = d.x + st.dx, y = siteY + st.dy;
       const base = st.who === "ACh" ? { who: "ACh" } : st.who === "var" ? VAR : NIC;
       const confused = cur === 2 && st.des > 0.5;
-      chara(x, y, cs, Object.assign({}, base, { alpha: st.wa, walk: st.walk ? time * 9 + j : null, shadow: false,
+      const showTag = !n || !base.tag || j - tagged > 1 || Math.abs(st.dx) > rs;
+      if (base.tag && showTag) tagged = j;
+      chara(x, y, cs, Object.assign({}, base, { tag: showTag ? base.tag : null, alpha: st.wa, walk: st.walk ? time * 9 + j : null, shadow: false,
         eyes: confused ? "open" : st.act > 0.4 || cur === 5 ? "happy" : "open", mouth: confused ? "wavy" : "smile", arms: st.act > 0.6 ? "up" : "down" }));
       if (confused && j === 3) emote("?", x + cs, y - cs * 3.2, cs * 0.8);
     });
+    gauge(H * 0.9); // 先画，气泡和标注会避开它的文字
     // 各幕的额外演出
     const dj = slotX(3);
     if (cur === 0) {
@@ -188,7 +192,6 @@ Anima.register("nicotine", {
       say("full", lt > 7.6 && lt < 11, slotX(4), siteY - cs * 3, n ? W * 0.3 : W * 0.34, top + H * 0.1, "位子有人啦～", "say");
       say("more", lt > 10.6, W * 0.5, top, n ? W * 0.62 : W * 0.7, top + H * 0.1, "尼古丁贴片、口香糖：平稳补一点｜安非他酮也能帮忙", "box");
     }
-    gauge(H * 0.9);
     ctx.restore();
   }
 

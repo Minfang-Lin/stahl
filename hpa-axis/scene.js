@@ -158,7 +158,8 @@ Anima.register("hpa-axis", {
     const lx = x, ly = top + h * 0.12, lr = w * 0.2;
     if (ring > 0.05) glow(lx, ly - lr * 0.5, lr * 3.5, C.bad, ring * (0.6 + 0.4 * Math.sin(time * 10)));
     ctx.beginPath(); ctx.arc(lx, ly, lr, Math.PI, 0); ctx.closePath(); ctx.fillStyle = mix("#f3e6ea", "#ff7a8a", ring); ctx.fill(); outline(1.6); ctx.stroke();
-    if (ring > 0.5) sfx("呜——", lx - lr * 0.4, ly - lr * 2.6, H * 0.032, C.bad, -0.12, 0.6 + 0.4 * Math.sin(time * 6));
+    // 手机上“压力”名牌就在左上方，拟声词挪到灯的右边
+    if (ring > 0.5) sfx("呜——", N() ? lx + lr * 3.2 : lx - lr * 0.4, ly - lr * (N() ? 1.8 : 2.6), H * 0.032, C.bad, -0.12, 0.6 + 0.4 * Math.sin(time * 6));
     nameTag("杏仁核", x, y - h * 0.5);
     return { lamp: { x: lx, y: ly - lr } };
   }
@@ -296,8 +297,14 @@ Anima.register("hpa-axis", {
     // 大脑 / 身体 两块底
     rrect(W * 0.015, H * 0.2, W * 0.47, H * 0.78, H * 0.08); ctx.fillStyle = Anima.alpha(C.brain, 0.9); ctx.fill();
     ctx.save(); ctx.setLineDash([6, 7]); outline(1.4); ctx.stroke(); ctx.restore();
-    text("大脑", W * 0.035, H * 0.24, fs(0.026), C.soft, "left");
-    text("身体", W * 0.975, H * 0.24, fs(0.026), C.soft, "right");
+    // 手机上第 5 幕顶部的长标注和气泡会压到这两个角标，那段时间先把角标淡出
+    const cornerA = n && cur === 4 ? 1 - Math.min(prog(2.4, 0.5), 1 - prog(10.2, 0.6)) : 1;
+    if (cornerA > 0.02) {
+      ctx.save(); ctx.globalAlpha *= cornerA;
+      text("大脑", W * 0.035, H * 0.24, fs(0.026), C.soft, "left");
+      text("身体", W * 0.975, H * 0.24, fs(0.026), C.soft, "right");
+      ctx.restore();
+    }
     // 血管：垂体 → 肾上腺
     for (const [w, c] of [[H * 0.03, C.line], [H * 0.022, C.blood]]) { ctx.strokeStyle = c; ctx.lineWidth = w; ctx.lineJoin = "round"; ctx.lineCap = "round"; path(g.vessel); ctx.stroke(); }
     for (let k = 0; k < 8; k++) { const q = pp(g.vessel, (time * 0.08 + k / 8) % 1); ctx.beginPath(); ctx.ellipse(q.x, q.y, H * 0.008, H * 0.006, 0, 0, Math.PI * 2); ctx.fillStyle = "#ffe3e6"; ctx.fill(); }
@@ -360,12 +367,12 @@ Anima.register("hpa-axis", {
     if (c === 1) {
       const q = pick(fA, 0.35, 0.75);
       say("h1b", win(1, n ? 3.5 : 6), g.pit.x + g.pit.r, g.pit.y, W * 0.6, H * 0.5, "ACTH，去肾上腺！", "say");
-      callout("h1a", win(3.5, n ? 7.5 : 99) && !!q, q ? q.x : 0, q ? q.y : 0, W * 0.5, H * 0.76, "ACTH：第二位传话员");
+      callout("h1a", win(n ? 4.2 : 3.5, n ? 7.5 : 99) && !!q, q ? q.x : 0, q ? q.y : 0, n ? W * 0.62 : W * 0.5, n ? H * 0.56 : H * 0.76, "ACTH：第二位传话员");
       callout("h1c", lt > (n ? 7.5 : 6.5), g.vessel[1][0], H * 0.84, W * 0.56, H * 0.48, "血液：激素的高速路");
     }
     if (c === 2) {
       callout("h2a", win(1.5, n ? 5.5 : 99), g.adr.x - g.adr.s * 0.5, g.adr.y - g.adr.s * 0.9, W * 0.56, H * 0.5, "肾上腺皮质：分泌皮质醇");
-      callout("h2b", lt > (n ? 5.5 : 5), P.sugar.x, P.sugar.y, W * 0.84, H * 0.58, "血糖升高，备好能量");
+      callout("h2b", lt > (n ? 6.2 : 5), P.sugar.x, P.sugar.y, W * (n ? 0.7 : 0.84), H * (n ? 0.56 : 0.58), "血糖升高，备好能量");
       say("h2c", lt > (n ? 9 : 8), P.head.x, P.head.y, W * 0.66, H * 0.24, "有力气应对啦！", "say");
     }
     if (c === 3) {
@@ -375,7 +382,7 @@ Anima.register("hpa-axis", {
     }
     if (c === 4) {
       callout("h4a", win(3, n ? 7 : 99), Hp.head.x, Hp.head.y, g.hip.x + W * 0.12, hi, "海马：BDNF↓，枝叶和信箱变少");
-      say("h4b", n ? win(7, 10) : lt > 6, Hp.box.x, Hp.box.y, W * 0.27, H * 0.62, "收不到回执了…", "think");
+      say("h4b", n ? win(7.4, 10) : lt > 6, Hp.box.x, Hp.box.y, W * (n ? 0.3 : 0.27), n ? top + H * 0.05 : H * 0.62, "收不到回执了…", "think");
       callout("h4c", lt > (n ? 10 : 9), g.hyp.x + g.hyp.s * 1.2, g.hyp.y - g.hyp.s * 0.4, W * 0.58, H * 0.44, "刹车弱 → 继续放 CRH");
     }
     if (c === 5) {

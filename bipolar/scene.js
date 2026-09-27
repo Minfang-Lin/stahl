@@ -366,14 +366,15 @@ Anima.register("bipolar", {
     const tx = nar ? W * 0.08 : W * 0.08, th = H * (nar ? 0.4 : 0.44), ty = H * (nar ? 0.36 : 0.3);
     thermo(tx, ty, th, m);
     if (!last) {
-      callout("low", m < -0.45, pv.L.x, pv.L.y, pv.L.x - W * 0.02, gy + H * 0.06, "抑郁：低落、没劲");
-      callout("high", m > 0.45, pv.R.x, pv.R.y, pv.R.x - W * 0.06, gy + H * 0.06, "躁狂 / 轻躁狂：高涨、停不下来");
+      // 手机上两条标注左右分开放（高的一条用短一点的字），交替时不会互相挤开、压到“高”字
+      callout("low", m < -0.45, pv.L.x, pv.L.y, nar ? W * 0.2 : pv.L.x - W * 0.02, gy + H * 0.06, "抑郁：低落、没劲");
+      callout("high", m > 0.45, pv.R.x, pv.R.y, nar ? W * 0.8 : pv.R.x - W * 0.06, gy + H * 0.06, nar ? "躁狂/轻躁狂：停不下来" : "躁狂 / 轻躁狂：高涨、停不下来");
       say("swing", lt > 1 && lt < 6.5, at.x, at.y - s * 3.3, px + W * 0.02, H * 0.36, "一会儿下雨，一会儿暴晒……", "think");
       say("name", lt > 9.5, at.x, at.y - s * 3.3, px + W * 0.04, H * 0.36, "这叫双相障碍：高低两头都会来", "box");
     } else {
       callout("base", lt > 3 && lt < 7.5, px + bw * 0.5, gy - bh * 0.5, px + L * 0.42, gy + H * 0.05, "地基：规律作息 + 规范治疗");
       say("night", lt > 0.8 && lt < 4.2, at.x, at.y - s * 3.3, nar ? W * 0.3 : px - W * 0.02, H * 0.34, "熬夜、睡太少，跷跷板就晃起来", "think");
-      say("help", lt > 7.5, at.x, at.y - s * 3.3, nar ? W * 0.27 : W * 0.5, H * (nar ? 0.5 : 0.34), "有伤害自己的想法时，请马上告诉身边的人，尽快去医院急诊。", "box");
+      say("help", lt > 7.5, at.x, at.y - s * 3.3, W * 0.5, H * (nar ? 0.3 : 0.34), "有伤害自己的想法时，请马上告诉身边的人，尽快去医院急诊。", "box");
     }
     ctx.restore();
   }
@@ -466,10 +467,11 @@ Anima.register("bipolar", {
     const iiDipX = lerp(B.lx, B.rx, 0.62), iiDipY = B.Y(-0.8);
     const iiUpX = lerp(B.lx, B.rx, 0.36), iiUpY = B.Y(0.5);
     const fy = top + ch * 0.87;
-    callout("mania", pI > 0.25 && lt < (nar ? 5.2 : 8.5), iPeakX, iPeakY, gap + cw * 0.5, fy, "躁狂：明显影响生活");
-    callout("hypo", pII > 0.4 && lt > (nar ? 5.4 : 0) && lt < 9.5, iiUpX, iiUpY, gap * 2 + cw * 1.5, fy, "轻躁狂：轻一些，易被忽略");
-    callout("dep2", lt > 9.5, iiDipX, iiDipY, gap * 2 + cw * 1.5, fy, "II 型：抑郁常常更多更久");
-    say("good", lt > 5.5 && lt < 9.5, B.tipX, B.tipY - B.s * 3, gap * 2 + cw * 1.5, top + ch * 0.2, "那几天只是状态特别好吧？", "think");
+    callout("mania", pI > 0.25 && lt < (nar ? 4.8 : 8.5), iPeakX, iPeakY, gap + cw * 0.5, fy, "躁狂：明显影响生活");
+    callout("hypo", pII > 0.4 && lt > (nar ? 5.6 : 0) && lt < (nar ? 9.2 : 9.5), iiUpX, iiUpY, nar ? W * 0.8 : gap * 2 + cw * 1.5, fy, "轻躁狂：轻一些，易被忽略");
+    callout("dep2", lt > (nar ? 9.9 : 9.5), iiDipX, iiDipY, nar ? W * 0.8 : gap * 2 + cw * 1.5, fy, "II 型：抑郁常常更多更久");
+    // 手机上卡片上半部没有空位：心里话缩成一行，放到左卡片底部的空白处（“躁狂”标注这时已经收起）
+    say("good", lt > 5.6 && lt < 9.5, B.tipX, B.tipY - B.s * 3, nar ? W * 0.22 : gap * 2 + cw * 1.5, nar ? top + ch * 0.9 : top + ch * 0.2, nar ? "只是状态特别好？" : "那几天只是状态特别好吧？", "think");
     ctx.restore();
   }
 
@@ -557,7 +559,7 @@ Anima.register("bipolar", {
     const vx = lerp(R.x + rs * 0.8, pv.L.x - rs * 0.6, wp);
     if (wp > 0.02) {
       chara(vx, gy, rs, { who: "drug", hatColor: "#8fdcc4", label: "", tag: "抗抑郁药", walk: wp < 1 ? time * 9 : null, arms: push > 0 ? "up" : "down", eyes: push >= 1 ? "wide" : "happy", mouth: push >= 1 ? "o" : "smile" });
-      if (push >= 1) emote("!", vx + rs * 0.8, gy - rs * 3.2, rs * 0.6);
+      if (push >= 1) emote("!", vx + rs * (narrow() ? -0.9 : 0.8), gy - rs * 3.2, rs * 0.6);
     }
     if (push > 0.3 && push < 1) sfx("咻——", spx + SL * 0.1, gy - SL * 0.42, fsz(0.045), "#e07a2a", -0.12, 1);
     if (push >= 1) speedLinesAt(pv.R.x, pv.R.y - rs, rs * 1.6);

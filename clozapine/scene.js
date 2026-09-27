@@ -206,8 +206,8 @@ Anima.register("clozapine", {
       if (k >= 1) sparkles(cx, ground - s * 1.8, s * 2, 5, ace, 9);
       const on1 = cur === 1;
       callout("better", on1 && lt > 4 && lt < 8, rx, ground - s * 1.8, W * (n ? 0.4 : 0.44), H * (n ? 0.4 : 0.36), "对难治者往往更有效");
-      callout("suicide", on1 && lt > 8, cx, ground - s * 1.4, W * (n ? 0.45 : 0.52), H * (n ? 0.4 : 0.36), "还能降低自杀风险");
-      say("lighter", on1 && lt > 6 && lt < 11.5, rx, ground - s * 3.2, W * (n ? 0.3 : 0.3), H * (n ? 0.5 : 0.5), "好像……轻松一些了", "say");
+      callout("suicide", on1 && lt > (n ? 8.8 : 8), cx, ground - s * 1.4, W * (n ? 0.45 : 0.52), H * (n ? 0.32 : 0.36), "还能降低自杀风险");
+      say("lighter", on1 && lt > 6 && lt < (n ? 8.6 : 11.5), rx, ground - s * 3.2, W * (n ? 0.3 : 0.3), H * (n ? 0.5 : 0.5), "好像……轻松一些了", "say");
       banner(["有轻生的念头？请马上告诉家人和医生"], H * 0.94, on1 ? prog(10.5, 0.8) : 0);
     }
     const on0 = cur === 0;
@@ -278,8 +278,8 @@ Anima.register("clozapine", {
     banner(n ? ["为什么更有效？", "还没完全弄清楚"] : ["为什么对难治者更有效？目前还没有完全弄清楚"], H * (n ? 0.86 : 0.87), kb);
     const on = cur === 2;
     say("ring", on && t > 0.5 && t < (n ? 3 : 5.5), dx, dy - dS * 3.2, W * (n ? 0.3 : 0.24), H * (n ? 0.28 : 0.27), "我的钥匙串，可长啦～", "say");
-    callout("lowd2", on && t > (n ? 3 : 2) && t < (n ? 6 : 8.5) && !!d2Site, d2Site ? d2Site.x : 0, d2Site ? d2Site.y : 0, W * (n ? 0.55 : 0.5), H * (n ? 0.3 : 0.28), n ? "D2：只轻轻占一下" : "D2：只轻轻占一下，占据率低");
-    callout("many", on && t > 6.5, x0 + sp * 3, post - rs * 1.7, W * (n ? 0.62 : 0.7), H * (n ? 0.3 : 0.28), n ? "钥匙多，副作用也多" : "钥匙多，副作用也跟着多");
+    callout("lowd2", on && t > (n ? 3 : 2) && t < (n ? 5.4 : 8.5) && !!d2Site, d2Site ? d2Site.x : 0, d2Site ? d2Site.y : 0, W * (n ? 0.55 : 0.5), H * (n ? 0.3 : 0.28), n ? "D2：只轻轻占一下" : "D2：只轻轻占一下，占据率低");
+    callout("many", on && t > 6.5, x0 + sp * 3, post - rs * 1.7, W * (n ? 0.5 : 0.7), H * (n ? 0.3 : 0.28), n ? "钥匙多，副作用也多" : "钥匙多，副作用也跟着多");
     ctx.restore();
   }
 
@@ -415,8 +415,8 @@ Anima.register("clozapine", {
       }
     });
     // 右边（手机在下面）：氯氮平访客
-    const s = H * (n ? 0.05 : 0.07);
-    const vx = n ? W * 0.12 : W * 0.87, vy = H * (n ? 0.97 : 0.95);
+    const s = H * (n ? 0.045 : 0.07);
+    const vx = n ? W * 0.12 : W * 0.87, vy = H * (n ? 0.92 : 0.95); // 手机：脚下的名牌要留在画面里
     if (!n || t > 7.5) chara(vx, vy, s, O(CLZ, { eyes: "happy", mouth: "smile", arms: "wave", dir: -1, tag: "氯氮平" }));
     const on = cur === 4;
     callout("early", on && n && t > 1.5 && t < 3.8 && !!heartCard, heartCard ? heartCard.x + W * 0.03 : 0, heartCard ? heartCard.y : 0, W * 0.5, H * 0.94, "前几周最要留意");

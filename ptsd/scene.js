@@ -354,8 +354,10 @@ Anima.register("ptsd", {
     if (c3) { // 第 4 幕：安全地一次次面对提示（铃声）
       const t = trial >= 0 ? trials[trial] : 0;
       const r = trial >= 0 && win(t, t + 1.4);
-      cueBadge("sound", W * (n ? 0.66 : 0.72), H * (n ? 0.5 : 0.48), br, "声音", prog(0.4, 0.6), r ? 0.6 : 0);
-      if (r) sfx("叮～", W * (n ? 0.66 : 0.72) + br * 1.6, H * (n ? 0.5 : 0.48) - br, H * 0.04, "#e7a23a", 0.1, 1);
+      // 手机上指挥部的云和“练习次数”占着中间，铃铛放到下面空着的草地上方
+      const bx = W * (n ? 0.58 : 0.72), by = H * (n ? 0.72 : 0.48);
+      cueBadge("sound", bx, by, br, "声音", prog(0.4, 0.6), r ? 0.6 : 0);
+      if (r) sfx("叮～", bx + br * 1.6, by - br * (n ? 0.2 : 1), H * 0.04, "#e7a23a", 0.1, 1);
     }
 
     // ---------- 塔 ----------

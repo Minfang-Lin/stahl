@@ -303,7 +303,7 @@ Anima.register("cyp450", {
     if (s.gray < 0.5 && s.spd > 0.6) sparkles(xs, by - cs * 1.6, cs * 1.3, 3, 0.8, idx * 9);
     // 右边的血药浓度小表
     const gx = W * (n ? 0.92 : 0.925), g = gaugeBar(gx, y0 + rh * 0.18, by + bh * 0.5, Math.max(8, H * 0.022), s.lvl, idx === 0);
-    if (idx === 0) text("血药浓度", gx, y0 + rh * 0.18 - fsS() * 0.9, fsS() * 0.85, C.soft);
+    if (idx === 0) text("血药浓度", n ? W - 6 : gx, y0 + rh * 0.18 - fsS() * 0.9, fsS() * 0.85, C.soft, n ? "right" : "center");
     return { x0, x1, by, xs, cs, ws, gauge: g, pileX: xs - cr * 3.4 - Math.max(0, pileN / 2 - 1) * cr * 3.1, pileY: by - cr * 3 };
   }
   // 访客：抑制剂按住工人，诱导剂站在旁边给工人打气
@@ -362,7 +362,7 @@ Anima.register("cyp450", {
       say("c1-w", win(1, 6), R[0].ws[0].x, R[0].ws[0].y - cs * 3.1, R[0].xs + W * (n ? 0.2 : 0.14), R[0].by - H * 0.08, "来一个加工一个～", "say");
     }
     if (cur === 2 && R[0] && R[1]) {
-      callout("c2-inh", lt > 2.2 && lt < (n ? 5.5 : 7), heads[0] ? heads[0].x : 0, heads[0] ? heads[0].y + cs * 2 : 0, n ? W * 0.62 : R[0].xs + W * 0.2, R[0].by - H * 0.2, "抑制剂：按住 1A2 的工人");
+      callout("c2-inh", lt > 2.2 && lt < (n ? 5.5 : 7), heads[0] ? heads[0].x : 0, heads[0] ? heads[0].y + cs * 2 : 0, n ? W * 0.45 : R[0].xs + W * 0.2, R[0].by - H * 0.2, "抑制剂：按住 1A2 的工人");
       callout("c2-lvl", lt > 5, R[0].gauge.x - W * 0.01, R[0].gauge.y, n ? W * 0.64 : W * 0.72, R[1].by + H * 0.01, "氯氮平在血里越积越多");
       say("c2-pile", n ? win(5.8, 8.4) : win(3, 8), R[0].pileX, R[0].pileY, n ? W * 0.28 : R[0].x0 + W * 0.08, R[0].by - H * 0.22, "排不上队啦～", "say");
       say("c2-par", lt > 8.5, heads[1] ? heads[1].x : 0, heads[1] ? heads[1].y : 0, n ? W * 0.3 : R[1].x0 + W * 0.12, R[1].by - H * 0.26, "氟西汀和我，都会拖慢 2D6～", "say");

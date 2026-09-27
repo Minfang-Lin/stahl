@@ -319,7 +319,7 @@ Anima.register("circadian", {
       const wx = x + (c0 && awake ? Math.sin(time * 0.8 + i * 2) * W * 0.03 : 0);
       chara(wx, y, s, { who: w.who, arms: awake ? "up" : "hug", eyes: awake ? (lateLight ? "wide" : "happy") : "closed", mouth: awake ? (lateLight ? "o" : "grin") : "cat",
         walk: c0 && awake ? time * 8 + i : null, dir: i ? -1 : 1 });
-      if (awake && !lateLight) { bell(wx + s * 0.95 * (i ? -1 : 1), y - s * 3.2, s * 0.5, Math.sin(time * 12 + i) * 0.5); if (Math.sin(time * 6 + i) > 0.3) sfx("叮", wx + s * 1.6 * (i ? -1 : 1), y - s * 3.9, s * 0.7, "#e7a23a", 0.1, 0.9); }
+      if (awake && !lateLight) { bell(wx + s * 0.95 * (i ? -1 : 1), y - s * 3.2, s * 0.5, Math.sin(time * 12 + i) * 0.5); if (Math.sin(time * 6 + i) > 0.3) sfx("叮", wx + s * 1.6 * (i ? -1 : 1), y - s * (3.9 + i * 0.9), s * 0.7, "#e7a23a", 0.1, 0.9); }
       if (!awake) emote("zzz", wx + s * 0.6, y - s * 3.3, s * 0.6);
       if (lateLight) emote("!", wx + s * 0.8, y - s * 3.6, s * 0.6);
       wkPos.push({ x: wx, y: y - s * 3.2 });
@@ -369,7 +369,7 @@ Anima.register("circadian", {
       callout("t-pine", n ? win(3, 6.6) : win(3, 13), pine.x, pine.y - pine.s * 2, n ? W * 0.55 : pine.x - W * 0.04, n ? ty : H * 0.3, "松果体：天黑后放出褪黑素");
       if (mel0) say("t-mel", win(4.8, 7.4), mel0.x, mel0.y, mel0.x - W * (n ? 0.1 : 0.08), H * (n ? 0.5 : 0.5), "该准备睡了～", "say");
       if (ph) callout("t-screen", n ? lt > 7.6 : lt > 7.6, ph.x, ph.y - ph.s * 1.3, n ? W * 0.45 : ph.x - W * 0.08, n ? ty : H * 0.18, "强光会压住褪黑素");
-      if (ph) say("t-bright", win(8, 10.4), ph.x + ph.s * 2, g.base - g.cs * 2, n ? W * 0.84 : W * 0.86, H * (n ? 0.55 : 0.55), "好亮…先躲起来！", "shout");
+      if (ph) say("t-bright", win(8, 10.4), ph.x + ph.s * 2, g.base - g.cs * 2, n ? W * 0.3 : W * 0.86, H * (n ? 0.52 : 0.55), "好亮…先躲起来！", "shout"); // 手机上右边有松果体的名字，放左边
     }
     ctx.restore();
   }
@@ -420,7 +420,7 @@ Anima.register("circadian", {
     sparkle(hx + ks * 0.9, hy - ks * (0.6 + beat * 0.3), ks * 0.25, 1);
     // 小时钟们，排成半圆
     const names = ["肝脏", "肠道", "心脏", "肌肉"];
-    const pos = n ? [[0.14, 0.62], [0.3, 0.36], [0.7, 0.36], [0.86, 0.62]] : [[0.16, 0.62], [0.32, 0.36], [0.68, 0.36], [0.84, 0.62]];
+    const pos = n ? [[0.14, 0.62], [0.28, 0.36], [0.72, 0.36], [0.86, 0.62]] : [[0.16, 0.62], [0.32, 0.36], [0.68, 0.36], [0.84, 0.62]];
     const r = H * (n ? 0.075 : 0.08);
     const common = -Math.PI / 2 + Math.floor(time * 2) * 0.35; // 大家一起一格一格走
     const snack = win(6.6, 10.6);
@@ -461,7 +461,7 @@ Anima.register("circadian", {
     const ty = topY();
     if (out[1]) callout("o-small", n ? win(1.6, 4.6) : win(1.6, 13), out[1].x - out[1].r, out[1].y, n ? W * 0.4 : W * 0.12, n ? ty : H * 0.36, "身体各处的小时钟");
     callout("o-beat", n ? win(4.6, 6.6) : win(3.6, 13), px, floor - ph - ks * 3.2, n ? W * 0.6 : W * 0.62, n ? ty : H * 0.16, "跟着主时钟的节拍走");
-    say("o-go", win(0.8, 4.2), px, floor - ph - ks * 3.3, px + W * (n ? 0.02 : 0.14), H * (n ? 0.5 : 0.56), "大家跟上节拍～", "say");
+    say("o-go", win(0.8, 4.2), px, floor - ph - ks * 3.3, n ? W * 0.5 : px + W * 0.14, H * (n ? 0.5 : 0.56), "大家跟上节拍～", "say");
     if (sn && out[0]) say("o-snack", win(7, 10.6), out[0].x + out[0].r, out[0].y, n ? W * 0.5 : W * 0.2, n ? ty + H * 0.06 : H * 0.16, n ? "我乱拍啦！" : "半夜吃东西？我乱拍了！", "shout");
     ctx.restore();
   }

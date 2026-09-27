@@ -161,7 +161,8 @@ Anima.register("serotonin-receptors", {
       const R = Anima.receptor(X[i], mem, rs, d.color, on * (0.75 + 0.25 * Math.sin(time * 4 + i)), { shape: d.shape });
       if (hl) glow(X[i], mem - rs, rs * 3, C.gold, 0.6 + 0.4 * Math.sin(time * 5));
       plate(nw ? d.k : "5-HT" + d.k, X[i], mem + H * 0.07, mix(d.color, "#ffffff", 0.5), fz(0.024));
-      if (!nw || d.k === "3") text(d.k === "3" ? "离子通道" : "G 蛋白", X[i], mem + H * 0.13, fz(0.02), C.soft);
+      // 手机上药名写在同一处，药来了就不写“离子通道”
+      if (!nw || (d.k === "3" && !(dr && dp > 0.3))) text(d.k === "3" ? "离子通道" : "G 蛋白", X[i], mem + H * 0.13, fz(0.02), C.soft);
       // 5-HT 快递员：从末梢出发，走到自己的门上
       const p = arrive;
       if (p > 0) {
@@ -192,7 +193,7 @@ Anima.register("serotonin-receptors", {
       say("hi", lt > 0.5 && lt < 5, W * 0.5, T.bot, W * (nw ? 0.8 : 0.2), H * 0.2, "同一封信，送去不同的门～", "say");
     } else {
       callout("c7", lt < 3.6, X[5], mem - rs * 1.8, X[5] - W * 0.08, H * 0.2, nw ? "5-HT7：节律、睡眠" : "5-HT7：生物钟、睡眠和情绪");
-      say("pick", lt > 9.5, W * 0.5, T.bot, W * (nw ? 0.8 : 0.22), H * 0.2, "门挑对了，效果就挑对了！", "shout");
+      say("pick", lt > 9.5, W * 0.5, T.bot, W * (nw ? 0.6 : 0.22), H * 0.2, nw ? "挑对门，效果就对！" : "门挑对了，效果就挑对了！", "shout");
     }
     ctx.restore();
   }
@@ -268,7 +269,7 @@ Anima.register("serotonin-receptors", {
       callout("half", lt > 9.2, Rb.site.x, Rb.site.y, W * 0.64, H * 0.56, nw ? "部分激动剂：推开一半" : "部分激动剂：只把门推开一半");
     } else {
       callout("c1b", lt > 4.5, rbx, rby, W * 0.28, H * 0.22, nw ? "5-HT1B/D：末梢刹车" : "5-HT1B/D 自身受体：末梢上的刹车");
-      say("enough", lt > 7, cxT + tw * 0.2, y0 + th * 0.5, W * 0.88, H * 0.52, "外面够多啦，少放点～", "say");
+      say("enough", lt > 7, cxT + tw * 0.2, y0 + th * 0.5, W * 0.88, H * 0.52, nw ? "少放点～" : "外面够多啦，少放点～", "say");
       callout("two", lt > 1 && lt < 4.5, r1x, R1.site.y, W * 0.24, H * 0.24, "1A 管发几次，1B/D 管放多少");
     }
     ctx.restore();
@@ -319,8 +320,8 @@ Anima.register("serotonin-receptors", {
       chara(D[0], bot, s, { who: "DA", gray: press * 0.5, eyes: press > 0.5 ? "sleepy" : "sparkle", mouth: press > 0.5 ? "flat" : "grin", arms: press > 0.5 ? "down" : "up" });
       plate(nw ? "多巴胺" : "多巴胺神经元", D[0], bot + fz(0.026) * 0.55, "#ffe6d2");
       if (blk > 0.3) plate(nw ? "抗精神病药" : drugName, R.site.x, R.site.y - s * 3.3, "#ffe9d2", fz(0.022));
-      callout("btn", lt > 1 && lt < 5.5, R.site.x, R.site.y, W * 0.3, H * 0.2, "5-HT2A：兴奋按钮");
-      say("brake", lt > 3 && lt < 6.5, G[0], bot - s * 3.2, W * (nw ? 0.2 : 0.22), H * 0.7, "锥体叫我去刹车！", "shout");
+      callout("btn", lt > 1 && lt < 5.5, R.site.x, R.site.y, W * (nw ? 0.5 : 0.3), H * 0.2, "5-HT2A：兴奋按钮");
+      say("brake", lt > 3 && lt < 6.5, G[0], bot - s * 3.2, W * (nw ? 0.18 : 0.22), H * (nw ? 0.75 : 0.7), nw ? "去刹车！" : "锥体叫我去刹车！", "shout");
       callout("more", lt > 9, ST[0], ST[1] + H * 0.03, W * 0.6, H * 0.2, "刹车松开：纹状体多巴胺↑");
       say("free", lt > 9.5, D[0], bot - s * 3.2, W * (nw ? 0.5 : 0.56), H * 0.72, "可以多发车啦～", "say");
     } else {

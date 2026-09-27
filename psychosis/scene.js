@@ -298,13 +298,13 @@ Anima.register("psychosis", {
       if (i === 0) { // 听到并不存在的声音：身边飘着“……”的小气泡
         chara(cx, fy, s, { who: "neuron", eyes: "wide", mouth: "o", arms: "hug", look: Math.sin(time * 1.5) * 1.5 });
         for (let k = 0; k < 3; k++) {
-          const q = time * 0.9 + k * 2.1, bx = cx + Math.cos(q) * s * 2.2, by = fy - s * 2.2 + Math.sin(q) * s * 0.8;
+          const q = time * 0.9 + k * 2.1, bx = cx + Math.cos(q) * s * 2.2, by = fy - s * 1.95 + Math.sin(q) * s * 0.55;
           ctx.save(); ctx.globalAlpha *= 0.55 + 0.3 * Math.sin(time * 2 + k);
           rrect(bx - s * 0.45, by - s * 0.28, s * 0.9, s * 0.56, s * 0.28); ctx.fillStyle = "#fff"; ctx.fill(); outline(1.2); ctx.stroke();
           text("…", bx, by - s * 0.05, s * 0.5, C.soft);
           ctx.restore();
         }
-        emote("!", cx + s * 1.1, fy - s * 3.4, s * 0.55);
+        emote("!", cx + s * 1.1, fy - s * 3.55, s * 0.55);
       } else if (i === 1) { // 没精神、表情变淡
         chara(cx, fy, s, dull("neuron", 0.7, { eyes: "sleepy", mouth: "flat", arms: "down", bob: 0.3 }));
         emote("gloom", cx, fy - s * 3.35, s * 0.8);
@@ -377,7 +377,7 @@ Anima.register("psychosis", {
     const on2 = (i) => cur === 1 && lt > 1 + i * 2.6 && lt < 1 + (i + 1) * 2.6;
     const nw = narrow();
     const m0 = linePt(g, LINES[0], 0.45), m1 = linePt(g, LINES[1], 0.72), m2 = linePt(g, LINES[2], 0.5), m3 = linePt(g, LINES[3], 0.5);
-    const L0 = nw ? { x: W * 0.24, y: H * 0.93 } : g.P(0.08, 0.95), L1 = nw ? { x: W * 0.62, y: H * 0.22 } : g.P(0.25, -0.05);
+    const L0 = nw ? { x: W * 0.52, y: H * 0.95 } : g.P(0.08, 0.95), L1 = nw ? { x: W * 0.62, y: H * 0.22 } : g.P(0.25, -0.05);
     const L2 = nw ? { x: W * 0.78, y: H * 0.3 } : g.P(1.14, 0.3), L3 = nw ? { x: W * 0.24, y: H * 0.93 } : g.P(0.08, 0.95);
     callout("l0", on2(0), m0.x, m0.y, L0.x, L0.y, nw ? "奖赏、“这很重要”" : "中脑边缘：奖赏、“这件事很重要”");
     callout("l1", on2(1), m1.x, m1.y, L1.x, L1.y, nw ? "动力和思考" : "中脑皮层：动力和思考");
@@ -393,9 +393,10 @@ Anima.register("psychosis", {
         tagBox("✓ " + label, p.x, p.y, fs, "#e3f7ec", C.ink, 1.3);
         ctx.restore();
       };
-      const sN = g.st.str, sP = g.st.pit;
+      const sN = g.st.str;
       ok({ x: sN.x, y: sN.y - fs * 1.8 }, 1.5, "动作顺畅");
-      ok({ x: sP.x + fs * 4.2, y: sP.y + fs * 0.2 }, 3, "泌乳素稳定");
+      const tP = g.P(LINES[3].tag[0], LINES[3].tag[1]); // 放在“结节漏斗线”站牌下面，别盖住它
+      ok({ x: tP.x + fs * 1.2, y: tP.y + fs * 1.75 }, 3, "泌乳素稳定");
       const k = prog(6, 1.5);
       if (k > 0) {
         const px = lerp(W + cs * 2, nw ? W * 0.76 : W * 0.87, k), py = nw ? H * 0.98 : H * 0.9;
@@ -483,8 +484,8 @@ Anima.register("psychosis", {
     const tf = fsz(0.028, 10), cy = H * (nw ? 0.42 : 0.43), cwid = Math.max(tf * 6.4, W * 0.11), chh2 = Math.max(tf * 2.2, cwid * 0.45);
     let stamped = null;
     items.forEach((t, k) => {
-      const x = ((lt * W * 0.075 + k * W * 0.2) % (W * 0.8)) - W * 0.08;
-      const fade = clamp(Math.min((x + W * 0.08) / (W * 0.06), (W * 0.7 - x) / (W * 0.06)), 0, 1);
+      const x0 = cwid / 2 + 4, x = ((lt * W * 0.075 + k * W * 0.2) % (W * 0.8)) + x0; // 卡片整张在画面里时才出现
+      const fade = clamp(Math.min((x - x0) / (W * 0.06), (W * 0.7 - x) / (W * 0.06)), 0, 1);
       if (fade <= 0) return;
       ctx.save(); ctx.globalAlpha *= fade;
       const yy = cy + Math.sin(time * 2 + k) * H * 0.008;
@@ -700,7 +701,7 @@ Anima.register("psychosis", {
     // 标注和气泡
     const on = cur === 5;
     callout("nmda", on && lt > 1.2 && (!nw || lt < 5), nx, nr.site.y, W * (nw ? 0.3 : 0.2), H * (nw ? 0.24 : 0.28), nw ? "NMDA 受体功能不足" : "NMDA 受体功能不足：刹车员掉线");
-    say("hyper", on && lt > 5 && lt < (nw ? 8.5 : 12), x[2], fy - s * 3.4, W * (nw ? 0.6 : 0.6), H * (nw ? 0.26 : 0.28), "没人拦着，停不下来啦！", "shout");
+    say("hyper", on && lt > 5 && lt < (nw ? 8.5 : 12), x[2], fy - s * 3.4, W * (nw ? 0.66 : 0.6), H * (nw ? 0.25 : 0.28), nw ? "停不下来啦！" : "没人拦着，停不下来啦！", "shout");
     callout("more", on && lt > 7, x[3] + s, ry, W * 0.84, H * 0.8, nw ? "多巴胺↑" : "中脑边缘多巴胺↑");
     ctx.restore();
   }

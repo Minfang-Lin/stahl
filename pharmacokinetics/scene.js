@@ -82,7 +82,7 @@ Anima.register("pharmacokinetics", {
     const L = T(0), n = N(), s = csz();
     ctx.save(); ctx.globalAlpha *= a;
     Anima.wash("#fff6f2", "#f5f0ff"); Anima.bokeh(6, "#ffd1dc", 0.6, 11); Anima.petals(6, 0.4, 5);
-    const cx = W * (n ? 0.56 : 0.56), cy = H * 0.58, rx = W * (n ? 0.33 : 0.29), ry = H * 0.26, r = H * (n ? 0.065 : 0.07);
+    const cx = W * (n ? 0.56 : 0.56), cy = H * (n ? 0.53 : 0.58), rx = W * (n ? 0.33 : 0.29), ry = H * (n ? 0.22 : 0.26), r = H * (n ? 0.065 : 0.07);
     // 血流小河
     ctx.lineWidth = H * 0.035; ctx.strokeStyle = Anima.alpha(C.blood, 0.5);
     ctx.beginPath(); ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
@@ -117,7 +117,7 @@ Anima.register("pharmacokinetics", {
     if (L > 2.6 && L < 3.8) sfx("溶开～", g[0], g[1] - r * 1.6, H * 0.045, C.warn, -0.1, Math.sin(melt * Math.PI));
     callout("p0a", L > 3.5 && L < 7.5, g[0] + r * 0.4, g[1] - r * 0.6, W * 0.26, H * 0.93, "吸收：从肠壁进入血液");
     callout("p0d", L > 7.5, cx + rx * 0.72, cy - ry * 0.7, W * 0.8, Anima.topSafe() + H * 0.06, "分布：随血流到全身");
-    say("p0s", L > 8.5 && L < 12.5, pos[3][0], pos[3][1] - r, W * (n ? 0.22 : 0.18), H * 0.93, "我先存一点，慢慢再放～", "say");
+    say("p0s", L > 8.5 && L < 12.5, pos[3][0], pos[3][1] - r, n ? cx : W * 0.18, n ? cy : H * 0.93, "我先存一点，慢慢再放～", "say");
     ctx.restore();
   }
 
@@ -152,7 +152,7 @@ Anima.register("pharmacokinetics", {
     // 大而亲水：被挡住
     const bx = W * 0.66, bw2 = P(L, 4.5, 2), bump = P(L, 6.5, 0.5), back = P(L, 7, 1.2);
     const bX = lerp(W + s * 2, bx, bw2), bY = y1 - H * 0.01 + (bump - back) * H * 0.02;
-    chara(bX, bY, s * 1.15, DRUG("大·亲水", { hatColor: "#8fc4ea", walk: bw2 > 0 && bw2 < 1 ? time * 8 : null, dir: -1, eyes: back > 0.3 ? "dizzy" : "open", mouth: back > 0.3 ? "wavy" : "smile", arms: back > 0.3 ? "down" : "fist" }));
+    if (bw2 > 0) chara(bX, bY, s * 1.15, DRUG("大·亲水", { hatColor: "#8fc4ea", walk: bw2 > 0 && bw2 < 1 ? time * 8 : null, dir: -1, eyes: back > 0.3 ? "dizzy" : "open", mouth: back > 0.3 ? "wavy" : "smile", arms: back > 0.3 ? "down" : "fist" }));
     if (L > 6.6 && L < 7.8) sfx("咚！", bx + s * 1.5, y1 - s * 0.5, H * 0.05, C.bad, 0.1, Math.sin(P(L, 6.6, 1.2) * Math.PI));
     if (back > 0.5) Anima.sweat(bX + s * 0.9, bY - s * 2.8, s * 0.3);
     callout("p1w", L > 0.8 && L < 4.8, W * 0.5, (y1 + wy) / 2, W * 0.5, H * 0.66, "内皮细胞紧紧挨着：血脑屏障");
@@ -194,14 +194,14 @@ Anima.register("pharmacokinetics", {
       const p = polyAt(path, u);
       const inLiver = p.seg === 2, after = p.seg >= 3, down = p.seg === 6;
       if (inLiver) { sparkles(p.x, p.y - s, s * 1.5, 3, 1, k); continue; }
-      const al = vis * (down ? 1 - (u - 0.9) * 8 : 1);
+      const al = vis * (down ? 1 - (u - 0.9) * 8 : 1) * clamp(u / 0.04, 0, 1);
       if (al < 0.03) continue;
       chara(p.x, p.y + s * 0.3, s * 0.75, DRUG(after ? "亲水了" : "药", { alpha: clamp(al, 0, 1), walk: time * 9 + k, eyes: after ? "happy" : "open", shadow: false }));
       if (after) { ctx.save(); ctx.globalAlpha *= clamp(al, 0, 1); ctx.beginPath(); ctx.ellipse(p.x, p.y + s * 0.3 - s * 0.85, s * 0.75, s * 0.28, 0, 0, Math.PI * 2); ctx.strokeStyle = C.line; ctx.lineWidth = s * 0.26; ctx.stroke(); ctx.strokeStyle = "#8fd3f0"; ctx.lineWidth = s * 0.18; ctx.stroke(); ctx.restore(); }
     }
     callout("p2l", L > 1 && L < 7, lv.x + lv.rx * 0.5, lv.y + lv.ry * 0.5, W * 0.3, H * 0.93, "代谢：肝脏把药加工得更亲水");
     callout("p2k", L > 7, kd.x - kd.r * 0.5, kd.y + kd.r * 0.6, W * (n ? 0.42 : 0.44), H * 0.93, "排泄：经肾脏随尿排出");
-    say("p2s", L > 4.5 && L < 9, lv.x + lv.rx, H * 0.26, W * (n ? 0.4 : 0.52), Anima.topSafe() + H * 0.07, "套上泳圈，更亲水啦～", "say");
+    say("p2s", !n && L > 4.5 && L < 9, lv.x + lv.rx, H * 0.26, W * (n ? 0.4 : 0.52), Anima.topSafe() + H * 0.07, "套上泳圈，更亲水啦～", "say");
     ctx.restore();
   }
 
@@ -308,7 +308,7 @@ Anima.register("pharmacokinetics", {
     curve(X, g.ch, longF, 0, Math.max(0.001, t), 1.1, "#4f8fc9");
     const Y = curve(X, g.ch, shortF, 0, Math.max(0.001, t), 1.1, "#e8637a");
     outline(1); ctx.save(); ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.moveTo(X(0.5), g.ch.y0 + H * 0.03); ctx.lineTo(X(0.5), g.ch.y1); ctx.stroke(); ctx.restore();
-    text("停药", X(0.5), g.ch.y0 + H * 0.02, fsS() * 0.8, C.bad);
+    text("停药", X(0.5), n ? g.ch.y1 + fsS() * 0.8 * 2.2 : g.ch.y0 + H * 0.02, fsS() * 0.8, C.bad);
     if (t > 5) { const x = X(5), y = Y(shortF(5)); ctx.beginPath(); ctx.arc(x, y, H * 0.01, 0, Math.PI * 2); ctx.fillStyle = C.rose; ctx.fill(); outline(1); ctx.stroke(); }
     const sl = shortF(t), ll = longF(t);
     tub(g.tub, lerp(sl, ll, 0) * 0.85, 0, t > 0.5 ? sl : 0, t > 1.5 ? 0 : 1);
@@ -319,9 +319,9 @@ Anima.register("pharmacokinetics", {
     if (t > 1.2) Anima.sweat(g.tub.x + g.tub.w * 0.2 + s, cy - s * 2.8, s * 0.3);
     ctx.fillStyle = "#e8637a"; ctx.fillRect(g.tub.x + g.tub.w * 0.2 - s, cy + s * 0.9, s * 2, 3);
     ctx.fillStyle = "#4f8fc9"; ctx.fillRect(g.tub.x + g.tub.w * 0.8 - s, cy + s * 0.9, s * 2, 3);
-    callout("p5c", L > 7.5, X(5), Y(shortF(5)), X(4.2), g.ch.y0 + H * 0.08, "约 4～5 个半衰期：基本清除");
-    callout("p5s", L > 2.5 && L < 7.5, X(1.6), Y(shortF(1.6)), X(2.6), g.ch.y0 + H * 0.2, "半衰期短：掉得快");
-    callout("p5l", L > 4.5, X(3.2), Y(longF(3.2)), X(3.4), g.ch.y1 - H * 0.06, "半衰期长：慢慢往下走");
+    callout("p5c", L > (n ? 9.5 : 7.5), X(5), Y(shortF(5)), X(4.2), g.ch.y0 + H * 0.08, "约 4～5 个半衰期：基本清除");
+    callout("p5s", L > 2.5 && L < (n ? 6 : 7.5), X(1.6), Y(shortF(1.6)), X(2.6), g.ch.y0 + H * 0.2, "半衰期短：掉得快");
+    callout("p5l", n ? L > 6 && L < 9.5 : L > 4.5, X(3.2), Y(longF(3.2)), X(3.4), n ? g.ch.y0 + H * 0.12 : g.ch.y1 - H * 0.06, "半衰期长：慢慢往下走");
     ctx.restore();
   }
 
@@ -348,7 +348,7 @@ Anima.register("pharmacokinetics", {
     ctx.fillStyle = "#6b61c9"; ctx.fillRect(g.ch.x0, ly - 2, lf * 1.4, 4); text("长效针剂", g.ch.x0 + lf * 1.7, ly, lf, C.ink, "left");
     ctx.fillStyle = Anima.alpha("#e0913a", 0.6); ctx.fillRect(g.ch.x0 + lf * 7, ly - 2, lf * 1.4, 4); text("每天口服", g.ch.x0 + lf * 8.7, ly, lf, C.ink, "left");
     callout("p6w", L > 1 && L < 6.5, wx + ww * 0.4, wy, g.tub.x + g.tub.w + W * 0.12, Anima.topSafe() + H * 0.04, "注射在肌肉里的小仓库");
-    callout("p6c", L > 7, X(6), g.ch.y1 - (g.ch.y1 - g.ch.y0) * 0.55, X(5), g.ch.y1 - H * 0.04, "慢慢释放：起伏更平缓");
+    callout("p6c", L > 7, X(6), g.ch.y1 - (g.ch.y1 - g.ch.y0) * 0.55, X(5), g.ch.y1 - H * 0.15, "慢慢释放：起伏更平缓");
     ctx.restore();
   }
 

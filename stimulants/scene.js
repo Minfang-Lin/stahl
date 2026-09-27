@@ -341,7 +341,8 @@ Anima.register("stimulants", {
     // 血管
     ctx.beginPath(); ctx.moveTo(0, vy0); for (let x = 0; x <= W + 20; x += 20) ctx.lineTo(x, vy0 + Math.sin(x / 60 + time) * 3); ctx.lineTo(W + 20, vy1); ctx.lineTo(0, vy1); ctx.closePath();
     ctx.fillStyle = C.blood; ctx.fill(); outline(1.8); ctx.stroke();
-    text("血管 · 血液流向 →", W * 0.14, vy1 - fsz(0.9), fsz(0.85), "#c2505c");
+    // 手机上血管里挤，写到血管下面，别和药物的名牌叠在一起
+    text("血管 · 血液流向 →", W * 0.14, n ? (vy1 + H) / 2 : vy1 - fsz(0.9), fsz(0.85), "#c2505c");
     // 大脑（上方）
     const brain = { x: W * (n ? 0.78 : 0.82), y: H * (n ? 0.3 : 0.28) }, br = H * 0.09;
     ctx.beginPath(); ctx.ellipse(brain.x, brain.y, br * 1.4, br, 0, 0, Math.PI * 2); ctx.fillStyle = "#ffd3dc"; ctx.fill(); outline(1.8); ctx.stroke();
@@ -359,11 +360,11 @@ Anima.register("stimulants", {
     for (let i = 0; i < 6; i++) {
       const t0 = i * 1.8, u = (lt - t0) / 7;
       if (u < 0 || u > 1.6) continue;
-      const x = lerp(-cs * 3, W * 0.9, u), y = (vy0 + vy1) / 2 + (i % 2 ? cs * 1.3 : -cs * 0.2) + Math.sin(time * 2 + i) * 3;
+      const x = lerp(cs * 1.8, W * 0.9, u), y = (vy0 + vy1) / 2 + (i % 2 ? cs * 1.3 : -cs * 0.2) + Math.sin(time * 2 + i) * 3;
       const r = rbcs[i % 2], cutX = r.x + H * 0.1, cut = x > cutX;
       if (!cut) {
-        chara(x, y + cs * 1.2, cs, { who: "drug", hatColor: C.amp, hatColor2: C.lis, tag: "赖右苯丙胺", arms: "hold", eyes: "closed", mouth: "cat", walk: time * 5 + i, gray: 0.3, seed: i });
-        ctx.beginPath(); ctx.arc(x - cs * 1.3, y, cs * 0.35, 0, Math.PI * 2); ctx.fillStyle = C.lis; ctx.fill(); outline(1.2); ctx.stroke();
+        chara(x, y + cs * 1.2, cs, { who: "drug", hatColor: C.amp, hatColor2: C.lis, tag: "赖右苯丙胺", arms: "hold", eyes: "closed", mouth: "cat", walk: time * 5 + i, gray: 0.3, seed: i, alpha: clamp(u * 8, 0, 1) });
+        ctx.save(); ctx.globalAlpha *= clamp(u * 8, 0, 1); ctx.beginPath(); ctx.arc(x - cs * 1.3, y, cs * 0.35, 0, Math.PI * 2); ctx.fillStyle = C.lis; ctx.fill(); outline(1.2); ctx.stroke(); ctx.restore();
       } else {
         freed++;
         const k = clamp((x - cutX) / (W * 0.25), 0, 1);

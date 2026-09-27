@@ -207,7 +207,7 @@ Anima.register("antipsychotics", {
       emote(relief > 0.5 ? "note" : "!", rx + s * 1, fy - s * 3.4, s * 0.6);
       callout("d2", on && t > 0.5 && t < 5.5, g.xs[1] + g.rs * 0.5, g.post + g.rs * 0.55, W * (nw ? 0.6 : 0.5), H * (nw ? 0.8 : 0.8), nw ? "D2 受体：多巴胺的门" : "D2 受体：多巴胺的门");
       callout("win", on && t > 6 && (!nw || t < 9.5), g.mx - m.w * 0.5, m.yOf(0.7), W * (nw ? 0.62 : 0.78), H * (nw ? 0.7 : 0.76), nw ? "有效窗口：六到八成" : "有效窗口：约占住六到八成");
-      say("sit", on && t > 2 && t < 6.5, g.xs[0], seats[0].y - g.cs * 3.2, W * (nw ? 0.3 : 0.24), H * (nw ? 0.28 : 0.26), "这个位子我先坐着～", "say");
+      say("sit", on && (nw ? t > 5.4 && t < 8.8 : t > 2 && t < 6.5), g.xs[0], seats[0].y - g.cs * 3.2, W * (nw ? 0.3 : 0.24), H * (nw ? 0.28 : 0.26), "这个位子我先坐着～", "say");
       say("calm", on && t > (nw ? 9.5 : 7), rx, fy - s * 3.3, W * (nw ? 0.62 : 0.46), H * (nw ? 0.74 : 0.72), "心里的警报安静多了～", "say");
     } else if (kind === 1) {
       const eps = prog(4.2, 1);
@@ -259,8 +259,8 @@ Anima.register("antipsychotics", {
         ctx.restore();
       }
       if (prl > 0.6) sfx("↑", bx + bw * 0.9, btop + (bbot - btop) * 0.3, fsz(0.05, 16), C.warn, 0, 1);
-      callout("shh", on && t > 0.5 && t < 3.5, g.xs[2], seats[2].y - g.cs * 1.5, W * (nw ? 0.5 : 0.36), H * (nw ? 0.28 : 0.26), nw ? "多巴胺“按住”泌乳素" : "多巴胺平时“按住”泌乳素");
-      say("shhh", on && t < 3.5, g.xs[4], seats[4].y - g.cs * 3.2, W * (nw ? 0.6 : 0.6), H * (nw ? 0.36 : 0.3), "嘘——少分泌一点～", "say");
+      callout("shh", on && t > 0.5 && t < 3.5, g.xs[2], seats[2].y - g.cs * 1.5, W * (nw ? 0.3 : 0.36), H * (nw ? 0.22 : 0.26), nw ? "多巴胺“按住”泌乳素" : "多巴胺平时“按住”泌乳素");
+      say("shhh", on && t < 3.5, g.xs[4], seats[4].y - g.cs * 3.2, W * (nw ? 0.55 : 0.6), H * (nw ? 0.4 : 0.3), "嘘——少分泌一点～", "say");
       callout("up", on && t > 6 && (!nw || t < 9), bx + bw * 0.5, btop + (bbot - btop) * 0.3, W * (nw ? 0.78 : 0.66), H * 0.7, nw ? "泌乳素升高" : "D2 被挡 → 泌乳素升高");
       say("prl", on && t > (nw ? 9 : 8), bx, btop, W * (nw ? 0.76 : 0.8), H * (nw ? 0.7 : 0.86), "可能：溢乳、月经紊乱、性功能问题", "box");
     }

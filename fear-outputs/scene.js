@@ -250,26 +250,29 @@ Anima.register("fear-outputs", {
     }
     // ---------- 标注和气泡 ----------
     const c = cur, midX = W * 0.5, low = H * 0.6;
+    // 手机上卡片把四周占满了，标注和气泡都放进塔顶上方中间那条空带，一次只出现一个
+    const bandY = H * 0.585, cbh = Math.max(12, W / 58) * Anima.UI + 14;
+    const band = (ty) => (ty > bandY - cbh / 2 ? bandY + cbh / 2 : bandY - cbh / 2);
     if (c === 0) {
-      callout("f0a", win(1, n ? 4.5 : 7), g.tx - g.tw * 0.3, g.base - g.th * 0.3, W * 0.3, H * 0.66, "杏仁核：警报塔");
-      say("f0b", lt > (n ? 4.5 : 6.5), g.lamp.x, g.lamp.y - g.lamp.r, W * 0.68, H * 0.64, "五条线，一起广播！", "shout");
+      callout("f0a", win(1, n ? 4 : 7), g.tx - g.tw * 0.3, g.base - g.th * 0.3, n ? midX : W * 0.3, n ? band(g.base - g.th * 0.3) : H * 0.66, "杏仁核：警报塔");
+      say("f0b", lt > (n ? 4.5 : 6.5), g.lamp.x, g.lamp.y - g.lamp.r, n ? midX : W * 0.68, n ? bandY : H * 0.64, n ? "五条线一起广播！" : "五条线，一起广播！", "shout");
     }
     if (c === 1) {
-      callout("f1a", win(1.5, n ? 6.5 : 99), cards[0].r, cards[0].y, W * 0.33, H * 0.64, "中脑的导水管周围灰质");
-      callout("f1b", lt > (n ? 6.5 : 6), cards[1].r, cards[1].y, W * 0.26, H * 0.2, "HPA 轴 → 肾上腺皮质醇");
+      callout("f1a", win(1.5, n ? 6.5 : 99), cards[0].r, cards[0].y, n ? midX : W * 0.33, n ? band(cards[0].y) : H * 0.64, "中脑的导水管周围灰质");
+      callout("f1b", lt > (n ? 6.5 : 6), cards[1].r, cards[1].y, n ? midX : W * 0.26, n ? band(cards[1].y) : H * 0.2, "HPA 轴 → 肾上腺皮质醇");
     }
     if (c === 2) {
-      callout("f2a", win(1.5, n ? 6.5 : 99), cards[3].l, cards[3].y, W * 0.74, H * 0.2, "去甲肾上腺素的老家");
-      callout("f2b", lt > (n ? 6.5 : 6), cards[4].l, cards[4].y, W * 0.67, H * 0.64, "呼吸又快又浅");
+      callout("f2a", win(1.5, n ? 6.5 : 99), cards[3].l, cards[3].y, n ? midX : W * 0.74, n ? band(cards[3].y) : H * 0.2, "去甲肾上腺素的老家");
+      callout("f2b", lt > (n ? 6.5 : 6), cards[4].l, cards[4].y, n ? midX : W * 0.67, n ? band(cards[4].y) : H * 0.64, "呼吸又快又浅");
     }
     if (c === 3) {
-      say("f3a", win(1.5, n ? 7 : 99), cards[2].x - g.cw * 0.2, cards[2].bot, W * 0.27, H * 0.66, "万一又发生怎么办…", "think");
-      callout("f3b", lt > (n ? 7 : 6), cards[2].r, cards[2].y, W * 0.75, H * 0.64, "海马：恐惧记忆跳出来");
+      say("f3a", win(1.5, n ? 7 : 99), cards[2].x - g.cw * 0.2, cards[2].bot, n ? midX : W * 0.27, n ? bandY : H * 0.66, "万一又发生怎么办…", "think");
+      callout("f3b", lt > (n ? 7 : 6), cards[2].r, cards[2].y, n ? midX : W * 0.75, n ? band(cards[2].y) : H * 0.64, "海马：恐惧记忆跳出来");
     }
     if (c === 4) {
       sfx("惊恐发作！", W * 0.26, H * 0.22, H * 0.055, C.bad, -0.06, pa * (0.75 + 0.25 * Math.sin(time * 10)));
-      say("f4a", lt > (n ? 5 : 4), g.tx, g.base - g.th * 0.2, W * 0.3, H * 0.66, "喘不过气…心要跳出来了！", "shout");
-      callout("f4b", lt > (n ? 9.5 : 8), g.tx + g.tw * 0.3, g.base - g.th * 0.3, W * 0.7, H * 0.66, "其实周围没有真正的危险");
+      say("f4a", n ? win(4, 9) : lt > 4, g.tx, g.base - g.th * 0.2, n ? midX : W * 0.3, n ? bandY : H * 0.66, n ? "心要跳出来了！" : "喘不过气…心要跳出来了！", "shout");
+      callout("f4b", lt > (n ? 9.5 : 8), g.tx + g.tw * 0.3, g.base - g.th * 0.3, n ? midX : W * 0.7, n ? band(g.base - g.th * 0.3) : H * 0.66, n ? "其实没有真正的危险" : "其实周围没有真正的危险");
     }
     if (c === 5) {
       callout("f5b", win(2, n ? 5 : 6.5), cards[3].r - g.cw * 0.12, cards[3].bot - g.ch * 0.35, W * (n ? 0.68 : 0.74), H * (n ? 0.66 : 0.2), "β 阻滞剂：挡住心脏的 β 受体");

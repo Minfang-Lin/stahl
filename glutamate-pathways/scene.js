@@ -204,14 +204,15 @@ Anima.register("glutamate-pathways", {
     const src = [g.P1[0] - s * 0.9, g.top - s * 2.2];
     if (L.drug < 0.5) {
       if (tS < 0.75) Anima.spark([src, [R.site.x, R.site.y]], tS / 0.75, H * 0.016, C.gold);
-      else if (L.nm < 0.5) sfx("噗", R.site.x + rs * 0.3, R.site.y - rs * 0.9, fz(0.034), C.soft, -0.1, 1 - (tS - 0.75) / 0.25);
+      else if (L.nm < 0.5) sfx("噗", R.site.x + rs * 0.3, R.site.y - rs * (nw ? 1.6 : 0.9), fz(0.034), C.soft, -0.1, 1 - (tS - 0.75) / 0.25);
     }
-    if (L.nm < 0.5 && L.drug < 0.5) plate("掉线", R.site.x + rs * 1.4, R.site.y - rs * 0.6, "#ffe3e6", fz(0.022));
+    if (L.nm < 0.5 && L.drug < 0.5) plate("掉线", R.site.x + rs * (nw ? 1.7 : 1.4), R.site.y - rs * (nw ? 0.1 : 0.6), "#ffe3e6", fz(0.022));
     // 氯胺酮访客：走过来坐进 NMDA 的门里
     if (L.drug > 0) {
       const dx = lerp(-W * 0.05, R.site.x, L.drug), dy = L.drug < 1 ? g.top - H * 0.01 : R.site.y + s * 0.8;
       chara(dx, dy, s * 0.8, Object.assign({}, KET, { walk: L.drug < 1 ? time * 9 : null, arms: L.drug < 1 ? "wave" : "hug", eyes: "happy", mouth: "cat" }));
-      plate(nw ? "氯胺酮" : "氯胺酮 / PCP", dx, dy + fz(0.026) * 0.9, "#ffe9d2", fz(0.022));
+      // 名牌挂在头顶，别压住下面的 NMDA 标签和刹车员的名牌
+      plate(nw ? "氯胺酮" : "氯胺酮 / PCP", dx, dy - s * 0.8 * 3.4 - fz(0.022) * 0.6, "#ffe9d2", fz(0.022));
       say("plug", lt > 1 && lt < 5.5, dx, dy - s * 2.6, W * 0.24, H * 0.72, "我来堵住 NMDA 的门～", "say");
     }
 
@@ -255,15 +256,15 @@ Anima.register("glutamate-pathways", {
     ctx.restore();
 
     // 标注和对话
-    callout("nmda", cur === 0 && lt > 1 && (!nw || lt < 5), R.site.x, R.site.y, g.N[0] + W * 0.06, H * 0.2, "NMDA 受体：刹车员的“电源”");
+    callout("nmda", cur === 0 && lt > 1 && (!nw || lt < 5), R.site.x, R.site.y, nw ? W * 0.52 : g.N[0] + W * 0.06, H * (nw ? 0.68 : 0.2), "NMDA 受体：刹车员的“电源”");
     callout("pyr", cur === 0 && lt > (nw ? 5.5 : 4), g.P2[0] + s, g.top - s * 1.5, g.P2[0] + W * 0.14, H * 0.2, nw ? "锥体神经元：放谷氨酸" : "锥体神经元：放出谷氨酸的长线");
-    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, g.G1[0] + W * 0.14, H * 0.74, "有我按着，大家别太激动～", "say");
-    callout("weak", cur === 1 && lt > 1.5 && lt < 7, R.site.x, R.site.y, g.N[0] + W * 0.08, H * 0.2, "钥匙插进来，门却打不开");
-    say("wild", cur === 1 && lt > 6, g.P1[0], g.top - s * 3.3, W * 0.62, H * 0.68, "没人管啦，停不下来！", "shout");
+    say("ok", cur === 0 && lt > 7, g.G1[0], g.top - s * 3.2, nw ? W * 0.2 : g.G1[0] + W * 0.14, H * (nw ? 0.7 : 0.74), nw ? "有我按着呢～" : "有我按着，大家别太激动～", "say");
+    callout("weak", cur === 1 && lt > 1.5 && lt < (nw ? 5.8 : 7), R.site.x, R.site.y, nw ? W * 0.52 : g.N[0] + W * 0.08, H * (nw ? 0.68 : 0.2), "钥匙插进来，门却打不开");
+    say("wild", cur === 1 && lt > (nw ? 6.4 : 6), g.P1[0], g.top - s * 3.3, W * (nw ? 0.55 : 0.62), H * 0.68, nw ? "停不下来！" : "没人管啦，停不下来！", "shout");
     say("go", cur === 2 && lt > 3.5 && (!nw || lt < 6.5), g.D1[0], g.bot - s * 3.2, W * (nw ? 0.64 : 0.56), H * 0.68, "又要发车？！", "shout");
-    callout("pos", cur === 2 && lt > 6.5, g.NAC[0], g.NAC[1] - H * 0.02, W * (nw ? 0.3 : 0.16), H * 0.72, "阳性症状：幻觉、妄想");
-    callout("relay", cur === 3 && lt > 3 && (!nw || lt < 6.5), g.G2[0], g.bot - s * 2.8, g.G2[0] - W * (nw ? 0.12 : 0.2), H * 0.7, "多了一站：刹车踩得更狠");
-    say("few", cur === 3 && lt > (nw ? 6.8 : 6), g.D2[0], g.bot - s * 3.2, W * 0.72, H * 0.66, "车开不出去……", "think");
+    callout("pos", cur === 2 && lt > (nw ? 7.2 : 6.5), g.NAC[0], g.NAC[1] - H * 0.02, W * (nw ? 0.55 : 0.16), H * (nw ? 0.66 : 0.72), "阳性症状：幻觉、妄想");
+    callout("relay", cur === 3 && lt > 3 && (!nw || lt < 6.5), g.G2[0], g.bot - s * 2.8, nw ? W * 0.5 : g.G2[0] - W * 0.2, H * (nw ? 0.66 : 0.7), "多了一站：刹车踩得更狠");
+    say("few", cur === 3 && lt > (nw ? 7.4 : 6), g.D2[0], g.bot - s * 3.2, W * 0.72, H * 0.66, "车开不出去……", "think");
     callout("neg", cur === 3 && lt > 8, g.PFC[0], g.PFC[1] + H * 0.02, W * 0.62, H * 0.2, "阴性、认知症状");
     callout("both", cur === 4 && lt > 8, g.D1[0] + s * 0.8, g.bot - s * 2.2, W * 0.48, H * 0.68, "两条线一起出问题");
     ctx.restore();
